@@ -199,4 +199,54 @@ Check(variantPool.Choose("pet") is null,"legacy manifest without variants preser
 var sameClick=new PetEngine(new PetState(),1);sameClick.Interact();long firstRevision=sameClick.ActionRevision;
 sameClick.Update(.1,12);Check(sameClick.ActionRevision==firstRevision,"render updates do not redraw animation selection");
 sameClick.Interact();Check(sameClick.ActionRevision>firstRevision,"each new action exposes one selection boundary");
+PetEngine RequestingCat(bool guiding=true)
+{
+ var pet=new PetEngine(new PetState{X=400,Y=400,Food=0,Water=75,Litter=20,TotalSeconds=301,FoodClock=new(){NextDue=99999,UnavailableSince=0},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}},17);
+ pet.Layout(1200,800);pet.Update(.1,12);if(guiding)pet.ObservePointer(.1,true,pet.CatPlayCenter);return pet;
+}
+var debugCat=RequestingCat();debugCat.Demo("drink");Advance(debugCat,.5);
+Check(debugCat.State.CareRequest is null&&!debugCat.State.Guiding&&debugCat.Action=="walk","demo drink overrides active guidance through subsequent frames");
+var bedCat=RequestingCat();bedCat.BeginDrag();bedCat.Drop(true);Advance(bedCat,10);
+Check(bedCat.Action=="sleep"&&bedCat.State.SleepingInNest&&new Spot(bedCat.State.X,bedCat.State.Y)==bedCat.Nest,"drop into nest stays asleep despite overdue shortage");
+bedCat.Interact();Advance(bedCat,.1);
+Check(bedCat.Action=="wake"&&!bedCat.State.Sleeping,"click immediately wakes cat even during protected nest sleep");
+var overdueBed=RequestingCat();overdueBed.Refill("food");overdueBed.State.WaterClock.NextDue=1;
+overdueBed.BeginDrag();overdueBed.Drop(true);Advance(overdueBed,14);
+Check(overdueBed.Action=="sleep"&&overdueBed.State.Water==75,"overdue available care cannot bypass initial nest sleep grace");
+Advance(overdueBed,2);Check(overdueBed.Action=="walk","needs can naturally wake nest cat after sleep grace");
+var pendingBed=RequestingCat();pendingBed.BeginDrag();pendingBed.Drop(true);Advance(pendingBed,16);
+Check(pendingBed.State.CareRequest=="food","shortage request resumes after protected sleep without losing its timer");
+bool allDemosComplete=true;
+foreach(string debugAction in new[]{"eat","drink","toilet","sleep","cute"})
+{
+ var demoPet=RequestingCat();
+ if(debugAction=="eat") {demoPet.Refill("food");demoPet.State.Water=0;demoPet.State.WaterClock.UnavailableSince=0;demoPet.Update(.1,12);}
+ var wantedStock=debugAction=="eat"?demoPet.State.Food:demoPet.State.Water;
+ demoPet.Demo(debugAction);bool reached=false;
+ for(int i=0;i<1500;i++)
+ {
+  demoPet.Update(.1,12);
+  if(demoPet.Action==debugAction){reached=true;break;}
+ }
+ allDemosComplete&=reached&&demoPet.State.CareRequest is null&&!demoPet.State.Guiding;
+ if(debugAction is "eat" or "drink")
+ {Advance(demoPet,4.8);allDemosComplete&=(debugAction=="eat"?demoPet.State.Food:demoPet.State.Water)==wantedStock-16;}
+ else if(debugAction=="toilet") {Advance(demoPet,7.2);allDemosComplete&=demoPet.State.Litter==48;}
+ else if(debugAction=="sleep") {Advance(demoPet,10);allDemosComplete&=demoPet.Action=="sleep"&&demoPet.State.SleepingInNest;}
+ else {Advance(demoPet,2);allDemosComplete&=demoPet.Action=="cute";}
+}
+Check(allDemosComplete,"all five debug actions survive requests and finish their real care or sleep sequence");
+var recalled=RequestingCat();double shortageStarted=recalled.State.FoodClock.UnavailableSince!.Value;recalled.Recall();var recalledAt=new Spot(recalled.State.X,recalled.State.Y);Advance(recalled,2);
+Check(recalled.State.CareRequest is null&&new Spot(recalled.State.X,recalled.State.Y)==recalledAt,"recall clears guidance and remains at home instead of immediately walking away");
+Advance(recalled,5);
+Check(recalled.State.CareRequest=="food"&&recalled.State.FoodClock.UnavailableSince==shortageStarted,"manual command releases priority and retains unresolved shortage age");
+var emptyDemo=RequestingCat();emptyDemo.State.X=emptyDemo.FoodSpot.X;emptyDemo.State.Y=emptyDemo.FoodSpot.Y;emptyDemo.Demo("eat");Advance(emptyDemo,5);
+Check(emptyDemo.State.Food==0&&emptyDemo.State.CareRequest=="food","empty-bowl demo never invents supplies and releases control to normal request");
+var interruptDemo=RequestingCat();interruptDemo.State.X=interruptDemo.WaterSpot.X;interruptDemo.State.Y=interruptDemo.WaterSpot.Y;interruptDemo.Demo("drink");Advance(interruptDemo,1.4);double waterAtPickup=interruptDemo.State.Water;
+interruptDemo.BeginDrag();Advance(interruptDemo,5);interruptDemo.Drop(true);Advance(interruptDemo,1);
+Check(interruptDemo.State.Water==waterAtPickup&&interruptDemo.Action=="sleep","drag interrupts debug consumption and dropping can enter protected sleep");
+var placementCat=new PetEngine(new PetState{X=500,Y=700},1){Nest=new Spot(500,500)};
+Check(placementCat.CanDropInNest(new Spot(500,460)),"placing held head inside visible nest counts even when feet extend below it");
+Check(!placementCat.CanDropInNest(new Spot(650,460)),"releasing outside nest with distant feet remains an outside drop");
+Check(placementCat.CanDropInNest(new Spot(418,406)),"nest highlight and release share inclusive visible-area boundary");
 Console.WriteLine($"{checks} checks passed.");

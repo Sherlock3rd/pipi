@@ -78,7 +78,7 @@ internal sealed class PetWindow : Window
         tray=new Forms.NotifyIcon{Icon=MakeIcon(),Text="陈皮 · 桌面小猫",Visible=true};
         var menu=new Forms.ContextMenuStrip();
         menu.Items.Add("陈皮的小日子 · 设置",null,(_,_)=>Dispatcher.Invoke(ShowSettings));
-        menu.Items.Add("召回猫猫",null,(_,_)=>Dispatcher.Invoke(()=>{hiddenByUser=false;engine.Recall();Save();}));
+        menu.Items.Add("召回猫猫",null,(_,_)=>Dispatcher.Invoke(()=>RunCommand(engine.Recall)));
         menu.Items.Add("显示 / 隐藏",null,(_,_)=>Dispatcher.Invoke(()=>hiddenByUser=!hiddenByUser));
         menu.Items.Add("退出陈皮",null,(_,_)=>Dispatcher.Invoke(Quit));tray.ContextMenuStrip=menu;
         tray.DoubleClick+=(_,_)=>Dispatcher.Invoke(ShowSettings);
@@ -175,7 +175,7 @@ internal sealed class PetWindow : Window
             scene.Visibility=fullScreen||hiddenByUser?Visibility.Hidden:Visibility.Visible;
             if(!Preview&&!engine.State.Floating && (Native.GetParent(new WindowInteropHelper(this).Handle)!=Native.DesktopHost()||!Native.IsWindow(Native.GetParent(new WindowInteropHelper(this).Handle))))
             {if(Native.DesktopHost()!=IntPtr.Zero){ReplaceDisplayWindow();return;}}
-            if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.State.X,engine.State.Y}));
+            if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));
         }
         if(!scene.IsInteracting&&(now-lastSave>10 ||engine.Dirty&&now-lastSave>2)){Save();lastSave=now;engine.Dirty=false;}
     }
@@ -184,6 +184,8 @@ internal sealed class PetWindow : Window
     {
         try{store.QueueSave(engine.State);}catch(Exception e){store.Log("save",e);}
     }
+    private void RunCommand(Action command)
+    {scene.CancelDrag();hiddenByUser=false;command();Save();}
     private void Quit()
     {
         scene.CancelDrag();StopHost();Save();store.Flush();settings?.Close();Close();System.Windows.Application.Current.Shutdown();
@@ -218,11 +220,11 @@ internal sealed class PetWindow : Window
         size.ValueChanged+=(_,_)=>{engine.State.Scale=size.Value;scene.LayoutWorld();Save();};body.Children.Add(size);
         body.Children.Add(Text("叫声音量",12));
         var volume=new Slider{Minimum=0,Maximum=1,Value=engine.State.Volume,Margin=new Thickness(0,0,0,18)};volume.ValueChanged+=(_,_)=>{engine.State.Volume=volume.Value;Save();};body.Children.Add(volume);
-        var controls=new WrapPanel();controls.Children.Add(Button("召回猫猫",()=>{hiddenByUser=false;engine.Recall();Save();}));controls.Children.Add(Button("恢复摆放",()=>{hiddenByUser=false;scene.CancelDrag();engine.Layout(scene.WorldWidth,scene.WorldHeight,true);engine.Recall();Save();}));controls.Children.Add(Button("显示 / 隐藏",()=>hiddenByUser=!hiddenByUser));body.Children.Add(controls);
+        var controls=new WrapPanel();controls.Children.Add(Button("召回猫猫",()=>RunCommand(engine.Recall)));controls.Children.Add(Button("恢复摆放",()=>RunCommand(()=>{engine.Layout(scene.WorldWidth,scene.WorldHeight,true);engine.Recall();})));controls.Children.Add(Button("显示 / 隐藏",()=>hiddenByUser=!hiddenByUser));body.Children.Add(controls);
         body.Children.Add(Text("体验动作",14,"#394D47"));
-        body.Children.Add(Text("首版可用下面的按钮快速看看动作。吃喝会真实消耗库存。",11));
+        body.Children.Add(Text("按钮会优先执行对应动作。吃喝真实消耗库存，空盆请先补给，猫砂满时请先清理。",11));
         var demo=new WrapPanel();
-        foreach(var (label,action) in new[]{("吃饭","eat"),("喝水","drink"),("猫砂盆","toilet"),("回窝","sleep"),("卖萌","cute")})demo.Children.Add(Button(label,()=>{hiddenByUser=false;engine.Demo(action);Save();}));
+        foreach(var (label,action) in new[]{("吃饭","eat"),("喝水","drink"),("猫砂盆","toilet"),("回窝","sleep"),("卖萌","cute")})demo.Children.Add(Button(label,()=>RunCommand(()=>engine.Demo(action))));
         body.Children.Add(demo);
         body.Children.Add(Text("点饭盆加粮 · 点水盆加水 · 点猫砂盆清理\n拖动物品可以搬家，位置会自动记住。\n点猫摸摸，长按或按住移动来拎起；拖进窝里松手睡觉。\n鼠标停在醒着的猫身上片刻，它会过来蹭蹭。\n点窝旁的羽毛棒拿起，靠近小猫逗它，再点一次归位。",12));
         layerStatus=Text(LayerDescription,11);body.Children.Add(layerStatus);

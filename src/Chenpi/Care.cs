@@ -42,6 +42,7 @@ public sealed partial class PetEngine
     }
     private string? DueCare()
     {
+        if(AutomaticCareBlocked)return null;
         string? chosen=null;double first=double.MaxValue;
         foreach(var kind in CareKinds)
         {
@@ -52,6 +53,7 @@ public sealed partial class PetEngine
     }
     private string? ReadyRequest(string? except=null)
     {
+        if(AutomaticCareBlocked)return null;
         RefreshAvailability();
         string? chosen=null;double oldest=double.MaxValue;
         foreach(var kind in CareKinds)
@@ -69,6 +71,8 @@ public sealed partial class PetEngine
         State.CareRequest=kind;State.Guiding=false;ClockFor(kind).LastRequested=State.TotalSeconds;
         SetAction("request-walk",double.MaxValue,"前往屏幕下方请求照料");
     }
+    private void CancelCareRequest()
+    {State.CareRequest=null;State.Guiding=false;guideTravelled=0;pointerKnown=false;Dirty=true;}
     private void BeginGuide()
     {
         if(State.CareRequest is null)return;

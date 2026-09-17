@@ -130,7 +130,7 @@ internal sealed class Scene : FrameworkElement
     private Rect ObjectRect(Spot p,double w=92)=>new(p.X-w/2,p.Y-28,w,62);
     private Rect SettingsRect=>new(Engine.Nest.X+59,Engine.Nest.Y-123,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
-    private bool AtNest=>new Spot(Engine.State.X,Engine.State.Y).Distance(Engine.Nest)<82;
+    private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
     protected override HitTestResult? HitTestCore(PointHitTestParameters p)
     {
         var at=World(p.HitPoint);
@@ -171,6 +171,7 @@ internal sealed class Scene : FrameworkElement
     protected override void OnMouseLeftButtonUp(MouseButtonEventArgs e)
     {
         if(!pressed)return;
+        pointer=World(e.GetPosition(this));MoveDragged(pointer);
         bool dragged=IsDragging;pressed=false;IsDragging=false;Engine.Holding=false;
         if(IsMouseCaptured)ReleaseMouseCapture();Cursor=Cursors.Arrow;
         if(dragged){if(pressedObject=="cat")Engine.Drop(AtNest);}
