@@ -1,0 +1,279 @@
+{
+  "name": "蓝猫占位形象",
+  "description": "首版使用程序绘制的矢量占位猫。为下面的动作配置 PNG 帧数组后，即可替换为正式蓝猫素材。",
+  "frameWidth": 160,
+  "frameHeight": 160,
+  "fps": 8,
+  "animations": {
+    "idle": [],
+    "sit": [],
+    "walk": [],
+    "pet": [],
+    "paw": [],
+    "roll": [],
+    "rub": [],
+    "drag": [],
+    "land": [],
+    "toy-run": [],
+    "toy-bat": [],
+    "sleep": [],
+    "wake": [],
+    "eat": [],
+    "drink": [],
+    "toilet": [],
+    "bury": [],
+    "cute": [],
+    "request-walk": [],
+    "request-food": [],
+    "request-water": [],
+    "request-litter": [],
+    "guide-walk": [],
+    "guide-look": [],
+    "guide-food": [],
+    "guide-water": [],
+    "guide-litter": [],
+    "care-thanks": [],
+    "click-01": [],
+    "click-02": [],
+    "click-03": [],
+    "click-04": [],
+    "click-05": [],
+    "click-06": [],
+    "click-07": [],
+    "click-08": [],
+    "click-09": [],
+    "click-10": [],
+    "click-11": [],
+    "click-12": [],
+    "idle-01": [],
+    "idle-02": [],
+    "idle-03": [],
+    "idle-04": [],
+    "idle-05": [],
+    "idle-06": [],
+    "idle-07": [],
+    "idle-08": [],
+    "idle-09": [],
+    "idle-10": [],
+    "idle-11": [],
+    "idle-12": []
+  },
+  "variants": [
+    {
+      "id": "click-01",
+      "group": "click",
+      "baseAction": "pet",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "眯眼享受抚摸"
+    },
+    {
+      "id": "click-02",
+      "group": "click",
+      "baseAction": "paw",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "抬爪回应"
+    },
+    {
+      "id": "click-03",
+      "group": "click",
+      "baseAction": "roll",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "侧躺打滚"
+    },
+    {
+      "id": "click-04",
+      "group": "click",
+      "baseAction": "pet",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "歪头看主人"
+    },
+    {
+      "id": "click-05",
+      "group": "click",
+      "baseAction": "paw",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "顶头蹭手"
+    },
+    {
+      "id": "click-06",
+      "group": "click",
+      "baseAction": "roll",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "双爪抱手"
+    },
+    {
+      "id": "click-07",
+      "group": "click",
+      "baseAction": "pet",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "伸懒腰回应"
+    },
+    {
+      "id": "click-08",
+      "group": "click",
+      "baseAction": "paw",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "翻肚皮"
+    },
+    {
+      "id": "click-09",
+      "group": "click",
+      "baseAction": "roll",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "轻轻拍手"
+    },
+    {
+      "id": "click-10",
+      "group": "click",
+      "baseAction": "pet",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "尾巴绕身"
+    },
+    {
+      "id": "click-11",
+      "group": "click",
+      "baseAction": "paw",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "靠近贴贴"
+    },
+    {
+      "id": "click-12",
+      "group": "click",
+      "baseAction": "roll",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "舔爪后回应"
+    },
+    {
+      "id": "idle-01",
+      "group": "idle",
+      "baseAction": "idle",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "安静呼吸眨眼"
+    },
+    {
+      "id": "idle-02",
+      "group": "idle",
+      "baseAction": "sit",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "坐姿发呆"
+    },
+    {
+      "id": "idle-03",
+      "group": "idle",
+      "baseAction": "cute",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "抬头卖萌"
+    },
+    {
+      "id": "idle-04",
+      "group": "idle",
+      "baseAction": "idle",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "左右张望"
+    },
+    {
+      "id": "idle-05",
+      "group": "idle",
+      "baseAction": "sit",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "耳朵转动"
+    },
+    {
+      "id": "idle-06",
+      "group": "idle",
+      "baseAction": "cute",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "尾尖轻摆"
+    },
+    {
+      "id": "idle-07",
+      "group": "idle",
+      "baseAction": "idle",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "舔爪"
+    },
+    {
+      "id": "idle-08",
+      "group": "idle",
+      "baseAction": "sit",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "洗脸"
+    },
+    {
+      "id": "idle-09",
+      "group": "idle",
+      "baseAction": "cute",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "整理胸毛"
+    },
+    {
+      "id": "idle-10",
+      "group": "idle",
+      "baseAction": "idle",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "整理侧身毛"
+    },
+    {
+      "id": "idle-11",
+      "group": "idle",
+      "baseAction": "sit",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "打哈欠"
+    },
+    {
+      "id": "idle-12",
+      "group": "idle",
+      "baseAction": "cute",
+      "enabled": false,
+      "fps": 8,
+      "loop": true,
+      "draftIdea": "伸懒腰"
+    }
+  ]
+}
