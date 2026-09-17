@@ -18,6 +18,7 @@
 - 全程无猫的文本台词；需求和互动通过动作表达。
 - 点击／待机表现各预留 12 类扩展槽位，待画风确定后批量填充，见[资源清单与接入](assets/pets/bluecat/README.md)。当前空槽不参与播放。
 - 设置支持召回、恢复摆放、显示／隐藏、缩放、静音、悬浮、自启和退出。
+- 全屏避让按小猫所在屏幕判断：另一屏全屏不隐藏小猫，普通最大化仍可悬浮；退出全屏后恢复。
 - 存档在 `%LOCALAPPDATA%/Chenpi`，带最近一次备份。
 
 程序目录需要整体保留或复制，不能只移动 exe。发行目录包含运行时，无需安装 SDK。
@@ -28,10 +29,11 @@
 
 ```powershell
 dotnet run --project tests/Chenpi.Tests/Chenpi.Tests.csproj -c Release
+dotnet run --project tests/Chenpi.Windows.Tests/Chenpi.Windows.Tests.csproj -c Release
 dotnet publish src/Chenpi/Chenpi.csproj -c Release -r win-x64 --self-contained true -o dist/Chenpi
 ```
 
-若工作区已有本地 SDK，也可用 `.tools/dotnet/dotnet.exe` 替代 `dotnet`。分发时保留整个 `dist/Chenpi` 目录。SDK、分发包、调试截图和个人存档均不纳入 Git；仓库中的验证文档记录结果，引用的本地调试产物需自行复现。
+若工作区已有本地 SDK，也可用 `.tools/dotnet/dotnet.exe` 替代 `dotnet`。Windows 检查会短暂显示不主动激活的测试窗口，覆盖最大化、全屏和恢复，多屏用例按实际连接的显示器运行，不读写个人存档。分发时保留整个 `dist/Chenpi` 目录。SDK、分发包、调试截图和个人存档均不纳入 Git；仓库中的验证文档记录结果，引用的本地调试产物需自行复现。
 
 ## 当前边界
 

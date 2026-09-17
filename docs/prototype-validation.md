@@ -4,6 +4,14 @@
 
 ## 最新增量：随机照料与带路求助
 
+2026-09-17 全屏范围补强：检测窗口可见性、最小化、DWM cloaked 状态与可见边界，按猫所在显示器的物理像素范围判断。避免副屏全屏误隐藏主屏猫；普通带标题栏最大化保持显示，含任务栏自动隐藏时的几何情形。调试 JSON 增加 `fullscreenReason` 和前台句柄，便于区分真正避让与窗口呈现故障。
+
+- 110 项模型／策略检查通过；新增 13 项覆盖跨屏、负坐标、跨屏覆盖、普通最大化、隐藏／最小化／cloaked、自身／桌面／任务栏排除、两像素容差及进入退出序列。
+- 新增 `tests/Chenpi.Windows.Tests`，本机连接两屏时 12 项 Windows 检查通过：真实临时 HWND 的窗口样式、可见边界、普通最大化、无边框铺屏、恢复尺寸、另屏铺屏、隐藏、最小化、已关闭句柄。测试窗口不主动激活；策略测试只替换读取结果的自身进程身份以模拟外部应用，其余来自 Win32/DWM。这不是前台切换或真实游戏独占全屏的端到端验收。
+- Release 自包含发布成功；跨重启计时、真实游戏／视频／F11、混合 DPI 切换、Explorer 重启仍保留待验收状态。
+- 隔离预览导出 `artifacts/test-fullscreen-policy/preview.png`，猫与六件场景元素正常绘制，无台词／判定圈。正式存档备份为 `.before-fullscreen-policy` 后更新并启动 `dist/Chenpi/Chenpi.exe --settings`，进程响应正常，领养日期、悬浮设置和猫窝位置保留，正式／打包 DLL 哈希一致。应用自身渲染图不作为桌面呈现或真实全屏验收证据。
+- API 依据：[GetWindowRect 的边界及 DPI 说明](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-getwindowrect)、[DWM 可见边界和 cloaked 标志](https://learn.microsoft.com/en-us/windows/win32/api/dwmapi/ne-dwmapi-dwmwindowattribute)。实现与限制见[PROTOTYPE-005](../mistakes/prototype-005.md)。
+
 2026-09-17 调试与入窝修复：新增用例先复现“引导期间点击调试喝水”失败，修复后共 97 项通过。覆盖五个调试动作整段执行、库存真实结算、请求恢复、15 秒安定期、点击立即唤醒、召回、拖拽中断和猫窝头部释放／边界。独立预览 `artifacts/test-manual-priority` 观测 `sleep`、窝内睡眠、请求与引导清空；UI 工具检测用户输入后停止操作，不夸大为全部按钮和实际拖放自动验收通过。详见[PROTOTYPE-004](../mistakes/prototype-004.md)。
 
 2026-09-17 窗口修复追加：用户明确切换悬浮开关后消失。使用 `artifacts/test-layer-diag` 隔离存档确认 fullScreen=false、场景／原生窗口 Visible，切换后仍未呈现。新方案共享 PetEngine 并重建显示宿主，窗口样式和位置显式设置，设置文案实时更新。`artifacts/test-layer-v2` 真实 UI 完成悬浮→桌面→悬浮，截图确认恢复猫、猫窝、粮水盆、猫砂盆与羽毛棒；新窗口句柄且模型位置相同。83 项模型检查通过。本次不代表真实游戏／F11／多屏全屏避让已全部验收。详见[PROTOTYPE-003](../mistakes/prototype-003.md)。

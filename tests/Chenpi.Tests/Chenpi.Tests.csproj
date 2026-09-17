@@ -2,4 +2,5 @@
   <PropertyGroup><OutputType>Exe</OutputType><TargetFramework>net10.0</TargetFramework><ImplicitUsings>enable</ImplicitUsings><Nullable>enable</Nullable></PropertyGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/Model.cs" Link="Model.cs" /><Compile Include="../../src/Chenpi/Care.cs" Link="Care.cs" /><Compile Include="../../src/Chenpi/Store.cs" Link="Store.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/AnimationVariants.cs" Link="AnimationVariants.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../../src/Chenpi/FullscreenPolicy.cs" Link="FullscreenPolicy.cs" /></ItemGroup>
 </Project>

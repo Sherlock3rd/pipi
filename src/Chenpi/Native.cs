@@ -25,6 +25,9 @@ internal static class Native
     [DllImport("user32.dll")] internal static extern bool GetWindowRect(IntPtr window,out RECT rect);
     [DllImport("user32.dll")] internal static extern IntPtr GetForegroundWindow();
     [DllImport("user32.dll")] private static extern bool IsZoomed(IntPtr window);
+    [DllImport("user32.dll")] private static extern bool IsIconic(IntPtr window);
+    [DllImport("dwmapi.dll",EntryPoint="DwmGetWindowAttribute")] private static extern int DwmBounds(IntPtr window,int attribute,out RECT value,int size);
+    [DllImport("dwmapi.dll",EntryPoint="DwmGetWindowAttribute")] private static extern int DwmFlags(IntPtr window,int attribute,out int value,int size);
     [DllImport("user32.dll")] internal static extern bool IsWindow(IntPtr window);
     [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr window);
     [DllImport("user32.dll")] internal static extern bool GetCursorPos(out POINT point);
@@ -78,17 +81,20 @@ internal static class Native
         return placed&&(floating?(GetWindowLong(h,-16)&0x40000000)==0:GetParent(h)==parent);
     }
     private static double Dpi(this Window w)=>System.Windows.Media.VisualTreeHelper.GetDpi(w).DpiScaleX;
-    public static bool IsFullScreen(IntPtr foreground,IntPtr self)
+    internal static FullscreenCandidate? ReadFullscreenCandidate(IntPtr window)
     {
-        if(foreground==IntPtr.Zero||foreground==self)return false;
-        GetWindowThreadProcessId(foreground,out uint process);if(process==Environment.ProcessId)return false;
-        string cls=ClassName(foreground);if(cls is "Progman" or "WorkerW" or "Shell_TrayWnd")return false;
-        if(!GetWindowRect(foreground,out var r))return false;
-        var screen=System.Windows.Forms.Screen.FromHandle(foreground).Bounds;
-        var work=System.Windows.Forms.Screen.FromHandle(foreground).WorkingArea;
-        // A normal maximized window covers working area, not the monitor including taskbar.
-        bool covers=r.Left<=screen.Left+2&&r.Top<=screen.Top+2&&r.Right>=screen.Right-2&&r.Bottom>=screen.Bottom-2;
-        if(IsZoomed(foreground)&&((GetWindowLong(foreground,-16)&0x00C00000)==0x00C00000))return false;
-        return covers;
+        if(window==IntPtr.Zero||!IsWindow(window)||!GetWindowRect(window,out var r))return null;
+        // DWM excludes invisible resize borders. The app manifest is per-monitor DPI aware,
+        // so the GetWindowRect fallback and monitor bounds use the same physical coordinates.
+        if(DwmBounds(window,9,out var visible,Marshal.SizeOf<RECT>())>=0&&visible.Right>visible.Left&&visible.Bottom>visible.Top)r=visible;
+        bool cloaked=DwmFlags(window,14,out int flags,sizeof(int))>=0&&flags!=0;
+        GetWindowThreadProcessId(window,out uint process);
+        return new(new(r.Left,r.Top,r.Right,r.Bottom),ClassName(window),IsWindowVisible(window),IsIconic(window),
+            cloaked,IsZoomed(window),(GetWindowLong(window,-16)&0x00C00000)==0x00C00000,process==Environment.ProcessId);
+    }
+    public static FullscreenDecision CheckFullScreen(IntPtr foreground,IntPtr self)
+    {
+        var screen=System.Windows.Forms.Screen.FromHandle(self).Bounds;
+        return FullscreenPolicy.Evaluate(ReadFullscreenCandidate(foreground),new(screen.Left,screen.Top,screen.Right,screen.Bottom));
     }
 }

@@ -249,4 +249,22 @@ var placementCat=new PetEngine(new PetState{X=500,Y=700},1){Nest=new Spot(500,50
 Check(placementCat.CanDropInNest(new Spot(500,460)),"placing held head inside visible nest counts even when feet extend below it");
 Check(!placementCat.CanDropInNest(new Spot(650,460)),"releasing outside nest with distant feet remains an outside drop");
 Check(placementCat.CanDropInNest(new Spot(418,406)),"nest highlight and release share inclusive visible-area boundary");
+var primaryScreen=new PixelBounds(0,0,1920,1080);
+var fullWindow=new FullscreenCandidate(primaryScreen,"GameWindow",true,false,false,false,false,false);
+Check(FullscreenPolicy.Evaluate(fullWindow,primaryScreen).Hide,"borderless fullscreen on pet monitor hides scene");
+Check(!FullscreenPolicy.Evaluate(fullWindow with {Maximized=true,HasCaption=true},primaryScreen).Hide,"ordinary maximized window stays visible even with auto-hidden taskbar");
+Check(FullscreenPolicy.Evaluate(fullWindow with {Maximized=true},primaryScreen).Hide,"maximized borderless fullscreen still hides scene");
+Check(!FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(1920,0,3840,1080)},primaryScreen).Hide,"fullscreen on adjacent monitor does not hide primary pet");
+Check(!FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(-2560,-200,0,1240)},primaryScreen).Hide,"fullscreen on negative-coordinate monitor does not hide primary pet");
+Check(FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(-1920,0,1920,1080)},primaryScreen).Hide,"spanning fullscreen that covers pet monitor hides scene");
+Check(!FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(0,0,1920,1040)},primaryScreen).Hide,"ordinary working-area window does not count as fullscreen");
+Check(!FullscreenPolicy.Evaluate(fullWindow with {Visible=false},primaryScreen).Hide&&
+ !FullscreenPolicy.Evaluate(fullWindow with {Minimized=true},primaryScreen).Hide&&
+ !FullscreenPolicy.Evaluate(fullWindow with {Cloaked=true},primaryScreen).Hide,"hidden minimized and virtual-desktop-cloaked windows do not suppress pet");
+Check(!FullscreenPolicy.Evaluate(fullWindow with {OwnProcess=true},primaryScreen).Hide,"own scene and settings cannot trigger fullscreen hiding");
+Check(new[]{"Progman","WorkerW","Shell_TrayWnd","Shell_SecondaryTrayWnd"}.All(name=>!FullscreenPolicy.Evaluate(fullWindow with {ClassName=name},primaryScreen).Hide),"desktop and both taskbar classes are excluded");
+Check(!FullscreenPolicy.Evaluate(null,primaryScreen).Hide&&!FullscreenPolicy.Evaluate(fullWindow with {Bounds=default},primaryScreen).Hide&&!FullscreenPolicy.Evaluate(fullWindow,default).Hide,"missing or invalid window and screen bounds restore scene");
+Check(FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(2,2,1918,1078)},primaryScreen).Hide&&!FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(3,3,1917,1077)},primaryScreen).Hide,"fullscreen edge tolerance is limited to two physical pixels");
+var fullscreenSequence=new[]{fullWindow,fullWindow with {Bounds=new(100,100,1000,800)},fullWindow,fullWindow with {Minimized=true}};
+Check(fullscreenSequence.Select(window=>FullscreenPolicy.Evaluate(window,primaryScreen).Hide).SequenceEqual(new[]{true,false,true,false}),"fullscreen exit and minimization restore without sticky hidden state");
 Console.WriteLine($"{checks} checks passed.");

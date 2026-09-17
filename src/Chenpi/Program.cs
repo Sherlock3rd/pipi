@@ -170,12 +170,15 @@ internal sealed class PetWindow : Window
         engine.AdvanceNeeds(Math.Max(0,awake-previousAwake));previousAwake=awake;engine.State.AwakeSeconds=awake;
         if(now-lastWindowCheck>.5)
         {
-            lastWindowCheck=now;bool nextFull=!Preview&&Native.IsFullScreen(Native.GetForegroundWindow(),new WindowInteropHelper(this).Handle);
+            lastWindowCheck=now;
+            var foreground=Native.GetForegroundWindow();
+            var fullscreenDecision=Preview?new FullscreenDecision(false,"preview"):Native.CheckFullScreen(foreground,new WindowInteropHelper(this).Handle);
+            bool nextFull=fullscreenDecision.Hide;
             if((nextFull||hiddenByUser)&&scene.IsInteracting){scene.CancelDrag();}fullScreen=nextFull;
             scene.Visibility=fullScreen||hiddenByUser?Visibility.Hidden:Visibility.Visible;
             if(!Preview&&!engine.State.Floating && (Native.GetParent(new WindowInteropHelper(this).Handle)!=Native.DesktopHost()||!Native.IsWindow(Native.GetParent(new WindowInteropHelper(this).Handle))))
             {if(Native.DesktopHost()!=IntPtr.Zero){ReplaceDisplayWindow();return;}}
-            if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));
+            if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,fullscreenReason=fullscreenDecision.Reason,foreground=foreground.ToInt64(),hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));
         }
         if(!scene.IsInteracting&&(now-lastSave>10 ||engine.Dirty&&now-lastSave>2)){Save();lastSave=now;engine.Dirty=false;}
     }
