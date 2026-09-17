@@ -8,6 +8,7 @@
 - [身份与动作／行为树规范](../spec/cat-art-and-behavior-identity.md)：照片身份锚点、姿态映射、ArtStation 出处与后续验收。
 - [B 风格六帧眨眼试样](animation-samples/b-idle-v1/README.md)：播放／逐帧预览、原画对照、源图和修订记录。用户指出首版嘴部偏离原画，作为明确修订项保留。
 - [原画偏差与视频路线调研](../docs/video-animation-research.md)：修订版仍未获认可；记录图生视频转帧、直接透明视频的实际项目，后续先确认原画单猫。
+- [同源视频／序列帧实验](animation-samples/b-video-vs-frames/README.md)：用户已授权比较，准备页就绪，图生视频服务待连接；尚无新动画效果。
 
 六格统一比较三种姿态：端坐略歪头、蜷团睡眠、扶边伸展。侧躺露肚、抬头观察等完整动作仍在照片规范中，不能因比较图未展示而删除。
 

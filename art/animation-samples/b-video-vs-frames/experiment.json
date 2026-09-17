@@ -1,0 +1,11 @@
+{
+  "status": "awaiting-video-service-connection",
+  "artApproved": false,
+  "videoGenerated": false,
+  "canonical": "../../concepts/style-exploration-v1.png: top-center B seated cat",
+  "referencePolicy": "Use the original selected cat, not b-idle-v1 or its revisions",
+  "scope": "One 3–5 second 2D seated blink/breathing clip; same source for both playback paths",
+  "paths": ["direct video playback", "PNG frames extracted from that same video"],
+  "integration": "isolated browser experiment; runtime unchanged",
+  "connection": "Runway discovered as available, not yet installed or connected"
+}

@@ -1,0 +1,45 @@
+<!doctype html>
+<html lang="zh-CN"><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
+<title>陈皮 · 同源视频 / 序列帧</title>
+<style>
+:root{font:15px/1.65 'Microsoft YaHei UI',sans-serif;color:#334139;background:#edeee7}*{box-sizing:border-box}body{margin:0;padding:28px}main{max-width:1100px;margin:auto}h1{font-size:26px;margin:6px 0}p{color:#68776b}small{color:#68776b}.grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px}.card,.controls,.intro{background:#fafaf5;border:1px solid #d9dfd1;border-radius:18px;overflow:hidden}.caption{padding:12px 18px}.stage{height:350px;display:grid;place-items:center;background:#f5f1e7;position:relative}.stage.dark{background:#252c35}.stage.checker{background:repeating-conic-gradient(#ddd 0 25%,#fff 0 50%) 0/24px 24px}.stage video,.stage img{width:100%;height:100%;max-width:340px;max-height:340px;object-fit:contain}.empty{position:absolute;color:#85917f;font-size:14px}.controls{padding:16px;margin:18px 0;display:flex;gap:12px;flex-wrap:wrap;align-items:center}button,select,input{font:inherit}button,select{border:1px solid #bdcab9;border-radius:8px;padding:7px 12px;background:#f2f6ec;color:#34513b}button:disabled,input:disabled{opacity:.45}button:not(:disabled){cursor:pointer}input[type=range]{flex:1;min-width:150px}button:focus-visible,input:focus-visible,select:focus-visible{outline:2px solid #56795a;outline-offset:3px}.intro{padding:16px;margin-bottom:18px;display:flex;gap:20px}.reference{width:220px;min-width:180px;aspect-ratio:1;background:url('../../concepts/style-exploration-v1.png') center top / 300% 200% no-repeat}.status{padding:10px 0;min-height:45px}a{color:#486c50}@media(max-width:680px){body{padding:16px}.grid{grid-template-columns:1fr}.intro{display:block}.reference{margin:auto}.stage{height:300px}}
+</style>
+<main>
+<small>CHENPI / SAME-SOURCE MOTION COMPARISON</small><h1>同一只猫，两种播放方式</h1>
+<p>先看原画是否保真，再比较连续动作。两侧使用同一段视频，右侧按指定帧率抽取 PNG。</p>
+<section class="intro"><div class="reference" role="img" aria-label="原画 B"></div><div><b>造型依据：原画 B</b><p>当前尚未生成图生视频。等待视频服务连接后制作单猫短片；旧版六帧不作为本次素材。</p><a href="image-to-video-prompt.md">动作与造型要求</a><p>选择文件仅在本机浏览器处理，不上传网络。带背景的视频仍会保留背景。</p></div></section>
+<div class="controls"><label>源视频 <input id="file" type="file" accept="video/*,.webm,.mp4,.mov"></label><label>抽帧 <select id="fps"><option value="12">12 fps</option><option value="24">24 fps</option></select></label><label>背景 <select id="background"><option value="light">浅色</option><option value="dark">深色</option><option value="checker">透明检查</option></select></label></div>
+<div id="status" class="status" role="status">等待实际视频 · 目前没有动画结果</div>
+<section class="grid"><div class="card"><div class="stage"><video id="direct" muted playsinline preload="auto" hidden></video><span class="empty" id="emptyA">A · 视频直接播放</span></div><div class="caption">A · 视频解码播放</div></div><div class="card"><div class="stage"><img id="frame" alt="从同源视频抽取的 PNG 帧" hidden><span class="empty" id="emptyB">B · 抽帧后播放</span></div><div class="caption">B · 独立 PNG 序列播放</div></div></section>
+<div class="controls"><button id="play" disabled>同时播放</button><button id="restart" disabled>从头比较</button><button id="next" disabled>下一帧</button><input id="scrub" type="range" min="0" max="0" value="0" disabled aria-label="逐帧查看"><output id="position">尚无帧</output></div>
+<p>评审：鼻口与眼脸、厚涂笔触、脚底稳定、循环接缝、深浅背景毛边。此页为浏览器实验，尚未替换正式桌宠。</p>
+<details><summary>处理说明</summary><p>视频限制 10 秒／300 帧，预览抽帧最长边 640 像素，避免大量解码占用内存。两侧保持相同显示尺寸。序列侧使用独立时钟；从头比较可重置时钟。透明能力取决于源视频和浏览器解码器，此页面不自动抠像，也不作为性能基准。</p><a href="README.md">实验记录</a></details>
+</main>
+<script>
+const $=id=>document.getElementById(id),video=$('direct'),still=$('frame');
+let urls=[],sourceUrl=null,decoder=null,generation=0,playing=false,elapsed=0,lastTime=0,index=-1,rate=12,duration=0,raf=0;
+function status(message){$('status').textContent=message;}
+function ready(enabled){for(const id of ['play','restart','next','scrub'])$(id).disabled=!enabled;}
+function stop(){playing=false;video.pause();cancelAnimationFrame(raf);$('play').textContent='同时播放';}
+function clear(){stop();ready(false);if(decoder){decoder.pause();decoder.removeAttribute('src');decoder.load();decoder=null;}video.removeAttribute('src');video.load();still.removeAttribute('src');video.hidden=still.hidden=true;for(const url of urls)URL.revokeObjectURL(url);urls=[];if(sourceUrl)URL.revokeObjectURL(sourceUrl);sourceUrl=null;index=-1;elapsed=0;$('emptyA').hidden=$('emptyB').hidden=false;$('position').textContent='尚无帧';$('scrub').max='0';$('scrub').value='0';}
+function eventOnce(element,name,timeout=15000){return new Promise((resolve,reject)=>{const cleanup=()=>{clearTimeout(timer);element.removeEventListener(name,done);element.removeEventListener('error',fail);};const done=()=>{cleanup();resolve();};const fail=()=>{cleanup();reject(Error('视频无法解码，请检查格式或透明通道支持'));};const timer=setTimeout(()=>{cleanup();reject(Error('视频读取超时'));},timeout);element.addEventListener(name,done,{once:true});element.addEventListener('error',fail,{once:true});});}
+async function seek(element,time){if(Math.abs(element.currentTime-time)<.00001&&element.readyState>=2)return;const waiting=eventOnce(element,'seeked');element.currentTime=time;await waiting;}
+function show(frame){if(frame===index)return;index=frame;still.src=urls[frame];$('scrub').value=frame;$('position').value=`${frame+1} / ${urls.length}`;}
+function tick(now){if(!playing)return;elapsed=(elapsed+Math.max(0,now-lastTime)/1000)%duration;lastTime=now;show(Math.min(urls.length-1,Math.floor(elapsed*rate)));raf=requestAnimationFrame(tick);}
+async function play(){if(!urls.length)return;try{await video.play();playing=true;lastTime=performance.now();$('play').textContent='暂停';raf=requestAnimationFrame(tick);}catch(error){status('播放未开始：'+error.message);}}
+async function load(){const file=$('file').files[0];if(!file)return;const job=++generation;clear();rate=+$('fps').value;status('正在读取源视频…');
+try{sourceUrl=URL.createObjectURL(file);const localDecoder=document.createElement('video');decoder=localDecoder;localDecoder.muted=true;localDecoder.preload='auto';const loaded=eventOnce(localDecoder,'loadeddata');localDecoder.src=sourceUrl;localDecoder.load();await loaded;if(job!==generation)return;
+duration=localDecoder.duration;if(!Number.isFinite(duration)||duration<=0||duration>10)throw Error('本实验只接受 0～10 秒短片，请先剪出待机片段');
+if(localDecoder.videoWidth>4096||localDecoder.videoHeight>4096)throw Error('源视频尺寸过大，请使用不超过 4096×4096 的短片');
+const count=Math.ceil(duration*rate);if(count>300)throw Error('帧数超过本实验上限');const scale=Math.min(1,640/Math.max(localDecoder.videoWidth,localDecoder.videoHeight));const canvas=document.createElement('canvas');canvas.width=Math.max(1,Math.round(localDecoder.videoWidth*scale));canvas.height=Math.max(1,Math.round(localDecoder.videoHeight*scale));const ctx=canvas.getContext('2d',{alpha:true});
+for(let i=0;i<count;i++){if(job!==generation)return;await seek(localDecoder,Math.min(i/rate,duration-.0001));if(job!==generation)return;ctx.clearRect(0,0,canvas.width,canvas.height);ctx.drawImage(localDecoder,0,0,canvas.width,canvas.height);const blob=await new Promise(resolve=>canvas.toBlob(resolve,'image/png'));if(job!==generation)return;if(!blob)throw Error('PNG 抽帧失败');urls.push(URL.createObjectURL(blob));status(`正在抽帧 ${i+1} / ${count}…`);}
+const directLoaded=eventOnce(video,'loadeddata');video.src=sourceUrl;video.loop=true;video.load();await directLoaded;if(job!==generation)return;decoder.removeAttribute('src');decoder.load();decoder=null;video.hidden=still.hidden=false;$('emptyA').hidden=$('emptyB').hidden=true;$('scrub').max=count-1;show(0);ready(true);status(`已载入 ${file.name} · ${duration.toFixed(2)} 秒 · ${count} 张 PNG · ${canvas.width}×${canvas.height}。可开始同源对照。`);
+}catch(error){if(job!==generation)return;clear();status(error.message);}}
+$('file').onchange=load;$('fps').onchange=load;
+$('background').onchange=()=>document.querySelectorAll('.stage').forEach(node=>node.className='stage '+$('background').value);
+$('play').onclick=()=>playing?stop():play();
+$('restart').onclick=async()=>{stop();elapsed=0;show(0);try{await seek(video,0);await play();}catch(error){status(error.message);}};
+async function move(frame){stop();elapsed=frame/rate;show(frame);try{await seek(video,elapsed);}catch(error){status(error.message);}}
+$('next').onclick=()=>move((index+1)%urls.length);$('scrub').oninput=()=>move(+$('scrub').value);
+window.addEventListener('beforeunload',()=>{++generation;clear();});
+</script></html>
