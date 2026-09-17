@@ -19,3 +19,5 @@ artifacts/
 **/pet-state.json*
 *.user
 *.suo
+# Original personal reference photos are retained locally, not published with source.
+/art/reference/photos/
