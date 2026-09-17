@@ -1,0 +1,23 @@
+{
+  "name": "B · seated breathing and blink",
+  "frameWidth": 192,
+  "frameHeight": 208,
+  "loop": true,
+  "durationsMs": [
+    1300,
+    180,
+    100,
+    120,
+    150,
+    850
+  ],
+  "frames": [
+    "../frames/idle/00.png",
+    "../frames/idle/01.png",
+    "../frames/idle/02.png",
+    "../frames/idle/03.png",
+    "../frames/idle/04.png",
+    "../frames/idle/05.png"
+  ],
+  "productionReady": false
+}

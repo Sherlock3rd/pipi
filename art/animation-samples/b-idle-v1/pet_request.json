@@ -1,0 +1,15 @@
+{
+  "name": "Chenpi B painterly idle study",
+  "scope": "one idle loop only; not a full Codex pet atlas or production replacement",
+  "style": "B storybook gouache",
+  "reference": "../../concepts/style-exploration-v1.png: top-center B seated cat",
+  "photo_reference": "../../reference/photos/cat-reference-02.jpg",
+  "chroma_key": {"hex": "#FF00FF", "rgb": [255, 0, 255]},
+  "frames": 6,
+  "cell": [192, 208],
+  "durations_ms": [1300, 180, 100, 120, 150, 850],
+  "retain_sources_and_frames": true,
+  "selected_source": "decoded/idle-muzzle-v3.png",
+  "status": "revised-candidate-pending-art-review",
+  "production_ready": false
+}

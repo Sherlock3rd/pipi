@@ -1,0 +1,28 @@
+{
+  "mode": "built-in image_gen",
+  "scope": "single idle row, six drawings",
+  "canonicalReference": "references/style-exploration-v1.png: B top-center seated cat",
+  "jobs": [
+    {
+      "id": "idle-v1",
+      "prompt": "prompts/idle.md",
+      "output": "decoded/idle.png",
+      "status": "rejected",
+      "reason": "Muzzle identity differs from canonical B; magenta edge contamination"
+    },
+    {
+      "id": "alpha-v2",
+      "prompt": "prompts/alpha-repair.md",
+      "output": "decoded/idle-alpha-v2.png",
+      "status": "rejected",
+      "reason": "Actual alpha present but residual edge color and original muzzle remain"
+    },
+    {
+      "id": "muzzle-v3",
+      "prompt": "prompts/muzzle-repair.md",
+      "output": "decoded/idle-muzzle-v3.png",
+      "status": "revised-candidate",
+      "reason": "Softer muzzle; structural checks pass, art approval remains separate"
+    }
+  ]
+}
