@@ -1,0 +1,72 @@
+{
+  "passed": true,
+  "totalFrames": 144,
+  "clips": {
+    "idle": {
+      "frames": 24,
+      "uniqueFrames": 24,
+      "size": [
+        256,
+        256
+      ],
+      "bottomAnchor": 236,
+      "transparentRgbResidue": 0,
+      "edgeTouches": 0
+    },
+    "walk": {
+      "frames": 24,
+      "uniqueFrames": 24,
+      "size": [
+        256,
+        256
+      ],
+      "bottomAnchor": 236,
+      "transparentRgbResidue": 0,
+      "edgeTouches": 0
+    },
+    "move-to-sit": {
+      "frames": 24,
+      "uniqueFrames": 24,
+      "size": [
+        256,
+        256
+      ],
+      "bottomAnchor": 236,
+      "transparentRgbResidue": 0,
+      "edgeTouches": 0
+    },
+    "sit-to-idle": {
+      "frames": 24,
+      "uniqueFrames": 24,
+      "size": [
+        256,
+        256
+      ],
+      "bottomAnchor": 236,
+      "transparentRgbResidue": 0,
+      "edgeTouches": 0
+    },
+    "sit-to-sleep": {
+      "frames": 24,
+      "uniqueFrames": 24,
+      "size": [
+        256,
+        256
+      ],
+      "bottomAnchor": 236,
+      "transparentRgbResidue": 0,
+      "edgeTouches": 0
+    },
+    "sleep": {
+      "frames": 24,
+      "uniqueFrames": 24,
+      "size": [
+        256,
+        256
+      ],
+      "bottomAnchor": 236,
+      "transparentRgbResidue": 0,
+      "edgeTouches": 0
+    }
+  }
+}

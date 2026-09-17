@@ -267,4 +267,25 @@ Check(!FullscreenPolicy.Evaluate(null,primaryScreen).Hide&&!FullscreenPolicy.Eva
 Check(FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(2,2,1918,1078)},primaryScreen).Hide&&!FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(3,3,1917,1077)},primaryScreen).Hide,"fullscreen edge tolerance is limited to two physical pixels");
 var fullscreenSequence=new[]{fullWindow,fullWindow with {Bounds=new(100,100,1000,800)},fullWindow,fullWindow with {Minimized=true}};
 Check(fullscreenSequence.Select(window=>FullscreenPolicy.Evaluate(window,primaryScreen).Hide).SequenceEqual(new[]{true,false,true,false}),"fullscreen exit and minimization restore without sticky hidden state");
+using var motionDoc=System.Text.Json.JsonDocument.Parse("""
+{"clips":{"idle":{"fps":12,"loop":true},"walk":{"fps":24,"loop":true},"move-to-sit":{"fps":24,"loop":false},"sit-to-idle":{"fps":24,"loop":false},"sit-to-sleep":{"fps":16,"loop":false},"sleep":{"fps":12,"loop":true}}}
+""");
+var motion=new SpritePlayback();motion.Load(motionDoc.RootElement,_=>24);
+Check(motion.Sample("idle",0)?.Clip=="idle"&&motion.Sample("sit",1.2)?.Index==14,"rest decisions do not restart a 24-frame blink every second");
+Check(motion.Sample("walk",2)?.Clip=="walk"&&motion.Sample("guide-walk",2.5)?.Index==12,"movement aliases share a continuous gait");
+Check(motion.Sample("sit",3)?.Clip=="move-to-sit","arrival plays movement-to-seat transition");
+Check(motion.Sample("idle",4.1)?.Clip=="sit-to-idle"&&motion.Sample("sit",5.1)?.Clip=="idle","arrival completes seat-to-idle despite changing rest action revisions");
+Check(motion.Sample("sleep",6)?.Clip=="sit-to-sleep"&&motion.Sample("sleep",7.6)?.Clip=="sleep","sleep entry completes once then uses shared sleeping loop");
+Check(motion.Sample("wake",8)?.Index==23&&motion.Sample("wake",8.5)?.Index==15,"click wake immediately reverses sleep-entry pose");
+Check(motion.Sample("drag",8.6) is null&&motion.Sample("walk",8.7)?.Clip=="walk","drag and renewed movement cancel pending visual transitions immediately");
+motion.Reset();Check(motion.Sample("sleep",10)?.Clip=="sleep","saved sleeping cat opens directly in sleeping pose");
+motion.Sample("walk",11);motion.Sample("sleep",12);
+Check(motion.Sample("sleep",13.1)?.Clip=="sit-to-sleep"&&motion.Sample("sleep",14.6)?.Clip=="sleep","walk into bed chains sitting then sleep entry");
+Check(motion.Sample("pet",15) is null,"unproduced interactions retain existing action rendering");
+var noTransitions=new SpritePlayback();noTransitions.Load(motionDoc.RootElement,id=>id is "idle" or "walk" or "sleep"?24:0);
+noTransitions.Sample("walk",0);Check(noTransitions.Sample("sit",1)?.Clip=="idle","missing transition cannot freeze the cat");
+Check(motion.Sample("idle",double.NaN) is null,"invalid presentation clock does not select a corrupt frame");
+var leftArrival=new PetEngine(new PetState{X=400,Y=400},1){FoodSpot=new Spot(300,400)};
+leftArrival.Demo("eat");for(int i=0;i<40&&leftArrival.Action=="walk";i++)leftArrival.Update(.1,12);
+Check(leftArrival.Action=="eat"&&leftArrival.FacingLeft,"leftward movement preserves facing on the exact arrival frame");
 Console.WriteLine($"{checks} checks passed.");

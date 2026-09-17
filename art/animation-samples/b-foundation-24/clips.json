@@ -1,0 +1,54 @@
+{
+  "acceptedIdentity": "b-idle-v2, accepted by user 2026-09-18",
+  "frameCountPerClip": 24,
+  "clips": {
+    "idle": {
+      "fps": 12,
+      "loop": true,
+      "width": 180,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.921875
+    },
+    "walk": {
+      "fps": 24,
+      "loop": true,
+      "width": 180,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.921875
+    },
+    "move-to-sit": {
+      "fps": 24,
+      "loop": false,
+      "width": 180,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.921875
+    },
+    "sit-to-idle": {
+      "fps": 24,
+      "loop": false,
+      "width": 180,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.921875
+    },
+    "sit-to-sleep": {
+      "fps": 16,
+      "loop": false,
+      "width": 180,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.921875
+    },
+    "sleep": {
+      "fps": 12,
+      "loop": true,
+      "width": 180,
+      "height": 180,
+      "anchorX": 0.5,
+      "anchorY": 0.921875
+    }
+  }
+}

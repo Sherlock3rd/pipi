@@ -1,0 +1,84 @@
+{
+  "notes": [
+    "Each clip generated independently; repair prompts retained alongside main prompts.",
+    "Sleep uses private photo 05 for curled pose only; original photo excluded from git.",
+    "Transitions additionally use generated start/end PNG references described in their prompt.",
+    "Leftward walk mirrors individual frames after visual QA; never reverse frame order."
+  ],
+  "accepted_identity": "b-idle-v2 approved by user",
+  "mode": "built-in imagegen",
+  "jobs": [
+    {
+      "id": "idle",
+      "status": "complete",
+      "frameCount": 24,
+      "prompt_file": "prompts/idle.md",
+      "output_path": "decoded/idle.png",
+      "source_sha256": "E28FAE4F298AC98E385B8E7C2C0F846CE42DEB1344CA298E443053BAACD1CE5E",
+      "identity_reference": "references/approved-cat.png",
+      "paint_reference": "references/approved-idle-source.png",
+      "layout_reference": "references/layout-24.png",
+      "runtime_frames": "../../../assets/pets/bluecat/b-foundation/idle"
+    },
+    {
+      "id": "walk",
+      "status": "complete",
+      "frameCount": 24,
+      "prompt_file": "prompts/walk.md",
+      "output_path": "decoded/walk.png",
+      "source_sha256": "C793D15DBA49D376A6E7CF5D212BF99A9173903106F48C46FE981B6561C53448",
+      "identity_reference": "references/approved-cat.png",
+      "paint_reference": "references/approved-idle-source.png",
+      "layout_reference": "references/layout-24.png",
+      "runtime_frames": "../../../assets/pets/bluecat/b-foundation/walk"
+    },
+    {
+      "id": "move-to-sit",
+      "status": "complete",
+      "frameCount": 24,
+      "prompt_file": "prompts/move-to-sit.md",
+      "output_path": "decoded/move-to-sit.png",
+      "source_sha256": "C95097063DC8D3CE109ACC68AEA875F3A72CA630CC58405725FEFC0869AD0F23",
+      "identity_reference": "references/approved-cat.png",
+      "paint_reference": "references/approved-idle-source.png",
+      "layout_reference": "references/layout-24.png",
+      "runtime_frames": "../../../assets/pets/bluecat/b-foundation/move-to-sit"
+    },
+    {
+      "id": "sit-to-idle",
+      "status": "complete",
+      "frameCount": 24,
+      "prompt_file": "prompts/sit-to-idle.md",
+      "output_path": "decoded/sit-to-idle.png",
+      "source_sha256": "449D5F917BB4B78E814B248160B09557C5DF2124E7ABE2C2E4AEA837D0971286",
+      "identity_reference": "references/approved-cat.png",
+      "paint_reference": "references/approved-idle-source.png",
+      "layout_reference": "references/layout-24.png",
+      "runtime_frames": "../../../assets/pets/bluecat/b-foundation/sit-to-idle"
+    },
+    {
+      "id": "sit-to-sleep",
+      "status": "complete",
+      "frameCount": 24,
+      "prompt_file": "prompts/sit-to-sleep.md",
+      "output_path": "decoded/sit-to-sleep.png",
+      "source_sha256": "2D6281F29B3F7415FDB56734972C734834070990D7F89D4283956A13FA214A14",
+      "identity_reference": "references/approved-cat.png",
+      "paint_reference": "references/approved-idle-source.png",
+      "layout_reference": "references/layout-24.png",
+      "runtime_frames": "../../../assets/pets/bluecat/b-foundation/sit-to-sleep"
+    },
+    {
+      "id": "sleep",
+      "status": "complete",
+      "frameCount": 24,
+      "prompt_file": "prompts/sleep.md",
+      "output_path": "decoded/sleep.png",
+      "source_sha256": "818A3EF6EBF1F02141BBF33758CED1CAA465F3E66E74BB72768C6A59D97D2C14",
+      "identity_reference": "references/approved-cat.png",
+      "paint_reference": "references/approved-idle-source.png",
+      "layout_reference": "references/layout-24.png",
+      "runtime_frames": "../../../assets/pets/bluecat/b-foundation/sleep"
+    }
+  ]
+}

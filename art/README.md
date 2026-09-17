@@ -2,6 +2,8 @@
 
 本目录保存可复用的美术设计资料。角色身份由用户照片约束，用户偏好 B 绘本厚涂，正在验证单段动画，尚未完成正式定稿。
 
+最新：用户认可第二轮 B，六段基础动作已扩为每段 24 帧并接入，见 [基础动作交付](animation-samples/b-foundation-24/README.md)。其余动作继续迭代；以下未认可／未接入描述保留为历史。
+
 - [第一轮六风格对比图](concepts/style-exploration-v1.png)：A 清线赛璐璐、B 绘本厚涂、C 彩铅速写、D 圆润贴纸、E 复古平涂、F 像素。
 - [生成提示词](style-exploration-v1-prompt.md)：使用内置 image_gen；参考图、约束和生成过程可追溯。
 - [照片索引](reference/README.md)：8 张原图在 `reference/photos/` 本地保留，未上传公共仓库。

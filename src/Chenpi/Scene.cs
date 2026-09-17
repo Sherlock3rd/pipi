@@ -40,6 +40,9 @@ internal sealed class Scene : FrameworkElement
     private readonly System.Diagnostics.Stopwatch watch=System.Diagnostics.Stopwatch.StartNew();
     private readonly Dictionary<string,List<BitmapImage>> frames=new();
     private readonly AnimationVariants variants=new();
+    private readonly SpritePlayback playback=new();
+    public string DisplayedClip {get;private set;}="";
+    public int DisplayedFrame {get;private set;}
     private long spriteRevision=-1;
     private AnimationVariant? selectedVariant;
     private double fps=8;
@@ -53,6 +56,7 @@ internal sealed class Scene : FrameworkElement
         LoadSprites();
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
+        playback.Reset();
         SizeChanged+=(_,_)=>LayoutWorld();
         LostMouseCapture+=(_,_)=>{if(pressed||IsDragging||wandHeld)CancelDrag();};
     }
@@ -81,6 +85,7 @@ internal sealed class Scene : FrameworkElement
                 catch(Exception ex){System.Diagnostics.Trace.WriteLine("Animation fallback: "+property.Name+": "+ex.Message);}
             }
             variants.Load(doc.RootElement,id=>frames.ContainsKey(id));
+            playback.Load(doc.RootElement,id=>frames.TryGetValue(id,out var set)?set.Count:0);
         }
         catch(Exception ex){System.Diagnostics.Trace.WriteLine("Sprite fallback: "+ex.Message);}
     }
@@ -125,7 +130,7 @@ internal sealed class Scene : FrameworkElement
         Cursor=Cursors.Arrow;if(IsMouseCaptured)ReleaseMouseCapture();SaveNow?.Invoke();
     }
     private Point World(Point p)=>new(p.X/Scale,p.Y/Scale);
-    private Rect CatRect=>Engine.State.Sleeping?new(Engine.State.X-60,Engine.State.Y-70,118,63):new(Engine.State.X-65,Engine.State.Y-130,130,142);
+    private Rect CatRect=>Engine.State.Sleeping&&DisplayedClip!="sit-to-sleep"&&DisplayedClip!="move-to-sit"?new(Engine.State.X-68,Engine.State.Y-94,136,101):new(Engine.State.X-85,Engine.State.Y-158,170,170);
     private Rect NestRect=>new(Engine.Nest.X-82,Engine.Nest.Y-94,164,119);
     private Rect ObjectRect(Spot p,double w=92)=>new(p.X-w/2,p.Y-28,w,62);
     private Rect SettingsRect=>new(Engine.Nest.X+59,Engine.Nest.Y-123,30,30);
@@ -262,6 +267,16 @@ internal sealed class Scene : FrameworkElement
         if(action==Engine.Action&&spriteRevision!=Engine.ActionRevision)
         {spriteRevision=Engine.ActionRevision;selectedVariant=variants.Choose(action);}
         var variant=action==Engine.Action?selectedVariant:null;
+        var sample=playback.Sample(action,Engine.Now);
+        if(variant is null&&sample is SpriteFrame sprite&&frames.TryGetValue(sprite.Clip,out var generated))
+        {
+            DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
+            var definition=sprite.Definition;
+            dc.PushTransform(new TranslateTransform(x,y));if(left)dc.PushTransform(new ScaleTransform(-1,1));
+            dc.DrawImage(generated[sprite.Index],new Rect(-definition.Width*definition.AnchorX,-definition.Height*definition.AnchorY,definition.Width,definition.Height));
+            if(left)dc.Pop();dc.Pop();return;
+        }
+        DisplayedClip=variant?.Id??action;DisplayedFrame=0;
         if(frames.TryGetValue(variant?.Id??action,out var set)&&set.Count>0)
         {
             dc.PushTransform(new TranslateTransform(x,y));if(left)dc.PushTransform(new ScaleTransform(-1,1));

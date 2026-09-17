@@ -254,7 +254,7 @@ public sealed partial class PetEngine
         if(Action=="walk")
         {
             var here=new Spot(State.X,State.Y); var distance=here.Distance(target);
-            FacingLeft=target.X<State.X;
+            if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
             if(distance<2) { State.X=target.X;State.Y=target.Y; Arrive(); }
             else { var move=Math.Min(distance,58*dt);State.X+=(target.X-State.X)/distance*move;State.Y+=(target.Y-State.Y)/distance*move; }
             return;
