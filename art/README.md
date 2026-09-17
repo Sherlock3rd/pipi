@@ -7,6 +7,7 @@
 - [照片索引](reference/README.md)：8 张原图在 `reference/photos/` 本地保留，未上传公共仓库。
 - [身份与动作／行为树规范](../spec/cat-art-and-behavior-identity.md)：照片身份锚点、姿态映射、ArtStation 出处与后续验收。
 - [B 风格六帧眨眼试样](animation-samples/b-idle-v1/README.md)：播放／逐帧预览、原画对照、源图和修订记录。用户指出首版嘴部偏离原画，作为明确修订项保留。
+- [B 原画约束眨眼第二轮](animation-samples/b-idle-v2/README.md)：重新以原 B 直接生成，六帧／五张独立画面，首尾复用。技术检查通过，鼻口与笔触仍有差异，严格美术一致性未通过。
 - [原画偏差与视频路线调研](../docs/video-animation-research.md)：修订版仍未获认可；记录图生视频转帧、直接透明视频的实际项目，后续先确认原画单猫。
 - [同源视频／序列帧实验](animation-samples/b-video-vs-frames/README.md)：用户已授权比较，准备页就绪，图生视频服务待连接；尚无新动画效果。
 

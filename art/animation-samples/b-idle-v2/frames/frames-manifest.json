@@ -1,0 +1,26 @@
+{
+  "scope": "idle-only",
+  "chroma_key": {
+    "hex": "#FF00FF",
+    "rgb": [
+      255,
+      0,
+      255
+    ]
+  },
+  "rows": [
+    {
+      "state": "idle",
+      "frames": [
+        "frames/idle/00.png",
+        "frames/idle/01.png",
+        "frames/idle/02.png",
+        "frames/idle/03.png",
+        "frames/idle/04.png",
+        "frames/idle/05.png"
+      ],
+      "method": "components",
+      "last_frame_reuses": 0
+    }
+  ]
+}

@@ -1,0 +1,33 @@
+{
+  "name": "Chenpi B original-grounded blink v2",
+  "clip_name": "B · original-grounded seated blink",
+  "scope": "six-frame seated blink; art review only",
+  "style": "original B storybook gouache, identity-preserving edit",
+  "reference": "references/style-exploration-v1.png: top-center main seated cat",
+  "chroma_key": {
+    "hex": "#FF00FF",
+    "rgb": [
+      255,
+      0,
+      255
+    ]
+  },
+  "frames": 6,
+  "cell": [
+    192,
+    208
+  ],
+  "durations_ms": [
+    1300,
+    180,
+    100,
+    120,
+    150,
+    850
+  ],
+  "reuse_first_frame_at_end": true,
+  "retain_sources_and_frames": true,
+  "status": "packaged-art-identity-not-passed",
+  "production_ready": false,
+  "selected_source": "decoded/idle.png"
+}

@@ -8,6 +8,7 @@ from __future__ import annotations
 
 import argparse
 import json
+import shutil
 import sys
 from pathlib import Path
 
@@ -45,6 +46,10 @@ def main() -> None:
     with Image.open(source) as generated:
         source_alpha = generated.convert('RGBA').getchannel('A').getextrema()
     row = extraction.extract_state(source, 'idle', frames_root, key, 96, args.method)
+    if request.get('reuse_first_frame_at_end'):
+        # Timeline assembly: reuse an existing drawing, never synthesize cat pixels.
+        shutil.copyfile(row['frames'][0], row['frames'][-1])
+        row['last_frame_reuses'] = 0
     # Normalize transparent RGB only; do not paint, interpolate or transform poses.
     for name in row['frames']:
         with Image.open(name) as source:
@@ -80,7 +85,7 @@ def main() -> None:
     save_preview(frames, durations, run / 'final/idle.gif')
     frames[0].save(run / 'final/idle.webp', format='WEBP', save_all=True, append_images=frames[1:],
         duration=durations, loop=0, lossless=True, exact=True, quality=100, method=6)
-    write_json(run / 'final/clip.json', {'name': 'B · seated breathing and blink', 'frameWidth': 192,
+    write_json(run / 'final/clip.json', {'name': request.get('clip_name', 'B · seated breathing and blink'), 'frameWidth': 192,
         'frameHeight': 208, 'loop': True, 'durationsMs': durations,
         'frames': [f'../frames/idle/{index:02d}.png' for index in range(6)], 'productionReady': False})
     contact.COLUMNS = 6

@@ -1,0 +1,38 @@
+{
+  "mode": "built-in imagegen",
+  "jobs": [
+    {
+      "id": "base",
+      "status": "rejected-identity",
+      "input_images": [
+        "references/style-exploration-v1.png"
+      ],
+      "prompt_file": "prompts/base.md",
+      "output_path": "decoded/base.png",
+      "source_path": "C:/Users/Admin/.codex/generated_images/01a0b01e-6c16-7a50-b657-a8a813360a77/exec-fcc12b56-192b-4304-84d0-2b4dbc33de83.png"
+    },
+    {
+      "id": "idle",
+      "status": "complete-art-identity-not-passed",
+      "depends_on": [],
+      "input_images": [
+        "references/canonical-base.png",
+        "references/layout-guide.png"
+      ],
+      "prompt_file": "prompts/idle.md",
+      "output_path": "decoded/idle.png",
+      "decision": "Original B sheet is canonical; both isolated candidates rejected. Follow strict-original user request without propagating bad base.",
+      "source_path": "C:/Users/Admin/.codex/generated_images/01a0b024-ae17-7322-801e-ce92576b7b06/exec-c951e2f8-2bb7-42c6-90ab-6e82c9a3f784.png"
+    },
+    {
+      "id": "base-repair",
+      "status": "rejected-identity",
+      "input_images": [
+        "references/style-exploration-v1.png",
+        "decoded/base.png"
+      ],
+      "prompt_file": "prompts/base-repair.md",
+      "output_path": "decoded/base-repair.png"
+    }
+  ]
+}
