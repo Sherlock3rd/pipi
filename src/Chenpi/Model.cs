@@ -115,9 +115,14 @@ public sealed partial class PetEngine
     public bool ToyOverlaps=>ToyHeld&&CatPlayCenter.Distance(ToyTip)<=CatPlayRadius+ToyPlayRadius;
     // The outer rings attract attention. Catching requires the actual feather tip near the cat.
     public bool ToyWithinCatchRange=>ToyHeld&&CatPlayCenter.Distance(ToyTip)<=CatCatchRadius;
-    public Spot WandHome=>new(Math.Clamp(Nest.X+25,60,Width-65),Math.Max(55,Nest.Y-167));
+    public bool Grounded=>State.LayoutWidth>0;
+    public double GroundY=>Height-48;
+    public Spot OnGround(Spot p)=>Grounded?new(p.X,GroundY):p;
+    public void DragTo(Spot pointerPosition)
+    {State.X=Math.Clamp(pointerPosition.X,65,Width-65);State.Y=Grounded?GroundY:Math.Clamp(pointerPosition.Y,140,Height-60);Dirty=true;}
+    public Spot WandHome=>new(Math.Clamp(Nest.X+140,60,Width-40),Grounded?GroundY-35:Math.Max(55,Nest.Y-167));
     public bool CanDropInNest(Spot pointer)=>new Spot(State.X,State.Y).Distance(Nest)<82
-        ||(pointer.X>=Nest.X-87&&pointer.X<=Nest.X+87&&pointer.Y>=Nest.Y-129&&pointer.Y<=Nest.Y+25);
+        ||(pointer.X>=Nest.X-98&&pointer.X<=Nest.X+98&&pointer.Y>=Nest.Y-146&&pointer.Y<=Nest.Y);
 
     public void Layout(double width,double height,bool reset=false)
     {
@@ -130,14 +135,14 @@ public sealed partial class PetEngine
         }
         State.LayoutWidth=width;State.LayoutHeight=height;
         Width=width;Height=height;
-        Spot Clamp(Spot p,double side,double top,double bottom)=>new(Math.Clamp(p.X,side,width-side),Math.Clamp(p.Y,top,height-bottom));
-        Nest=Clamp(!reset&&State.NestPosition is Spot n?n:new(width-100,height-68),94,145,55);
-        FoodSpot=Clamp(!reset&&State.FoodPosition is Spot f?f:new(width-243,height-56),48,50,40);
-        WaterSpot=Clamp(!reset&&State.WaterPosition is Spot w?w:new(width-336,height-56),48,50,40);
-        LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(width-443,height-56),60,50,40);
+        Spot Clamp(Spot p,double side,double top,double bottom)=>new(Math.Clamp(p.X,side,width-side),GroundY);
+        Nest=Clamp(!reset&&State.NestPosition is Spot n?n:new(width-165,GroundY),104,145,55);
+        FoodSpot=Clamp(!reset&&State.FoodPosition is Spot f?f:new(width-330,GroundY),48,50,40);
+        WaterSpot=Clamp(!reset&&State.WaterPosition is Spot w?w:new(width-420,GroundY),48,50,40);
+        LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(width-525,GroundY),60,50,40);
         RememberLayout();
         if(State.X<0||reset){State.X=Nest.X-115;State.Y=Nest.Y-70;}
-        State.X=Math.Clamp(State.X,65,width-65);State.Y=Math.Clamp(State.Y,140,height-60);
+        State.X=Math.Clamp(State.X,65,width-65);State.Y=GroundY;
         if(State.Sleeping&&State.SleepingInNest){State.X=Nest.X;State.Y=Nest.Y;}
         Retarget();
     }
@@ -145,8 +150,8 @@ public sealed partial class PetEngine
     public Spot ObjectPosition(string kind)=>kind switch {"nest"=>Nest,"food"=>FoodSpot,"water"=>WaterSpot,_=>LitterSpot};
     public void MoveObject(string kind,Spot position)
     {
-        double side=kind=="nest"?94:kind=="litter"?60:48;
-        position=new Spot(Math.Clamp(position.X,side,Width-side),Math.Clamp(position.Y,kind=="nest"?145:50,Height-(kind=="nest"?55:40)));
+        double side=kind=="nest"?104:kind=="litter"?60:48;
+        position=OnGround(new Spot(Math.Clamp(position.X,side,Width-side),Math.Clamp(position.Y,kind=="nest"?145:50,Height-(kind=="nest"?55:40))));
         switch(kind){case "nest":Nest=position;break;case "food":FoodSpot=position;break;case "water":WaterSpot=position;break;case "litter":LitterSpot=position;break;}
         RememberLayout();
         LastInteraction=Now;
@@ -158,6 +163,7 @@ public sealed partial class PetEngine
     private void Retarget()
     {
         if(Action=="walk")target=arrival switch {"eat"=>FoodSpot,"drink"=>WaterSpot,"sleep"=>Nest,"toilet" or "bury"=>LitterSpot,_=>new Spot(Math.Clamp(target.X,65,Width-65),Math.Clamp(target.Y,140,Height-60))};
+        target=OnGround(target);
     }
 
     public PetEngine(PetState state, int? seed = null)
@@ -220,6 +226,7 @@ public sealed partial class PetEngine
     }
     private void MoveTowards(Spot destination,double step)
     {
+        destination=OnGround(destination);if(Grounded)State.Y=GroundY;
         if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
         if(VisualVelocity?.Invoke(Action,Now,FacingLeft) is double velocity)
         {
@@ -243,7 +250,7 @@ public sealed partial class PetEngine
     }
     public void Update(double dt, int hour)
     {
-        dt=Math.Clamp(dt,0,0.12); Now+=dt; localHour=hour;
+        dt=Math.Clamp(dt,0,0.12); Now+=dt; localHour=hour;if(Grounded)State.Y=GroundY;
         if(Holding) return;
         ActionTime+=dt;
         if(Action=="drag") return;
@@ -310,7 +317,7 @@ public sealed partial class PetEngine
     private void Go(Spot destination,string next,string reason)
     {
         moveAfterWake=false;
-        target=destination;if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
+        target=OnGround(destination);if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
         arrival=next;SetAction("walk",double.MaxValue,reason);
     }
     private void Arrive()
@@ -325,7 +332,7 @@ public sealed partial class PetEngine
     }
     // One shared draw/hit-test anchor. On leaving the nest keep this world point;
     // clearing SleepingInNest must not teleport the displayed cat by (20,10).
-    public Spot VisualPosition=>new(State.X-(State.Sleeping&&State.SleepingInNest?20:0),State.Y-(State.Sleeping&&State.SleepingInNest?10:0));
+    public Spot VisualPosition=>new(State.X-(State.Sleeping&&State.SleepingInNest?20:0),State.Y-(!Grounded&&State.Sleeping&&State.SleepingInNest?10:0));
     private void SetAction(string action,double seconds,string reason)
     {
         if(action!="sleep"&&State.Sleeping&&State.SleepingInNest)
@@ -362,7 +369,7 @@ public sealed partial class PetEngine
         Dirty=true;
     }
     public static int SupplyLayers(double quantity)=>(int)Math.Ceiling(Math.Clamp(quantity,0,100)/20);
-    public void Recall() {BeginManualSequence();nightRestUntil=Now+300;State.X=Math.Clamp(Nest.X-115,65,Width-65);State.Y=Math.Clamp(Nest.Y-70,140,Height-60);NewRest();SetAction("sit",3,"回到小窝附近");}
+    public void Recall() {BeginManualSequence();nightRestUntil=Now+300;State.X=Math.Clamp(Nest.X-145,65,Width-65);State.Y=Grounded?GroundY:Math.Clamp(Nest.Y-70,140,Height-60);NewRest();SetAction("sit",3,"回到小窝附近");}
     public void Demo(string action)
     {
         BeginManualSequence();

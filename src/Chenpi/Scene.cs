@@ -47,14 +47,14 @@ internal sealed class Scene : FrameworkElement
     private Rect? currentCatBounds;
     public const double BowlScale=.60;
     public bool DarkPreview {get;set;}
-    internal static BitmapSource PrepareBitmap(BitmapSource original,bool crop,out Rect bounds)
+    internal static BitmapSource PrepareBitmap(BitmapSource original,bool crop,out Rect bounds,int boundsThreshold=8)
     {
         var straight=new FormatConvertedBitmap(original,PixelFormats.Bgra32,null,0);
         int w=straight.PixelWidth,h=straight.PixelHeight;
         var pixels=new byte[w*h*4];straight.CopyPixels(pixels,w*4,0);
         pixels=AlphaMatte.Clean(pixels,w,h);
         int minX=w,minY=h,maxX=0,maxY=0;
-        for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[(y*w+x)*4+3]>8)
+        for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[(y*w+x)*4+3]>boundsThreshold)
         {minX=Math.Min(minX,x);minY=Math.Min(minY,y);maxX=Math.Max(maxX,x+1);maxY=Math.Max(maxY,y+1);}
         bounds=new Rect(minX/(double)w,minY/(double)h,(maxX-minX)/(double)w,(maxY-minY)/(double)h);
         BitmapSource result=BitmapSource.Create(w,h,96,96,PixelFormats.Bgra32,null,pixels,w*4);
@@ -83,13 +83,14 @@ internal sealed class Scene : FrameworkElement
     private string lastSpriteClip="";
     private double blendStarted;
     private bool nestOcclusion;
+    private double poseLift;
     private static BitmapSource? LoadProp(string name)
     {
         string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
         if(!File.Exists(path))return null;
         var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;
         image.DecodePixelWidth=320;image.UriSource=new Uri(path);image.EndInit();image.Freeze();
-        return PrepareBitmap(image,name is "nest" or "litter-tray",out _);
+        return PrepareBitmap(image,name is "nest" or "litter-tray" or "kibble",out _,name=="kibble"?128:8);
     }
     private static readonly BitmapSource? foodBowl=LoadProp("food-bowl-empty"),kibble=LoadProp("kibble"),waterCup=LoadProp("water-cup-empty");
     private static readonly BitmapSource? nestSprite=LoadProp("nest"),litterSprite=LoadProp("litter-tray");
@@ -170,7 +171,7 @@ internal sealed class Scene : FrameworkElement
         pointer=World(Mouse.GetPosition(this));
         if(pressed&&!IsDragging&&watch.Elapsed.TotalSeconds-pressedAt>=HoldSeconds)
         {StartDrag();}
-        double liftTarget=pressed&&pressedObject=="cat"?(IsDragging?8:Math.Min(1,(watch.Elapsed.TotalSeconds-pressedAt)/HoldSeconds)*3):0;
+        double liftTarget=!Engine.Grounded&&pressed&&pressedObject=="cat"?(IsDragging?8:Math.Min(1,(watch.Elapsed.TotalSeconds-pressedAt)/HoldSeconds)*3):0;
         lift+=(liftTarget-lift)*(1-Math.Exp(-elapsed*24));
         if(IsDragging)MoveDragged(pointer);
         if(wandHeld)Engine.SetToy(true,new Spot(Math.Clamp(pointer.X,0,WorldWidth),Math.Clamp(pointer.Y,0,WorldHeight)));
@@ -201,13 +202,13 @@ internal sealed class Scene : FrameworkElement
     }
     private Point World(Point p)=>new(p.X/Scale,p.Y/Scale);
     private Rect CatRect {get {
-        if(currentCatBounds is Rect b){b.Offset(Engine.VisualPosition.X,Engine.VisualPosition.Y-lift);b.Inflate(7,7);return b;}
+        if(currentCatBounds is Rect b){b.Offset(Engine.VisualPosition.X,Engine.VisualPosition.Y-lift-poseLift);b.Inflate(7,7);return b;}
         return new(Engine.State.X-85,Engine.State.Y-158,170,170);
     }}
-    private Rect NestRect=>new(Engine.Nest.X-87,Engine.Nest.Y-129,174,154);
+    private Rect NestRect=>new(Engine.Nest.X-98,Engine.Nest.Y-146,196,146);
     private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
-        ?new(p.X-30,p.Y-40,60,64):new(p.X-w/2,p.Y-34,w,68);
-    private Rect SettingsRect=>new(Engine.Nest.X+59,Engine.Nest.Y-123,30,30);
+        ?new(p.X-30,p.Y-70,60,70):new(p.X-w/2,p.Y-62,w,62);
+    private Rect SettingsRect=>new(Engine.Nest.X+70,Engine.Nest.Y-150,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
     protected override HitTestResult? HitTestCore(PointHitTestParameters p)
@@ -241,8 +242,7 @@ internal sealed class Scene : FrameworkElement
         {
             if(pressedObject=="cat")
             {
-                Engine.State.X=Math.Clamp(p.X-grabOffset.X,65,WorldWidth-65);
-                Engine.State.Y=Math.Clamp(p.Y-grabOffset.Y,140,WorldHeight-60);
+                Engine.DragTo(new Spot(p.X-grabOffset.X,p.Y-grabOffset.Y));
             }
             else Engine.MoveObject(pressedObject,new Spot(p.X-grabOffset.X,p.Y-grabOffset.Y));
         }
@@ -296,7 +296,7 @@ internal sealed class Scene : FrameworkElement
         {dc.DrawRoundedRectangle(null,new Pen(Brush("#A3C7A2"),3),NestRect,30,30);}
         var age=DateTimeOffset.UtcNow-Engine.State.AdoptedAt;
         string span=age.TotalDays>=1?$"相伴 {Math.Max(0,(int)age.TotalDays)} 天":$"相伴 {Math.Max(0,(int)age.TotalHours):00}:{Math.Max(0,age.Minutes):00}";
-        LabelPill(dc,span,Engine.Nest.X,Engine.Nest.Y+35,102);
+        LabelPill(dc,span,Engine.Nest.X,Engine.Nest.Y+12,102);
         dc.DrawEllipse(Brush("#F4EEE4"),new Pen(Brush("#CABDAC"),1),new Point(SettingsRect.X+15,SettingsRect.Y+15),14,14);
         Label(dc,"···",SettingsRect.X+15,SettingsRect.Y+1,19,"#746658",true);
         dc.Pop();
@@ -320,8 +320,8 @@ internal sealed class Scene : FrameworkElement
         var p=Engine.Nest;
         if(nestSprite is not null)
         {
-            if(foreground)dc.PushClip(System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-87},{p.Y-45} Q {p.X},{p.Y+33} {p.X+87},{p.Y-45} L {p.X+87},{p.Y+25} L {p.X-87},{p.Y+25} Z")));
-            dc.DrawImage(nestSprite,new Rect(p.X-87,p.Y-129,174,154));
+            if(foreground)dc.PushClip(System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-98},{p.Y-66} Q {p.X},{p.Y+8} {p.X+98},{p.Y-66} L {p.X+98},{p.Y} L {p.X-98},{p.Y} Z")));
+            dc.DrawImage(nestSprite,new Rect(p.X-98,p.Y-146,196,146));
             if(foreground)dc.Pop();return;
         }
         if(!foreground)
@@ -336,6 +336,8 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawBowl(DrawingContext dc,Spot p,double fill,bool water,double time)
     {
+        // Align the visible base (excluding source-image transparent padding).
+        p=new Spot(p.X,p.Y-(water?19:22));
         dc.PushTransform(new ScaleTransform(BowlScale,BowlScale,p.X,p.Y));
         DrawBowlFullSize(dc,p,fill,water,time);dc.Pop();
     }
@@ -360,16 +362,22 @@ internal sealed class Scene : FrameworkElement
         {
             dc.DrawImage(foodBowl,new Rect(p.X-60,p.Y-73,120,120));
             dc.PushClip(new EllipseGeometry(new Point(p.X,p.Y-26),36,25));
-            // Back rows first; independent pellets overlap into a five-tier pile.
-            for(int layer=layers-1;layer>=0;layer--)
+            // Small stable scattered pellets, with narrower upper tiers.
+            // Far pellets draw first; each refill adds a tier without rearranging old ones.
+            for(int layer=0;layer<layers;layer++)
             {
-                int count=5+layer*2;
-                for(int i=0;i<count;i++)
+                double radius=25-layer*2.5;
+                for(int row=0;row<3;row++)
                 {
-                    double x=p.X+(i-(count-1)/2d)*5.3+(layer%2==0?0:1.5);
-                    double y=p.Y-11-layer*5+(i%3-1)*1.2;
-                    dc.PushTransform(new RotateTransform((i*37+layer*17)%50-25,x,y));
-                    dc.DrawImage(kibble,new Rect(x-9,y-8,18,16));dc.Pop();
+                    int count=row==1?5:4;
+                    for(int i=0;i<count;i++)
+                    {
+                        double x=p.X+(i-(count-1)/2d)*radius*2/count+Math.Sin(i*7+row*3+layer)*1.4;
+                        double y=p.Y-24+row*4.5-layer*3.8+Math.Sin(i*3+layer)*.8;
+                        double size=9+(i*7+row*3+layer)%3;
+                        dc.PushTransform(new RotateTransform((i*47+row*29+layer*19)%120-60,x,y));
+                        dc.DrawImage(kibble,new Rect(x-size/2,y-size*.36,size,size*.72));dc.Pop();
+                    }
                 }
             }
             dc.Pop();return;
@@ -396,6 +404,7 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity)
     {
+        p=new Spot(p.X,p.Y-28);
         if(litterSprite is not null)
         {
             dc.DrawImage(litterSprite,new Rect(p.X-56,p.Y-34,112,62));
@@ -421,6 +430,8 @@ internal sealed class Scene : FrameworkElement
         var sample=playback.Sample(action,Engine.Now,left);
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
+            poseLift=Engine.Grounded&&nestOcclusion?(sprite.Clip=="video-20"?26:sprite.Clip=="video-21"?26*(1-sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1)):0):0;
+            y-=poseLift;
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;
             if(frameBounds.TryGetValue(generated[sprite.Index],out var bounds))
@@ -444,7 +455,7 @@ internal sealed class Scene : FrameworkElement
             lastSprite=generated[sprite.Index];lastDefinition=definition;
             if(mirror)dc.Pop();dc.Pop();return;
         }
-        lastSprite=null;lastDefinition=null;lastSpriteClip="";currentCatBounds=null;
+        poseLift=0;lastSprite=null;lastDefinition=null;lastSpriteClip="";currentCatBounds=null;
         DisplayedClip=variant?.Id??action;DisplayedFrame=0;
         if(GetFrames(variant?.Id??action) is {} set&&set.Count>0)
         {

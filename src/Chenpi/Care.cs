@@ -17,7 +17,7 @@ public sealed partial class PetEngine
     private Spot guidePointer;
     private bool pointerKnown;
     private double guideTravelled;
-    public Spot RequestSpot=>new(Width/2,Height-65);
+    public Spot RequestSpot=>new(Width/2,Grounded?GroundY:Height-65);
     private CareClock ClockFor(string kind)=>kind switch {"food"=>State.FoodClock,"water"=>State.WaterClock,_=>State.LitterClock};
     private bool Available(string kind)=>kind switch {"food"=>State.Food>0,"water"=>State.Water>0,_=>State.Litter<100};
     private void InitializeCare()
@@ -89,7 +89,7 @@ public sealed partial class PetEngine
     {
         var item=ObjectPosition(kind);double gap=kind=="litter"?135:120;
         double x=item.X-gap>=65?item.X-gap:item.X+gap;
-        return new Spot(Math.Clamp(x,65,Width-65),Math.Clamp(item.Y,140,Height-60));
+        return OnGround(new Spot(Math.Clamp(x,65,Width-65),Math.Clamp(item.Y,140,Height-60)));
     }
     private bool UpdateCareFlow(double dt)
     {

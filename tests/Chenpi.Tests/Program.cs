@@ -22,11 +22,11 @@ int notices=0;b.RequestedAttention+=()=>notices++;
 b.AdvanceNeeds(301);for(int i=0;i<1200;i++)b.Update(.1,12);
 Check(notices<=4&&notices>0,"unmet needs use global reminder cooldown");Check(t.Food==0&&t.Water==0,"begging never consumes absent supplies");
 var furniture=new PetState();var home=new PetEngine(furniture);home.Layout(1200,800);
-Check(furniture.X>900&&furniture.Y>600&&home.Nest.X-home.LitterSpot.X<350,"first layout places cat and compact home at bottom right");
+Check(furniture.X>900&&furniture.Y>600&&home.Nest.X-home.LitterSpot.X<390,"first layout places cat and compact home at bottom right");
 home.MoveObject("food",new Spot(500,500));home.Layout(1200,800);
-Check(home.FoodSpot==new Spot(500,500),"layout refresh preserves freely moved object");
+Check(home.FoodSpot==new Spot(500,home.GroundY),"layout refresh preserves freely moved object");
 home.Sleep();home.MoveObject("nest",new Spot(800,500));
-Check(home.Action=="sleep"&&furniture.X==800&&furniture.Y==500,"moving occupied nest carries sleeping cat");
+Check(home.Action=="sleep"&&furniture.X==800&&furniture.Y==home.GroundY,"moving occupied nest carries sleeping cat");
 home.Recall();home.MoveObject("water",new Spot(-999,9999));
 Check(home.WaterSpot.X>=48&&home.WaterSpot.Y<=760,"offscreen furniture constrained to visible area");
 home.Demo("eat");home.MoveObject("food",new Spot(furniture.X,furniture.Y));home.Update(.1,12);
@@ -36,14 +36,14 @@ Check(furniture.Food==beforeFood&&home.Action=="walk","moving bowl during eating
 var remembered=home.FoodSpot;var age=furniture.AdoptedAt;home.Layout(1200,800,true);
 Check(home.FoodSpot!=remembered&&furniture.Food==beforeFood&&furniture.AdoptedAt==age,"reset layout preserves care and adoption history");
 home.MoveObject("food",new Spot(500,400));home.Layout(900,600);
-Check(home.FoodSpot==new Spot(375,300),"resize or scale changes preserve relative furniture positions");
+Check(home.FoodSpot==new Spot(375,home.GroundY),"resize or scale changes preserve relative furniture positions");
 string folder=Path.Combine(Path.GetTempPath(),"Chenpi-tests-"+Guid.NewGuid());
 try
 {
     var storage=new Store(folder);home.MoveObject("litter",new Spot(420,340));storage.Save(furniture);
-    var loaded=storage.Load();Check(loaded.LitterPosition==new Spot(420,340)&&loaded.Food==furniture.Food,"furniture positions and inventory survive save/load");
+    var loaded=storage.Load();Check(loaded.LitterPosition==new Spot(420,home.GroundY)&&loaded.Food==furniture.Food,"furniture positions and inventory survive save/load");
     storage.Save(furniture);File.WriteAllText(storage.PathName,"broken");loaded=storage.Load();
-    Check(loaded.LitterPosition==new Spot(420,340)&&storage.Warning is not null,"corrupt primary recovers object layout from backup");
+    Check(loaded.LitterPosition==new Spot(420,home.GroundY)&&storage.Warning is not null,"corrupt primary recovers object layout from backup");
 }
 finally{Directory.Delete(folder,true);}
 void Advance(PetEngine pet,double seconds){for(int i=0;i<(int)Math.Ceiling(seconds/.1);i++)pet.Update(.1,12);}
@@ -84,7 +84,7 @@ toy.SetToy(false,new Spot());Check(!toy.ToyHeld&&toy.Action=="sit"&&toy.State.Fo
 toy.Sleep();toy.SetToy(true,toy.CatPlayCenter);toy.Update(.1,12);
 Check(toy.Action=="toy-bat"&&!toy.State.Sleeping,"near toy can wake sleeping cat directly into grabbing");
 var chase=new PetEngine(new PetState{X=600,Y=450,RestDuration=600},2);chase.Layout(1400,900);
-chase.SetToy(true,new Spot(900,385));chase.Update(.1,12);
+chase.SetToy(true,new Spot(900,chase.CatPlayCenter.Y));chase.Update(.1,12);
 Check(chase.Action=="toy-run"&&!chase.ToyWithinCatchRange&&Math.Abs(chase.State.X-(600+PetEngine.ToyRunSpeed*.1))<.0001,"far toy in outer range uses run speed immediately");
 Advance(chase,11);
 Check(chase.Action=="toy-bat"&&chase.ToyWithinCatchRange,"running automatically reaches inner range and grabs");
@@ -378,4 +378,20 @@ Check(wakePosition.VisualPosition==sleepingAnchor,"pickup from nest preserves di
 var groundWake=new PetEngine(new PetState{Sleeping=true,SleepingInNest=false,X=400,Y=400});
 var groundAnchor=groundWake.VisualPosition;groundWake.Interact();
 Check(groundWake.VisualPosition==groundAnchor,"ground sleep wake does not apply a nest correction");
+var floorCat=new PetEngine(new PetState{X=500,Y=200,RestDuration=600,NestPosition=new Spot(900,180),FoodPosition=new Spot(700,300),WaterPosition=new Spot(600,500),LitterPosition=new Spot(300,100)},2);
+floorCat.Layout(1200,800);
+Check(floorCat.State.Y==floorCat.GroundY&&new[]{floorCat.Nest,floorCat.FoodSpot,floorCat.WaterSpot,floorCat.LitterSpot}.All(v=>v.Y==floorCat.GroundY),"old saved vertical positions migrate to one floor while retaining horizontal placement");
+Check(floorCat.State.X==500&&floorCat.FoodSpot.X==700,"floor migration preserves user horizontal positions");
+foreach(var kind in new[]{"nest","food","water","litter"})floorCat.MoveObject(kind,new Spot(400,-999));
+Check(new[]{floorCat.Nest,floorCat.FoodSpot,floorCat.WaterSpot,floorCat.LitterSpot}.All(v=>v.Y==floorCat.GroundY),"dragging every furniture item upward keeps its base on the floor");
+floorCat.BeginDrag();floorCat.DragTo(new Spot(550,-999));floorCat.Drop(false);
+Check(floorCat.State.X==550&&floorCat.State.Y==floorCat.GroundY,"cat drag changes only horizontal coordinate");
+floorCat.Sleep();var floorWake=floorCat.VisualPosition;floorCat.Interact();Advance(floorCat,.1);
+Check(floorCat.VisualPosition==floorWake&&floorCat.State.Y==floorCat.GroundY,"floor sleep and wake preserve world anchor without vertical relocation");
+floorCat.Recall();floorCat.SetToy(true,new Spot(floorCat.State.X-200,floorCat.GroundY-180));Advance(floorCat,1);
+Check(floorCat.State.Y==floorCat.GroundY,"elevated toy cannot pull cat off horizontal floor");
+floorCat.SetToy(false,new Spot());floorCat.MoveObject("food",new Spot(700,100));floorCat.Demo("eat");
+bool onFloor=true;for(int i=0;i<100;i++){floorCat.Update(.1,12);onFloor&=floorCat.State.Y==floorCat.GroundY;}
+Check(onFloor&&floorCat.RequestSpot.Y==floorCat.GroundY&&floorCat.GuideDestination("food").Y==floorCat.GroundY,"care movement and guide destinations share floor throughout movement");
+floorCat.Layout(900,600);Check(floorCat.State.Y==552&&floorCat.Nest.Y==552,"window resize recomputes floor for cat and furniture");
 Console.WriteLine($"{checks} checks passed.");
