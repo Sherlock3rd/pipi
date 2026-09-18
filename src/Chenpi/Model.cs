@@ -72,6 +72,9 @@ public sealed partial class PetEngine
     public double LastInteraction { get; private set; }
     public double LastBeg { get; private set; } = -300;
     public bool FacingLeft { get; private set; }
+    // Only position waits for the visual stand/turn sequence; clocks and input keep running.
+    public Func<string,double,bool,bool>? CanAdvanceMovement {get;set;}
+    public Func<string,double,bool,double?>? VisualVelocity {get;set;}
     public bool Holding { get; set; }
     public bool Dirty { get; set; }
     public Spot Nest { get; set; }
@@ -89,7 +92,6 @@ public sealed partial class PetEngine
     private string arrival = "idle";
     private double duration = 3;
     private int bites;
-    private double lastCute = -120;
     private double sleepGrace;
     public const double NestSleepGrace=15;
     private bool manualSequence;
@@ -107,7 +109,8 @@ public sealed partial class PetEngine
     public const double CatPlayRadius=390;
     public const double ToyPlayRadius=170;
     public const double CatCatchRadius=100;
-    public const double ToyRunSpeed=240;
+    public const double WalkSpeed=36;
+    public const double ToyRunSpeed=WalkSpeed;
     public Spot CatPlayCenter=>new(State.X,State.Y-65);
     public bool ToyOverlaps=>ToyHeld&&CatPlayCenter.Distance(ToyTip)<=CatPlayRadius+ToyPlayRadius;
     // The outer rings attract attention. Catching requires the actual feather tip near the cat.
@@ -168,7 +171,6 @@ public sealed partial class PetEngine
             Branch(()=>State.StillSeconds>=300, SleepHere),
             Branch(()=>State.RestElapsed>=State.RestDuration, Roam),
             Branch(()=>State.Energy<24 || ((localHour>=23 || localHour<6) && Now>nightRestUntil && State.Energy<90), SleepHere),
-            Branch(()=>Now-LastInteraction>90 && Now-lastCute>120, ()=>{lastCute=Now; SetAction("cute",5,"无互动卖萌");}),
             new BehaviorAction(()=>SetAction(random.NextDouble()<.7?"sit":"idle",1,"在这里待一会儿"))
         );
         toyTree=new Selector(Branch(()=>ToyWithinCatchRange,CatchToy),new BehaviorAction(ChaseToy));
@@ -218,6 +220,14 @@ public sealed partial class PetEngine
     }
     private void MoveTowards(Spot destination,double step)
     {
+        if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
+        if(VisualVelocity?.Invoke(Action,Now,FacingLeft) is double velocity)
+        {
+            double dt=step/(Action=="rub"?24:WalkSpeed);
+            step=Math.Abs(velocity)*dt;
+            if(Math.Abs(destination.X-State.X)>.1&&velocity*(destination.X-State.X)<0)
+            {State.X=Math.Clamp(State.X+velocity*dt,65,Width-65);return;}
+        }
         double distance=new Spot(State.X,State.Y).Distance(destination);if(distance<=.01)return;
         double ratio=Math.Min(1,step/distance);State.X+=(destination.X-State.X)*ratio;State.Y+=(destination.Y-State.Y)*ratio;
     }
@@ -255,12 +265,15 @@ public sealed partial class PetEngine
         {
             var here=new Spot(State.X,State.Y); var distance=here.Distance(target);
             if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
+            if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
             if(distance<2) { State.X=target.X;State.Y=target.Y; Arrive(); }
-            else { var move=Math.Min(distance,58*dt);State.X+=(target.X-State.X)/distance*move;State.Y+=(target.Y-State.Y)/distance*move; }
+            else MoveTowards(target,WalkSpeed*dt);
             return;
         }
+        if(Action is "idle" or "sit"&&VisualVelocity?.Invoke(Action,Now,FacingLeft) is double drift)
+            State.X=Math.Clamp(State.X+drift*dt,65,Width-65);
         State.RestElapsed+=dt;State.StillSeconds+=dt;
-        if(State.StillSeconds>=300&&Action is "idle" or "sit" or "cute")SleepHere();
+        if(State.StillSeconds>=300&&Action is "idle" or "sit")SleepHere();
         if(Action=="sleep")
         {
             State.Sleeping=true;
@@ -274,14 +287,14 @@ public sealed partial class PetEngine
             {
                 bool food=Action=="eat";
                 if(bites==0&&(food?State.Food:State.Water)>0)ScheduleNext(food?"food":"water");
-                Consume(food,4);bites++;
+                Consume(food,5);bites++;
             }
             if((Action=="eat" && State.Food<=0)||(Action=="drink" && State.Water<=0)) duration=ActionTime;
         }
         if(ActionTime<duration)return;
         if(Action=="wake"&&moveAfterWake){moveAfterWake=false;Roam();return;}
         if(Action=="land"){NewRest();SetAction("sit",1,"这里也很舒服");return;}
-        if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+28,0,100);ScheduleNext("litter");RefreshAvailability();Dirty=true;SetAction("bury",3,"把猫砂埋好");return;}
+        if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);ScheduleNext("litter");RefreshAvailability();Dirty=true;SetAction("bury",3,"把猫砂埋好");return;}
         if(Action=="bury") {Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
         if(manualSequence){FinishManualSequence();return;}
         tree.Tick();
@@ -297,7 +310,8 @@ public sealed partial class PetEngine
     private void Go(Spot destination,string next,string reason)
     {
         moveAfterWake=false;
-        target=destination;arrival=next;SetAction("walk",double.MaxValue,reason);
+        target=destination;if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
+        arrival=next;SetAction("walk",double.MaxValue,reason);
     }
     private void Arrive()
     {
@@ -333,11 +347,14 @@ public sealed partial class PetEngine
     public void Refill(string kind)
     {
         LastInteraction=Now;
-        if(kind=="food")State.Food=100;else if(kind=="water")State.Water=100;else State.Litter=0;
+        if(kind=="food")State.Food=Math.Min(100,(SupplyLayers(State.Food)+1)*20);
+        else if(kind=="water")State.Water=Math.Min(100,(SupplyLayers(State.Water)+1)*20);
+        else State.Litter=Math.Max(0,(SupplyLayers(State.Litter)-1)*20);
         RefreshAvailability();
         if(State.CareRequest==kind)FinishRequest();
         Dirty=true;
     }
+    public static int SupplyLayers(double quantity)=>(int)Math.Ceiling(Math.Clamp(quantity,0,100)/20);
     public void Recall() {BeginManualSequence();nightRestUntil=Now+300;State.X=Math.Clamp(Nest.X-115,65,Width-65);State.Y=Math.Clamp(Nest.Y-70,140,Height-60);NewRest();SetAction("sit",3,"回到小窝附近");}
     public void Demo(string action)
     {
@@ -346,7 +363,7 @@ public sealed partial class PetEngine
         else if(action=="drink"){State.Thirst=65;Go(WaterSpot,"drink","演示：去喝水");}
         else if(action=="toilet"){Go(LitterSpot,"toilet","演示：去猫砂盆");}
         else if(action=="sleep")Go(Nest,"sleep","回窝睡觉");
-        else SetAction("cute",5,"演示：卖个萌");
+        else {FinishManualSequence();}
     }
 }
 

@@ -1,0 +1,16 @@
+{
+  "folder": "03-正面左右歪头",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 5,
+  "number": "03",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\03-左右歪头.mp4",
+  "source": "source.mp4",
+  "sha256": "54f6d4883b093f4b14e2fad6ec21f114d80c5264dd5fac96a5bfd5cb98cc17dd",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

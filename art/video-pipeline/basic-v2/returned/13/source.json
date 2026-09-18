@@ -1,0 +1,16 @@
+{
+  "folder": "13-向左停步",
+  "start": "WL",
+  "end": "SL",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "13",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\13-向左停止.mp4",
+  "source": "source.mp4",
+  "sha256": "aca26593cffc1cc0ddb03f108caf13627efc042821502337a9f864bf66290618",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

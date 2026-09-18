@@ -1,0 +1,16 @@
+{
+  "folder": "07-朝右转正面坐下",
+  "start": "SR",
+  "end": "F",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "07",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\07-右转坐下.mp4",
+  "source": "source.mp4",
+  "sha256": "db9f4adecd8aeef85670506f34d44ff601e61f885f527b5151f604a916bf5459",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

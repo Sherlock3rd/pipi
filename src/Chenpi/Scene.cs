@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Globalization;
 using System.IO;
 using System.Text.Json;
+using System.Threading.Tasks;
+using System.Linq;
 using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
@@ -39,10 +41,41 @@ internal sealed class Scene : FrameworkElement
     private static readonly Dictionary<(string,double,string),FormattedText> labels=new();
     private readonly System.Diagnostics.Stopwatch watch=System.Diagnostics.Stopwatch.StartNew();
     private readonly Dictionary<string,List<BitmapImage>> frames=new();
+    private readonly Dictionary<string,List<string>> framePaths=new();
+    private readonly Queue<string> decodedClips=new();
+    private List<BitmapImage>? GetFrames(string id)
+    {
+        if(frames.TryGetValue(id,out var cached))return cached;
+        if(!framePaths.TryGetValue(id,out var paths))return null;
+        var images=new List<BitmapImage>();
+        foreach(var full in paths)
+        {
+            var bitmap=new BitmapImage();bitmap.BeginInit();bitmap.CacheOption=BitmapCacheOption.OnLoad;
+            bitmap.UriSource=new Uri(full);bitmap.EndInit();bitmap.Freeze();images.Add(bitmap);
+        }
+        frames[id]=images;decodedClips.Enqueue(id);
+        while(decodedClips.Count>3)frames.Remove(decodedClips.Dequeue());
+        return images;
+    }
     private readonly AnimationVariants variants=new();
     private readonly SpritePlayback playback=new();
+    private BitmapImage? lastSprite,blendFrom;
+    private SpriteClip? lastDefinition,blendDefinition;
+    private string lastSpriteClip="";
+    private double blendStarted;
+    private static BitmapImage? LoadProp(string name)
+    {
+        string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
+        if(!File.Exists(path))return null;
+        var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;
+        image.UriSource=new Uri(path);image.EndInit();image.Freeze();return image;
+    }
+    private static readonly BitmapImage? foodBowl=LoadProp("food-bowl-empty"),kibble=LoadProp("kibble"),waterCup=LoadProp("water-cup-empty");
     public string DisplayedClip {get;private set;}="";
     public int DisplayedFrame {get;private set;}
+    public List<object> ClipTransitions {get;}=new();
+    public bool PreviewRightWalk {get;set;}
+    public bool PreviewSupplies {get;set;}
     private long spriteRevision=-1;
     private AnimationVariant? selectedVariant;
     private double fps=8;
@@ -54,6 +87,8 @@ internal sealed class Scene : FrameworkElement
         Engine=engine;shownFood=engine.State.Food;shownWater=engine.State.Water;Focusable=false;Cursor=Cursors.Arrow;
         RenderOptions.SetBitmapScalingMode(this,BitmapScalingMode.HighQuality);
         LoadSprites();
+        Engine.CanAdvanceMovement=null;
+        Engine.VisualVelocity=playback.HorizontalVelocity;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
         playback.Reset();
@@ -73,19 +108,30 @@ internal sealed class Scene : FrameworkElement
             {
                 try
                 {
-                var images=new List<BitmapImage>();
+                var images=new List<string>();
                 foreach(var frame in property.Value.EnumerateArray())
                 {
                     string full=Path.GetFullPath(Path.Combine(root,frame.GetString()!));
                     if(!full.StartsWith(root,StringComparison.OrdinalIgnoreCase)||!full.EndsWith(".png",StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Invalid frame path");
-                    var bitmap=new BitmapImage();bitmap.BeginInit();bitmap.CacheOption=BitmapCacheOption.OnLoad;bitmap.UriSource=new Uri(full);bitmap.EndInit();bitmap.Freeze();images.Add(bitmap);
+                    if(!File.Exists(full))throw new FileNotFoundException(full);images.Add(full);
                 }
-                if(images.Count>0)frames[property.Name]=images;
+                if(images.Count>0)framePaths[property.Name]=images;
                 }
                 catch(Exception ex){System.Diagnostics.Trace.WriteLine("Animation fallback: "+property.Name+": "+ex.Message);}
             }
-            variants.Load(doc.RootElement,id=>frames.ContainsKey(id));
-            playback.Load(doc.RootElement,id=>frames.TryGetValue(id,out var set)?set.Count:0);
+            variants.Load(doc.RootElement,id=>framePaths.ContainsKey(id));
+            playback.Load(doc.RootElement,id=>framePaths.TryGetValue(id,out var set)?set.Count:0);
+            // Decode before showing the window. Switching a clip does zero disk IO/decode.
+            Parallel.ForEach(framePaths.Where(p=>p.Key.StartsWith("video-",StringComparison.Ordinal)),
+                new ParallelOptions{MaxDegreeOfParallelism=2},entry=>{
+                    var decoded=new List<BitmapImage>();
+                    foreach(string file in entry.Value)
+                    {
+                        var bitmap=new BitmapImage();bitmap.BeginInit();bitmap.CacheOption=BitmapCacheOption.OnLoad;
+                        bitmap.DecodePixelWidth=192;bitmap.UriSource=new Uri(file);bitmap.EndInit();bitmap.Freeze();decoded.Add(bitmap);
+                    }
+                    lock(frames)frames[entry.Key]=decoded;
+                });
         }
         catch(Exception ex){System.Diagnostics.Trace.WriteLine("Sprite fallback: "+ex.Message);}
     }
@@ -130,9 +176,9 @@ internal sealed class Scene : FrameworkElement
         Cursor=Cursors.Arrow;if(IsMouseCaptured)ReleaseMouseCapture();SaveNow?.Invoke();
     }
     private Point World(Point p)=>new(p.X/Scale,p.Y/Scale);
-    private Rect CatRect=>Engine.State.Sleeping&&DisplayedClip!="sit-to-sleep"&&DisplayedClip!="move-to-sit"?new(Engine.State.X-68,Engine.State.Y-94,136,101):new(Engine.State.X-85,Engine.State.Y-158,170,170);
+    private Rect CatRect=>Engine.State.Sleeping&&(DisplayedClip is "sleep" or "video-20")?new(Engine.State.X-68,Engine.State.Y-94,136,101):new(Engine.State.X-85,Engine.State.Y-158,170,170);
     private Rect NestRect=>new(Engine.Nest.X-82,Engine.Nest.Y-94,164,119);
-    private Rect ObjectRect(Spot p,double w=92)=>new(p.X-w/2,p.Y-28,w,62);
+    private Rect ObjectRect(Spot p,double w=92)=>new(p.X-w/2,p==Engine.FoodSpot||p==Engine.WaterSpot?p.Y-62:p.Y-28,w,p==Engine.FoodSpot||p==Engine.WaterSpot?96:62);
     private Rect SettingsRect=>new(Engine.Nest.X+59,Engine.Nest.Y-123,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
@@ -193,9 +239,25 @@ internal sealed class Scene : FrameworkElement
     {
         long started=System.Diagnostics.Stopwatch.GetTimestamp();
         base.OnRender(dc);dc.PushTransform(new ScaleTransform(Scale,Scale));
+        if(PreviewSupplies)
+        {
+            for(int n=0;n<=5;n++)
+            {
+                double x=80+n*150;
+                DrawBowl(dc,new Spot(x,140),n*20,false,0);
+                DrawBowl(dc,new Spot(x,250),n*20,true,0);
+                DrawLitterLevel(dc,new Spot(x,360),n*20);
+            }
+            dc.Pop();return;
+        }
+        if(PreviewRightWalk)
+        {
+            DrawCat(dc,100+(Engine.Now*45)%Math.Max(1,WorldWidth-200),WorldHeight*.66,"walk",Engine.Now,false);
+            dc.Pop();return;
+        }
         DrawNest(dc,false);
-        DrawBowl(dc,Engine.FoodSpot,shownFood,false,Engine.Now);
-        DrawBowl(dc,Engine.WaterSpot,shownWater,true,Engine.Now);
+        DrawBowl(dc,Engine.FoodSpot,Engine.State.Food,false,Engine.Now);
+        DrawBowl(dc,Engine.WaterSpot,Engine.State.Water,true,Engine.Now);
         DrawLitter(dc);
         DrawCat(dc,Engine.State.X,Engine.State.Y-lift,Engine.Action,Engine.ActionTime,Engine.FacingLeft);
         if(Engine.State.Sleeping&&Engine.State.SleepingInNest)DrawNest(dc,true);
@@ -238,6 +300,39 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawBowl(DrawingContext dc,Spot p,double fill,bool water,double time)
     {
+        int layers=PetEngine.SupplyLayers(fill);
+        if(water&&waterCup is not null)
+        {
+            dc.DrawImage(waterCup,new Rect(p.X-60,p.Y-70,120,120));
+            if(layers>0)
+            {
+                dc.PushClip(new EllipseGeometry(new Point(p.X,p.Y-29),37,16));
+                double y=p.Y-18-layers*2,rx=20+layers*3,ry=4+layers*1.7;
+                dc.DrawEllipse(Brush("#889CCFD3"),new Pen(Brush("#AAB4D8D6"),.6),new Point(p.X,y),rx,ry);
+                dc.DrawLine(new Pen(Brush("#CDEDF5EA"),.9),new Point(p.X-rx*.5,y-ry*.2),new Point(p.X-rx*.12,y-ry*.35));
+                dc.DrawLine(new Pen(Brush("#88EDF5EA"),.6),new Point(p.X+rx*.25,y+ry*.2),new Point(p.X+rx*.5,y+ry*.13));
+                dc.Pop();
+            }
+            return;
+        }
+        if(!water&&foodBowl is not null&&kibble is not null)
+        {
+            dc.DrawImage(foodBowl,new Rect(p.X-60,p.Y-73,120,120));
+            dc.PushClip(new EllipseGeometry(new Point(p.X,p.Y-26),36,25));
+            // Back rows first; independent pellets overlap into a five-tier pile.
+            for(int layer=layers-1;layer>=0;layer--)
+            {
+                int count=5+layer*2;
+                for(int i=0;i<count;i++)
+                {
+                    double x=p.X+(i-(count-1)/2d)*5.3+(layer%2==0?0:1.5);
+                    double y=p.Y-11-layer*5+(i%3-1)*1.2;
+                    dc.PushTransform(new RotateTransform((i*37+layer*17)%50-25,x,y));
+                    dc.DrawImage(kibble,new Rect(x-9,y-8,18,16));dc.Pop();
+                }
+            }
+            dc.Pop();return;
+        }
         Shadow(dc,p.X,p.Y+25,48,8);
         var body=water?"#9EBABB":"#CDB18D";var rim=water?"#D0E1DD":"#ECDBC1";
         Geometry(dc,$"M {p.X-41},{p.Y-8} L {p.X-32},{p.Y+25} Q {p.X},{p.Y+38} {p.X+32},{p.Y+25} L {p.X+41},{p.Y-8} Z",body);
@@ -247,7 +342,7 @@ internal sealed class Scene : FrameworkElement
         {
             if(water)
             {
-                double level=fill/100;
+                double level=layers/5d;
                 dc.DrawEllipse(Brush("#9DD7DF"),null,new Point(p.X,p.Y-1-level*5),18+level*14,2+level*8);
                 dc.DrawLine(new Pen(Brush("#DDF6F1"),1.5),new Point(p.X-12+Math.Sin(time*2)*2,p.Y-2-level*5),new Point(p.X+1+Math.Sin(time*2)*2,p.Y-2-level*5));
             }
@@ -256,28 +351,48 @@ internal sealed class Scene : FrameworkElement
     }
     private void DrawLitter(DrawingContext dc)
     {
-        var p=Engine.LitterSpot;Shadow(dc,p.X,p.Y+26,59,9);
+        DrawLitterLevel(dc,Engine.LitterSpot,Engine.State.Litter);
+    }
+    private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity)
+    {
+        Shadow(dc,p.X,p.Y+26,59,9);
         dc.DrawRoundedRectangle(Brush("#A4AF9C"),new Pen(Brush("#79836F"),1.5),new Rect(p.X-56,p.Y-27,112,56),15,15);
         dc.DrawRoundedRectangle(Brush("#E3D8BE"),new Pen(Brush("#C2B79C"),1),new Rect(p.X-47,p.Y-21,94,32),11,11);
         for(int i=0;i<25;i++)dc.DrawEllipse(Brush("#C5B79B"),null,new Point(p.X-39+(i*17%78),p.Y-15+(i*11%21)),1.5,1);
-        for(int i=0;i<(int)Math.Ceiling(Engine.State.Litter/30);i++)dc.DrawEllipse(Brush("#8D7560"),null,new Point(p.X-28+i*20,p.Y-5+(i%2)*6),8,5);
+        for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)dc.DrawEllipse(Brush("#8D7560"),null,new Point(p.X-32+i*16,p.Y-5+(i%2)*6),8,5);
     }
     private void DrawCat(DrawingContext dc,double x,double y,string action,double time,bool left)
     {
         if(action==Engine.Action&&spriteRevision!=Engine.ActionRevision)
         {spriteRevision=Engine.ActionRevision;selectedVariant=variants.Choose(action);}
         var variant=action==Engine.Action?selectedVariant:null;
-        var sample=playback.Sample(action,Engine.Now);
-        if(variant is null&&sample is SpriteFrame sprite&&frames.TryGetValue(sprite.Clip,out var generated))
+        var sample=playback.Sample(action,Engine.Now,left);
+        if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;
-            dc.PushTransform(new TranslateTransform(x,y));if(left)dc.PushTransform(new ScaleTransform(-1,1));
+            if(lastSpriteClip!=sprite.Clip)
+            {
+                blendFrom=lastSprite;blendDefinition=lastDefinition;blendStarted=Engine.Now;lastSpriteClip=sprite.Clip;
+                if(ClipTransitions.Count>=100)ClipTransitions.RemoveAt(0);
+                ClipTransitions.Add(new {Time=Engine.Now,Clip=sprite.Clip,X=x,Y=y});
+            }
+            bool mirror=left&&definition.MirrorWithFacing;
+            dc.PushTransform(new TranslateTransform(x,y));if(mirror)dc.PushTransform(new ScaleTransform(-1,1));
+            double blend=Math.Clamp((Engine.Now-blendStarted)/.10,0,1);
+            if(blend<1&&blendFrom is not null&&blendDefinition is not null)
+            {
+                dc.DrawImage(blendFrom,new Rect(-blendDefinition.Width*blendDefinition.AnchorX,-blendDefinition.Height*blendDefinition.AnchorY,blendDefinition.Width,blendDefinition.Height));
+                dc.PushOpacity(blend);
+            }
             dc.DrawImage(generated[sprite.Index],new Rect(-definition.Width*definition.AnchorX,-definition.Height*definition.AnchorY,definition.Width,definition.Height));
-            if(left)dc.Pop();dc.Pop();return;
+            if(blend<1&&blendFrom is not null&&blendDefinition is not null)dc.Pop();
+            lastSprite=generated[sprite.Index];lastDefinition=definition;
+            if(mirror)dc.Pop();dc.Pop();return;
         }
+        lastSprite=null;lastDefinition=null;lastSpriteClip="";
         DisplayedClip=variant?.Id??action;DisplayedFrame=0;
-        if(frames.TryGetValue(variant?.Id??action,out var set)&&set.Count>0)
+        if(GetFrames(variant?.Id??action) is {} set&&set.Count>0)
         {
             dc.PushTransform(new TranslateTransform(x,y));if(left)dc.PushTransform(new ScaleTransform(-1,1));
             double index=Math.Floor(time*(variant?.Fps??fps));
@@ -330,7 +445,7 @@ internal sealed class Scene : FrameworkElement
             Geometry(dc,"M 21,-22 L 32,-34 L 32,-15 Z","#C1A4A7");
             dc.DrawEllipse(fur,outline,new Point(0,0),45,34);
             dc.DrawEllipse(light,null,new Point(-10,10),27,18);
-            bool eyesClosed=action is "pet" or "cute" or "rub" or "roll" or "care-thanks"||bow||(time%6>5.75);
+            bool eyesClosed=action is "pet" or "rub" or "roll" or "care-thanks"||bow||(time%6>5.75);
             for(int i=0;i<2;i++)
             {
                 double eyeX=-21+i*40;
@@ -346,7 +461,7 @@ internal sealed class Scene : FrameworkElement
             Geometry(dc,"M 0,15 Q -5,23 -10,17 M 0,15 Q 5,23 10,17",null,"#586172",1.5);
             for(int i=0;i<2;i++){Line(dc,-26,13+i*5,-48,8+i*13,"#C8D0DA",1);Line(dc,26,13+i*5,48,8+i*13,"#C8D0DA",1);}
             dc.Pop();
-            if(action is "pet" or "cute" or "rub" or "roll" or "care-thanks")Label(dc,"♥",38,-132+Math.Sin(time*3)*5,25,"#DC9A91",true);
+            if(action is "pet" or "rub" or "roll" or "care-thanks")Label(dc,"♥",38,-132+Math.Sin(time*3)*5,25,"#DC9A91",true);
             if(action is "request-food" or "request-water" or "request-litter" or "guide-food" or "guide-water" or "guide-litter")
             {
                 // Wordless signals: point, lick lips, or paw at the ground.

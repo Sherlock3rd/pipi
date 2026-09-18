@@ -1,0 +1,16 @@
+{
+  "folder": "19-侧坐入睡",
+  "start": "I",
+  "end": "C",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "19",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\19-右转睡.mp4",
+  "source": "source.mp4",
+  "sha256": "2dd55689598825014e099f91e8352e34947ae7e541dce4bf3929dbdac30a6b3c",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

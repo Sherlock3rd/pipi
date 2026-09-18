@@ -1,0 +1,16 @@
+{
+  "folder": "02-正面左右看",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 5,
+  "number": "02",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\02-左右看.mp4",
+  "source": "source.mp4",
+  "sha256": "959c2872e284c240d7ee413e38852619e2c834cb316e4af40a310ea2c80759d5",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

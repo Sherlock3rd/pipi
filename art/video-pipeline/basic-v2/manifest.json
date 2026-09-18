@@ -1,0 +1,183 @@
+{
+  "status": "video-inputs-awaiting-user-generation",
+  "identity": "陈皮有轻微大小眼：自身左眼稍小；正面对镜头时是画面右侧眼睛稍小。只保留一点自然差异，不能夸张成眯眼、困倦或病眼。转头、转身与眨眼后恢复时，始终是自身左眼稍小，不能按画面左右重新分配，也不能因自动对称美化而抹掉。侧面受透视影响只见一眼时，不为展示大小眼强行扭正脸；闭眼睡姿不强行画出眼球。",
+  "anchors": {
+    "F": {
+      "file": "anchors/F-正面坐姿.png",
+      "sha256": "9a2b92eac7d796922f5329e60b1bafa4ed3fc6f07bce497999abff0a5d4a6b3e"
+    },
+    "SR": {
+      "file": "anchors/SR-朝右站姿.png",
+      "sha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb"
+    },
+    "SL": {
+      "file": "anchors/SL-朝左站姿.png",
+      "sha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874"
+    },
+    "WR": {
+      "file": "anchors/WR-右行相位.png",
+      "sha256": "6d8e75b90f531e2b15744669a7dac68483f22fdd2d808298759d690dd991e5f0"
+    },
+    "WL": {
+      "file": "anchors/WL-左行相位.png",
+      "sha256": "2f23e94933f17b782acc3c28852ad87e92133bd13ea355646cd89fa0e51d8603"
+    },
+    "I": {
+      "file": "anchors/I-侧坐.png",
+      "sha256": "4433e437d8ab2c0cea483212205332efd8dbaa2b1aa6f8dca17a911c2c672edc"
+    },
+    "C": {
+      "file": "anchors/C-蜷睡.png",
+      "sha256": "7900eb6c6e685dbf989b3b0f39303976a69df9b2661eded633e41b51845f81b8"
+    }
+  },
+  "actions": [
+    {
+      "folder": "01-正面眨眼",
+      "start": "F",
+      "end": "F",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "02-正面左右看",
+      "start": "F",
+      "end": "F",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "03-正面左右歪头",
+      "start": "F",
+      "end": "F",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "04-抬头看主人",
+      "start": "F",
+      "end": "F",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "05-正面耳尾微动",
+      "start": "F",
+      "end": "F",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "06-正面起身朝右",
+      "start": "F",
+      "end": "SR",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "07-朝右转正面坐下",
+      "start": "SR",
+      "end": "F",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "08-正面起身朝左",
+      "start": "F",
+      "end": "SL",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "09-朝左转正面坐下",
+      "start": "SL",
+      "end": "F",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "10-向右起步",
+      "start": "SR",
+      "end": "WR",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "11-向右停步",
+      "start": "WR",
+      "end": "SR",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "12-向左起步",
+      "start": "SL",
+      "end": "WL",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "13-向左停步",
+      "start": "WL",
+      "end": "SL",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "14-向左行走循环",
+      "start": "WL",
+      "end": "WL",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "15-朝右转朝左",
+      "start": "SR",
+      "end": "SL",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "16-朝左转朝右",
+      "start": "SL",
+      "end": "SR",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "17-正面转侧坐",
+      "start": "F",
+      "end": "I",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "18-侧坐转正面",
+      "start": "I",
+      "end": "F",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "19-侧坐入睡",
+      "start": "I",
+      "end": "C",
+      "type": "过渡",
+      "seconds": 5
+    },
+    {
+      "folder": "20-蜷睡呼吸",
+      "start": "C",
+      "end": "C",
+      "type": "循环",
+      "seconds": 5
+    },
+    {
+      "folder": "21-睡醒侧坐",
+      "start": "C",
+      "end": "I",
+      "type": "过渡",
+      "seconds": 5
+    }
+  ]
+}

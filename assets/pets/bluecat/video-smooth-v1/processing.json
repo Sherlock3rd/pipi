@@ -1,0 +1,203 @@
+{
+  "clips": [
+    {
+      "clip": "video-01",
+      "sourceFrames": [
+        0,
+        120
+      ],
+      "fps": 24,
+      "duration": 5.041666666666667
+    },
+    {
+      "clip": "video-02",
+      "sourceFrames": [
+        0,
+        120
+      ],
+      "fps": 24,
+      "duration": 5.041666666666667
+    },
+    {
+      "clip": "video-03",
+      "sourceFrames": [
+        0,
+        120
+      ],
+      "fps": 24,
+      "duration": 5.041666666666667
+    },
+    {
+      "clip": "video-04",
+      "sourceFrames": [
+        0,
+        120
+      ],
+      "fps": 24,
+      "duration": 5.041666666666667
+    },
+    {
+      "clip": "video-05",
+      "sourceFrames": [
+        0,
+        120
+      ],
+      "fps": 24,
+      "duration": 5.041666666666667
+    },
+    {
+      "clip": "video-06",
+      "sourceFrames": [
+        0,
+        90
+      ],
+      "fps": 36,
+      "duration": 2.5277777777777777
+    },
+    {
+      "clip": "video-07",
+      "sourceFrames": [
+        0,
+        103
+      ],
+      "fps": 30,
+      "duration": 3.466666666666667
+    },
+    {
+      "clip": "video-08",
+      "sourceFrames": [
+        0,
+        96
+      ],
+      "fps": 36,
+      "duration": 2.6944444444444446
+    },
+    {
+      "clip": "video-09",
+      "sourceFrames": [
+        0,
+        103
+      ],
+      "fps": 30,
+      "duration": 3.466666666666667
+    },
+    {
+      "clip": "video-10",
+      "sourceFrames": [
+        12,
+        96
+      ],
+      "fps": 36,
+      "duration": 2.361111111111111
+    },
+    {
+      "clip": "video-11",
+      "sourceFrames": [
+        8,
+        86
+      ],
+      "fps": 36,
+      "duration": 2.1944444444444446
+    },
+    {
+      "clip": "video-12",
+      "sourceFrames": [
+        12,
+        96
+      ],
+      "fps": 36,
+      "duration": 2.361111111111111
+    },
+    {
+      "clip": "video-13",
+      "sourceFrames": [
+        8,
+        86
+      ],
+      "fps": 36,
+      "duration": 2.1944444444444446
+    },
+    {
+      "clip": "video-14",
+      "sourceFrames": [
+        0,
+        119
+      ],
+      "fps": 24,
+      "duration": 5.0
+    },
+    {
+      "clip": "video-15",
+      "sourceFrames": [
+        6,
+        105
+      ],
+      "fps": 36,
+      "duration": 2.7777777777777777
+    },
+    {
+      "clip": "video-16",
+      "sourceFrames": [
+        6,
+        105
+      ],
+      "fps": 36,
+      "duration": 2.7777777777777777
+    },
+    {
+      "clip": "video-17",
+      "sourceFrames": [
+        4,
+        112
+      ],
+      "fps": 30,
+      "duration": 3.6333333333333333
+    },
+    {
+      "clip": "video-18",
+      "sourceFrames": [
+        4,
+        112
+      ],
+      "fps": 30,
+      "duration": 3.6333333333333333
+    },
+    {
+      "clip": "video-19",
+      "sourceFrames": [
+        0,
+        112
+      ],
+      "fps": 30,
+      "duration": 3.7666666666666666
+    },
+    {
+      "clip": "video-20",
+      "sourceFrames": [
+        0,
+        120
+      ],
+      "fps": 24,
+      "duration": 5.041666666666667
+    },
+    {
+      "clip": "video-21",
+      "sourceFrames": [
+        0,
+        112
+      ],
+      "fps": 30,
+      "duration": 3.7666666666666666
+    },
+    {
+      "clip": "video-right",
+      "sourceFrames": [
+        0,
+        38
+      ],
+      "fps": 24,
+      "duration": 1.625
+    }
+  ],
+  "edgeMethod": "nearest-interior RGB decontamination + inward subpixel alpha coverage"
+}

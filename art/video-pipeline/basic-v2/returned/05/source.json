@@ -1,0 +1,16 @@
+{
+  "folder": "05-正面耳尾微动",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 5,
+  "number": "05",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\05-耳尾动.mp4",
+  "source": "source.mp4",
+  "sha256": "c9a5af4489ba4bedf89a6aa9fd594042ce1bc50a19c2e6fec3d33074d897aaf9",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

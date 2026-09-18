@@ -1,0 +1,16 @@
+{
+  "folder": "01-正面眨眼",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 5,
+  "number": "01",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\01-眨眼.mp4",
+  "source": "source.mp4",
+  "sha256": "5d29b817821fb53733a76784705dd3703982459ac9f34aff3bdc54bf9306d62f",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

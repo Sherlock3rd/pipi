@@ -1,0 +1,5 @@
+内置 image_gen 编辑原 water-cup.png，仅去掉杯内水面、水线和反光，补绘干燥金黄色内壁，保留杯子轮廓、彩点、木座、画风和透明背景。
+
+Edit only the inside of this illustrated yellow dotted cat drinking bowl: remove all water, waterline, ripples and watery reflections. Reveal a completely empty dry golden-yellow ceramic concave interior with matching soft gouache brush texture. Preserve the exact outer silhouette, round dots, colors, wooden holder, rim, original perspective, position and framing. Same square canvas and genuinely transparent alpha background. No food, no liquid, no new decorations or text. This empty vessel will receive a separate program-drawn water level overlay.
+
+运行时资源：assets/props/water-cup-empty.png。程序单独绘制五档水位，空杯不含水，点击添加一层，完整喝水减少一层。

@@ -1,0 +1,16 @@
+{
+  "folder": "20-蜷睡呼吸",
+  "start": "C",
+  "end": "C",
+  "type": "循环",
+  "seconds": 5,
+  "number": "20",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\20-睡觉.mp4",
+  "source": "source.mp4",
+  "sha256": "451c253bf745459076e9b3e9895ad136d195e446652b421e8a8789ea98c4e047",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

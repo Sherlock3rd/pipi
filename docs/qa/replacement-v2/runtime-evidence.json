@@ -1,0 +1,74 @@
+[
+  {
+    "route": "left",
+    "action": "walk",
+    "clip": "video-14",
+    "frame": 22,
+    "transitions": [
+      {
+        "Time": 0,
+        "Clip": "video-01",
+        "X": -1,
+        "Y": -1
+      },
+      {
+        "Time": 0,
+        "Clip": "video-08",
+        "X": 730.8823529411765,
+        "Y": 333.7647058823529
+      },
+      {
+        "Time": 2.7052606,
+        "Clip": "video-12",
+        "X": 713.0307057300677,
+        "Y": 333.7647058823529
+      },
+      {
+        "Time": 5.057390099999999,
+        "Clip": "video-14",
+        "X": 638.4986749363343,
+        "Y": 333.7647058823529
+      }
+    ],
+    "renderedFrames": 358,
+    "averageFrameMs": 16.750662745098037,
+    "maxFrameMs": 46.95460000000029,
+    "averageDrawMs": 0.42960831024930773
+  },
+  {
+    "route": "right-final",
+    "action": "walk",
+    "clip": "video-right",
+    "frame": 27,
+    "transitions": [
+      {
+        "Time": 0,
+        "Clip": "video-01",
+        "X": -1,
+        "Y": -1
+      },
+      {
+        "Time": 0,
+        "Clip": "video-06",
+        "X": 730.8823529411765,
+        "Y": 333.7647058823529
+      },
+      {
+        "Time": 2.5403796999999995,
+        "Clip": "video-10",
+        "X": 747.6654722441662,
+        "Y": 333.7647058823529
+      },
+      {
+        "Time": 4.8924662,
+        "Clip": "video-right",
+        "X": 818.6767407336584,
+        "Y": 333.7647058823529
+      }
+    ],
+    "renderedFrames": 358,
+    "averageFrameMs": 16.762204481792715,
+    "maxFrameMs": 33.314100000000124,
+    "averageDrawMs": 0.4360412742382272
+  }
+]

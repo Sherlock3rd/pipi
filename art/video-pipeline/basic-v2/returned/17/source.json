@@ -1,0 +1,16 @@
+{
+  "folder": "17-正面转侧坐",
+  "start": "F",
+  "end": "I",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "17",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\17-正面转右.mp4",
+  "source": "source.mp4",
+  "sha256": "a2dfe351fe68f01b565ff3125ddcc92c5489fc77a7cfdfc55b31c8d734e747fb",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

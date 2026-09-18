@@ -1,0 +1,16 @@
+{
+  "folder": "10-向右起步",
+  "start": "SR",
+  "end": "WR",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "10",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\10-向右起步.mp4",
+  "source": "source.mp4",
+  "sha256": "0f7617f7dee8ac12097b62061f94a5e9c9a02e904a18723aed24cce01bfe6f60",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

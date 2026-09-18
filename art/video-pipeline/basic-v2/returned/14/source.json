@@ -1,0 +1,16 @@
+{
+  "folder": "14-向左行走循环",
+  "start": "WL",
+  "end": "WL",
+  "type": "循环",
+  "seconds": 5,
+  "number": "14",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\14-向左走.mp4",
+  "source": "source.mp4",
+  "sha256": "5c9d3d8bb8a7998bb73c8d6c220ee56c96d675ad370f6b94c0044aaa858d3845",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

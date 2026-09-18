@@ -35,7 +35,7 @@ public sealed class AnimationVariants
                 var variant=entry.Deserialize<AnimationVariant>(new JsonSerializerOptions{PropertyNameCaseInsensitive=true});
                 if(variant is null||!variant.Enabled||string.IsNullOrWhiteSpace(variant.Id)||!double.IsFinite(variant.Fps)||variant.Fps<1||variant.Fps>30)continue;
                 bool allowed=variant.Group=="click"&&variant.BaseAction is "pet" or "paw" or "roll"
-                    ||variant.Group=="idle"&&variant.BaseAction is "idle" or "sit" or "cute";
+                    ||variant.Group=="idle"&&variant.BaseAction is "idle" or "sit";
                 if(allowed&&hasFrames(variant.Id)&&ids.Add(variant.Id))ready.Add(variant);
             }
             catch(JsonException){/* Ignore one unfinished entry without losing the other variants. */}

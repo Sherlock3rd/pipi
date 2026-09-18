@@ -1,0 +1,16 @@
+{
+  "folder": "08-正面起身朝左",
+  "start": "F",
+  "end": "SL",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "08",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\08-正面朝左.mp4",
+  "source": "source.mp4",
+  "sha256": "58df51754a8545ef08d998866093dcf69674670b09f519811a197b9c9a06e761",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

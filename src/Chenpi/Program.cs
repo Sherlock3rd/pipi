@@ -17,6 +17,11 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--video-review") is string reviewDirectory)
+        {
+            var reviewApp=new System.Windows.Application{ShutdownMode=ShutdownMode.OnMainWindowClose};
+            reviewApp.Run(new VideoReviewWindow(reviewDirectory,args));return;
+        }
         string? data=Option(args,"--data-dir");
         data??=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Chenpi");
         using var single=new Mutex(true,"Local\\Chenpi-"+Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(data)))[..16],out bool created);
@@ -71,6 +76,12 @@ internal sealed class PetWindow : Window
         if(Preview){Title="陈皮 · 交互预览";AllowsTransparency=false;WindowStyle=WindowStyle.SingleBorderWindow;Background=Color("#E6E8DF");ShowInTaskbar=true;ShowActivated=true;Width=820;Height=440;WindowStartupLocation=WindowStartupLocation.CenterScreen;}
         else FitScreen();
         scene=new Scene(engine){OpenSettings=ShowSettings,SaveNow=Save};Content=scene;
+        scene.PreviewSupplies=Preview&&args.Contains("--preview-supplies");
+        if(Preview&&args.Contains("--preview-walk"))
+        {
+            Title="陈皮 · 右移动视频预览";
+            scene.PreviewRightWalk=true;
+        }
         SourceInitialized+=(_,_)=>new WindowInteropHelper(this).EnsureHandle();
         Loaded+=OnLoaded;
         timer.Tick+=Tick;
@@ -83,7 +94,7 @@ internal sealed class PetWindow : Window
         menu.Items.Add("退出陈皮",null,(_,_)=>Dispatcher.Invoke(Quit));tray.ContextMenuStrip=menu;
         tray.DoubleClick+=(_,_)=>Dispatcher.Invoke(ShowSettings);
         engine.RequestedAttention+=OnRequestedAttention;
-        Closing+=(_,e)=>{if(!quitting){e.Cancel=true;hiddenByUser=true;}};
+        Closing+=(_,e)=>{if(!quitting){e.Cancel=true;if(Preview&&args.Contains("--preview-walk"))Dispatcher.BeginInvoke(new Action(Quit));else hiddenByUser=true;}};
     }
     private void OnRequestedAttention(){if(!engine.State.Muted&&!fullScreen&&!hiddenByUser)PlayMeow(engine.State.Volume);}
     private static System.Drawing.Icon MakeIcon()
@@ -99,12 +110,15 @@ internal sealed class PetWindow : Window
         initialized=true;
         if(!Preview)FitScreen();UpdateLayout();
         if(args.Contains("--floating"))engine.State.Floating=true;
-        ApplyLayer();scene.LayoutWorld();CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
+        ApplyLayer();scene.LayoutWorld();previousAnimation=animationClock.Elapsed.TotalSeconds;
+        if(Preview&&(args.Contains("--preview-motion")||args.Contains("--preview-motion-left")))
+        {engine.MoveObject("food",new Spot(engine.State.X+(args.Contains("--preview-motion-left")?-140:140),engine.State.Y));engine.Demo("eat");}
+        CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
         string? snapshot=Program.Option(args,"--snapshot");
         if(snapshot is not null)
         {
             double seconds=double.TryParse(Program.Option(args,"--snapshot-delay"),out var requested)?Math.Clamp(requested,1,60):2;
-            var shot=new DispatcherTimer{Interval=TimeSpan.FromSeconds(seconds)};shot.Tick+=(_,_)=>{shot.Stop();if(quitting)return;scene.SavePreview(snapshot);File.WriteAllText(snapshot+".json",System.Text.Json.JsonSerializer.Serialize(new{attached,parent=Native.GetParent(new WindowInteropHelper(this).Handle).ToInt64(),windowStatus,boot,awake=Native.AwakeSeconds,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,engine.State.X,engine.State.Y,engine.State.NestPosition,engine.State.FoodPosition,engine.State.WaterPosition,engine.State.LitterPosition,engine.State.RestDuration,engine.State.RestElapsed,engine.State.StillSeconds,engine.ToyHeld,engine.ToyOverlaps,scene.LiftTransitions,scene.MaxLiftTransitionMs,renderedFrames,averageFrameMs=renderedFrames>1?frameIntervals/(renderedFrames-1)*1000:0,maxFrameMs=maxFrameInterval*1000,averageDrawMs=scene.RenderMilliseconds/Math.Max(1,scene.RenderCount)}));if(args.Contains("--exit-after-snapshot"))Quit();};shot.Start();
+            var shot=new DispatcherTimer{Interval=TimeSpan.FromSeconds(seconds)};shot.Tick+=(_,_)=>{shot.Stop();if(quitting)return;scene.SavePreview(snapshot);File.WriteAllText(snapshot+".json",System.Text.Json.JsonSerializer.Serialize(new{attached,parent=Native.GetParent(new WindowInteropHelper(this).Handle).ToInt64(),windowStatus,boot,awake=Native.AwakeSeconds,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.ClipTransitions,engine.State.X,engine.State.Y,engine.State.NestPosition,engine.State.FoodPosition,engine.State.WaterPosition,engine.State.LitterPosition,engine.State.RestDuration,engine.State.RestElapsed,engine.State.StillSeconds,engine.ToyHeld,engine.ToyOverlaps,scene.LiftTransitions,scene.MaxLiftTransitionMs,renderedFrames,averageFrameMs=renderedFrames>1?frameIntervals/(renderedFrames-1)*1000:0,maxFrameMs=maxFrameInterval*1000,averageDrawMs=scene.RenderMilliseconds/Math.Max(1,scene.RenderCount)}));if(args.Contains("--exit-after-snapshot"))Quit();};shot.Start();
         }
         if(args.Contains("--settings"))ShowSettings();
     }
@@ -182,7 +196,7 @@ internal sealed class PetWindow : Window
         }
         if(!scene.IsInteracting&&(now-lastSave>10 ||engine.Dirty&&now-lastSave>2)){Save();lastSave=now;engine.Dirty=false;}
     }
-    internal static string ActionName(string action)=>action switch {"walk"=>"散步", "sleep"=>"睡觉", "eat"=>"吃饭", "drink"=>"喝水", "toilet"=>"上厕所", "bury"=>"埋猫砂", "drag"=>"被拎着", "pet"=>"撒娇", "wake"=>"伸懒腰", "cute"=>"卖萌","sit"=>"坐着休息","rub"=>"蹭鼠标","paw"=>"伸爪互动","roll"=>"翻肚皮",var x when x.StartsWith("toy-")=>"玩逗猫棒",var x when x.StartsWith("beg")=>"叫主人",_=>"发呆"};
+    internal static string ActionName(string action)=>action switch {"walk"=>"散步", "sleep"=>"睡觉", "eat"=>"吃饭", "drink"=>"喝水", "toilet"=>"上厕所", "bury"=>"埋猫砂", "drag"=>"被拎着", "pet"=>"撒娇", "wake"=>"伸懒腰","sit"=>"坐着休息","rub"=>"蹭鼠标","paw"=>"伸爪互动","roll"=>"翻肚皮",var x when x.StartsWith("toy-")=>"玩逗猫棒",var x when x.StartsWith("beg")=>"叫主人",_=>"发呆"};
     private void Save()
     {
         try{store.QueueSave(engine.State);}catch(Exception e){store.Log("save",e);}
@@ -227,9 +241,9 @@ internal sealed class PetWindow : Window
         body.Children.Add(Text("体验动作",14,"#394D47"));
         body.Children.Add(Text("按钮会优先执行对应动作。吃喝真实消耗库存，空盆请先补给，猫砂满时请先清理。",11));
         var demo=new WrapPanel();
-        foreach(var (label,action) in new[]{("吃饭","eat"),("喝水","drink"),("猫砂盆","toilet"),("回窝","sleep"),("卖萌","cute")})demo.Children.Add(Button(label,()=>RunCommand(()=>engine.Demo(action))));
+        foreach(var (label,action) in new[]{("吃饭","eat"),("喝水","drink"),("猫砂盆","toilet"),("回窝","sleep")})demo.Children.Add(Button(label,()=>RunCommand(()=>engine.Demo(action))));
         body.Children.Add(demo);
-        body.Children.Add(Text("点饭盆加粮 · 点水盆加水 · 点猫砂盆清理\n拖动物品可以搬家，位置会自动记住。\n点猫摸摸，长按或按住移动来拎起；拖进窝里松手睡觉。\n鼠标停在醒着的猫身上片刻，它会过来蹭蹭。\n点窝旁的羽毛棒拿起，靠近小猫逗它，再点一次归位。",12));
+        body.Children.Add(Text("点饭盆加一层粮 · 点水盆加一层水 · 点猫砂盆清理一层\n最多五层，吃喝或如厕一次变化一层。\n拖动物品可以搬家，位置会自动记住。\n点猫摸摸，长按或按住移动来拎起；拖进窝里松手睡觉。\n鼠标停在醒着的猫身上片刻，它会过来蹭蹭。\n点窝旁的羽毛棒拿起，靠近小猫逗它，再点一次归位。",12));
         layerStatus=Text(LayerDescription,11);body.Children.Add(layerStatus);
         body.Children.Add(Text("这是陈皮的体验版本，小猫外观还会继续完善。",11,"#9B7B5E"));
         body.Children.Add(Button("退出陈皮",Quit));

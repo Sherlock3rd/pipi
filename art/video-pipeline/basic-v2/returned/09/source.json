@@ -1,0 +1,16 @@
+{
+  "folder": "09-朝左转正面坐下",
+  "start": "SL",
+  "end": "F",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "09",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\09-左转坐下.mp4",
+  "source": "source.mp4",
+  "sha256": "599cae5e31d755b31cb46738476135b559b1ff263fa8d4b2aa3b282c0cbf71f5",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

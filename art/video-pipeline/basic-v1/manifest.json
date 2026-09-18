@@ -1,0 +1,112 @@
+{
+  "status": "anchors-prepared-for-user-video-generation",
+  "anchorApproval": "W approved through user right-walk preview; S/I/C newly generated and not yet video-validated",
+  "anchors": {
+    "W": {
+      "file": "anchors/W-右行.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "6d8e75b90f531e2b15744669a7dac68483f22fdd2d808298759d690dd991e5f0"
+    },
+    "S": {
+      "file": "anchors/S-站姿.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb"
+    },
+    "I": {
+      "file": "anchors/I-坐姿.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "4433e437d8ab2c0cea483212205332efd8dbaa2b1aa6f8dca17a911c2c672edc"
+    },
+    "C": {
+      "file": "anchors/C-蜷睡.png",
+      "size": [
+        1672,
+        941
+      ],
+      "sha256": "7900eb6c6e685dbf989b3b0f39303976a69df9b2661eded633e41b51845f81b8"
+    }
+  },
+  "actions": [
+    {
+      "folder": "01-待机眨眼",
+      "startAnchor": "I",
+      "endAnchor": "I",
+      "type": "循环",
+      "seconds": 5,
+      "keywords": "端坐、慢眨眼、轻呼吸"
+    },
+    {
+      "folder": "02-站立起步",
+      "startAnchor": "S",
+      "endAnchor": "W",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "重心前移、依次迈步、进入步态"
+    },
+    {
+      "folder": "03-行走停步",
+      "startAnchor": "W",
+      "endAnchor": "S",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "完成短步、四爪落地、平稳站住"
+    },
+    {
+      "folder": "04-站立坐下",
+      "startAnchor": "S",
+      "endAnchor": "I",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "前爪支撑、后腿弯曲、臀部坐实"
+    },
+    {
+      "folder": "05-坐稳发呆",
+      "startAnchor": "I",
+      "endAnchor": "I",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "肩部放松、安定坐姿、平视"
+    },
+    {
+      "folder": "06-坐姿起身",
+      "startAnchor": "I",
+      "endAnchor": "S",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "重心向前、后腿伸展、四脚站稳"
+    },
+    {
+      "folder": "07-坐姿入睡",
+      "startAnchor": "I",
+      "endAnchor": "C",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "俯胸、屈肘、蜷身、枕爪闭眼"
+    },
+    {
+      "folder": "08-蜷睡呼吸",
+      "startAnchor": "C",
+      "endAnchor": "C",
+      "type": "循环",
+      "seconds": 5,
+      "keywords": "蜷睡、浅呼吸、鼻尖枕点固定"
+    },
+    {
+      "folder": "09-睡醒坐起",
+      "startAnchor": "C",
+      "endAnchor": "I",
+      "type": "过渡",
+      "seconds": 5,
+      "keywords": "睁眼抬头、前爪撑起、恢复端坐"
+    }
+  ]
+}

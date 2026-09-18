@@ -1,0 +1,16 @@
+{
+  "folder": "21-睡醒侧坐",
+  "start": "C",
+  "end": "I",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "21",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\21-睡到右.mp4",
+  "source": "source.mp4",
+  "sha256": "b52940c8bade8749e83c316649e19908d8f5fec3d22e6f3b2a930d5a6463d11d",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

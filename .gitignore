@@ -19,4 +19,7 @@ artifacts/
 **/pet-state.json*
 *.user
 *.suo
+*.lnk
+# Rebuildable delivery archives; source assets and packaging tools are tracked.
+art/video-pipeline/*.zip
 # Cat reference photos are tracked with the user's explicit 2026-09-18 upload authorization.

@@ -7,7 +7,7 @@ e.Consume(true,4);Check(s.Food==food-4&&s.Hunger==30&&s.Water==water,"food event
 s.Water=2;e.Consume(false,8);Check(s.Water==0&&s.Thirst==37,"partial stock clamps and restores only actual intake");
 e.AdvanceNeeds(86400*10);Check(s.Hunger==100&&s.Thirst==100&&s.Water==0,"unattended needs capped, no penalty or negative inventory");
 e.Interact();Check(e.Action=="pet","interaction remains available with maximum needs");
-e.Refill("water");Check(s.Water==100&&s.Thirst==100,"refill does not directly remove thirst");
+e.Refill("water");Check(s.Water==20&&s.Thirst==100,"refill does not directly remove thirst");
 e.Nest=new Spot(500,300);e.BeginDrag();e.Drop(true);Check(e.Action=="sleep"&&s.X==500&&s.Sleeping,"drop into nest starts sleep");
 e.Interact();Check(e.Action=="wake"&&!s.Sleeping,"sleep can be woken by click");
 e.BeginDrag();e.Drop(false);Check(e.Action=="land"&&!s.Sleeping,"outside drop never sleeps");
@@ -16,7 +16,7 @@ Check(ClockMath.Elapsed("boot",100,"other",160)==(0d,true),"cross-boot gap flagg
 Check(ClockMath.Elapsed("",0,"boot",160)==(0d,false),"first launch does not inherit past uptime");
 var c=new PetState{X=100,Y=100,Food=100,Hunger=80};var p=new PetEngine(c){FoodSpot=new Spot(100,100)};
 p.Demo("eat");p.Update(.1,12);for(int i=0;i<12;i++)p.Update(.1,12);
-Check(c.Food==96,"one completed bite deducted exactly once");p.BeginDrag();for(int i=0;i<50;i++)p.Update(.1,12);Check(c.Food==96,"drag interrupts future bite events");
+Check(c.Food==95,"one completed bite deducted exactly once");p.BeginDrag();for(int i=0;i<50;i++)p.Update(.1,12);Check(c.Food==95,"drag interrupts future bite events");
 var t=new PetState{X=100,Y=100,Food=0,Water=0,Hunger=100,Thirst=100,Litter=100};var b=new PetEngine(t);
 int notices=0;b.RequestedAttention+=()=>notices++;
 b.AdvanceNeeds(301);for(int i=0;i<1200;i++)b.Update(.1,12);
@@ -85,10 +85,10 @@ toy.Sleep();toy.SetToy(true,toy.CatPlayCenter);toy.Update(.1,12);
 Check(toy.Action=="toy-bat"&&!toy.State.Sleeping,"near toy can wake sleeping cat directly into grabbing");
 var chase=new PetEngine(new PetState{X=600,Y=450,RestDuration=600},2);chase.Layout(1400,900);
 chase.SetToy(true,new Spot(900,385));chase.Update(.1,12);
-Check(chase.Action=="toy-run"&&!chase.ToyWithinCatchRange&&chase.State.X==624,"far toy in outer range uses run speed immediately");
-Advance(chase,2);
+Check(chase.Action=="toy-run"&&!chase.ToyWithinCatchRange&&Math.Abs(chase.State.X-(600+PetEngine.ToyRunSpeed*.1))<.0001,"far toy in outer range uses run speed immediately");
+Advance(chase,11);
 Check(chase.Action=="toy-bat"&&chase.ToyWithinCatchRange,"running automatically reaches inner range and grabs");
-var grabbedAt=new Spot(chase.State.X,chase.State.Y);Advance(chase,2);
+var grabbedAt=new Spot(chase.State.X,chase.State.Y);Advance(chase,11);
 Check(chase.Action=="toy-bat"&&new Spot(chase.State.X,chase.State.Y)==grabbedAt,"close grabbing stays put instead of timed run and pause cycling");
 chase.SetToy(true,new Spot(chase.State.X-250,chase.CatPlayCenter.Y));chase.Update(.1,12);
 Check(chase.Action=="toy-run"&&chase.FacingLeft&&chase.State.X<grabbedAt.X,"moving feather outside inner range immediately resumes chase in new direction");
@@ -119,7 +119,7 @@ Check(timed.Action!="drink"&&timedState.Water==80&&timedState.WaterClock.NextDue
 timed.AdvanceNeeds(1);timed.Update(.1,12);
 Check(timed.Action=="drink"&&timedState.Water==80,"due drink starts by reaching bowl and does not consume on arrival");
 Advance(timed,1.2);double nextDrink=timedState.WaterClock.NextDue;
-Check(timedState.Water==76&&nextDrink>=1200&&nextDrink<=2400&&timedState.FoodClock.NextDue==99999,"first actual sip resamples only its own timer");
+Check(timedState.Water==75&&nextDrink>=1200&&nextDrink<=2400&&timedState.FoodClock.NextDue==99999,"first actual sip resamples only its own timer");
 Advance(timed,3);Check(timedState.WaterClock.NextDue==nextDrink,"later sips in same visit do not redraw timer");
 var unhurriedState=new PetState{X=500,Y=400,Hunger=100,Thirst=100,Bladder=100,RestDuration=600,FoodClock=new(){NextDue=99999},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}};
 var unhurried=new PetEngine(unhurriedState,3);Advance(unhurried,10);
@@ -129,14 +129,14 @@ var offline=new PetEngine(offlineState,7){FoodSpot=new Spot(300,300),WaterSpot=n
 offline.AdvanceNeeds(86400);
 Check(offlineState.Food==80&&offlineState.Water==80&&offlineState.Litter==0,"offline overdue schedules do not replay consumption or toileting");
 Advance(offline,30);
-Check(offlineState.Food==64&&offlineState.Water==64&&offlineState.Litter==28,"long overdue gap leads to one real visit of each type, not a backlog");
+Check(offlineState.Food==60&&offlineState.Water==60&&offlineState.Litter==20,"long overdue gap leads to one real visit of each type, not a backlog");
 Check(offlineState.LitterClock.NextDue-86400 is >=3600 and <=7200,"completed toilet resamples sixty to one hundred twenty minutes");
 var requestState=new PetState{X=300,Y=300,Water=0,RestDuration=600};var requester=new PetEngine(requestState,9);requester.Layout(1400,900);
 requester.AdvanceNeeds(299);requester.Update(.1,12);
 Check(requestState.CareRequest is null,"empty resource waits a full five awake minutes before requesting");
 requester.AdvanceNeeds(1);requester.Update(.1,12);
 Check(requestState.CareRequest=="water"&&requester.Action=="request-walk","five-minute empty resource initiates bottom-center request walk");
-Advance(requester,15);
+Advance(requester,new Spot(requestState.X,requestState.Y).Distance(requester.RequestSpot)/PetEngine.WalkSpeed+1);
 Check(requester.Action=="request-water"&&new Spot(requestState.X,requestState.Y)==requester.RequestSpot,"requesting cat stands at screen bottom center");
 requester.ObservePointer(.01,true,requester.CatPlayCenter);
 Check(requestState.Guiding&&requester.Action=="guide-walk","hover immediately overrides request with guidance, without five-second rub delay");
@@ -149,7 +149,7 @@ var oldGoal=requester.GuideDestination("water");requester.MoveObject("water",new
 for(int i=0;i<2000&&(requester.Action!="guide-water"||new Spot(requestState.X,requestState.Y).Distance(requester.GuideDestination("water"))>2);i++){requester.ObservePointer(.1,false,requester.CatPlayCenter);requester.Update(.1,12);}
 Check(requester.Action=="guide-water"&&new Spot(requestState.X,requestState.Y)!=oldGoal,"moving the requested bowl retargets the guide");
 double stillThirsty=requestState.Thirst;requester.Refill("water");
-Check(requestState.CareRequest is null&&!requestState.Guiding&&requestState.Water==100&&requestState.Thirst==stillThirsty&&requestState.WaterClock.UnavailableSince is null,"refill ends guidance and clears shortage timer without directly relieving thirst");
+Check(requestState.CareRequest is null&&!requestState.Guiding&&requestState.Water==20&&requestState.Thirst==stillThirsty&&requestState.WaterClock.UnavailableSince is null,"refill ends guidance and clears shortage timer without directly relieving thirst");
 var partialLitter=new PetEngine(new PetState{X=500,Y=400,Litter=99,RestDuration=600,FoodClock=new(){NextDue=99999},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}},1);
 partialLitter.AdvanceNeeds(301);partialLitter.Update(.1,12);
 Check(partialLitter.State.CareRequest is null,"litter requests only when full, not at the old partial threshold");
@@ -170,10 +170,10 @@ finally{Directory.Delete(careFolder,true);}
 var movedTray=new PetEngine(new PetState{X=400,Y=400,Litter=0},8);movedTray.Layout(1200,800);
 movedTray.State.X=movedTray.LitterSpot.X;movedTray.State.Y=movedTray.LitterSpot.Y;
 movedTray.Demo("toilet");Advance(movedTray,4.3);
-Check(movedTray.Action=="bury"&&movedTray.State.Litter==28,"toileting commits once before burial");
+Check(movedTray.Action=="bury"&&movedTray.State.Litter==20,"toileting commits once before burial");
 double toiletDue=movedTray.State.LitterClock.NextDue;
 movedTray.MoveObject("litter",new Spot(500,500));Advance(movedTray,30);
-Check(movedTray.State.Litter==28&&movedTray.State.LitterClock.NextDue==toiletDue,"moving litter during burial does not repeat toilet or resample its clock");
+Check(movedTray.State.Litter==20&&movedTray.State.LitterClock.NextDue==toiletDue,"moving litter during burial does not repeat toilet or resample its clock");
 using var variantDoc=System.Text.Json.JsonDocument.Parse("""
 {"variants":[
  {"id":"pet-a","group":"click","baseAction":"pet","enabled":true,"fps":12},
@@ -217,7 +217,7 @@ Advance(overdueBed,2);Check(overdueBed.Action=="walk","needs can naturally wake 
 var pendingBed=RequestingCat();pendingBed.BeginDrag();pendingBed.Drop(true);Advance(pendingBed,16);
 Check(pendingBed.State.CareRequest=="food","shortage request resumes after protected sleep without losing its timer");
 bool allDemosComplete=true;
-foreach(string debugAction in new[]{"eat","drink","toilet","sleep","cute"})
+foreach(string debugAction in new[]{"eat","drink","toilet","sleep"})
 {
  var demoPet=RequestingCat();
  if(debugAction=="eat") {demoPet.Refill("food");demoPet.State.Water=0;demoPet.State.WaterClock.UnavailableSince=0;demoPet.Update(.1,12);}
@@ -230,8 +230,8 @@ foreach(string debugAction in new[]{"eat","drink","toilet","sleep","cute"})
  }
  allDemosComplete&=reached&&demoPet.State.CareRequest is null&&!demoPet.State.Guiding;
  if(debugAction is "eat" or "drink")
- {Advance(demoPet,4.8);allDemosComplete&=(debugAction=="eat"?demoPet.State.Food:demoPet.State.Water)==wantedStock-16;}
- else if(debugAction=="toilet") {Advance(demoPet,7.2);allDemosComplete&=demoPet.State.Litter==48;}
+ {Advance(demoPet,4.8);allDemosComplete&=(debugAction=="eat"?demoPet.State.Food:demoPet.State.Water)==wantedStock-20;}
+ else if(debugAction=="toilet") {Advance(demoPet,7.2);allDemosComplete&=demoPet.State.Litter==40;}
  else if(debugAction=="sleep") {Advance(demoPet,10);allDemosComplete&=demoPet.Action=="sleep"&&demoPet.State.SleepingInNest;}
  else {Advance(demoPet,2);allDemosComplete&=demoPet.Action=="cute";}
 }
@@ -286,6 +286,74 @@ var noTransitions=new SpritePlayback();noTransitions.Load(motionDoc.RootElement,
 noTransitions.Sample("walk",0);Check(noTransitions.Sample("sit",1)?.Clip=="idle","missing transition cannot freeze the cat");
 Check(motion.Sample("idle",double.NaN) is null,"invalid presentation clock does not select a corrupt frame");
 var leftArrival=new PetEngine(new PetState{X=400,Y=400},1){FoodSpot=new Spot(300,400)};
-leftArrival.Demo("eat");for(int i=0;i<40&&leftArrival.Action=="walk";i++)leftArrival.Update(.1,12);
+leftArrival.Demo("eat");for(int i=0;i<60&&leftArrival.Action=="walk";i++)leftArrival.Update(.1,12);
 Check(leftArrival.Action=="eat"&&leftArrival.FacingLeft,"leftward movement preserves facing on the exact arrival frame");
+using var rightDoc=System.Text.Json.JsonDocument.Parse("""
+{"clips":{"walk":{"fps":24,"loop":true},"walk-right":{"fps":18.46153846153846,"loop":true},"idle":{"fps":15,"loop":true},"move-to-sit":{"fps":24,"loop":false}}}
+""");
+var rightMotion=new SpritePlayback();rightMotion.Load(rightDoc.RootElement,id=>id=="walk-right"?30:24);
+Check(rightMotion.Sample("walk",0,false)?.Clip=="walk-right"&&rightMotion.Sample("guide-walk",.5,false)?.Index==9,"right video is selected and remains continuous across movement aliases");
+Check(rightMotion.Sample("walk",1.624,false)?.Index==29&&rightMotion.Sample("walk",1.626,false)?.Index==0,"right video preserves original 1.625 second cycle");
+Check(rightMotion.Sample("walk",2,true)?.Clip=="walk"&&rightMotion.Sample("walk",3,false)?.Clip=="walk-right","direction changes keep old left gait and new right gait separate");
+Check(rightMotion.Sample("sit",4)?.Clip=="move-to-sit","new right movement still transitions to sitting");
+var videoEntries=Enumerable.Range(1,21).ToDictionary(n=>"video-"+n.ToString("00"),n=>new {fps=24,loop=n<=5||n is 14 or 20,mirrorWithFacing=false});
+videoEntries["video-right"]=new {fps=24,loop=true,mirrorWithFacing=false};
+using var videoDoc=System.Text.Json.JsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new {videoGraph=true,clips=videoEntries}));
+var videos=new SpritePlayback();videos.Load(videoDoc.RootElement,id=>id=="video-right"?39:121);
+Check(videos.Sample("idle",0)?.Clip=="video-01"&&videos.Sample("sit",5.05)?.Clip=="video-02","front idle variants advance without resetting on rest decisions");
+Check(videos.Sample("walk",6,false)?.Clip=="video-06"&&videos.Sample("walk",11.05,false)?.Clip=="video-10"&&videos.Sample("walk",16.1,false)?.Clip=="video-right","right locomotion chains front rise and start before gait");
+Check(videos.Sample("walk",17,true)?.Clip=="video-11"&&videos.Sample("walk",22.05,true)?.Clip=="video-15"&&videos.Sample("walk",27.1,true)?.Clip=="video-12"&&videos.Sample("walk",32.15,true)?.Clip=="video-14","right to left uses stop, real turn, start and independent left gait");
+Check(videos.Sample("idle",33,true)?.Clip=="video-13"&&videos.Sample("idle",38.05,true)?.Clip=="video-09"&&videos.Sample("idle",43.1,true)?.Definition.MirrorWithFacing==false,"left arrival returns to front without swapping asymmetric eyes");
+Check(videos.Sample("sleep",44)?.Clip=="video-17"&&videos.Sample("sleep",49.05)?.Clip=="video-19"&&videos.Sample("sleep",54.1)?.Clip=="video-20","sleep chains side sit and curl before breath loop");
+Check(videos.Sample("wake",55)?.Clip=="video-21"&&videos.Sample("idle",60.05)?.Clip=="video-18","wake keeps wake-to-front transition after engine wake action ends");
+Check(videos.Sample("drag",60.1) is null&&videos.Sample("eat",60.2) is null,"direct interactions immediately interrupt video transitions");
+videos.Reset();Check(videos.Sample("sleep",0)?.Clip=="video-20","saved sleep opens directly in new sleep loop");
+videos.Reset();Check(videos.Sample("walk",0,true)?.Clip=="video-08"&&videos.Sample("walk",5.05,true)?.Clip=="video-12"&&videos.Sample("walk",10.1,true)?.Clip=="video-14","left departure uses its own rise and start");
+Check(videos.Sample("walk",11,false)?.Clip=="video-13"&&videos.Sample("walk",16.05,false)?.Clip=="video-16"&&videos.Sample("walk",21.1,false)?.Clip=="video-10","left to right uses true turn instead of image mirroring");
+var heldMotion=new PetEngine(new PetState{X=400,Y=400},1){FoodSpot=new Spot(300,400),CanAdvanceMovement=(_,_,_)=>false};
+heldMotion.Demo("eat");Advance(heldMotion,2);
+Check(heldMotion.State.X==400&&heldMotion.Now>=1.9&&heldMotion.Action=="walk","visual preparation holds position while simulation clock continues");
+heldMotion.BeginDrag();Check(heldMotion.Action=="drag","drag interrupts a position hold immediately");
+var portions=new PetEngine(new PetState{Food=0,Water=0,Litter=100,X=400,Y=400,RestDuration=3600},1);
+bool incremental=true;
+for(int i=1;i<=5;i++){portions.Refill("food");portions.Refill("water");portions.Refill("litter");incremental&=portions.State.Food==i*20&&portions.State.Water==i*20&&portions.State.Litter==100-i*20;}
+portions.Refill("food");portions.Refill("water");portions.Refill("litter");
+Check(incremental&&portions.State.Food==100&&portions.State.Water==100&&portions.State.Litter==0,"five clicks add five food/water layers or clean five litter layers with bounded endpoints");
+bool fiveMeals=true;
+for(int i=1;i<=5;i++)
+{
+ portions.FoodSpot=new Spot(portions.State.X,portions.State.Y);portions.Demo("eat");Advance(portions,5);
+ portions.WaterSpot=new Spot(portions.State.X,portions.State.Y);portions.Demo("drink");Advance(portions,5);
+ fiveMeals&=portions.State.Food==100-i*20&&portions.State.Water==100-i*20;
+}
+Check(fiveMeals,"a full food and water bowl each supports exactly five completed visits");
+Check(Enumerable.Range(0,6).Select(n=>PetEngine.SupplyLayers(n*20)).SequenceEqual(Enumerable.Range(0,6)),"visual stock has six discrete states from empty to five layers");
+videos.Reset();videos.Sample("walk",0,false);
+Check(videos.HorizontalVelocity("walk",2,false)>0,"rising footwork produces actual rightward velocity before walk loop");
+videos.Reset();videos.Sample("walk",0,true);
+Check(videos.HorizontalVelocity("walk",2,true)<0,"left rise footwork produces actual leftward velocity without mirroring");
+Check(PetEngine.ToyRunSpeed==PetEngine.WalkSpeed&&PetEngine.ToyRunSpeed<58,"toy movement is capped to the same gait speed as walking");
+var drifting=new PetEngine(new PetState{X=400,Y=400,RestDuration=600},1){FoodSpot=new Spot(600,400),VisualVelocity=(_,_,_)=>10};
+drifting.Demo("eat");drifting.Update(.1,12);
+Check(Math.Abs(drifting.State.X-401)<.001,"transition velocity moves world coordinates during rise rather than holding in place");
+drifting.BeginDrag();double heldX=drifting.State.X;Advance(drifting,1);
+Check(drifting.State.X==heldX,"drag cancels animation-driven world motion immediately");
+string runtimeManifest=Path.Combine(Directory.GetCurrentDirectory(),"assets","pets","bluecat","manifest.json");
+if(File.Exists(runtimeManifest))
+{
+ using var runtimeDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest));
+ var runtimeAnimations=runtimeDoc.RootElement.GetProperty("animations");var actualPlayback=new SpritePlayback();
+ actualPlayback.Load(runtimeDoc.RootElement,id=>runtimeAnimations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
+ var visited=new HashSet<string>();double playbackTime=0;bool framesValid=true;
+ void PlayRoute(string action,double seconds,bool left=false)
+ {
+  for(int i=0;i<seconds*40;i++)
+  {var frame=actualPlayback.Sample(action,playbackTime,left);if(frame is SpriteFrame f){visited.Add(f.Clip);framesValid&=f.Index>=0&&f.Index<f.Definition.Count&&!f.Definition.MirrorWithFacing;}playbackTime+=.025;}
+ }
+ PlayRoute("idle",26);PlayRoute("walk",6);PlayRoute("idle",8);PlayRoute("walk",6,true);PlayRoute("idle",8);
+ PlayRoute("walk",6);PlayRoute("walk",12,true);PlayRoute("walk",12);PlayRoute("idle",8);
+ PlayRoute("sleep",12);PlayRoute("wake",9);
+ Check(Enumerable.Range(1,21).All(n=>visited.Contains("video-"+n.ToString("00")))&&visited.Contains("video-right"),"installed trimmed manifest reaches all 21 clips and accepted right gait through real routes");
+ Check(framesValid,"all replacement route frames stay in bounds and preserve asymmetric eye direction");
+}
 Console.WriteLine($"{checks} checks passed.");

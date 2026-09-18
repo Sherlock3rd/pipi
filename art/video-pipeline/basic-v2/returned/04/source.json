@@ -1,0 +1,16 @@
+{
+  "folder": "04-抬头看主人",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 5,
+  "number": "04",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\04-抬头看.mp4",
+  "source": "source.mp4",
+  "sha256": "0d1fbbfda27e0faeee0031ceaa1f9c7379cae091087645355bb3cbd1f21cf622",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

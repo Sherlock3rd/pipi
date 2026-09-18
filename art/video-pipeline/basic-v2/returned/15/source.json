@@ -1,0 +1,16 @@
+{
+  "folder": "15-朝右转朝左",
+  "start": "SR",
+  "end": "SL",
+  "type": "过渡",
+  "seconds": 5,
+  "number": "15",
+  "originalPath": "C:\\Users\\liuweichen\\Downloads\\15-右到左.mp4",
+  "source": "source.mp4",
+  "sha256": "3c367a0bd2ebaa99f71dba6731a189a2a705ab060295006d7a1dd4e0d0ad8f40",
+  "fps": 24.0,
+  "frames": 121,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041667
+}

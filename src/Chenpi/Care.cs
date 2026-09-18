@@ -64,7 +64,7 @@ public sealed partial class PetEngine
         }
         return chosen;
     }
-    private bool CanStartCare()=>Action is "idle" or "sit" or "sleep" or "cute" || Action=="walk"&&arrival is "settle" or "sleep";
+    private bool CanStartCare()=>Action is "idle" or "sit" or "sleep" || Action=="walk"&&arrival is "settle" or "sleep";
     private void StartCare(string kind)=>Go(ObjectPosition(kind),kind switch {"food"=>"eat","water"=>"drink",_=>"toilet"},"随机照料计时到期");
     private void BeginRequest(string kind)
     {
@@ -101,7 +101,7 @@ public sealed partial class PetEngine
             if(distance>2)
             {
                 if(Action!="request-walk")SetAction("request-walk",double.MaxValue,"前往请求位置");
-                FacingLeft=RequestSpot.X<State.X;MoveTowards(RequestSpot,90*dt);return true;
+                FacingLeft=RequestSpot.X<State.X;MoveTowards(RequestSpot,WalkSpeed*dt);return true;
             }
             State.X=RequestSpot.X;State.Y=RequestSpot.Y;
             if(Action!="request-"+kind)
@@ -129,7 +129,9 @@ public sealed partial class PetEngine
             return true;
         }
         if(Action!="guide-walk")SetAction("guide-walk",double.MaxValue,"带路到物品旁");
-        FacingLeft=goal.X<State.X;double step=Math.Min(remaining,72*dt);MoveTowards(goal,step);guideTravelled+=step;
+        FacingLeft=goal.X<State.X;double step=Math.Min(remaining,WalkSpeed*dt);
+        double previousX=State.X,previousY=State.Y;MoveTowards(goal,step);
+        guideTravelled+=new Spot(previousX,previousY).Distance(new Spot(State.X,State.Y));
         return true;
     }
 }
