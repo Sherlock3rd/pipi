@@ -9,7 +9,7 @@ public sealed partial class PetEngine
     // Expand each object by the resting cat footprint plus a small visible gap.
     private const double RestHalfWidth=85,RestGap=8;
     private (double X,double Radius)[] RestObstacles()=>new[]{
-        (Nest.X,98+RestHalfWidth+RestGap),(FoodSpot.X,36+RestHalfWidth+RestGap),
+        (Nest.X,InteractionGeometry.NestHalfWidth+RestHalfWidth+RestGap),(FoodSpot.X,36+RestHalfWidth+RestGap),
         (WaterSpot.X,36+RestHalfWidth+RestGap),(LitterSpot.X,InteractionGeometry.LitterHalfWidth+RestHalfWidth+RestGap)};
 
     public bool IsClearRestSpot(double x)

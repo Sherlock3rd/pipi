@@ -121,12 +121,14 @@ public sealed partial class PetEngine
     public bool ToyWithinCatchRange=>ToyHeld&&CatPlayCenter.Distance(ToyTip)<=CatCatchRadius;
     public bool Grounded=>State.LayoutWidth>0;
     public double GroundY=>Height-48;
+    public SurfaceSupport Support {get;}=new();
+    public string? ApproachingSupport=>Action=="walk"?arrival switch {"sleep"=>"nest","toilet" or "bury"=>"litter",_=>null}:null;
     public Spot OnGround(Spot p)=>Grounded?new(p.X,GroundY):p;
     public void DragTo(Spot pointerPosition)
     {State.X=Math.Clamp(pointerPosition.X,65,Width-65);State.Y=Grounded?GroundY:Math.Clamp(pointerPosition.Y,140,Height-60);Dirty=true;}
     public Spot WandHome=>new(Math.Clamp(Nest.X+140,60,Width-40),Grounded?GroundY-35:Math.Max(55,Nest.Y-167));
     public bool CanDropInNest(Spot pointer)=>new Spot(State.X,State.Y).Distance(Nest)<82
-        ||(pointer.X>=Nest.X-98&&pointer.X<=Nest.X+98&&pointer.Y>=Nest.Y-146&&pointer.Y<=Nest.Y);
+        ||(pointer.X>=Nest.X-InteractionGeometry.NestHalfWidth&&pointer.X<=Nest.X+InteractionGeometry.NestHalfWidth&&pointer.Y>=Nest.Y-InteractionGeometry.NestHeight&&pointer.Y<=Nest.Y);
 
     public void Layout(double width,double height,bool reset=false)
     {
@@ -140,12 +142,13 @@ public sealed partial class PetEngine
         State.LayoutWidth=width;State.LayoutHeight=height;
         Width=width;Height=height;
         Spot Clamp(Spot p,double side,double top,double bottom)=>new(Math.Clamp(p.X,side,width-side),GroundY);
-        Nest=Clamp(!reset&&State.NestPosition is Spot n?n:new(width-165,GroundY),104,145,55);
-        FoodSpot=Clamp(!reset&&State.FoodPosition is Spot f?f:new(width-330,GroundY),48,50,40);
-        WaterSpot=Clamp(!reset&&State.WaterPosition is Spot w?w:new(width-420,GroundY),48,50,40);
+        double homeX=width-InteractionGeometry.NestHalfWidth-24;
+        Nest=Clamp(!reset&&State.NestPosition is Spot n?n:new(homeX,GroundY),InteractionGeometry.NestHalfWidth+6,InteractionGeometry.NestHeight,55);
+        FoodSpot=Clamp(!reset&&State.FoodPosition is Spot f?f:new(homeX-InteractionGeometry.NestHalfWidth-48,GroundY),48,50,40);
+        WaterSpot=Clamp(!reset&&State.WaterPosition is Spot w?w:new(homeX-InteractionGeometry.NestHalfWidth-140,GroundY),48,50,40);
         FoodSpot=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,FoodSpot.X),GroundY);
         WaterSpot=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,WaterSpot.X),GroundY);
-        LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(width-560,GroundY),InteractionGeometry.LitterHalfWidth,50,40);
+        LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(homeX-InteractionGeometry.NestHalfWidth-332,GroundY),InteractionGeometry.LitterHalfWidth,50,40);
         LitterSpot=new Spot(Math.Max(InteractionGeometry.LitterMinimumX,LitterSpot.X),GroundY);
         RememberLayout();
         if(State.X<0||reset){State.X=Nest.X-115;State.Y=Nest.Y-70;}
@@ -157,7 +160,7 @@ public sealed partial class PetEngine
     public Spot ObjectPosition(string kind)=>kind switch {"nest"=>Nest,"food"=>FoodSpot,"water"=>WaterSpot,_=>LitterSpot};
     public void MoveObject(string kind,Spot position)
     {
-        double side=kind=="nest"?104:kind=="litter"?InteractionGeometry.LitterHalfWidth:48;
+        double side=kind=="nest"?InteractionGeometry.NestHalfWidth+6:kind=="litter"?InteractionGeometry.LitterHalfWidth:48;
         position=OnGround(new Spot(Math.Clamp(position.X,side,Width-side),Math.Clamp(position.Y,kind=="nest"?145:50,Height-(kind=="nest"?55:40))));
         if(Grounded&&kind is "food" or "water")position=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,position.X),position.Y);
         if(Grounded&&kind=="litter")position=new Spot(Math.Max(InteractionGeometry.LitterMinimumX,position.X),position.Y);
@@ -338,6 +341,7 @@ public sealed partial class PetEngine
     public Spot CareDestination(Spot item,string action)
     {
         if(Grounded&&action is "eat" or "drink")item=new(item.X-InteractionGeometry.MouthOffsetX,item.Y);
+        if(Grounded&&action=="sleep")item=new(item.X-InteractionGeometry.NestRestOffsetX,item.Y);
         if(Grounded&&action is "toilet" or "bury")
         {
             int slot=SupplyLayers(action=="toilet"?Math.Min(100,State.Litter+20):State.Litter)-1;
@@ -358,7 +362,7 @@ public sealed partial class PetEngine
     }
     // One shared draw/hit-test anchor. On leaving the nest keep this world point;
     // clearing SleepingInNest must not teleport the displayed cat by (20,10).
-    public Spot VisualPosition=>new(State.X-(State.Sleeping&&State.SleepingInNest?20:0),State.Y-(!Grounded&&State.Sleeping&&State.SleepingInNest?10:0));
+    public Spot VisualPosition=>new(State.X-(State.Sleeping&&State.SleepingInNest?InteractionGeometry.NestRestOffsetX:0),State.Y-(!Grounded&&State.Sleeping&&State.SleepingInNest?10:0));
     private void SetAction(string action,double seconds,string reason)
     {
         AligningForCare=false;

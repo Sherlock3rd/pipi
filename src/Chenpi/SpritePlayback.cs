@@ -1,18 +1,20 @@
 using System;
 using System.Collections.Generic;
 using System.Text.Json;
+using System.Text.Json.Serialization;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null)
 {
     public double Duration=>Count/Fps;
+    public SpriteClip OnGround(int index)=>GroundContacts is not null&&index>=0&&index<GroundContacts.Length?this with {AnchorY=GroundContacts[index]}:this;
     public SpriteClip AtFrame(int index)
     {
         double t=Math.Clamp(index/(double)Math.Max(1,Count-1),0,1);t=t*t*(3-2*t);
         double scale=ScaleStart+(ScaleEnd-ScaleStart)*t;
         double ox=OffsetStartX+(OffsetEndX-OffsetStartX)*t,oy=OffsetStartY+(OffsetEndY-OffsetStartY)*t;
-        return this with {Width=Width*scale,Height=Height*scale,AnchorX=AnchorX-ox/(Width*scale),AnchorY=AnchorY-oy/(Height*scale),ScaleStart=1,ScaleEnd=1,OffsetStartX=0,OffsetStartY=0,OffsetEndX=0,OffsetEndY=0};
+        return (this with {Width=Width*scale,Height=Height*scale,AnchorX=AnchorX-ox/(Width*scale),AnchorY=AnchorY-oy/(Height*scale),ScaleStart=1,ScaleEnd=1,OffsetStartX=0,OffsetStartY=0,OffsetEndX=0,OffsetEndY=0}).OnGround(index);
     }
 }
 public readonly record struct SpriteFrame(string Clip,int Index,SpriteClip Definition);
@@ -61,7 +63,7 @@ public sealed class SpritePlayback
                     clips[item.Name]=new(count,fps*rate,loop,width,height,ax,ay,
                         !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
                         ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"),
-                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate);
+                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count));
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
@@ -74,6 +76,14 @@ public sealed class SpritePlayback
                     &&double.IsFinite(s)&&s>=.9&&s<=1.1&&double.IsFinite(px)&&Math.Abs(px)<=20&&double.IsFinite(py)&&Math.Abs(py)<=20)sleepPhases.Add((s,px,py));
     }
     private static double ReadScale(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.9&&n<=1.1?n:1;
+    public static double[]? ReadGroundContacts(JsonElement value,int count)
+    {
+        if(!value.TryGetProperty("groundContacts",out var list)||list.ValueKind!=JsonValueKind.Array||list.GetArrayLength()!=count)return null;
+        var contacts=new double[count];int i=0;
+        foreach(var item in list.EnumerateArray())
+        {if(!item.TryGetDouble(out double n)||!double.IsFinite(n)||n<.5||n>1)return null;contacts[i++]=n;}
+        return contacts;
+    }
     public static double PlaybackSpeed(JsonElement value)=>value.TryGetProperty("playbackRate",out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
     public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
@@ -153,6 +163,7 @@ public sealed class SpritePlayback
             definition=definition with {Width=w,Height=h,AnchorX=definition.AnchorX-wakeX*weight/w,AnchorY=definition.AnchorY-wakeY*weight/h};
         }
         else if(frame.Clip!="video-20")wakeContinuationAt=-1;
+        definition=definition.OnGround(frame.Index);
         lastSample=frame;
         return frame with {Definition=definition};
     }

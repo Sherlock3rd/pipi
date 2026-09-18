@@ -133,7 +133,7 @@ internal sealed class PetWindow : Window
             filmTimer.Tick+=(_,_)=>{
                 if(quitting){filmTimer.Stop();return;}
                 string file=Path.Combine(filmDirectory,$"{filmIndex++:0000}");scene.SavePreview(file+".png");
-                File.WriteAllText(file+".json",System.Text.Json.JsonSerializer.Serialize(new{engine.Now,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.DisplayedDefinition,engine.State.X,engine.State.Y}));
+                File.WriteAllText(file+".json",System.Text.Json.JsonSerializer.Serialize(new{engine.Now,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.DisplayedDefinition,scene.DisplayedSupportHeight,engine.Support.Kind,engine.State.X,engine.State.Y}));
             };filmTimer.Start();
         }
         // Isolated reproduction uses the same interaction entry point as a click.

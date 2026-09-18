@@ -22,7 +22,7 @@ int notices=0;b.RequestedAttention+=()=>notices++;
 b.AdvanceNeeds(301);for(int i=0;i<1200;i++)b.Update(.1,12);
 Check(notices<=4&&notices>0,"unmet needs use global reminder cooldown");Check(t.Food==0&&t.Water==0,"begging never consumes absent supplies");
 var furniture=new PetState();var home=new PetEngine(furniture);home.Layout(1200,800);
-Check(furniture.X>900&&furniture.Y>600&&home.Nest.X-home.LitterSpot.X<420,"first layout places cat and compact home at bottom right");
+Check(furniture.X>900&&furniture.Y>600&&home.Nest.X-InteractionGeometry.NestHalfWidth>home.FoodSpot.X+36&&home.WaterSpot.X-36>home.LitterSpot.X+InteractionGeometry.LitterHalfWidth,"first layout places cat and compact home at bottom right");
 home.MoveObject("food",new Spot(500,500));home.Layout(1200,800);
 Check(home.FoodSpot==new Spot(500,home.GroundY),"layout refresh preserves freely moved object");
 home.Sleep();home.MoveObject("nest",new Spot(800,500));
@@ -48,6 +48,7 @@ try
 finally{Directory.Delete(folder,true);}
 void Advance(PetEngine pet,double seconds){for(int i=0;i<(int)Math.Ceiling(seconds/.1);i++)pet.Update(.1,12);}
 var lazyState=new PetState{X=400,Y=300,RestDuration=600};var lazy=new PetEngine(lazyState,41);lazy.Layout(1200,800);
+lazyState.X=lazy.NearestRestSpot(new(lazyState.X,lazy.GroundY)).X;
 var lazyStart=new Spot(lazyState.X,lazyState.Y);Advance(lazy,50);
 Check(new Spot(lazyState.X,lazyState.Y)==lazyStart&&!lazyState.Sleeping,"stationary cat stays in one region instead of roaming every few seconds");
 Advance(lazy,11);Check(lazyState.Sleeping&&!lazyState.SleepingInNest&&new Spot(lazyState.X,lazyState.Y)==lazyStart,"one-minute quiet stay sleeps in place, without teleporting to bed");
@@ -61,7 +62,7 @@ for(int seed=0;seed<50;seed++)
  if(randomStay.State.RestDuration<1200||randomStay.State.RestDuration>3600)throw new Exception("stay range");
 }
 Check(true,"sampled stays always fall within twenty to sixty minutes");
-var mover=new PetEngine(new PetState{X=350,Y=500,RestDuration=120,RestElapsed=119},99);mover.Layout(1200,800);Advance(mover,5);
+var mover=new PetEngine(new PetState{X=250,Y=500,RestDuration=120,RestElapsed=119},99);mover.Layout(1200,800);Advance(mover,5);
 Check(mover.Action=="sleep","legacy short stay settles to sleep instead of forcing relocation");Advance(mover,10);
 Check(mover.Action!="walk"&&mover.State.RestElapsed<135&&mover.State.RestDuration>=120,"rest expiry never forces a sleeping cat to roam");
 var hover=new PetEngine(new PetState{X=500,Y=400,RestDuration=600},1);
@@ -156,7 +157,7 @@ Check(partialLitter.State.CareRequest is null,"litter requests only when full, n
 partialLitter.State.Litter=100;partialLitter.AdvanceNeeds(300);partialLitter.Update(.1,12);
 Check(partialLitter.State.CareRequest=="litter","full litter after five minutes requests cleaning");
 partialLitter.Refill("litter");Check(partialLitter.State.CareRequest is null&&partialLitter.State.LitterClock.UnavailableSince is null,"early remote cleaning cancels request before arrival");
-var multi=new PetEngine(new PetState{X=500,Y=400,Food=0,Water=0,Litter=100},4);multi.Layout(1400,900);multi.AdvanceNeeds(300);multi.Update(.1,12);
+var multi=new PetEngine(new PetState{X=350,Y=400,Food=0,Water=0,Litter=100},4);multi.Layout(1400,900);multi.AdvanceNeeds(300);multi.Update(.1,12);
 Check(multi.State.CareRequest=="water","multiple shortages select one request at a time");
 multi.Refill("water");Advance(multi,1.2);Check(multi.State.CareRequest=="food","resolving one shortage advances to the next unmet request");
 string careFolder=Path.Combine(Path.GetTempPath(),"Chenpi-care-"+Guid.NewGuid());
@@ -260,7 +261,7 @@ interruptDemo.BeginDrag();Advance(interruptDemo,5);interruptDemo.Drop(true);Adva
 Check(interruptDemo.State.Water==waterAtPickup&&interruptDemo.Action=="sleep","drag interrupts debug consumption and dropping can enter protected sleep");
 var placementCat=new PetEngine(new PetState{X=500,Y=700},1){Nest=new Spot(500,500)};
 Check(placementCat.CanDropInNest(new Spot(500,460)),"placing held head inside visible nest counts even when feet extend below it");
-Check(!placementCat.CanDropInNest(new Spot(650,460)),"releasing outside nest with distant feet remains an outside drop");
+Check(!placementCat.CanDropInNest(new Spot(500+InteractionGeometry.NestHalfWidth+20,460)),"releasing outside nest with distant feet remains an outside drop");
 Check(placementCat.CanDropInNest(new Spot(418,406)),"nest highlight and release share inclusive visible-area boundary");
 var primaryScreen=new PixelBounds(0,0,1920,1080);
 var fullWindow=new FullscreenCandidate(primaryScreen,"GameWindow",true,false,false,false,false,false);
@@ -483,16 +484,16 @@ for(int seed=0;seed<30;seed++)
 }
 Check(roamingClear,"rest decisions remain outside furniture over multiple seeds");
 // Long-horizon behavior checks: sleep is persistent, while real care still runs.
-var quiet=new PetEngine(new PetState{X=350,Y=752,RestDuration=120},9);quiet.Layout(1200,800);
+var quiet=new PetEngine(new PetState{X=250,Y=752,RestDuration=120},9);quiet.Layout(1200,800);
 Advance(quiet,55);long quietRevision=quiet.ActionRevision;
 Check(quietRevision<=1,"quiet idle does not reroll its behavior every second");
 Advance(quiet,6);double quietX=quiet.State.X;Advance(quiet,3700);
 Check(quiet.Action=="sleep"&&quiet.State.X==quietX,"sleep persists across rest deadlines without forced wake or roaming");
 for(int seed=0;seed<40;seed++)
 {
- var wakeCat=new PetEngine(new PetState{X=350,Y=752,Sleeping=true,SleepingInNest=false},seed);wakeCat.Layout(1200,800);
+ var wakeCat=new PetEngine(new PetState{X=250,Y=752,Sleeping=true,SleepingInNest=false},seed);wakeCat.Layout(1200,800);
  wakeCat.Interact();Advance(wakeCat,20);
- if(wakeCat.State.X!=350||wakeCat.State.Sleeping)throw new Exception("click wake unexpectedly relocates or immediately sleeps");
+ if(wakeCat.State.X!=250||wakeCat.State.Sleeping)throw new Exception("click wake unexpectedly relocates or immediately sleeps");
 }
 Check(true,"forty wake seeds stay put and allow interaction instead of random relocation");
 using(var calmDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
@@ -544,8 +545,8 @@ var edgeCare=RestFixture();edgeCare.MoveObject("food",new(-100,0));
 Check(edgeCare.CareDestination(edgeCare.FoodSpot,"eat").X>=65,"left-edge bowl leaves enough room for the supplied right-facing mouth pose");
 edgeCare.MoveObject("litter",new(-100,0));
 Check(edgeCare.LitterSpot.X>=InteractionGeometry.LitterHalfWidth,"enlarged tray stays within the screen");
-Check(InteractionGeometry.SurfaceLift("video-20",.5,true,"sleep")==54&&InteractionGeometry.SurfaceLift("video-19",1,true,"sleep")==54,"sleep entry and loop share the cushion surface");
-Check(InteractionGeometry.SurfaceLift("video-21",1,true,"wake")==InteractionGeometry.SurfaceLift("video-18",0,true,"wake")&&InteractionGeometry.SurfaceLift("video-18",1,true,"wake")==54,"wake remains fully supported until the cat actually walks out of the bed");
+Check(InteractionGeometry.SurfaceLift("video-20",.5,true,"sleep")==InteractionGeometry.NestCushionLift&&InteractionGeometry.SurfaceLift("video-19",1,true,"sleep")==InteractionGeometry.NestCushionLift,"sleep entry and loop share the cushion surface");
+Check(InteractionGeometry.SurfaceLift("video-21",1,true,"wake")==InteractionGeometry.SurfaceLift("video-18",0,true,"wake")&&InteractionGeometry.SurfaceLift("video-18",1,true,"wake")==InteractionGeometry.NestCushionLift,"wake remains fully supported until the cat actually walks out of the bed");
 Check(InteractionGeometry.SurfaceLift("video-33",.5,false,"drag")==24&&InteractionGeometry.SurfaceLift("video-34",1,false,"land")==0,"pickup clears floor and landing returns to it");
 Check(InteractionGeometry.SurfaceLift("video-27",.5,false,"toilet")==50&&InteractionGeometry.SurfaceLift("video-30",.5,false,"bury")==50,"toilet and burial share the enlarged tray surface");
 var calibrated=new SpriteClip(121,24,false,288,288,.5,.921875,false,.99,1.02);
@@ -575,7 +576,41 @@ using(var phaseDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
 }
 var registered=new SpriteClip(121,24,false,288,288,.5,.921875,false,1,1,2,-3,2,-3).AtFrame(60);
 Check(Math.Abs((.5-registered.AnchorX)*registered.Width-2)<.001&&Math.Abs((.921875-registered.AnchorY)*registered.Height+3)<.001,"feature registration moves the shared root without stretching the pose");
-Check(InteractionGeometry.NestSupport(660,680)==54&&InteractionGeometry.NestSupport(610,680)==54&&InteractionGeometry.NestSupport(510,680)==0,"bed exit height follows horizontal progress rather than the wake clip timer");
-Check(InteractionGeometry.SurfaceLift("video-07",.5,true,"sleep")==54&&InteractionGeometry.SurfaceLift("video-17",0,true,"sleep")==54,"early sleep entry poses cannot sink below the cushion");
-Check(InteractionGeometry.SurfaceLift("video-32",0,true,"drag")==78,"lifting from the bed starts above its cushion instead of dropping toward the floor");
+Check(InteractionGeometry.NestSupport(660,680)==InteractionGeometry.NestCushionLift&&InteractionGeometry.NestSupport(610,680)==InteractionGeometry.NestCushionLift&&InteractionGeometry.NestSupport(460,680)==0,"bed exit height follows horizontal progress rather than the wake clip timer");
+Check(InteractionGeometry.SurfaceLift("video-07",.5,true,"sleep")==InteractionGeometry.NestCushionLift&&InteractionGeometry.SurfaceLift("video-17",0,true,"sleep")==InteractionGeometry.NestCushionLift,"early sleep entry poses cannot sink below the cushion");
+Check(InteractionGeometry.SurfaceLift("video-32",0,true,"drag")==InteractionGeometry.NestCushionLift+InteractionGeometry.PickupLift,"lifting from the bed starts above its cushion instead of dropping toward the floor");
+foreach(string destination in new[]{"sleep","toilet"})
+{
+ var cat=new PetEngine(new PetState{Litter=0},5);cat.Layout(1400,800);
+ cat.MoveObject(destination=="sleep"?"nest":"litter",new(750,cat.GroundY));
+ cat.State.X=400;cat.Demo(destination);
+ double prior=0;bool rising=false,continuous=true;
+ for(double x=450;x<730;x+=1)
+ {cat.State.X=x;double height=cat.Support.Update(cat);rising|=height>0;continuous&=height>=prior&&height-prior<2;prior=height;}
+ Check(rising&&continuous&&cat.Action=="walk",$"{destination}: support rises continuously before arrival instead of at the action switch");
+ var endpoint=cat.CareDestination(destination=="sleep"?cat.Nest:cat.LitterSpot,destination);cat.State.X=endpoint.X;
+ double before=cat.Support.Update(cat);cat.Update(.1,12);double after=cat.Support.Update(cat);
+ Check(Math.Abs(before-after)<.01,$"{destination}: entering the action preserves its already-reached support height");
+ Check(destination!="sleep"||Math.Abs(cat.VisualPosition.X-endpoint.X)<.01,"walking into the bed preserves the same horizontal root as sleeping");
+ cat.Interact();cat.Support.Update(cat);
+ Check(cat.Support.Height>0,"interrupting a supported action does not drop the cat to the floor");
+ cat.State.X=350;Check(cat.Support.Update(cat)==0&&cat.Support.Kind is null,"leaving a prop clears its support without affecting ordinary floor travel");
+}
+var passing=new PetEngine(new PetState{X=500},2);passing.Layout(1400,800);passing.State.X=passing.Nest.X;
+Check(passing.Support.Update(passing)==0,"passing an unused prop does not attach a floor cat to its raised surface");
+Check(home.CanDropInNest(new Spot(home.Nest.X+InteractionGeometry.NestHalfWidth-1,home.Nest.Y-InteractionGeometry.NestHeight+1)),"expanded bed artwork shares its actual drop bounds");
+Check(!InteractionGeometry.InsideNestSeat(500,641)&&InteractionGeometry.NestSupport(500,641)>0&&InteractionGeometry.InsideNestSeat(621,641),"climbing across the arm stays in front until the body enters the seat");
+using(var groundedDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var entries=groundedDoc.RootElement.GetProperty("clips");int measured=0;bool correct=true;
+ foreach(var item in entries.EnumerateObject())
+ {
+  if(!item.Value.TryGetProperty("groundContacts",out var contacts))continue;
+  var profile=SpritePlayback.ReadGroundContacts(item.Value,contacts.GetArrayLength())!;
+  var clip=new SpriteClip(profile.Length,24,true,288,288,.5,.921875,false,GroundContacts:profile);
+  for(int i=0;i<profile.Length;i++){var frame=clip.AtFrame(i);correct&=Math.Abs((profile[i]-frame.AnchorY)*frame.Height)<.001&&frame.Width==288;measured++;}
+ }
+ Check(correct&&measured==3463,"all 3463 grounded poses place their measured contact on the support plane without rescaling");
+ Check(!entries.GetProperty("video-32").TryGetProperty("groundContacts",out _)&&!entries.GetProperty("video-33").TryGetProperty("groundContacts",out _),"pickup and suspended motion retain their authored vertical trajectory");
+}
 Console.WriteLine($"{checks} checks passed.");

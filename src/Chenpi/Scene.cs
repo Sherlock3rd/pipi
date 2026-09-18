@@ -89,10 +89,8 @@ internal sealed class Scene : FrameworkElement
     private readonly SpritePlayback playback=new();
     private string lastSpriteClip="";
     private bool nestOcclusion;
-    private bool nestSupported;
-    private bool litterSupported;
     private double poseLift;
-    private double poseUpdatedAt=-1;
+    public double DisplayedSupportHeight=>poseLift;
     private static BitmapSource? LoadProp(string name)
     {
         string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
@@ -127,7 +125,7 @@ internal sealed class Scene : FrameworkElement
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
-        playback.Reset();
+        playback.Reset();poseLift=0;
         SizeChanged+=(_,_)=>LayoutWorld();
         LostMouseCapture+=(_,_)=>{if(pressed||IsDragging||wandHeld)CancelDrag();};
     }
@@ -219,11 +217,11 @@ internal sealed class Scene : FrameworkElement
         if(currentCatBounds is Rect b){b.Offset(Engine.VisualPosition.X,Engine.VisualPosition.Y-lift-poseLift);b.Inflate(7,7);return b;}
         return new(Engine.State.X-85,Engine.State.Y-158,170,170);
     }}
-    private Rect NestRect=>new(Engine.Nest.X-98,Engine.Nest.Y-146,196,146);
+    private Rect NestRect=>new(Engine.Nest.X-InteractionGeometry.NestHalfWidth,Engine.Nest.Y-InteractionGeometry.NestHeight,InteractionGeometry.NestWidth,InteractionGeometry.NestHeight);
     private Rect LitterRect=>new(Engine.LitterSpot.X-InteractionGeometry.LitterHalfWidth,Engine.LitterSpot.Y-InteractionGeometry.LitterHeight,InteractionGeometry.LitterHalfWidth*2,InteractionGeometry.LitterHeight);
     private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
         ?new(p.X-30,p.Y-70,60,70):new(p.X-w/2,p.Y-62,w,62);
-    private Rect SettingsRect=>new(Engine.Nest.X+70,Engine.Nest.Y-150,30,30);
+    private Rect SettingsRect=>new(Engine.Nest.X+InteractionGeometry.NestHalfWidth-28,Engine.Nest.Y-InteractionGeometry.NestHeight-4,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
     protected override HitTestResult? HitTestCore(PointHitTestParameters p)
@@ -298,13 +296,12 @@ internal sealed class Scene : FrameworkElement
             DrawCat(dc,100+(Engine.Now*45)%Math.Max(1,WorldWidth-200),WorldHeight*.66,"walk",Engine.Now,false);
             dc.Pop();return;
         }
-        if(Engine.State.Sleeping)nestSupported=Engine.State.SleepingInNest;
-        if(nestSupported&&InteractionGeometry.NestSupport(Engine.VisualPosition.X,Engine.Nest.X)<=0)nestSupported=false;
-        nestOcclusion=nestSupported&&Engine.Action!="drag";
+        Engine.Support.Update(Engine);
+        // Cross the side in front of its arm. Only the seated body belongs
+        // behind the rim; otherwise the arm cuts through a climbing cat.
+        nestOcclusion=Engine.Support.Kind=="nest"&&Engine.Action!="drag"&&InteractionGeometry.InsideNestSeat(Engine.VisualPosition.X,Engine.Nest.X);
         DrawNest(dc,false);
-        if(Engine.Action is "toilet" or "bury")litterSupported=true;
-        if(litterSupported&&InteractionGeometry.LitterSupport(Engine.VisualPosition.X,Engine.LitterSpot.X)<=0)litterSupported=false;
-        bool eating=Engine.Action=="eat",drinking=Engine.Action=="drink",usingLitter=litterSupported&&Engine.Action!="drag";
+        bool eating=Engine.Action=="eat",drinking=Engine.Action=="drink",usingLitter=Engine.Support.Kind=="litter"&&Engine.Action!="drag"&&Engine.Support.Height>=InteractionGeometry.LitterSurfaceLift-.01;
         if(eating)DrawCareBowl(dc,Engine.FoodSpot,shownFood,false,false);
         if(drinking)DrawCareBowl(dc,Engine.WaterSpot,shownWater,true,false);
         DrawLitter(dc);
@@ -314,7 +311,7 @@ internal sealed class Scene : FrameworkElement
         {
             var p=Engine.LitterSpot;
             // Only the tray's front wall occludes paws; the back rim stays behind.
-            dc.PushClip(new RectangleGeometry(new Rect(p.X-InteractionGeometry.LitterHalfWidth,p.Y-36,InteractionGeometry.LitterHalfWidth*2,36)));
+            dc.PushClip(System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-InteractionGeometry.LitterHalfWidth},{p.Y-60} Q {p.X},{p.Y-8} {p.X+InteractionGeometry.LitterHalfWidth},{p.Y-60} L {p.X+InteractionGeometry.LitterHalfWidth},{p.Y} L {p.X-InteractionGeometry.LitterHalfWidth},{p.Y} Z")));
             DrawLitter(dc);dc.Pop();
         }
         // Bowls stay in front of the cat on this single ground plane. Only
@@ -348,6 +345,12 @@ internal sealed class Scene : FrameworkElement
         dc.Pop();
     }
     private void DrawNest(DrawingContext dc,bool foreground)
+    {
+        var p=Engine.Nest;
+        dc.PushTransform(new ScaleTransform(InteractionGeometry.NestScale,InteractionGeometry.NestScale,p.X,p.Y));
+        DrawNestUnscaled(dc,foreground);dc.Pop();
+    }
+    private void DrawNestUnscaled(DrawingContext dc,bool foreground)
     {
         var p=Engine.Nest;
         if(nestSprite is not null)
@@ -501,13 +504,7 @@ internal sealed class Scene : FrameworkElement
         var sample=playback.Sample(action,Engine.Now,left);
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
-            double targetLift=Engine.Grounded?InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),false,action):0;
-            if(Engine.Grounded&&litterSupported&&Engine.Action!="toilet")
-                targetLift=InteractionGeometry.LitterSupport(Engine.VisualPosition.X,Engine.LitterSpot.X)+(action=="drag"?InteractionGeometry.PickupLift:0);
-            if(Engine.Grounded&&nestSupported)
-                targetLift=InteractionGeometry.NestSupport(Engine.VisualPosition.X,Engine.Nest.X)+(action=="drag"?InteractionGeometry.PickupLift:0);
-            double delta=poseUpdatedAt<0?0:Math.Max(0,Engine.Now-poseUpdatedAt);
-            poseLift=poseUpdatedAt<0?targetLift:poseLift+(targetLift-poseLift)*(1-Math.Exp(-delta*18));poseUpdatedAt=Engine.Now;
+            poseLift=Engine.Grounded?Engine.Support.Height+InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),false,action=="drag"?"drag":""):0;
             y-=poseLift;
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;

@@ -22,7 +22,10 @@ def displayed(clip,index,p):
     t=index/(count-1);t=t*t*(3-2*t)
     s=c['scaleStart']+(c['scaleEnd']-c['scaleStart'])*t
     offset=np.array([c['offsetStartX']+(c['offsetEndX']-c['offsetStartX'])*t,c['offsetStartY']+(c['offsetEndY']-c['offsetStartY'])*t])
-    return (p/512-np.array([c['anchorX'],c['anchorY']]))*288*s+offset
+    result=(p/512-np.array([c['anchorX'],c['anchorY']]))*288*s+offset
+    if 'groundContacts' in c:
+        result[:,1]=(p[:,1]/512-c['groundContacts'][index])*288*s
+    return result
 
 def check(a,ia,b,ib,continue_breath=False):
     ia,ka,da=points(a,ia);ib,kb,db=points(b,ib)
@@ -33,7 +36,7 @@ def check(a,ia,b,ib,continue_breath=False):
     pa,pb=displayed(a,ia,pa),displayed(b,ib,pb)
     if continue_breath:
         s,x,y=manifest['clips']['video-20']['phaseRegistration'][ia]
-        pb=pb/s-np.array([x,y])/s
+        pb=pb/s-np.array([x,0 if 'groundContacts' in manifest['clips']['video-'+b] else y])/s
     matrix,_=cv2.estimateAffinePartial2D(pa,pb,method=cv2.LMEDS)
     ratio=float(np.linalg.norm(matrix[:,0]))
     jump=float(np.linalg.norm(np.mean(pb-pa,axis=0)))
@@ -48,6 +51,6 @@ if __name__=='__main__':
     assert all(x['inliers']>=50 for x in seams)
     assert maximum<.003, maximum
     assert max(x['meanPositionChange'] for x in seams)<1.5
-    out=ROOT/'docs/qa/contact-v2';out.mkdir(parents=True,exist_ok=True)
+    out=ROOT/('docs/qa/support-plane' if 'groundContacts' in manifest['clips']['video-20'] else 'docs/qa/contact-v2');out.mkdir(parents=True,exist_ok=True)
     (out/'seams.json').write_text(json.dumps({'maxScaleDifferencePercent':maximum*100,'seams':seams},indent=2)+'\n',encoding='utf-8')
     print(f'{len(seams)} rendered seam samples passed; maximum matched-body scale difference {maximum*100:.3f}%')

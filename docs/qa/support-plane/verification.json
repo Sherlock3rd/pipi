@@ -1,0 +1,86 @@
+{
+  "regressionChecks": 256,
+  "groundedClips": 32,
+  "groundedFrames": 3463,
+  "nestSize": [
+    313.6,
+    233.6
+  ],
+  "nestSupport": 74.752,
+  "litterSupport": 50,
+  "cases": {
+    "sleep-final": {
+      "samples": 73,
+      "maxGroundContactError": 0.0,
+      "worldYValues": [
+        353
+      ],
+      "settledSupportRange": [
+        74.75200000000001,
+        74.75200000000001
+      ],
+      "clips": [
+        "video-06",
+        "video-10",
+        "video-right",
+        "video-11",
+        "video-07",
+        "video-17",
+        "video-19",
+        "video-20"
+      ]
+    },
+    "wake": {
+      "samples": 85,
+      "maxGroundContactError": 0.0,
+      "worldYValues": [
+        353
+      ],
+      "settledSupportRange": [
+        74.75200000000001,
+        74.75200000000001
+      ],
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-18",
+        "video-08",
+        "video-12",
+        "video-14",
+        "video-13",
+        "video-16",
+        "video-10",
+        "video-11",
+        "video-15"
+      ]
+    },
+    "toilet": {
+      "samples": 157,
+      "maxGroundContactError": 0.0,
+      "worldYValues": [
+        453.25
+      ],
+      "settledSupportRange": [
+        50,
+        50
+      ],
+      "clips": [
+        "video-06",
+        "video-10",
+        "video-right",
+        "video-11",
+        "video-26",
+        "video-27",
+        "video-28",
+        "video-15",
+        "video-12",
+        "video-13",
+        "video-16",
+        "video-29",
+        "video-30",
+        "video-31",
+        "video-14"
+      ]
+    }
+  }
+}
