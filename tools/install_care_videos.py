@@ -46,6 +46,7 @@ if __name__=='__main__':
         manifest['reviewClips']=[c for c in manifest['reviewClips'] if c['id']!=clip]
         manifest['reviewClips'].append({'id':clip,'label':meta['originalName'][:-4]+' · 本次原样接入','source':'../../../../art/video-pipeline/care-v3/returned/'+clip[-2:]+'/source.mp4'})
     manifest['careVideoGraph']=True;manifest['runtimeRevision']='hd-v2-with-care-v3-as-provided'
+    manifest['videoMatteRevision']=3
     (ASSETS/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (RUN/'sources.json').write_text(json.dumps([m for m,r in results],ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (OUT/'processing.json').write_text(json.dumps([r for m,r in results],indent=2)+'\n',encoding='utf-8')

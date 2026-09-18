@@ -2,6 +2,7 @@
 from pathlib import Path
 import json,cv2,numpy as np
 from PIL import Image
+cv2.setNumThreads(1)
 ROOT=Path(__file__).resolve().parents[1]
 base=ROOT/'assets/pets/bluecat'
 m=json.loads((base/'manifest.json').read_text(encoding='utf-8'))

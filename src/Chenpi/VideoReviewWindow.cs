@@ -115,6 +115,8 @@ internal sealed class VideoReviewWindow : Window
         RenderOptions.SetBitmapScalingMode(cat,BitmapScalingMode.HighQuality);
         seek.ValueChanged+=(_,_)=>{if(!sync&&current is not null){elapsed=seek.Value/current.Fps;playing=false;RenderFrame();}};
         choose.SelectedIndex=Math.Max(0,clips.FindIndex(c=>c.Id==Program.Option(args,"--clip")));
+        if(int.TryParse(Program.Option(args,"--frame"),out int requestedFrame)&&current is not null)
+        {elapsed=Math.Clamp(requestedFrame,0,frames.Count-1)/current.Fps;playing=false;RenderFrame();}
         timer.Tick+=(_,_)=>Tick();timer.Start();Closed+=(_,_)=>timer.Stop();
     }
     private void LoadClip(ReviewClip clip)

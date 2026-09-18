@@ -8,6 +8,7 @@ import argparse, json, concurrent.futures
 import cv2
 import numpy as np
 from PIL import Image
+from refine_video_matte import refine_matte
 
 ROOT=Path(__file__).resolve().parents[1]
 ASSETS=ROOT/'assets/pets/bluecat'
@@ -31,7 +32,7 @@ def final_coverage(result):
         _,labels=cv2.distanceTransformWithLabels((~core).astype(np.uint8),cv2.DIST_L2,5,labelType=cv2.DIST_LABEL_PIXEL)
         palette=np.zeros((labels.max()+1,3),np.uint8);palette[labels[core]]=result[:,:,:3][core]
         result[:,:,:3][bright]=palette[labels[bright]]
-    return result
+    return refine_matte(result)
 
 def extract(clip,sample=False,run=RUN,cache=CACHE,out=OUT):
     cv2.setNumThreads(1)
@@ -130,6 +131,7 @@ def main():
         for r in results:manifest['animations'][r['clip']]=r['files']
         manifest['runtimeRevision']='hd-v2-native-matte-once'
         manifest['videoMattePrepared']=True;manifest['videoFrameSize']=512
+        manifest['videoMatteRevision']=3
         (ASSETS/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     (OUT/('samples.json' if args.sample else 'processing.json')).write_text(json.dumps(results,indent=2)+'\n',encoding='utf-8')
 

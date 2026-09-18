@@ -56,6 +56,9 @@ internal sealed class Scene : FrameworkElement
         int minX=w,minY=h,maxX=0,maxY=0;
         for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[(y*w+x)*4+3]>boundsThreshold)
         {minX=Math.Min(minX,x);minY=Math.Min(minY,y);maxX=Math.Max(maxX,x+1);maxY=Math.Max(maxY,y+1);}
+        // Keep a transparent sampling gutter around tightly cropped video frames.
+        // Texture filtering must not extend a colored boundary texel outside the cat.
+        if(crop&&!cleanMatte){minX=Math.Max(0,minX-2);minY=Math.Max(0,minY-2);maxX=Math.Min(w,maxX+2);maxY=Math.Min(h,maxY+2);}
         bounds=new Rect(minX/(double)w,minY/(double)h,(maxX-minX)/(double)w,(maxY-minY)/(double)h);
         BitmapSource result=BitmapSource.Create(w,h,96,96,PixelFormats.Bgra32,null,pixels,w*4);
         result=new FormatConvertedBitmap(result,PixelFormats.Pbgra32,null,0);result.Freeze();
@@ -84,10 +87,7 @@ internal sealed class Scene : FrameworkElement
     }
     private readonly AnimationVariants variants=new();
     private readonly SpritePlayback playback=new();
-    private BitmapSource? lastSprite,blendFrom;
-    private SpriteClip? lastDefinition,blendDefinition;
     private string lastSpriteClip="";
-    private double blendStarted;
     private bool nestOcclusion;
     private double poseLift;
     private static BitmapSource? LoadProp(string name)
@@ -95,7 +95,7 @@ internal sealed class Scene : FrameworkElement
         string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
         if(!File.Exists(path))return null;
         var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;
-        image.DecodePixelWidth=320;image.UriSource=new Uri(path);image.EndInit();image.Freeze();
+        image.DecodePixelWidth=640;image.UriSource=new Uri(path);image.EndInit();image.Freeze();
         return PrepareBitmap(image,name is "nest" or "litter-tray" or "kibble",out _,name=="kibble"?128:8);
     }
     private static readonly BitmapSource? foodBowl=LoadProp("food-bowl-empty"),kibble=LoadProp("kibble"),waterCup=LoadProp("water-cup-empty");
@@ -452,24 +452,18 @@ internal sealed class Scene : FrameworkElement
                 currentCatBounds=new Rect((bounds.X-definition.AnchorX)*definition.Width,(bounds.Y-definition.AnchorY)*definition.Height,bounds.Width*definition.Width,bounds.Height*definition.Height);
             if(lastSpriteClip!=sprite.Clip)
             {
-                blendFrom=lastSprite;blendDefinition=lastDefinition;blendStarted=Engine.Now;lastSpriteClip=sprite.Clip;
+                lastSpriteClip=sprite.Clip;
                 if(ClipTransitions.Count>=100)ClipTransitions.RemoveAt(0);
                 ClipTransitions.Add(new {Time=Engine.Now,Clip=sprite.Clip,X=x,Y=y});
             }
             bool mirror=left&&definition.MirrorWithFacing;
             dc.PushTransform(new TranslateTransform(x,y));if(mirror)dc.PushTransform(new ScaleTransform(-1,1));
-            double blend=Math.Clamp((Engine.Now-blendStarted)/.10,0,1);
-            if(blend<1&&blendFrom is not null&&blendDefinition is not null)
-            {
-                DrawVideoFrame(dc,blendFrom,blendDefinition);
-                dc.PushOpacity(blend);
-            }
+            // One supplied frame per instant. Layering the opaque previous pose
+            // underneath a fading new pose created double outlines and bright flashes.
             DrawVideoFrame(dc,generated[sprite.Index],definition);
-            if(blend<1&&blendFrom is not null&&blendDefinition is not null)dc.Pop();
-            lastSprite=generated[sprite.Index];lastDefinition=definition;
             if(mirror)dc.Pop();dc.Pop();return;
         }
-        poseLift=0;lastSprite=null;lastDefinition=null;lastSpriteClip="";currentCatBounds=null;
+        poseLift=0;lastSpriteClip="";currentCatBounds=null;
         DisplayedClip=variant?.Id??action;DisplayedFrame=0;
         if(GetFrames(variant?.Id??action) is {} set&&set.Count>0)
         {

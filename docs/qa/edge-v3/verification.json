@@ -1,0 +1,405 @@
+{
+  "frames": 5883,
+  "changedFrames": 5883,
+  "whiteLeakPixelsBefore": 269025,
+  "whiteLeakPixelsAfter": 0,
+  "protectedInteriorChangedPixels": 0,
+  "clips": [
+    {
+      "clip": "video-01",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-02",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-03",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-04",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-05",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 1141,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-06",
+      "frames": 91,
+      "changedFrames": 91,
+      "whiteLeakPixelsBefore": 780,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-07",
+      "frames": 104,
+      "changedFrames": 104,
+      "whiteLeakPixelsBefore": 1238,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-08",
+      "frames": 97,
+      "changedFrames": 97,
+      "whiteLeakPixelsBefore": 3049,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-09",
+      "frames": 104,
+      "changedFrames": 104,
+      "whiteLeakPixelsBefore": 1516,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-10",
+      "frames": 85,
+      "changedFrames": 85,
+      "whiteLeakPixelsBefore": 335,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-11",
+      "frames": 79,
+      "changedFrames": 79,
+      "whiteLeakPixelsBefore": 631,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-12",
+      "frames": 85,
+      "changedFrames": 85,
+      "whiteLeakPixelsBefore": 594,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-13",
+      "frames": 79,
+      "changedFrames": 79,
+      "whiteLeakPixelsBefore": 835,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-14",
+      "frames": 120,
+      "changedFrames": 120,
+      "whiteLeakPixelsBefore": 447,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-15",
+      "frames": 100,
+      "changedFrames": 100,
+      "whiteLeakPixelsBefore": 7675,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-16",
+      "frames": 100,
+      "changedFrames": 100,
+      "whiteLeakPixelsBefore": 2144,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-17",
+      "frames": 109,
+      "changedFrames": 109,
+      "whiteLeakPixelsBefore": 64816,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-18",
+      "frames": 109,
+      "changedFrames": 109,
+      "whiteLeakPixelsBefore": 68817,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-19",
+      "frames": 113,
+      "changedFrames": 113,
+      "whiteLeakPixelsBefore": 12893,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-20",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-21",
+      "frames": 113,
+      "changedFrames": 113,
+      "whiteLeakPixelsBefore": 31758,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-right",
+      "frames": 39,
+      "changedFrames": 39,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-22",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-23",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-24",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-25",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-26",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-27",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-28",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-29",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-30",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 471,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-31",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-32",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 4451,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-33",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 1869,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-34",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 1473,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-35",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 1535,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-36",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 569,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-37",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-38",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-39",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-40",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 13306,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-41",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 1690,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-42",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 44992,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-43",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-44",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-45",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-46",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-47",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-48",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-49",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-50",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    },
+    {
+      "clip": "video-51",
+      "frames": 121,
+      "changedFrames": 121,
+      "whiteLeakPixelsBefore": 0,
+      "whiteLeakPixelsAfter": 0
+    }
+  ],
+  "modelChecks": 196,
+  "matteRegressionChecks": 7,
+  "silhouetteAudit": {
+    "frames": 5883,
+    "canvas": 512,
+    "whiteEdgePixels": 0,
+    "maxWhiteEdgePixelsPerFrame": 0,
+    "detachedAlphaComponents": 0,
+    "estimatedCroppedPixelCacheMiB": 1213.0,
+    "pngMiB": 450.9
+  },
+  "runtimeSample": {
+    "Action": "idle",
+    "DisplayedClip": "video-03",
+    "DisplayedFrame": 70,
+    "averageFrameMs": 16.716377051671735,
+    "maxFrameMs": 46.675900000000325
+  },
+  "visualSamples": [
+    {
+      "clip": "video-17",
+      "frame": 48,
+      "background": "dark"
+    },
+    {
+      "clip": "video-42",
+      "frame": 60,
+      "background": "dark"
+    }
+  ],
+  "interiorDefinition": "Non-white pixels at least 4 pixels inside the opaque silhouette both before and after repair",
+  "limits": "Threshold audit and selected WPF previews; original video texture variation is not regenerated"
+}

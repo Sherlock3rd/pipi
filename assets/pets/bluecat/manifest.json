@@ -6988,7 +6988,7 @@
   },
   "artStatus": "user-authorized-as-is-2026-09-18-not-final-art-approval",
   "videoGraph": true,
-  "runtimeRevision": "hd-v2-with-care-v3-as-provided",
+  "runtimeRevision": "hd-v3-interior-matte-single-frame",
   "reviewClips": [
     {
       "id": "video-01",
@@ -7252,5 +7252,6 @@
   ],
   "videoMattePrepared": true,
   "videoFrameSize": 512,
-  "careVideoGraph": true
+  "careVideoGraph": true,
+  "videoMatteRevision": 3
 }
