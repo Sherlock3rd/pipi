@@ -118,6 +118,8 @@ internal sealed class PetWindow : Window
         if(Preview&&(args.Contains("--preview-motion")||args.Contains("--preview-motion-left")))
         {engine.MoveObject("food",new Spot(engine.State.X+(args.Contains("--preview-motion-left")?-140:140),engine.State.Y));engine.Demo("eat");}
         CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
+        if(Preview&&args.Contains("--preview-rest-clearance"))
+        {engine.State.X=engine.FoodSpot.X;engine.State.Y=engine.GroundY;}
         if(Preview&&Program.Option(args,"--preview-care") is string careAction)
         {
             if(careAction=="drag")engine.BeginDrag();

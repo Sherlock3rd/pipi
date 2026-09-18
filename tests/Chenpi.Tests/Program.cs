@@ -83,7 +83,7 @@ toy.SetToy(true,toy.CatPlayCenter);Advance(toy,.6);Check(toy.Action=="toy-bat","
 toy.SetToy(false,new Spot());Check(!toy.ToyHeld&&toy.Action=="sit"&&toy.State.Food==80&&toy.State.Water==80,"putting toy away cancels play without changing inventory");
 toy.Sleep();toy.SetToy(true,toy.CatPlayCenter);toy.Update(.1,12);
 Check(toy.Action=="toy-bat"&&!toy.State.Sleeping,"near toy can wake sleeping cat directly into grabbing");
-var chase=new PetEngine(new PetState{X=600,Y=450,RestDuration=600},2);chase.Layout(1400,900);
+var chase=new PetEngine(new PetState{X=600,Y=450,RestDuration=600},2);chase.Layout(2000,900); // Keep this chase fixture away from furniture.
 chase.SetToy(true,new Spot(900,chase.CatPlayCenter.Y));chase.Update(.1,12);
 Check(chase.Action=="toy-run"&&!chase.ToyWithinCatchRange&&Math.Abs(chase.State.X-(600+PetEngine.ToyRunSpeed*.1))<.0001,"far toy in outer range uses run speed immediately");
 Advance(chase,11);
@@ -131,7 +131,7 @@ Check(offlineState.Food==80&&offlineState.Water==80&&offlineState.Litter==0,"off
 Advance(offline,30);
 Check(offlineState.Food==60&&offlineState.Water==60&&offlineState.Litter==20,"long overdue gap leads to one real visit of each type, not a backlog");
 Check(offlineState.LitterClock.NextDue-86400 is >=3600 and <=7200,"completed toilet resamples sixty to one hundred twenty minutes");
-var requestState=new PetState{X=300,Y=300,Water=0,RestDuration=600};var requester=new PetEngine(requestState,9);requester.Layout(1400,900);
+var requestState=new PetState{X=300,Y=300,Water=0,RestDuration=600,LitterPosition=new Spot(1100,852)};var requester=new PetEngine(requestState,9);requester.Layout(1400,900);
 requester.AdvanceNeeds(299);requester.Update(.1,12);
 Check(requestState.CareRequest is null,"empty resource waits a full five awake minutes before requesting");
 requester.AdvanceNeeds(1);requester.Update(.1,12);
@@ -424,4 +424,48 @@ if(File.Exists(runtimeManifest))
   Advance(careEngine,6);Check(careEngine.State.Food==80,"raising head and completing care never consumes a second layer");
  }
 }
+PetEngine RestFixture()
+{
+ var pet=new PetEngine(new PetState{X=350,Y=752,RestDuration=3600,NestPosition=new Spot(1050,752),FoodPosition=new Spot(700,752),WaterPosition=new Spot(600,752),LitterPosition=new Spot(850,752)},3);
+ pet.Layout(1200,800);return pet;
+}
+var placement=RestFixture();
+Check(placement.IsClearRestSpot(350)&&!placement.IsClearRestSpot(600)&&!placement.IsClearRestSpot(1050),"rest footprint excludes bowls and bed rather than only checking cat center");
+bool allClear=true;for(int x=65;x<1135;x+=7){var free=placement.NearestRestSpot(new(x,0));allClear&=placement.IsClearRestSpot(free.X)&&free.Y==752;}
+Check(allClear,"nearest rest destination clears overlapping object intervals for every sampled target");
+placement.State.X=700;placement.Update(.1,12);
+Check(placement.Action=="walk"&&placement.State.X==700,"saved cat overlapping a bowl starts walking away without teleporting");
+Advance(placement,12);Check(placement.IsClearRestSpot(placement.State.X)&&placement.Action is "sit" or "idle","overlapping saved placement reaches a free rest location");
+placement=RestFixture();placement.MoveObject("food",new(placement.State.X,752));Advance(placement,8);
+Check(placement.IsClearRestSpot(placement.State.X),"moving furniture over a resting cat makes the cat leave");
+placement=RestFixture();placement.BeginDrag();placement.DragTo(placement.WaterSpot);placement.Drop(false);Advance(placement,12);
+Check(placement.IsClearRestSpot(placement.State.X),"dropping on a bowl lands then walks to a clear rest point");
+placement=RestFixture();placement.State.X=placement.FoodSpot.X;placement.Demo("eat");placement.Update(.1,12);
+Check(placement.Action=="eat"&&placement.State.X==placement.FoodSpot.X,"food interaction retains access to its occupied destination");
+Advance(placement,18);Check(placement.IsClearRestSpot(placement.State.X)&&placement.State.Food==50,"finishing one meal leaves the bowl while consuming one layer");
+placement=RestFixture();placement.State.X=placement.WaterSpot.X;placement.Demo("drink");placement.Update(.1,12);
+Check(placement.Action=="drink","water interaction remains reachable");
+placement=RestFixture();placement.State.X=placement.LitterSpot.X;placement.Demo("toilet");placement.Update(.1,12);
+Check(placement.Action=="toilet","toilet care remains exempt during actual use");
+Advance(placement,25);Check(placement.IsClearRestSpot(placement.State.X),"completed toilet and bury sequence leaves the tray");
+placement=RestFixture();placement.Sleep();Advance(placement,3);
+Check(placement.State.SleepingInNest&&placement.State.X==placement.Nest.X,"intentional nest sleep is never evicted");
+var nestAnchor=placement.VisualPosition;placement.Wake();Check(placement.VisualPosition==nestAnchor,"waking preserves nest anchor before walking out");
+Advance(placement,20);Check(placement.IsClearRestSpot(placement.State.X),"awake cat eventually leaves the bed footprint");
+placement=RestFixture();placement.State.X=600;placement.SetToy(true,new(600,687));Advance(placement,8);
+Check(placement.IsClearRestSpot(placement.State.X),"toy over a bowl cannot keep cat stopped inside furniture");
+placement=RestFixture();placement.Recall();Check(placement.IsClearRestSpot(placement.State.X),"recall chooses a clear point near the nest");
+Check(placement.IsClearRestSpot(placement.RequestSpot.X)&&placement.IsClearRestSpot(placement.GuideDestination("food").X),"requests and guidance wait outside all furniture footprints");
+var crowded=new PetEngine(new PetState{X=200,RestDuration=3600},3);crowded.Layout(420,400);
+var fallback=crowded.NearestRestSpot(new(200,352));Check(double.IsFinite(fallback.X)&&fallback.X>=85&&fallback.X<=335&&crowded.NearestRestSpot(fallback)==fallback,"overfilled desktop uses stable bounded fallback instead of oscillating");
+placement=RestFixture();placement.State.X=700;placement.Update(.1,12);Advance(placement,1);
+placement.MoveObject("water",new(450,752));Advance(placement,14);
+Check(placement.IsClearRestSpot(placement.State.X),"moving furniture across an escape destination retargets the active walk");
+bool roamingClear=true;
+for(int seed=0;seed<30;seed++)
+{
+ var wander=new PetEngine(new PetState{X=420,RestDuration=120,RestElapsed=121},seed);wander.Layout(1200,800);wander.Update(.1,12);Advance(wander,35);
+ roamingClear&=wander.IsClearRestSpot(wander.State.X);
+}
+Check(roamingClear,"random roaming settles outside furniture over multiple routes");
 Console.WriteLine($"{checks} checks passed.");
