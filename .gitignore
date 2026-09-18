@@ -19,5 +19,4 @@ artifacts/
 **/pet-state.json*
 *.user
 *.suo
-# Original personal reference photos are retained locally, not published with source.
-/art/reference/photos/
+# Cat reference photos are tracked with the user's explicit 2026-09-18 upload authorization.

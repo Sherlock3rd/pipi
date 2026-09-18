@@ -7,7 +7,7 @@
 - [第一轮六风格对比图](concepts/style-exploration-v1.png)：A 清线赛璐璐、B 绘本厚涂、C 彩铅速写、D 圆润贴纸、E 复古平涂、F 像素。
 - [B 角色多视图标准图](concepts/bluecat-b-model-sheet.png)：正面、三分之四、侧面、背面和蜷睡；用户要求与风格对比图一并上传Git。
 - [生成提示词](style-exploration-v1-prompt.md)：使用内置 image_gen；参考图、约束和生成过程可追溯。
-- [照片索引](reference/README.md)：8 张原图在 `reference/photos/` 本地保留，未上传公共仓库。
+- [照片索引](reference/README.md)：用户最新明确授权8张原图及哈希清单一并上传，保存在 `reference/photos/`。
 - [身份与动作／行为树规范](../spec/cat-art-and-behavior-identity.md)：照片身份锚点、姿态映射、ArtStation 出处与后续验收。
 - [B 风格六帧眨眼试样](animation-samples/b-idle-v1/README.md)：播放／逐帧预览、原画对照、源图和修订记录。用户指出首版嘴部偏离原画，作为明确修订项保留。
 - [B 原画约束眨眼第二轮](animation-samples/b-idle-v2/README.md)：重新以原 B 直接生成，六帧／五张独立画面，首尾复用。技术检查通过，鼻口与笔触仍有差异，严格美术一致性未通过。
