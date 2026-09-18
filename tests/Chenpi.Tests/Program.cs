@@ -48,9 +48,9 @@ try
 finally{Directory.Delete(folder,true);}
 void Advance(PetEngine pet,double seconds){for(int i=0;i<(int)Math.Ceiling(seconds/.1);i++)pet.Update(.1,12);}
 var lazyState=new PetState{X=400,Y=300,RestDuration=600};var lazy=new PetEngine(lazyState,41);lazy.Layout(1200,800);
-var lazyStart=new Spot(lazyState.X,lazyState.Y);Advance(lazy,290);
+var lazyStart=new Spot(lazyState.X,lazyState.Y);Advance(lazy,50);
 Check(new Spot(lazyState.X,lazyState.Y)==lazyStart&&!lazyState.Sleeping,"stationary cat stays in one region instead of roaming every few seconds");
-Advance(lazy,11);Check(lazyState.Sleeping&&!lazyState.SleepingInNest&&new Spot(lazyState.X,lazyState.Y)==lazyStart,"five-minute stay sleeps in place, without teleporting to bed");
+Advance(lazy,11);Check(lazyState.Sleeping&&!lazyState.SleepingInNest&&new Spot(lazyState.X,lazyState.Y)==lazyStart,"one-minute quiet stay sleeps in place, without teleporting to bed");
 lazy.MoveObject("nest",new Spot(900,600));lazy.Layout(1200,800);
 Check(new Spot(lazyState.X,lazyState.Y)==lazyStart,"ground sleeping cat does not follow a moved nest or layout refresh");
 lazy.Interact();Check(lazy.Action=="wake"&&!lazyState.Sleeping,"click wakes ground sleep immediately");
@@ -58,12 +58,12 @@ lazy.Interact();lazy.Interact();Check(lazy.Action is "paw" or "roll" or "pet","r
 for(int seed=0;seed<50;seed++)
 {
  var randomStay=new PetEngine(new PetState(),seed);
- if(randomStay.State.RestDuration<120||randomStay.State.RestDuration>3600)throw new Exception("stay range");
+ if(randomStay.State.RestDuration<1200||randomStay.State.RestDuration>3600)throw new Exception("stay range");
 }
-Check(true,"sampled stays always fall within two to sixty minutes");
+Check(true,"sampled stays always fall within twenty to sixty minutes");
 var mover=new PetEngine(new PetState{X=500,Y=500,RestDuration=120,RestElapsed=119},99);mover.Layout(1200,800);Advance(mover,5);
-Check(mover.Action=="walk","finished short stay causes one relocation");Advance(mover,10);
-Check(mover.Action!="walk"&&mover.State.RestElapsed<15&&mover.State.RestDuration>=120,"arrival draws a fresh long stay once");
+Check(mover.Action=="sleep","legacy short stay settles to sleep instead of forcing relocation");Advance(mover,10);
+Check(mover.Action!="walk"&&mover.State.RestElapsed<135&&mover.State.RestDuration>=120,"rest expiry never forces a sleeping cat to roam");
 var hover=new PetEngine(new PetState{X=500,Y=400,RestDuration=600},1);
 for(int i=0;i<49;i++)hover.ObservePointer(.1,true,new Spot(500,330));
 Check(hover.Action!="rub","hover under five seconds does not rub");
@@ -300,7 +300,7 @@ var videoEntries=Enumerable.Range(1,21).ToDictionary(n=>"video-"+n.ToString("00"
 videoEntries["video-right"]=new {fps=24,loop=true,mirrorWithFacing=false};
 using var videoDoc=System.Text.Json.JsonDocument.Parse(System.Text.Json.JsonSerializer.Serialize(new {videoGraph=true,clips=videoEntries}));
 var videos=new SpritePlayback();videos.Load(videoDoc.RootElement,id=>id=="video-right"?39:121);
-Check(videos.Sample("idle",0)?.Clip=="video-01"&&videos.Sample("sit",5.05)?.Clip=="video-02","front idle variants advance without resetting on rest decisions");
+Check(videos.Sample("idle",0)?.Clip=="video-01"&&videos.Sample("sit",5.05)?.Clip=="video-01","front idle keeps gentle blinking instead of continuously cycling large gestures");
 Check(videos.Sample("walk",6,false)?.Clip=="video-06"&&videos.Sample("walk",11.05,false)?.Clip=="video-10"&&videos.Sample("walk",16.1,false)?.Clip=="video-right","right locomotion chains front rise and start before gait");
 Check(videos.Sample("walk",17,true)?.Clip=="video-11"&&videos.Sample("walk",22.05,true)?.Clip=="video-15"&&videos.Sample("walk",27.1,true)?.Clip=="video-12"&&videos.Sample("walk",32.15,true)?.Clip=="video-14","right to left uses stop, real turn, start and independent left gait");
 Check(videos.Sample("idle",33,true)?.Clip=="video-13"&&videos.Sample("idle",38.05,true)?.Clip=="video-09"&&videos.Sample("idle",43.1,true)?.Definition.MirrorWithFacing==false,"left arrival returns to front without swapping asymmetric eyes");
@@ -353,7 +353,7 @@ if(File.Exists(runtimeManifest))
  PlayRoute("idle",26);PlayRoute("walk",6);PlayRoute("idle",8);PlayRoute("walk",6,true);PlayRoute("idle",8);
  PlayRoute("walk",6);PlayRoute("walk",12,true);PlayRoute("walk",12);PlayRoute("idle",8);
  PlayRoute("sleep",12);PlayRoute("wake",9);
- Check(Enumerable.Range(1,21).All(n=>visited.Contains("video-"+n.ToString("00")))&&visited.Contains("video-right"),"installed trimmed manifest reaches all 21 clips and accepted right gait through real routes");
+ Check(Enumerable.Range(1,21).Where(n=>n==1||n>=6).All(n=>visited.Contains("video-"+n.ToString("00")))&&visited.Contains("video-right"),"rest and movement routes reach required clips without automatic large idle gestures");
  Check(framesValid,"all replacement route frames stay in bounds and preserve asymmetric eye direction");
 }
 var mattePixels=new byte[21*21*4];
@@ -467,5 +467,40 @@ for(int seed=0;seed<30;seed++)
  var wander=new PetEngine(new PetState{X=420,RestDuration=120,RestElapsed=121},seed);wander.Layout(1200,800);wander.Update(.1,12);Advance(wander,35);
  roamingClear&=wander.IsClearRestSpot(wander.State.X);
 }
-Check(roamingClear,"random roaming settles outside furniture over multiple routes");
+Check(roamingClear,"rest decisions remain outside furniture over multiple seeds");
+// Long-horizon behavior checks: sleep is persistent, while real care still runs.
+var quiet=new PetEngine(new PetState{X=350,Y=752,RestDuration=120},9);quiet.Layout(1200,800);
+Advance(quiet,55);long quietRevision=quiet.ActionRevision;
+Check(quietRevision<=1,"quiet idle does not reroll its behavior every second");
+Advance(quiet,6);double quietX=quiet.State.X;Advance(quiet,3700);
+Check(quiet.Action=="sleep"&&quiet.State.X==quietX,"sleep persists across rest deadlines without forced wake or roaming");
+for(int seed=0;seed<40;seed++)
+{
+ var wakeCat=new PetEngine(new PetState{X=350,Y=752,Sleeping=true,SleepingInNest=false},seed);wakeCat.Layout(1200,800);
+ wakeCat.Interact();Advance(wakeCat,20);
+ if(wakeCat.State.X!=350||wakeCat.State.Sleeping)throw new Exception("click wake unexpectedly relocates or immediately sleeps");
+}
+Check(true,"forty wake seeds stay put and allow interaction instead of random relocation");
+using(var calmDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var animations=calmDoc.RootElement.GetProperty("animations");
+ foreach(int seed in new[]{7,21,43})
+ {
+  var pb=new SpritePlayback();pb.Load(calmDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
+  var cat=new PetEngine(new PetState{X=350,Y=752,Food=100,Water=100,Litter=0},seed);
+  cat.Layout(1200,800);cat.VisualActionDuration=pb.ActionDuration;cat.VisualConsumptionWindow=pb.ConsumptionWindow;
+  cat.VisualVelocity=pb.HorizontalVelocity;
+  int sleeping=0,moving=0,drinks=0,meals=0;string previous="";
+  for(int step=0;step<36000;step++)
+  {
+   cat.AdvanceNeeds(.1);cat.Update(.1,12);pb.Sample(cat.Action,cat.Now,cat.FacingLeft);
+   if(cat.Action=="sleep")sleeping++;if(cat.Action=="walk")moving++;
+   if(cat.Action!=previous){if(cat.Action=="drink")drinks++;if(cat.Action=="eat")meals++;}previous=cat.Action;
+   // Owner keeps supplies available; replenishment does not interact with the cat.
+   if(cat.State.Water<20)cat.Refill("water");if(cat.State.Food<20)cat.Refill("food");
+  }
+  Console.WriteLine($"CALM seed={seed} sleep={sleeping/360d:F1}% move={moving/360d:F1}% drinks={drinks} meals={meals}");
+  Check(sleeping>36000*.80&&moving<36000*.10&&drinks>0&&meals>0,"one-hour native-animation simulation mostly sleeps and still completes scheduled care");
+ }
+}
 Console.WriteLine($"{checks} checks passed.");

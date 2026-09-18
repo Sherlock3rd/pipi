@@ -23,7 +23,6 @@ public sealed class SpritePlayback
     private string careAction="",careExit="";
     private double careStarted,exitStarted;
     private string pose="F",destination="F";
-    private int idleVariant;
     private static readonly (string From,string To,string Clip)[] edges={
         ("F","SR","06"),("SR","F","07"),("F","SL","08"),("SL","F","09"),
         ("SR","WR","10"),("WR","SR","11"),("SL","WL","12"),("WL","SL","13"),
@@ -57,7 +56,7 @@ public sealed class SpritePlayback
             &&clips.ContainsKey("video-01")&&clips.ContainsKey("video-14")&&clips.ContainsKey("video-right");
         careGraph=manifest.TryGetProperty("careVideoGraph",out var care)&&care.GetBoolean()&&clips.ContainsKey("video-22");
     }
-    public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";idleVariant=0;}
+    public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
         "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
@@ -177,7 +176,7 @@ public sealed class SpritePlayback
             if(!playing.Loop&&now-started<playing.Duration)
                 return new(current,(int)Math.Min(playing.Count-1,Math.Floor((now-started)*playing.Fps)),playing);
             if(!playing.Loop){nextStarted=started+playing.Duration;pose=destination;current="";}
-            else if(pose!=target||pose=="F"&&now-started>=playing.Duration)current="";
+            else if(pose!=target)current="";
         }
         if(current.Length==0)
         {
@@ -193,7 +192,7 @@ public sealed class SpritePlayback
                         search.Enqueue((e.To,route.First.Length==0?e.Clip:route.First,route.First.Length==0?e.To:route.End));
                 }
             }
-            else current=pose switch {"WR"=>"video-right","WL"=>"video-14","C"=>"video-20",_=>"video-"+(1+idleVariant++%5).ToString("00")};
+            else current=pose switch {"WR"=>"video-right","WL"=>"video-14","C"=>"video-20",_=>"video-01"};
             started=nextStarted;
         }
         if(!clips.TryGetValue(current,out var clip))return null;

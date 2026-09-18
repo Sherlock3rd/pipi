@@ -1,0 +1,34 @@
+{
+  "Action": "sleep",
+  "DisplayedClip": "video-20",
+  "X": 100,
+  "Y": 423.7647058823529,
+  "RestDuration": 1800,
+  "RestElapsed": 75.0027864000001,
+  "StillSeconds": 75.0027864000001,
+  "averageFrameMs": 16.761600469483568,
+  "maxFrameMs": 71.48349999999937,
+  "checks": 202,
+  "transitions": [
+    {
+      "time": 0,
+      "clip": "video-01",
+      "x": 100
+    },
+    {
+      "time": 10.006735500000001,
+      "clip": "video-17",
+      "x": 100
+    },
+    {
+      "time": 13.643374500000004,
+      "clip": "video-19",
+      "x": 100
+    },
+    {
+      "time": 17.413284700000002,
+      "clip": "video-20",
+      "x": 100
+    }
+  ]
+}
