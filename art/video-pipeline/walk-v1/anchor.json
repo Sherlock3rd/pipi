@@ -1,0 +1,26 @@
+{
+  "version": "walk-v1",
+  "status": "endpoint-candidate-awaiting-user-review-and-external-video",
+  "source": "builtin image_gen",
+  "prompt": "anchor-prompt.md",
+  "sourcePromptRoles": [
+    "references/walk-key-a.png exactpose",
+    "../../concepts/bluecat-b-model-sheet.png identityguard"
+  ],
+  "start": "start.png",
+  "end": "end.png",
+  "identicalFiles": true,
+  "sha256": "6d8e75b90f531e2b15744669a7dac68483f22fdd2d808298759d690dd991e5f0",
+  "size": [
+    1672,
+    941
+  ],
+  "mode": "RGB",
+  "direction": "right",
+  "movement": "in-place four-beat walk",
+  "rootTranslation": "runtime only",
+  "background": "pale warm gray; slight 1-3 channel variation, not true alpha or exact chroma",
+  "videoGenerated": false,
+  "frameTarget": 30,
+  "qualityNote": "static anatomy readable; fur remains detailed; endpoint needs user review; no full motion QA possible before video exists"
+}

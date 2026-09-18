@@ -1,0 +1,9 @@
+Edit the ONE cat in input1 to its NEXT walking KEY pose. Input1 is the exact previous drawing and all its anatomy and painting must remain consistent. Input2 is the fixed canonical bluecat B model sheet for identity. Output ONE full-body right-facing cat with true transparent background, no sheet or labels.
+
+Preserve the head, eyes, nose/mouth, ears, neck, torso, back, hips, thick low tail, fur brushmarks, physical proportions, exact camera and lighting from input1. Change ONLY the four leg positions to the next quarter step; no body/head redesign, no stretching cat longer or makinghead smaller. No floatinghaze,shadow orfloor. Any invisibleRGBoutsidealpha0 isirrelevant.
+
+In input1 the FOREGROUND front leg is straight and grounded while the BACKGROUND front leg is curled forward and airborne. Advance that SAME background front paw DOWN and a little FORWARD until it reaches the ground ahead of the shoulder, with its limb gently extended: this is the new touchdown. Foreground front leg STAYS grounded but trails slightly farther BACK behind its prior location, supporting the shoulder. Do not swap which front limb is in front.
+
+At rear, input1 FOREGROUND rear foot is trailing backwards on ground; now it lifts off and swings LOW forward under the hip, hock flexed, paw airborne below belly. Background rear foot STAYS on ground, slightly behind its former location under hip. Thus new key has BOTH front paws and BACKGROUND rear paw grounded; ONLY FOREGROUND rear paw airborne. Distinct natural joints and stable occlusion; foot cannotemergefrombelly. Four reallegs, one tail. Modest walking step, not hopping/running/reaching.
+
+Keep physical body volume and fur exactly as previouskey. Full paws and tails inside generous transparent margins. This is a controlled anatomical edit, not a newcat illustration.

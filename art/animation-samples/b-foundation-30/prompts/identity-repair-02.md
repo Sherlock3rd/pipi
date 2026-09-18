@@ -1,0 +1,7 @@
+Edit INPUT 1, the five-view painted blue-gray cat model sheet. INPUT 2 is the original style board: ONLY top-middle panel B is the approved matte storybook gouache brushwork. INPUT 3 (photo02) defines the compact nose and quiet mouth. INPUT 4 (photo05) defines tucked curled-sleep anatomy.
+
+Preserve exactly the five current poses, body shapes, adult proportions, physical sizes, positions, complete tails and limbs, gold eyes, gray palette, broad painterly brushwork, and natural perspective. Do not redesign the character or enlarge the side-view head.
+
+Change ONLY these details: remove the conspicuous pale circular paired muzzle lobes in the visible faces, replacing them with softly modeled gray cheek/muzzle planes of the SAME gray value family as surrounding cheek fur. No moustache, no pale double circles, no outlined or bulbous muzzle shapes. Keep the compact charcoal triangular nose; make the mouth line shorter and quieter, like photo02 and B. Preserve the compact sleeping C-curl with head tucked inward toward the chest and forepaws.
+
+Remove ALL ground marks and contact/floor shadows. Output a genuinely transparent alpha background, no ivory paper backdrop, no checkerboard painted into the image, no white or gray opaque background. The five cat views themselves retain their exact painting texture. Do not add any text, borders, guides, floor, props, new marks, or extra views. Full unclipped bodies, tails, and ample separation.

@@ -1,0 +1,81 @@
+{
+  "source": "D:\\gameDesign\\chenpi\\art\\animation-samples\\b-foundation-30\\decoded\\sleep-1.png",
+  "sha256": "cd36a96843e1526e279988077821bcbef7e2670ce87eabdc4485162490535288",
+  "scale": 0.7947019867549668,
+  "frames": 10,
+  "bounds": [
+    [
+      21,
+      310,
+      313,
+      516
+    ],
+    [
+      326,
+      302,
+      616,
+      516
+    ],
+    [
+      628,
+      302,
+      919,
+      516
+    ],
+    [
+      929,
+      296,
+      1220,
+      516
+    ],
+    [
+      1233,
+      294,
+      1525,
+      516
+    ],
+    [
+      20,
+      638,
+      315,
+      861
+    ],
+    [
+      326,
+      639,
+      621,
+      861
+    ],
+    [
+      628,
+      638,
+      920,
+      861
+    ],
+    [
+      928,
+      630,
+      1221,
+      862
+    ],
+    [
+      1231,
+      628,
+      1527,
+      861
+    ]
+  ],
+  "hashes": [
+    "2021757fdee4a9be2c7f7587fac4a578e6038e547c721ffdf1d70156a3b2ca9d",
+    "22bf591324e295247c95b2b7882fd4a46327a9cd649ee3c328bd048555b07646",
+    "63df9d07e0f647291c00f5895f52a926fb3bea30c43367815e66589fcc5b23cf",
+    "bd01f056580785c84d43a3507f7d598cc5ca47ae94b26bb04708d968cc4c49cd",
+    "9bd77486a071fdf0f86b39adac7a9fe0c31b625e74b9ac91fd1fe6718b1ad59e",
+    "7376c7b3d05c341859614098b766f76e818d4d43ea96a2c5163e1f9e1f1aa489",
+    "acb7d6f74b8b2cf8c624cd946eac7f2c40a81105f9bdf2c27410b161c65a9a8c",
+    "c8fbe6ea2c59b3b5f541cc8a9db53a8b13ce1e0919ff050defcd394471415ff2",
+    "578a63e2713005ab4dba5d173062bf7bcbc10dec3c30f66dcd171d7126491d29",
+    "4025cec05dcd2776aa6911c904b94d944958393dea8a4fce0242f276f40848da"
+  ],
+  "status": "unreviewed; first third only, NOT a full cycle"
+}

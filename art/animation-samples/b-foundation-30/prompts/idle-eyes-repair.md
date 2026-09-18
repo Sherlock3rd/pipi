@@ -1,0 +1,5 @@
+Precise EDIT of the attached30-frame seatedcat sheet. Keep exact30catsin5columns6rows, preserveallbody/head/paw/tailgeometry, posepositions, margins, palette, graynose/muzzleandBbrushwork. Change ONLY EYELIDS in the blink segment. All other painting must remain unchanged. Samebodyandheadinslots, norelayoutorrescaling.
+
+Criticalfailedissue: previousmiddleframeswereonlysquinting with goldirisstillvisible. Create a REAL FULLBLINK. Row3col3 through row4col3 (frames13,14,15,16,17,18) musthave BOTH eyes FULLYSHUT: eyelidscompletelycovergoldirisandblackpupil; ZEROgold/yellowirisvisible intheseclosedeyes. Draw only thinsoftdarkcurvedclosed-eyelidlines ongrayfur. Not yellowdashes, not halfclosed, noeyelinergrin. Keepnose,mouth,cheeksandearsunaltered.
+
+Frames09–12 easeupperlidsdown, frames19–22 easeeyesopen, resteyesopen. Both eyes blinktogether. DoNOTchangemuzzleintowhitepadsorasmile; donotlowerhead/alterneck. Preserveall30fullbodydrawingswithtruealphabackgroundandcompletewhiskers. Nosmoke/shadow/haze/grid/text. Input2canonicalforidentityreferenceonly, notredesign.

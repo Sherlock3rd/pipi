@@ -1,0 +1,134 @@
+{
+  "generationMode": "built-in image_gen via hatch-pet workers",
+  "canonicalReference": "references/canonical-sheet.png",
+  "canonicalReview": "qa/identity-02-review.md",
+  "jobs": [
+    {
+      "id": "identity-03-alternate",
+      "output": "decoded/identity-03-alternate.png",
+      "sha256": "bda439b99a3acfca8f139ba20464c38c65ea2397b2878af290597a020c854fe5",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "identity-rejected-02",
+      "output": "decoded/identity-rejected-02.png",
+      "sha256": "00796464ec4e4400380aad61d188e4188a092a0499b93594fd5cf2d7e4c89ce3",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "idle-full-rejected",
+      "output": "decoded/idle-full-rejected.png",
+      "sha256": "96d1badf3faae7dce46ecc0f1b18d505a5e08d9ee5ef3de1c1bf684c5ba1ff12",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "idle-full",
+      "output": "decoded/idle-full.png",
+      "sha256": "f0d2156407a53cfb29b8c834472160a31acab5667323a6acc7ce2588640e05ce",
+      "status": "static-pass-pending-full-animation-integration"
+    },
+    {
+      "id": "move-to-sit-rejected",
+      "output": "decoded/move-to-sit-rejected.png",
+      "sha256": "6860c20085f7d0b5972731680d69feaf8fad3831196bad6e8fa8b7f6b14ebffd",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "sit-to-sleep-rejected-25",
+      "output": "decoded/sit-to-sleep-rejected-25.png",
+      "sha256": "1b89c4fefea3e8ccd31b749a81eb359f850d947b90dd8c253eaab66e85936778",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "sleep-1",
+      "output": "decoded/sleep-1.png",
+      "sha256": "cd36a96843e1526e279988077821bcbef7e2670ce87eabdc4485162490535288",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "sleep-full",
+      "output": "decoded/sleep-full.png",
+      "sha256": "f1f5cb4c808117c037ab0878eb115995a27220443f3097130436fe4f5b09065a",
+      "status": "static-pass-pending-full-animation-integration"
+    },
+    {
+      "id": "sleep-left-full",
+      "output": "decoded/sleep-left-full.png",
+      "sha256": "f1f5cb4c808117c037ab0878eb115995a27220443f3097130436fe4f5b09065a",
+      "status": "static-pass-pending-full-animation-integration"
+    },
+    {
+      "id": "sleep-right-full",
+      "output": "decoded/sleep-right-full.png",
+      "sha256": "14b984405d40ea69ebf887804ee3b5c9c4674268d218220ef10f2754a1524dd0",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "sleep-right-gutters",
+      "output": "decoded/sleep-right-gutters.png",
+      "sha256": "6f44892c3e5e3910c13749f6553084dcea6dcb7443ed4a12c6e7be092e774af2",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-1-rejected-02",
+      "output": "decoded/walk-1-rejected-02.png",
+      "sha256": "4f92df3ebf1963692a962eaf00f81653bea278bbf5299744c35bd579aa5ceb3b",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-1",
+      "output": "decoded/walk-1.png",
+      "sha256": "4f92df3ebf1963692a962eaf00f81653bea278bbf5299744c35bd579aa5ceb3b",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-ab-rejected-fixed-key",
+      "output": "decoded/walk-ab-rejected-fixed-key.png",
+      "sha256": "3c1d3cd1c43224e486362d75e6f09515ce7e95d9a443a9fe81c7e7ce0fdb5480",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-ab-rejected",
+      "output": "decoded/walk-ab-rejected.png",
+      "sha256": "b44d41ca326c96bde1c14d48b2a3746b689ebb65892c40a6cf0d7f645873acc5",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-key-a",
+      "output": "decoded/walk-key-a.png",
+      "sha256": "d1c1d50fb10ae746c317e41ff52cfae7985e98fabe98908b105042d9912bc01d",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-key-b-fixed",
+      "output": "decoded/walk-key-b-fixed.png",
+      "sha256": "b4690bb7e7f976796ed09266f40d1f59bdd73fbdc906d2af283bfb9a9823509d",
+      "status": "single-key-overlap-pass-sequence-fails"
+    },
+    {
+      "id": "walk-key-b",
+      "output": "decoded/walk-key-b.png",
+      "sha256": "0507ca9ef95327d3aa414cd0ec73161d9a7dce9b001456be2fb3d86e11400fcc",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-key-c",
+      "output": "decoded/walk-key-c.png",
+      "sha256": "4279a81b47e8e9f599118972ae99811518b45e529264bfef6067c79acc90de93",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-key-d",
+      "output": "decoded/walk-key-d.png",
+      "sha256": "1e14a9193c102d8717c528ca604c54d5ae1b5832b05e2f9ea835826c9d3f9fb2",
+      "status": "retained-reference-or-rejected-see-qa"
+    },
+    {
+      "id": "walk-keys-rejected",
+      "output": "decoded/walk-keys-rejected.png",
+      "sha256": "0a180f2e086d36cdf637896d0c08aa832c009fddd3be42b293bc4bec64d587b8",
+      "status": "retained-reference-or-rejected-see-qa"
+    }
+  ],
+  "pendingDecision": "Original-layer rigging vs continued imagegen; no runtime installation"
+}

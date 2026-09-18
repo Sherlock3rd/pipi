@@ -1,0 +1,644 @@
+{
+  "scope": "Independent static visual review plus frame geometry; dynamic playback not assessed by this reviewer",
+  "source_sha256": "f1f5cb4c808117c037ab0878eb115995a27220443f3097130436fe4f5b09065a",
+  "frames": [
+    {
+      "frame": 1,
+      "file": "00.png",
+      "sha256": "a6874151387716e57fb005a2e22f4bc0877a0c88831a9b14475d32b6af67c327",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        39,
+        108,
+        216,
+        235
+      ],
+      "opaque_area": 16947,
+      "centroid_alpha128": [
+        130.433,
+        173.403
+      ]
+    },
+    {
+      "frame": 2,
+      "file": "01.png",
+      "sha256": "92f4a13c0d3d8f9ded1245f0f09b77913aca07a55bf19d13a15a51f351f5b467",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        216,
+        236
+      ],
+      "opaque_area": 17210,
+      "centroid_alpha128": [
+        130.133,
+        173.032
+      ]
+    },
+    {
+      "frame": 3,
+      "file": "02.png",
+      "sha256": "f0baa918f4f7188cad8e8ca77bc2b9b6e5c84fd0c936b75aa8d4934d8d6ced5f",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        109,
+        217,
+        235
+      ],
+      "opaque_area": 17152,
+      "centroid_alpha128": [
+        130.754,
+        173.767
+      ]
+    },
+    {
+      "frame": 4,
+      "file": "03.png",
+      "sha256": "bf95cffe5bdbe8fdc4213697e30806a5638fa3fa998cba4c05fa2ac77dcd1191",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        109,
+        217,
+        236
+      ],
+      "opaque_area": 17211,
+      "centroid_alpha128": [
+        130.889,
+        173.876
+      ]
+    },
+    {
+      "frame": 5,
+      "file": "04.png",
+      "sha256": "f85a4e3373c0bf1a47928e3369e8ba168dd3216a851beb4e864dacd9bab5db40",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        217,
+        235
+      ],
+      "opaque_area": 17235,
+      "centroid_alpha128": [
+        130.343,
+        173.154
+      ]
+    },
+    {
+      "frame": 6,
+      "file": "05.png",
+      "sha256": "ffeb4b52ec28f2d38508d00699cbbfacd5e914008dbd70d7b5e5125228b47225",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        107,
+        217,
+        235
+      ],
+      "opaque_area": 17334,
+      "centroid_alpha128": [
+        130.732,
+        172.918
+      ]
+    },
+    {
+      "frame": 7,
+      "file": "06.png",
+      "sha256": "fb8a96725b1b46a06c514df18272a01194c8e3d783433eebe1290c3d364a69fb",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        107,
+        218,
+        235
+      ],
+      "opaque_area": 17377,
+      "centroid_alpha128": [
+        131.161,
+        172.703
+      ]
+    },
+    {
+      "frame": 8,
+      "file": "07.png",
+      "sha256": "903320d4862bbbfe9c5c359fa93578d7a9d62224b61c38e514b351072986dd5d",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        107,
+        217,
+        235
+      ],
+      "opaque_area": 17485,
+      "centroid_alpha128": [
+        130.339,
+        173.114
+      ]
+    },
+    {
+      "frame": 9,
+      "file": "08.png",
+      "sha256": "3b494d9063f153e7053283afcbb285258019595670eec59a72540b190b415438",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        107,
+        217,
+        235
+      ],
+      "opaque_area": 17312,
+      "centroid_alpha128": [
+        130.732,
+        172.784
+      ]
+    },
+    {
+      "frame": 10,
+      "file": "09.png",
+      "sha256": "df3d6b09a989e5ebb2a8b55a81b748641a8da073df30de984fb6539964d167c5",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        107,
+        217,
+        235
+      ],
+      "opaque_area": 17115,
+      "centroid_alpha128": [
+        131.026,
+        172.971
+      ]
+    },
+    {
+      "frame": 11,
+      "file": "10.png",
+      "sha256": "0ad914e07190d70b2b478a6a2f897250dc721594caf9fafd5ee93eb98a6440b0",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        108,
+        217,
+        235
+      ],
+      "opaque_area": 17222,
+      "centroid_alpha128": [
+        130.209,
+        172.945
+      ]
+    },
+    {
+      "frame": 12,
+      "file": "11.png",
+      "sha256": "6d56ee2c807e86aa6d9f3ed68369a1bfe74a09aca1bbbda6eec78767b505b0ae",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        218,
+        235
+      ],
+      "opaque_area": 17254,
+      "centroid_alpha128": [
+        130.874,
+        172.997
+      ]
+    },
+    {
+      "frame": 13,
+      "file": "12.png",
+      "sha256": "4499f23b534350807c77e5937e693fd87728787253072857460cabec8e1ee094",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        108,
+        217,
+        235
+      ],
+      "opaque_area": 17459,
+      "centroid_alpha128": [
+        130.273,
+        172.642
+      ]
+    },
+    {
+      "frame": 14,
+      "file": "13.png",
+      "sha256": "84a76737c1f32aa4ed64dc6e681917670dc70b874d23948cc51181352b7965c0",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        108,
+        217,
+        235
+      ],
+      "opaque_area": 17353,
+      "centroid_alpha128": [
+        130.696,
+        173.005
+      ]
+    },
+    {
+      "frame": 15,
+      "file": "14.png",
+      "sha256": "4422cef9b901895a3fb1236b6f0601676a03af4f01583b5d87064a17c4b4ca49",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        218,
+        235
+      ],
+      "opaque_area": 17208,
+      "centroid_alpha128": [
+        130.668,
+        173.637
+      ]
+    },
+    {
+      "frame": 16,
+      "file": "15.png",
+      "sha256": "3488f65d0bfe1258c7cadd7569482352ef7289b3d9f86a2284ed854cf117be9f",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        108,
+        217,
+        235
+      ],
+      "opaque_area": 17085,
+      "centroid_alpha128": [
+        130.501,
+        173.552
+      ]
+    },
+    {
+      "frame": 17,
+      "file": "16.png",
+      "sha256": "7f6c19d3ef6e37362cdaa63961a6fca993fb3a5026efc8ac71fc6159b48f5241",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        218,
+        236
+      ],
+      "opaque_area": 17224,
+      "centroid_alpha128": [
+        131.06,
+        173.754
+      ]
+    },
+    {
+      "frame": 18,
+      "file": "17.png",
+      "sha256": "b2b2752976c35e33e6708b89c0ac5b93483dc590defaa57affa0f36959296cd2",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        109,
+        217,
+        236
+      ],
+      "opaque_area": 17357,
+      "centroid_alpha128": [
+        130.031,
+        173.874
+      ]
+    },
+    {
+      "frame": 19,
+      "file": "18.png",
+      "sha256": "c9e5ff9f6a0e4c3a7fcb758d809e97697dccc14134480dd2a1dbb5e42e55caa8",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        217,
+        236
+      ],
+      "opaque_area": 17195,
+      "centroid_alpha128": [
+        130.737,
+        173.592
+      ]
+    },
+    {
+      "frame": 20,
+      "file": "19.png",
+      "sha256": "e2c4bf8bc9620d57c96c820f46f3dae692a536a78c38f9922dfcf96a14e22061",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        107,
+        218,
+        235
+      ],
+      "opaque_area": 17249,
+      "centroid_alpha128": [
+        130.92,
+        172.909
+      ]
+    },
+    {
+      "frame": 21,
+      "file": "20.png",
+      "sha256": "703a16f54a984579edacccb956791d0336521405ac0409e6a7fb01650ffb7251",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        106,
+        218,
+        235
+      ],
+      "opaque_area": 17350,
+      "centroid_alpha128": [
+        131.353,
+        172.403
+      ]
+    },
+    {
+      "frame": 22,
+      "file": "21.png",
+      "sha256": "da2b29dabe51645c126c4e7ed9a8ffb58a038ce157d265829763165405f721a3",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        106,
+        218,
+        235
+      ],
+      "opaque_area": 17391,
+      "centroid_alpha128": [
+        131.186,
+        172.078
+      ]
+    },
+    {
+      "frame": 23,
+      "file": "22.png",
+      "sha256": "8b86fa21699654cfc26c282cd7daa30562c9feed884dae08d31269f42132e721",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        107,
+        219,
+        235
+      ],
+      "opaque_area": 17607,
+      "centroid_alpha128": [
+        130.917,
+        172.554
+      ]
+    },
+    {
+      "frame": 24,
+      "file": "23.png",
+      "sha256": "42d9d57943c7f655940cc6b2350df1c5eb2a8485286bbd66b5e02bc24338d53d",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        107,
+        218,
+        235
+      ],
+      "opaque_area": 17487,
+      "centroid_alpha128": [
+        130.727,
+        172.687
+      ]
+    },
+    {
+      "frame": 25,
+      "file": "24.png",
+      "sha256": "4ee01d8c5458f9c0681c4eba5ea6a5de03548550870420c3cfc4504f11e7136d",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        107,
+        218,
+        235
+      ],
+      "opaque_area": 17439,
+      "centroid_alpha128": [
+        130.988,
+        172.435
+      ]
+    },
+    {
+      "frame": 26,
+      "file": "25.png",
+      "sha256": "6435d688352e2d95982539a417613ecbb8c28caa926067b27b9f9f0661ea285f",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        110,
+        217,
+        235
+      ],
+      "opaque_area": 17014,
+      "centroid_alpha128": [
+        130.613,
+        174.278
+      ]
+    },
+    {
+      "frame": 27,
+      "file": "26.png",
+      "sha256": "1770fb5cb3e200e72cb72f3ee7c0fa092002f0acef0fe6203ae2d6d621c8dbaa",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        109,
+        218,
+        236
+      ],
+      "opaque_area": 17111,
+      "centroid_alpha128": [
+        131.104,
+        173.895
+      ]
+    },
+    {
+      "frame": 28,
+      "file": "27.png",
+      "sha256": "ed50fefd44289e5f4bbabcdac3c003870ebbcb946596dc55a1c4c540e1b44eeb",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        36,
+        109,
+        217,
+        235
+      ],
+      "opaque_area": 17196,
+      "centroid_alpha128": [
+        130.272,
+        173.94
+      ]
+    },
+    {
+      "frame": 29,
+      "file": "28.png",
+      "sha256": "f9dc1891954d5fa1ff89d5f2b331c32f4f066989f66abed9fa65e3d4102e7fb2",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        37,
+        110,
+        217,
+        236
+      ],
+      "opaque_area": 17157,
+      "centroid_alpha128": [
+        130.393,
+        174.477
+      ]
+    },
+    {
+      "frame": 30,
+      "file": "29.png",
+      "sha256": "9670256e9b14f88ab030942e29f08f44151b84310300065d215a72663f1effad",
+      "mode": "RGBA",
+      "size": [
+        256,
+        256
+      ],
+      "bounds_alpha128": [
+        38,
+        108,
+        218,
+        235
+      ],
+      "opaque_area": 17090,
+      "centroid_alpha128": [
+        130.871,
+        173.257
+      ]
+    }
+  ],
+  "static_visual_qa": "pass",
+  "animation_acceptance": "pending_dynamic_review",
+  "required_dynamic_focus": [
+    "25->26",
+    "29->30->1",
+    "breathing_vs_texture_flicker"
+  ],
+  "report": "sleep-30-review.md"
+}

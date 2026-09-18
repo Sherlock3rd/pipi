@@ -1,0 +1,81 @@
+{
+  "source": "D:\\gameDesign\\chenpi\\art\\animation-samples\\b-foundation-30\\decoded\\walk-1.png",
+  "sha256": "4f92df3ebf1963692a962eaf00f81653bea278bbf5299744c35bd579aa5ceb3b",
+  "scale": 0.729483282674772,
+  "frames": 10,
+  "bounds": [
+    [
+      7,
+      163,
+      295,
+      408
+    ],
+    [
+      315,
+      163,
+      614,
+      408
+    ],
+    [
+      618,
+      164,
+      911,
+      408
+    ],
+    [
+      920,
+      164,
+      1243,
+      408
+    ],
+    [
+      1230,
+      165,
+      1527,
+      407
+    ],
+    [
+      8,
+      612,
+      305,
+      851
+    ],
+    [
+      311,
+      614,
+      619,
+      852
+    ],
+    [
+      614,
+      616,
+      917,
+      853
+    ],
+    [
+      922,
+      616,
+      1225,
+      853
+    ],
+    [
+      1224,
+      613,
+      1521,
+      852
+    ]
+  ],
+  "hashes": [
+    "bc9b4ae2ad0f779b62853ff430b5b6a20c748e3971e0d9764435f3edaa814c3b",
+    "f5a173323b46d51d44e76241c7c2b553f9c7fcffbaf3d66178b65e6f848d95be",
+    "15a79b54e40205f5f8a1c830e6bb476717f377a446464881f5925e0ebfcb74c2",
+    "a747cc5fd5a1f5154283d505e092b16602ee9ca86ec3f03eeb0b67ff4aceac58",
+    "cfb1210ccfeb8548777cc3f7b60b2bc36fde47eaa41e124f0175283779c62807",
+    "56181af1579f21880888606174fb9efe79293d2349f0a271214262918f54d0b1",
+    "72e182773ca169d60dddd90de391343e55e8da2c5ef358d67a7e4eb37315f094",
+    "bb98f2e54e5902ea41e985fa2004756926040691489bf4567f03e583c8569932",
+    "1c4fa0b2480af1d1f788d3cfae7a9e6fc52d29428257e2a2d8ee3b88c58b4ac6",
+    "3eedad9999399687273565f478e4104416d6c2678ccbbc144aa1392146a13560"
+  ],
+  "status": "unreviewed; first third only, NOT a full cycle"
+}
