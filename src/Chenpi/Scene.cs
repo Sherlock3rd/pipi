@@ -90,6 +90,7 @@ internal sealed class Scene : FrameworkElement
     private string lastSpriteClip="";
     private bool nestOcclusion;
     private bool nestSupported;
+    private bool litterSupported;
     private double poseLift;
     private double poseUpdatedAt=-1;
     private static BitmapSource? LoadProp(string name)
@@ -301,7 +302,9 @@ internal sealed class Scene : FrameworkElement
         if(nestSupported&&InteractionGeometry.NestSupport(Engine.VisualPosition.X,Engine.Nest.X)<=0)nestSupported=false;
         nestOcclusion=nestSupported&&Engine.Action!="drag";
         DrawNest(dc,false);
-        bool eating=Engine.Action=="eat",drinking=Engine.Action=="drink",usingLitter=Engine.Action is "toilet" or "bury";
+        if(Engine.Action is "toilet" or "bury")litterSupported=true;
+        if(litterSupported&&InteractionGeometry.LitterSupport(Engine.VisualPosition.X,Engine.LitterSpot.X)<=0)litterSupported=false;
+        bool eating=Engine.Action=="eat",drinking=Engine.Action=="drink",usingLitter=litterSupported&&Engine.Action!="drag";
         if(eating)DrawCareBowl(dc,Engine.FoodSpot,shownFood,false,false);
         if(drinking)DrawCareBowl(dc,Engine.WaterSpot,shownWater,true,false);
         DrawLitter(dc);
@@ -457,7 +460,7 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity)
     {
-        dc.PushTransform(new ScaleTransform(InteractionGeometry.LitterScale,InteractionGeometry.LitterScale,p.X,p.Y));
+        dc.PushTransform(new ScaleTransform(InteractionGeometry.LitterScaleX,InteractionGeometry.LitterScale,p.X,p.Y));
         DrawLitterUnscaled(dc,p,quantity);dc.Pop();
     }
     private static void DrawLitterUnscaled(DrawingContext dc,Spot p,double quantity)
@@ -468,7 +471,8 @@ internal sealed class Scene : FrameworkElement
             dc.DrawImage(litterSprite,new Rect(p.X-56,p.Y-34,112,62));
             for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)
             {
-                double x=p.X-29+i*14,y=p.Y+3+(i%2)*4;
+                var clump=InteractionGeometry.LitterClump(i);
+                double x=p.X+clump.X/InteractionGeometry.LitterScaleX,y=p.Y+28+clump.Y/InteractionGeometry.LitterScale;
                 dc.DrawEllipse(Brush("#80705A"),null,new Point(x,y),6,3.5);
                 dc.DrawEllipse(Brush("#9C876C"),null,new Point(x-1,y-.8),4,2);
             }
@@ -478,7 +482,11 @@ internal sealed class Scene : FrameworkElement
         dc.DrawRoundedRectangle(Brush("#A4AF9C"),new Pen(Brush("#79836F"),1.5),new Rect(p.X-56,p.Y-27,112,56),15,15);
         dc.DrawRoundedRectangle(Brush("#E3D8BE"),new Pen(Brush("#C2B79C"),1),new Rect(p.X-47,p.Y-21,94,32),11,11);
         for(int i=0;i<25;i++)dc.DrawEllipse(Brush("#C5B79B"),null,new Point(p.X-39+(i*17%78),p.Y-15+(i*11%21)),1.5,1);
-        for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)dc.DrawEllipse(Brush("#8D7560"),null,new Point(p.X-32+i*16,p.Y-5+(i%2)*6),8,5);
+        for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)
+        {
+            var clump=InteractionGeometry.LitterClump(i);
+            dc.DrawEllipse(Brush("#8D7560"),null,new Point(p.X+clump.X/InteractionGeometry.LitterScaleX,p.Y+28+clump.Y/InteractionGeometry.LitterScale),6,3.5);
+        }
     }
     private void DrawVideoFrame(DrawingContext dc,BitmapSource image,SpriteClip definition)
     {
@@ -494,6 +502,8 @@ internal sealed class Scene : FrameworkElement
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
             double targetLift=Engine.Grounded?InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),false,action):0;
+            if(Engine.Grounded&&litterSupported&&Engine.Action!="toilet")
+                targetLift=InteractionGeometry.LitterSupport(Engine.VisualPosition.X,Engine.LitterSpot.X)+(action=="drag"?InteractionGeometry.PickupLift:0);
             if(Engine.Grounded&&nestSupported)
                 targetLift=InteractionGeometry.NestSupport(Engine.VisualPosition.X,Engine.Nest.X)+(action=="drag"?InteractionGeometry.PickupLift:0);
             double delta=poseUpdatedAt<0?0:Math.Max(0,Engine.Now-poseUpdatedAt);

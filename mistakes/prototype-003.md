@@ -25,3 +25,5 @@
 层级切换必须验证完整往返和实际画面，不能只检查进程存在、父句柄或场景导出图。透明窗口换宿主时显式清理旧回调、共享实时模型，防止双计时与重置进度。
 
 API 样式顺序依据：[Microsoft SetParent](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setparent)、[SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos)。WPF 本机显示故障结论来自上述复现，不将其泛化为所有平台的 API 行为。
+
+2026-09-19 发布补记：Stop-Process 返回后立即覆盖仍遇到DLL占用，导致首轮复制失败；确认旧进程退出后完整重复制并核对DLL/manifest哈希恢复。今后停止精确路径的本项目进程后必须Wait-Process，复制遇错即停止，哈希一致才启动，不能把发出停止请求等同于锁已释放。

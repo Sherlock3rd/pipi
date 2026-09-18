@@ -6605,7 +6605,8 @@
       "offsetStartX": 0.0022916793823242188,
       "offsetStartY": 0.02157890796661377,
       "offsetEndX": -2.383604049682617,
-      "offsetEndY": -0.25200265645980835
+      "offsetEndY": -0.25200265645980835,
+      "playbackRate": 2
     },
     "video-07": {
       "fps": 30,
@@ -6620,7 +6621,8 @@
       "offsetStartX": -0.0045833587646484375,
       "offsetStartY": 0.021548867225646973,
       "offsetEndX": -0.0008668899536132812,
-      "offsetEndY": 0.005456417798995972
+      "offsetEndY": 0.005456417798995972,
+      "playbackRate": 2
     },
     "video-08": {
       "fps": 36,
@@ -6635,7 +6637,8 @@
       "offsetStartX": -0.006051063537597656,
       "offsetStartY": -0.007844120264053345,
       "offsetEndX": -0.19353961944580078,
-      "offsetEndY": -0.1558207869529724
+      "offsetEndY": -0.1558207869529724,
+      "playbackRate": 2
     },
     "video-09": {
       "fps": 30,
@@ -6650,7 +6653,8 @@
       "offsetStartX": 0.0,
       "offsetStartY": 0.0,
       "offsetEndX": 0.0677032470703125,
-      "offsetEndY": 0.09551721811294556
+      "offsetEndY": 0.09551721811294556,
+      "playbackRate": 2
     },
     "video-10": {
       "fps": 36,
@@ -6665,7 +6669,8 @@
       "offsetStartX": -0.24031734466552734,
       "offsetStartY": -0.14696332812309265,
       "offsetEndX": 1.5157442092895508,
-      "offsetEndY": 0.11938914656639099
+      "offsetEndY": 0.11938914656639099,
+      "playbackRate": 1.4
     },
     "video-11": {
       "fps": 36,
@@ -6680,7 +6685,8 @@
       "offsetStartX": 3.316875457763672,
       "offsetStartY": -2.846628427505493,
       "offsetEndX": 0.05330085754394531,
-      "offsetEndY": -0.26853203773498535
+      "offsetEndY": -0.26853203773498535,
+      "playbackRate": 1.4
     },
     "video-12": {
       "fps": 36,
@@ -6695,7 +6701,8 @@
       "offsetStartX": -0.6970653533935547,
       "offsetStartY": -0.45224136114120483,
       "offsetEndX": -0.1517486572265625,
-      "offsetEndY": -0.6544123291969299
+      "offsetEndY": -0.6544123291969299,
+      "playbackRate": 1.4
     },
     "video-13": {
       "fps": 36,
@@ -6710,7 +6717,8 @@
       "offsetStartX": -1.3141107559204102,
       "offsetStartY": -1.962545782327652,
       "offsetEndX": -0.09961509704589844,
-      "offsetEndY": -0.000926971435546875
+      "offsetEndY": -0.000926971435546875,
+      "playbackRate": 1.4
     },
     "video-14": {
       "fps": 24,
@@ -6740,7 +6748,8 @@
       "offsetStartX": 0.14646148681640625,
       "offsetStartY": 0.07494252920150757,
       "offsetEndX": -0.4766864776611328,
-      "offsetEndY": -0.0648241639137268
+      "offsetEndY": -0.0648241639137268,
+      "playbackRate": 2
     },
     "video-16": {
       "fps": 36,
@@ -6755,7 +6764,8 @@
       "offsetStartX": -0.17211627960205078,
       "offsetStartY": 0.09083837270736694,
       "offsetEndX": 0.012728691101074219,
-      "offsetEndY": -0.009886354207992554
+      "offsetEndY": -0.009886354207992554,
+      "playbackRate": 2
     },
     "video-17": {
       "fps": 30,
@@ -6770,7 +6780,8 @@
       "offsetStartX": -0.13330364227294922,
       "offsetStartY": -0.14361485838890076,
       "offsetEndX": -0.9853620529174805,
-      "offsetEndY": -0.16671296954154968
+      "offsetEndY": -0.16671296954154968,
+      "playbackRate": 2
     },
     "video-18": {
       "fps": 30,
@@ -6785,7 +6796,8 @@
       "offsetStartX": -0.966131015863084,
       "offsetStartY": -0.6153469234720461,
       "offsetEndX": 0.023586273193359375,
-      "offsetEndY": -0.17490336298942566
+      "offsetEndY": -0.17490336298942566,
+      "playbackRate": 2
     },
     "video-19": {
       "fps": 30,
@@ -6800,7 +6812,8 @@
       "offsetStartX": 0.0,
       "offsetStartY": 0.0,
       "offsetEndX": -0.26158618927001953,
-      "offsetEndY": -0.6681540906429291
+      "offsetEndY": -0.6681540906429291,
+      "playbackRate": 1.6
     },
     "video-20": {
       "fps": 24,
@@ -7437,7 +7450,8 @@
       "offsetStartX": -0.007450103759765625,
       "offsetStartY": 0.0072602033615112305,
       "offsetEndX": -0.03412628173828125,
-      "offsetEndY": -0.1618562936782837
+      "offsetEndY": -0.1618562936782837,
+      "playbackRate": 1.8
     },
     "video-right": {
       "fps": 24,
@@ -7467,7 +7481,8 @@
       "offsetStartX": 0.0,
       "offsetStartY": 0.0,
       "offsetEndX": -0.017423629760742188,
-      "offsetEndY": -0.00033473968505859375
+      "offsetEndY": -0.00033473968505859375,
+      "playbackRate": 3
     },
     "video-23": {
       "fps": 24.0,
@@ -7497,7 +7512,8 @@
       "offsetStartX": 0.00171661376953125,
       "offsetStartY": -0.0009591579437255859,
       "offsetEndX": -0.011235237121582031,
-      "offsetEndY": 0.006251424551010132
+      "offsetEndY": 0.006251424551010132,
+      "playbackRate": 3
     },
     "video-25": {
       "fps": 24.0,
@@ -7527,7 +7543,8 @@
       "offsetStartX": -0.003948211669921875,
       "offsetStartY": 0.005052745342254639,
       "offsetEndX": -0.0020170211791992188,
-      "offsetEndY": -0.01562628149986267
+      "offsetEndY": -0.01562628149986267,
+      "playbackRate": 3
     },
     "video-27": {
       "fps": 24.0,
@@ -7557,7 +7574,8 @@
       "offsetStartX": -0.017818450927734375,
       "offsetStartY": 0.005602061748504639,
       "offsetEndX": -0.014934539794921875,
-      "offsetEndY": 0.0020272135734558105
+      "offsetEndY": 0.0020272135734558105,
+      "playbackRate": 3
     },
     "video-29": {
       "fps": 24.0,
@@ -7572,7 +7590,8 @@
       "offsetStartX": -0.008540153503417969,
       "offsetStartY": 0.0023332536220550537,
       "offsetEndX": -0.0237579345703125,
-      "offsetEndY": 0.01609647274017334
+      "offsetEndY": 0.01609647274017334,
+      "playbackRate": 3
     },
     "video-30": {
       "fps": 24.0,
@@ -7602,7 +7621,8 @@
       "offsetStartX": -0.025577545166015625,
       "offsetStartY": 0.0036542415618896484,
       "offsetEndX": -0.026813507080078125,
-      "offsetEndY": 0.03119945526123047
+      "offsetEndY": 0.03119945526123047,
+      "playbackRate": 3
     },
     "video-32": {
       "fps": 24.0,
@@ -7617,7 +7637,8 @@
       "offsetStartX": -0.00043773651123046875,
       "offsetStartY": 0.04548543691635132,
       "offsetEndX": -0.0036220550537109375,
-      "offsetEndY": -0.04253876209259033
+      "offsetEndY": -0.04253876209259033,
+      "playbackRate": 3.2
     },
     "video-33": {
       "fps": 24.0,
@@ -7647,7 +7668,8 @@
       "offsetStartX": 0.007887840270996094,
       "offsetStartY": -0.0070740580558776855,
       "offsetEndX": -0.0060939788818359375,
-      "offsetEndY": 0.01592642068862915
+      "offsetEndY": 0.01592642068862915,
+      "playbackRate": 3.2
     },
     "video-35": {
       "fps": 24.0,

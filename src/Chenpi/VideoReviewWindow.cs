@@ -69,7 +69,7 @@ internal sealed class VideoReviewWindow : Window
         {
             string id=item.GetProperty("id").GetString()!;
             var files=manifest.GetProperty("animations").GetProperty(id).EnumerateArray().Select(f=>f.GetString()!).ToArray();
-            var def=manifest.GetProperty("clips").GetProperty(id);double fps=def.GetProperty("fps").GetDouble();
+            var def=manifest.GetProperty("clips").GetProperty(id);double fps=def.GetProperty("fps").GetDouble()*SpritePlayback.PlaybackSpeed(def);
             double Read(string key,double fallback)=>def.TryGetProperty(key,out var v)?v.GetDouble():fallback;
             clips.Add(new(id,item.GetProperty("label").GetString()!,files,fps,
                 new SpriteClip(files.Length,fps,true,288,288,Read("anchorX",.5),Read("anchorY",.921875),false,Read("scaleStart",1),Read("scaleEnd",1),Read("offsetStartX",0),Read("offsetStartY",0),Read("offsetEndX",0),Read("offsetEndY",0))));

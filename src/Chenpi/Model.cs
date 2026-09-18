@@ -146,6 +146,7 @@ public sealed partial class PetEngine
         FoodSpot=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,FoodSpot.X),GroundY);
         WaterSpot=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,WaterSpot.X),GroundY);
         LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(width-560,GroundY),InteractionGeometry.LitterHalfWidth,50,40);
+        LitterSpot=new Spot(Math.Max(InteractionGeometry.LitterMinimumX,LitterSpot.X),GroundY);
         RememberLayout();
         if(State.X<0||reset){State.X=Nest.X-115;State.Y=Nest.Y-70;}
         State.X=Math.Clamp(State.X,65,width-65);State.Y=GroundY;
@@ -159,6 +160,7 @@ public sealed partial class PetEngine
         double side=kind=="nest"?104:kind=="litter"?InteractionGeometry.LitterHalfWidth:48;
         position=OnGround(new Spot(Math.Clamp(position.X,side,Width-side),Math.Clamp(position.Y,kind=="nest"?145:50,Height-(kind=="nest"?55:40))));
         if(Grounded&&kind is "food" or "water")position=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,position.X),position.Y);
+        if(Grounded&&kind=="litter")position=new Spot(Math.Max(InteractionGeometry.LitterMinimumX,position.X),position.Y);
         switch(kind){case "nest":Nest=position;break;case "food":FoodSpot=position;break;case "water":WaterSpot=position;break;case "litter":LitterSpot=position;break;}
         RememberLayout();
         LastInteraction=Now;
@@ -312,7 +314,7 @@ public sealed partial class PetEngine
         }
         if(ActionTime<duration)return;
         if(Action=="land"){NewRest();SetAction("sit",1,"这里也很舒服");return;}
-        if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);ScheduleNext("litter");RefreshAvailability();Dirty=true;SetAction("bury",3,"把猫砂埋好");return;}
+        if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);ScheduleNext("litter");RefreshAvailability();Dirty=true;Go(LitterSpot,"bury","走到便便旁边埋砂");return;}
         if(Action=="bury") {Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
         if(manualSequence){FinishManualSequence();return;}
         if(LeaveOccupiedRestSpot())return;
@@ -331,12 +333,23 @@ public sealed partial class PetEngine
         target=next=="settle"?NearestRestSpot(destination):CareDestination(destination,next);if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
         arrival=next;SetAction("walk",double.MaxValue,reason);
     }
-    public Spot CareDestination(Spot item,string action)=>OnGround(Grounded&&action is "eat" or "drink"
-        ?new Spot(item.X-InteractionGeometry.MouthOffsetX,item.Y):item);
+    public Spot LitterTarget=>new(LitterSpot.X+InteractionGeometry.LitterClump(SupplyLayers(State.Litter)-1).X,
+        LitterSpot.Y+InteractionGeometry.LitterClump(SupplyLayers(State.Litter)-1).Y);
+    public Spot CareDestination(Spot item,string action)
+    {
+        if(Grounded&&action is "eat" or "drink")item=new(item.X-InteractionGeometry.MouthOffsetX,item.Y);
+        if(Grounded&&action is "toilet" or "bury")
+        {
+            int slot=SupplyLayers(action=="toilet"?Math.Min(100,State.Litter+20):State.Litter)-1;
+            double offset=action=="toilet"?InteractionGeometry.ToiletDepositOffsetX:InteractionGeometry.BuryPawOffsetX;
+            item=new(item.X+InteractionGeometry.LitterClump(slot).X-offset,item.Y);
+        }
+        return OnGround(item);
+    }
     private void Arrive()
     {
         NewRest();
-        if((arrival=="eat"&&State.Food<=0)||(arrival=="drink"&&State.Water<=0)||(arrival=="toilet"&&State.Litter>=100))
+        if((arrival=="eat"&&State.Food<=0)||(arrival=="drink"&&State.Water<=0)||(arrival=="toilet"&&State.Litter>=100)||(arrival=="bury"&&State.Litter<=0))
         {if(manualSequence)FinishManualSequence();else SetAction("sit",1,"目标物品不可用");return;}
         if(arrival=="sleep")Sleep(false);
         else if(arrival=="settle")
@@ -378,6 +391,13 @@ public sealed partial class PetEngine
         if(kind=="food")State.Food=Math.Min(100,(SupplyLayers(State.Food)+1)*20);
         else if(kind=="water")State.Water=Math.Min(100,(SupplyLayers(State.Water)+1)*20);
         else State.Litter=Math.Max(0,(SupplyLayers(State.Litter)-1)*20);
+        if(kind=="litter")
+        {
+            // Cleaning removes the newest clump. Do not scratch an empty target.
+            if(Action=="bury"||(Action=="walk"&&arrival=="bury"))Go(new Spot(LitterSpot.X-240,LitterSpot.Y),"settle","已经清理好了");
+            else if(Action=="toilet")Go(LitterSpot,"toilet","重新对准猫砂位置");
+            else if(Action=="walk")Retarget();
+        }
         RefreshAvailability();
         if(State.CareRequest==kind)FinishRequest();
         Dirty=true;

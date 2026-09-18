@@ -4,7 +4,7 @@ using System.Text.Json;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1)
 {
     public double Duration=>Count/Fps;
     public SpriteClip AtFrame(int index)
@@ -50,6 +50,7 @@ public sealed class SpritePlayback
             {
                 var value=item.Value;int count=frameCount(item.Name);
                 double fps=value.GetProperty("fps").GetDouble();
+                double rate=PlaybackSpeed(value);
                 bool loop=value.GetProperty("loop").GetBoolean();
                 double width=value.TryGetProperty("width",out var w)?w.GetDouble():180;
                 double height=value.TryGetProperty("height",out var h)?h.GetDouble():180;
@@ -57,10 +58,10 @@ public sealed class SpritePlayback
                 double ay=value.TryGetProperty("anchorY",out var y)?y.GetDouble():.921875;
                 if(count>0&&double.IsFinite(fps)&&fps>=1&&fps<=60&&double.IsFinite(width)&&width>0&&width<=512
                     &&double.IsFinite(height)&&height>0&&height<=512&&double.IsFinite(ax)&&ax>=0&&ax<=1&&double.IsFinite(ay)&&ay>=0&&ay<=1)
-                    clips[item.Name]=new(count,fps,loop,width,height,ax,ay,
+                    clips[item.Name]=new(count,fps*rate,loop,width,height,ax,ay,
                         !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
                         ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"),
-                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"));
+                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate);
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
@@ -73,6 +74,7 @@ public sealed class SpritePlayback
                     &&double.IsFinite(s)&&s>=.9&&s<=1.1&&double.IsFinite(px)&&Math.Abs(px)<=20&&double.IsFinite(py)&&Math.Abs(py)<=20)sleepPhases.Add((s,px,py));
     }
     private static double ReadScale(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.9&&n<=1.1?n:1;
+    public static double PlaybackSpeed(JsonElement value)=>value.TryGetProperty("playbackRate",out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
     public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
     private static string[] CareSequence(string action,bool left)=>action switch {
@@ -259,6 +261,6 @@ public sealed class SpritePlayback
             "video-11"=>36*(1-Ease(t/.85)),"video-13"=>-38*(1-Ease(t/.85)),
             "video-15"=>5*(1-2*Ease(t)),"video-16"=>-5*(1-2*Ease(t)),
             _=>0};
-        return velocity*clips[f.Clip].Width/180;
+        return velocity*clips[f.Clip].Width/180*clips[f.Clip].PlaybackRate;
     }
 }

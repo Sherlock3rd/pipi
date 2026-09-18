@@ -168,12 +168,25 @@ try
 }
 finally{Directory.Delete(careFolder,true);}
 var movedTray=new PetEngine(new PetState{X=400,Y=400,Litter=0},8);movedTray.Layout(1200,800);
-movedTray.State.X=movedTray.LitterSpot.X;movedTray.State.Y=movedTray.LitterSpot.Y;
+movedTray.State.X=movedTray.CareDestination(movedTray.LitterSpot,"toilet").X;movedTray.State.Y=movedTray.LitterSpot.Y;
 movedTray.Demo("toilet");Advance(movedTray,4.3);
-Check(movedTray.Action=="bury"&&movedTray.State.Litter==20,"toileting commits once before burial");
+Check(movedTray.Action=="walk"&&movedTray.State.Litter==20,"toileting commits once then walks to the actual clump before burial");
 double toiletDue=movedTray.State.LitterClock.NextDue;
 movedTray.MoveObject("litter",new Spot(500,500));Advance(movedTray,30);
 Check(movedTray.State.Litter==20&&movedTray.State.LitterClock.NextDue==toiletDue,"moving litter during burial does not repeat toilet or resample its clock");
+for(int level=0;level<5;level++)
+{
+ var cat=new PetEngine(new PetState{Litter=level*20},8);cat.Layout(1200,800);
+ var deposit=cat.CareDestination(cat.LitterSpot,"toilet");cat.State.X=deposit.X;cat.State.Y=deposit.Y;
+ cat.Demo("toilet");
+ for(int tick=0;tick<500&&cat.Action!="bury";tick++)cat.Update(.1,12);
+ Check(cat.Action=="bury"&&Math.Abs(cat.State.X+InteractionGeometry.BuryPawOffsetX-cat.LitterTarget.X)<.01
+   &&Math.Abs(deposit.X+InteractionGeometry.ToiletDepositOffsetX-cat.LitterTarget.X)<.01,
+   $"litter layer {level+1}: deposit and subsequent scratch target the same visible clump");
+ Check(cat.State.X-40>=cat.LitterSpot.X-InteractionGeometry.LitterHalfWidth&&deposit.X+70<=cat.LitterSpot.X+InteractionGeometry.LitterHalfWidth,
+   $"litter layer {level+1}: both care stances have room on the tray");
+ cat.Refill("litter");Check(cat.Action!="bury","cleaning the target cancels burial immediately");
+}
 using var variantDoc=System.Text.Json.JsonDocument.Parse("""
 {"variants":[
  {"id":"pet-a","group":"click","baseAction":"pet","enabled":true,"fps":12},
@@ -419,6 +432,7 @@ if(File.Exists(runtimeManifest))
   var careEngine=new PetEngine(new PetState{X=400,Y=400,Food=100,RestDuration=600},1){FoodSpot=new Spot(400,400),VisualActionDuration=carePlayback.ActionDuration,VisualConsumptionWindow=carePlayback.ConsumptionWindow};
   careEngine.Demo("eat");careEngine.Update(.1,12);
   var window=carePlayback.ConsumptionWindow("eat")!.Value;
+  Check(window.Start<1.7&&window.Duration>5&&window.Duration<5.1,"care preparation accelerates to 1.68 seconds while actual intake keeps its original duration");
   Advance(careEngine,window.Start-.2);Check(careEngine.State.Food==100,"lowering head does not consume inventory before the supplied eating loop");
   Advance(careEngine,window.Duration+.4);Check(careEngine.State.Food==80,"one supplied eating loop consumes exactly one of five layers");
   Advance(careEngine,6);Check(careEngine.State.Food==80,"raising head and completing care never consumes a second layer");
@@ -445,7 +459,7 @@ Check(placement.Action=="eat"&&placement.State.X+InteractionGeometry.MouthOffset
 Advance(placement,18);Check(placement.IsClearRestSpot(placement.State.X)&&placement.State.Food==50,"finishing one meal leaves the bowl while consuming one layer");
 placement=RestFixture();placement.State.X=placement.CareDestination(placement.WaterSpot,"drink").X;placement.Demo("drink");placement.Update(.1,12);
 Check(placement.Action=="drink","water interaction remains reachable");
-placement=RestFixture();placement.State.X=placement.LitterSpot.X;placement.Demo("toilet");placement.Update(.1,12);
+placement=RestFixture();placement.State.X=placement.CareDestination(placement.LitterSpot,"toilet").X;placement.Demo("toilet");placement.Update(.1,12);
 Check(placement.Action=="toilet","toilet care remains exempt during actual use");
 Advance(placement,25);Check(placement.IsClearRestSpot(placement.State.X),"completed toilet and bury sequence leaves the tray");
 placement=RestFixture();placement.Sleep();Advance(placement,3);
