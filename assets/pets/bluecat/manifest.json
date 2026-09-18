@@ -6524,7 +6524,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-02": {
       "fps": 24,
@@ -6533,7 +6535,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-03": {
       "fps": 24,
@@ -6542,7 +6546,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-04": {
       "fps": 24,
@@ -6551,7 +6557,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-05": {
       "fps": 24,
@@ -6560,7 +6568,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-06": {
       "fps": 36,
@@ -6569,7 +6579,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0203045685279188
     },
     "video-07": {
       "fps": 30,
@@ -6578,7 +6590,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-08": {
       "fps": 36,
@@ -6587,7 +6601,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0048543689320388
     },
     "video-09": {
       "fps": 30,
@@ -6596,7 +6612,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0248756218905473
     },
     "video-10": {
       "fps": 36,
@@ -6605,7 +6623,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.005,
+      "scaleEnd": 0.99
     },
     "video-11": {
       "fps": 36,
@@ -6614,7 +6634,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 0.9949748743718593,
+      "scaleEnd": 1.005
     },
     "video-12": {
       "fps": 36,
@@ -6623,7 +6645,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0097560975609756,
+      "scaleEnd": 1.0048543689320388
     },
     "video-13": {
       "fps": 36,
@@ -6632,7 +6656,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0097560975609756,
+      "scaleEnd": 1.0048543689320388
     },
     "video-14": {
       "fps": 24,
@@ -6641,7 +6667,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-15": {
       "fps": 36,
@@ -6650,7 +6678,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0151515151515151,
+      "scaleEnd": 1.0097560975609756
     },
     "video-16": {
       "fps": 36,
@@ -6659,7 +6689,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0097560975609756,
+      "scaleEnd": 1.0
     },
     "video-17": {
       "fps": 30,
@@ -6668,7 +6700,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-18": {
       "fps": 30,
@@ -6677,7 +6711,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.009478672985782,
+      "scaleEnd": 1.0
     },
     "video-19": {
       "fps": 30,
@@ -6686,7 +6722,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 0.9933774834437086
     },
     "video-20": {
       "fps": 24,
@@ -6695,7 +6733,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-21": {
       "fps": 30,
@@ -6704,7 +6744,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 0.9906976744186047
     },
     "video-right": {
       "fps": 24,
@@ -6713,7 +6755,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1,
+      "scaleEnd": 0.9949748743718593
     },
     "video-22": {
       "fps": 24.0,
@@ -6722,7 +6766,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-23": {
       "fps": 24.0,
@@ -6731,7 +6777,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-24": {
       "fps": 24.0,
@@ -6740,7 +6788,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-25": {
       "fps": 24.0,
@@ -6749,7 +6799,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-26": {
       "fps": 24.0,
@@ -6758,7 +6810,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-27": {
       "fps": 24.0,
@@ -6767,7 +6821,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-28": {
       "fps": 24.0,
@@ -6776,7 +6832,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-29": {
       "fps": 24.0,
@@ -6785,7 +6843,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-30": {
       "fps": 24.0,
@@ -6794,7 +6854,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-31": {
       "fps": 24.0,
@@ -6803,7 +6865,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-32": {
       "fps": 24.0,
@@ -6812,7 +6876,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-33": {
       "fps": 24.0,
@@ -6821,7 +6887,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.828125,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-34": {
       "fps": 24.0,
@@ -6830,7 +6898,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-35": {
       "fps": 24.0,
@@ -6839,7 +6909,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-36": {
       "fps": 24.0,
@@ -6848,7 +6920,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-37": {
       "fps": 24.0,
@@ -6857,7 +6931,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-38": {
       "fps": 24.0,
@@ -6866,7 +6942,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-39": {
       "fps": 24.0,
@@ -6875,7 +6953,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-40": {
       "fps": 24.0,
@@ -6884,7 +6964,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0067114093959733
     },
     "video-41": {
       "fps": 24.0,
@@ -6893,7 +6975,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-42": {
       "fps": 24.0,
@@ -6902,7 +6986,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-43": {
       "fps": 24.0,
@@ -6911,7 +6997,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-44": {
       "fps": 24.0,
@@ -6920,7 +7008,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-45": {
       "fps": 24.0,
@@ -6929,7 +7019,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-46": {
       "fps": 24.0,
@@ -6938,7 +7030,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-47": {
       "fps": 24.0,
@@ -6947,7 +7041,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-48": {
       "fps": 24.0,
@@ -6956,7 +7052,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-49": {
       "fps": 24.0,
@@ -6965,7 +7063,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-50": {
       "fps": 24.0,
@@ -6974,7 +7074,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0
     },
     "video-51": {
       "fps": 24.0,
@@ -6983,7 +7085,9 @@
       "height": 288,
       "anchorX": 0.5,
       "anchorY": 0.921875,
-      "mirrorWithFacing": false
+      "mirrorWithFacing": false,
+      "scaleStart": 1.0,
+      "scaleEnd": 1.0048780487804878
     }
   },
   "artStatus": "user-authorized-as-is-2026-09-18-not-final-art-approval",
@@ -7253,5 +7357,6 @@
   "videoMattePrepared": true,
   "videoFrameSize": 512,
   "careVideoGraph": true,
-  "videoMatteRevision": 3
+  "videoMatteRevision": 3,
+  "poseScaleRevision": 1
 }

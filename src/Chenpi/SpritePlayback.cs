@@ -4,9 +4,15 @@ using System.Text.Json;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1)
 {
     public double Duration=>Count/Fps;
+    public SpriteClip AtFrame(int index)
+    {
+        double t=Math.Clamp(index/(double)Math.Max(1,Count-1),0,1);t=t*t*(3-2*t);
+        double scale=ScaleStart+(ScaleEnd-ScaleStart)*t;
+        return this with {Width=Width*scale,Height=Height*scale,ScaleStart=1,ScaleEnd=1};
+    }
 }
 public readonly record struct SpriteFrame(string Clip,int Index,SpriteClip Definition);
 
@@ -48,7 +54,8 @@ public sealed class SpritePlayback
                 if(count>0&&double.IsFinite(fps)&&fps>=1&&fps<=60&&double.IsFinite(width)&&width>0&&width<=512
                     &&double.IsFinite(height)&&height>0&&height<=512&&double.IsFinite(ax)&&ax>=0&&ax<=1&&double.IsFinite(ay)&&ay>=0&&ay<=1)
                     clips[item.Name]=new(count,fps,loop,width,height,ax,ay,
-                        !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean());
+                        !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
+                        ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"));
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
@@ -56,6 +63,7 @@ public sealed class SpritePlayback
             &&clips.ContainsKey("video-01")&&clips.ContainsKey("video-14")&&clips.ContainsKey("video-right");
         careGraph=manifest.TryGetProperty("careVideoGraph",out var care)&&care.GetBoolean()&&clips.ContainsKey("video-22");
     }
+    private static double ReadScale(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.9&&n<=1.1?n:1;
     public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
@@ -119,6 +127,11 @@ public sealed class SpritePlayback
     }
     public SpriteFrame? Sample(string action,double now,bool facingLeft=false)
     {
+        var sample=SampleCore(action,now,facingLeft);
+        return sample is SpriteFrame frame?frame with {Definition=frame.Definition.AtFrame(frame.Index)}:null;
+    }
+    private SpriteFrame? SampleCore(string action,double now,bool facingLeft=false)
+    {
         if(!double.IsFinite(now)||now<0)return null;
         if(careGraph&&SampleCare(action,now,facingLeft) is SpriteFrame care)return care;
         if(videoGraph)return SampleVideo(action,now,facingLeft);
@@ -163,6 +176,7 @@ public sealed class SpritePlayback
             "idle" or "sit" or "wake"=>"F",
             "walk" or "toy-run" or "request-walk" or "guide-walk"=>left?"WL":"WR",
             "sleep"=>"C",_=>""};
+        if(action=="care-ready")target="SR";
         // Interaction wins immediately. Never queue a care/drag action behind a video.
         if(target.Length==0){Reset();return null;}
         if(group.Length==0){pose=destination=target=="C"?"C":"F";group=target;}
@@ -180,6 +194,7 @@ public sealed class SpritePlayback
         }
         if(current.Length==0)
         {
+            if(pose=="SR"&&target=="SR")return new("video-22",0,clips["video-22"]);
             if(pose!=target)
             {
                 var search=new Queue<(string Node,string First,string End)>();
@@ -199,6 +214,12 @@ public sealed class SpritePlayback
         int frame=(int)Math.Floor(Math.Max(0,now-started)*clip.Fps);
         return new(current,clip.Loop?frame%clip.Count:Math.Min(clip.Count-1,frame),clip);
     }
+    public bool PrepareCare(double now)
+    {
+        if(!careGraph)return true;
+        SampleVideo("care-ready",now,false);
+        return pose=="SR"&&destination=="SR"&&current.Length==0;
+    }
 
     public double? HorizontalVelocity(string action,double now,bool left)
     {
@@ -214,6 +235,6 @@ public sealed class SpritePlayback
             "video-11"=>36*(1-Ease(t/.85)),"video-13"=>-38*(1-Ease(t/.85)),
             "video-15"=>5*(1-2*Ease(t)),"video-16"=>-5*(1-2*Ease(t)),
             _=>0};
-        return velocity*f.Definition.Width/180;
+        return velocity*clips[f.Clip].Width/180;
     }
 }

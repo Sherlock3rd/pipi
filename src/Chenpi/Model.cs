@@ -76,6 +76,8 @@ public sealed partial class PetEngine
     public Func<string,double,bool,bool>? CanAdvanceMovement {get;set;}
     public Func<string,double,bool,double?>? VisualVelocity {get;set;}
     public Func<string,bool,double?>? VisualActionDuration {get;set;}
+    public Func<double,bool>? VisualCareReady {get;set;}
+    public bool AligningForCare {get;private set;}
     public Func<string,(double Start,double Duration)?>? VisualConsumptionWindow {get;set;}
     public bool Holding { get; set; }
     public bool Dirty { get; set; }
@@ -141,7 +143,9 @@ public sealed partial class PetEngine
         Nest=Clamp(!reset&&State.NestPosition is Spot n?n:new(width-165,GroundY),104,145,55);
         FoodSpot=Clamp(!reset&&State.FoodPosition is Spot f?f:new(width-330,GroundY),48,50,40);
         WaterSpot=Clamp(!reset&&State.WaterPosition is Spot w?w:new(width-420,GroundY),48,50,40);
-        LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(width-525,GroundY),60,50,40);
+        FoodSpot=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,FoodSpot.X),GroundY);
+        WaterSpot=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,WaterSpot.X),GroundY);
+        LitterSpot=Clamp(!reset&&State.LitterPosition is Spot l?l:new(width-560,GroundY),InteractionGeometry.LitterHalfWidth,50,40);
         RememberLayout();
         if(State.X<0||reset){State.X=Nest.X-115;State.Y=Nest.Y-70;}
         State.X=Math.Clamp(State.X,65,width-65);State.Y=GroundY;
@@ -152,8 +156,9 @@ public sealed partial class PetEngine
     public Spot ObjectPosition(string kind)=>kind switch {"nest"=>Nest,"food"=>FoodSpot,"water"=>WaterSpot,_=>LitterSpot};
     public void MoveObject(string kind,Spot position)
     {
-        double side=kind=="nest"?104:kind=="litter"?60:48;
+        double side=kind=="nest"?104:kind=="litter"?InteractionGeometry.LitterHalfWidth:48;
         position=OnGround(new Spot(Math.Clamp(position.X,side,Width-side),Math.Clamp(position.Y,kind=="nest"?145:50,Height-(kind=="nest"?55:40))));
+        if(Grounded&&kind is "food" or "water")position=new Spot(Math.Max(65+InteractionGeometry.MouthOffsetX,position.X),position.Y);
         switch(kind){case "nest":Nest=position;break;case "food":FoodSpot=position;break;case "water":WaterSpot=position;break;case "litter":LitterSpot=position;break;}
         RememberLayout();
         LastInteraction=Now;
@@ -165,7 +170,7 @@ public sealed partial class PetEngine
     private void Retarget()
     {
         if(Action=="walk")target=arrival switch {"eat"=>FoodSpot,"drink"=>WaterSpot,"sleep"=>Nest,"toilet" or "bury"=>LitterSpot,_=>new Spot(Math.Clamp(target.X,65,Width-65),Math.Clamp(target.Y,140,Height-60))};
-        target=OnGround(target);
+        target=CareDestination(target,arrival);
         if(Action=="walk"&&arrival=="settle")target=NearestRestSpot(target);
     }
 
@@ -272,8 +277,14 @@ public sealed partial class PetEngine
             var here=new Spot(State.X,State.Y); var distance=here.Distance(target);
             if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
             if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
-            if(distance<2) { State.X=target.X;State.Y=target.Y; Arrive(); }
-            else MoveTowards(target,WalkSpeed*dt);
+            if(distance<2)
+            {
+                State.X=target.X;State.Y=target.Y;
+                AligningForCare=arrival is "eat" or "drink" or "toilet" or "bury";
+                if(AligningForCare&&VisualCareReady?.Invoke(Now)==false)return;
+                Arrive();
+            }
+            else {AligningForCare=false;MoveTowards(target,WalkSpeed*dt);}
             return;
         }
         if(Action is "idle" or "sit"&&VisualVelocity?.Invoke(Action,Now,FacingLeft) is double drift)
@@ -317,9 +328,11 @@ public sealed partial class PetEngine
     }
     private void Go(Spot destination,string next,string reason)
     {
-        target=next=="settle"?NearestRestSpot(destination):OnGround(destination);if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
+        target=next=="settle"?NearestRestSpot(destination):CareDestination(destination,next);if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
         arrival=next;SetAction("walk",double.MaxValue,reason);
     }
+    public Spot CareDestination(Spot item,string action)=>OnGround(Grounded&&action is "eat" or "drink"
+        ?new Spot(item.X-InteractionGeometry.MouthOffsetX,item.Y):item);
     private void Arrive()
     {
         NewRest();
@@ -335,6 +348,7 @@ public sealed partial class PetEngine
     public Spot VisualPosition=>new(State.X-(State.Sleeping&&State.SleepingInNest?20:0),State.Y-(!Grounded&&State.Sleeping&&State.SleepingInNest?10:0));
     private void SetAction(string action,double seconds,string reason)
     {
+        AligningForCare=false;
         if(action!="sleep"&&State.Sleeping&&State.SleepingInNest)
         {var position=VisualPosition;State.X=position.X;State.Y=position.Y;}
         Action=action;ActionTime=0;ActionRevision++;duration=seconds<double.MaxValue?VisualActionDuration?.Invoke(action,FacingLeft)??seconds:seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;

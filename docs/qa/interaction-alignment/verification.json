@@ -1,0 +1,201 @@
+{
+  "eat": {
+    "Action": "eat",
+    "DisplayedClip": "video-23",
+    "DisplayedFrame": 21,
+    "ClipTransitions": [
+      {
+        "Time": 0,
+        "Clip": "video-32",
+        "X": 0,
+        "Y": -24
+      },
+      {
+        "Time": 0,
+        "Clip": "video-01",
+        "X": 406,
+        "Y": 329
+      },
+      {
+        "Time": 0,
+        "Clip": "video-08",
+        "X": 406,
+        "Y": 329
+      },
+      {
+        "Time": 2.7008989000000003,
+        "Clip": "video-12",
+        "X": 377.5193519350844,
+        "Y": 353
+      },
+      {
+        "Time": 5.067604600000001,
+        "Clip": "video-13",
+        "X": 312,
+        "Y": 353
+      },
+      {
+        "Time": 7.251917400000002,
+        "Clip": "video-16",
+        "X": 312,
+        "Y": 353
+      },
+      {
+        "Time": 10.0347292,
+        "Clip": "video-22",
+        "X": 312,
+        "Y": 353
+      },
+      {
+        "Time": 15.0852247,
+        "Clip": "video-23",
+        "X": 312,
+        "Y": 353
+      }
+    ],
+    "X": 312,
+    "Y": 353,
+    "averageFrameMs": 16.776626785714285,
+    "maxFrameMs": 61.09790000000004
+  },
+  "drink": {
+    "Action": "drink",
+    "DisplayedClip": "video-25",
+    "DisplayedFrame": 21,
+    "ClipTransitions": [
+      {
+        "Time": 0,
+        "Clip": "video-01",
+        "X": 500,
+        "Y": 350
+      },
+      {
+        "Time": 0,
+        "Clip": "video-08",
+        "X": 500,
+        "Y": 353
+      },
+      {
+        "Time": 2.7040561000000007,
+        "Clip": "video-12",
+        "X": 471.45988040100434,
+        "Y": 353
+      },
+      {
+        "Time": 5.0710443000000005,
+        "Clip": "video-13",
+        "X": 406,
+        "Y": 353
+      },
+      {
+        "Time": 7.253358800000001,
+        "Clip": "video-16",
+        "X": 406,
+        "Y": 353
+      },
+      {
+        "Time": 10.036557900000002,
+        "Clip": "video-22",
+        "X": 406,
+        "Y": 353
+      },
+      {
+        "Time": 15.0855988,
+        "Clip": "video-25",
+        "X": 406,
+        "Y": 353
+      }
+    ],
+    "X": 406,
+    "Y": 353,
+    "averageFrameMs": 16.76273504721931,
+    "maxFrameMs": 47.45430000000006
+  },
+  "toilet": {
+    "Action": "toilet",
+    "DisplayedClip": "video-27",
+    "DisplayedFrame": 34,
+    "ClipTransitions": [
+      {
+        "Time": 0,
+        "Clip": "video-32",
+        "X": 0,
+        "Y": -24
+      },
+      {
+        "Time": 0,
+        "Clip": "video-01",
+        "X": 500,
+        "Y": 329
+      },
+      {
+        "Time": 0,
+        "Clip": "video-06",
+        "X": 500,
+        "Y": 329
+      },
+      {
+        "Time": 2.5404912,
+        "Clip": "video-26",
+        "X": 500,
+        "Y": 353
+      },
+      {
+        "Time": 7.590640400000002,
+        "Clip": "video-27",
+        "X": 500,
+        "Y": 303.0194467836752
+      }
+    ],
+    "X": 500,
+    "Y": 353,
+    "averageFrameMs": 16.78731791044776,
+    "maxFrameMs": 47.42449999999998
+  },
+  "drag": {
+    "Action": "drag",
+    "DisplayedClip": "video-33",
+    "DisplayedFrame": 20,
+    "ClipTransitions": [
+      {
+        "Time": 0,
+        "Clip": "video-01",
+        "X": 500,
+        "Y": 350
+      },
+      {
+        "Time": 0,
+        "Clip": "video-32",
+        "X": 500,
+        "Y": 353
+      },
+      {
+        "Time": 5.044982599999999,
+        "Clip": "video-33",
+        "X": 500,
+        "Y": 329
+      }
+    ],
+    "X": 500,
+    "Y": 353,
+    "averageFrameMs": 16.701415464994774,
+    "maxFrameMs": 34.649399999999275
+  },
+  "sleep": {
+    "Action": "sleep",
+    "DisplayedClip": "video-20",
+    "DisplayedFrame": 47,
+    "ClipTransitions": [
+      {
+        "Time": 0,
+        "Clip": "video-20",
+        "X": 480,
+        "Y": 340
+      }
+    ],
+    "X": 650,
+    "Y": 353,
+    "averageFrameMs": 16.82072118644067,
+    "maxFrameMs": 27.171000000000944
+  }
+}

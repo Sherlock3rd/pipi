@@ -90,6 +90,7 @@ internal sealed class Scene : FrameworkElement
     private string lastSpriteClip="";
     private bool nestOcclusion;
     private double poseLift;
+    private double poseUpdatedAt=-1;
     private static BitmapSource? LoadProp(string name)
     {
         string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
@@ -119,6 +120,7 @@ internal sealed class Scene : FrameworkElement
         Engine.CanAdvanceMovement=null;
         Engine.VisualVelocity=playback.HorizontalVelocity;
         Engine.VisualActionDuration=playback.ActionDuration;
+        Engine.VisualCareReady=playback.PrepareCare;
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
@@ -215,6 +217,7 @@ internal sealed class Scene : FrameworkElement
         return new(Engine.State.X-85,Engine.State.Y-158,170,170);
     }}
     private Rect NestRect=>new(Engine.Nest.X-98,Engine.Nest.Y-146,196,146);
+    private Rect LitterRect=>new(Engine.LitterSpot.X-InteractionGeometry.LitterHalfWidth,Engine.LitterSpot.Y-InteractionGeometry.LitterHeight,InteractionGeometry.LitterHalfWidth*2,InteractionGeometry.LitterHeight);
     private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
         ?new(p.X-30,p.Y-70,60,70):new(p.X-w/2,p.Y-62,w,62);
     private Rect SettingsRect=>new(Engine.Nest.X+70,Engine.Nest.Y-150,30,30);
@@ -223,7 +226,7 @@ internal sealed class Scene : FrameworkElement
     protected override HitTestResult? HitTestCore(PointHitTestParameters p)
     {
         var at=World(p.HitPoint);
-        return pressed||wandHeld||WandRect.Contains(at)||CatRect.Contains(at)||NestRect.Contains(at)||SettingsRect.Contains(at)||ObjectRect(Engine.FoodSpot).Contains(at)||ObjectRect(Engine.WaterSpot).Contains(at)||ObjectRect(Engine.LitterSpot,120).Contains(at)
+        return pressed||wandHeld||WandRect.Contains(at)||CatRect.Contains(at)||NestRect.Contains(at)||SettingsRect.Contains(at)||ObjectRect(Engine.FoodSpot).Contains(at)||ObjectRect(Engine.WaterSpot).Contains(at)||LitterRect.Contains(at)
             ?new PointHitTestResult(this,p.HitPoint):null;
     }
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -233,7 +236,7 @@ internal sealed class Scene : FrameworkElement
         if(SettingsRect.Contains(p)){OpenSettings?.Invoke();e.Handled=true;return;}
         if(WandRect.Contains(p))
         {wandHeld=true;Engine.SetToy(true,new Spot(p.X,p.Y));CaptureMouse();Cursor=Cursors.Cross;InvalidateVisual();e.Handled=true;return;}
-        string? hit=CatRect.Contains(p)?"cat":ObjectRect(Engine.LitterSpot,120).Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
+        string? hit=CatRect.Contains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
         if(hit is null)return;
         pressedObject=hit;originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
         pressed=true;pressedAt=watch.Elapsed.TotalSeconds;pressedPoint=p;grabOffset=new Vector(p.X-originalPosition.X,p.Y-originalPosition.Y);Engine.Holding=true;CaptureMouse();e.Handled=true;
@@ -297,9 +300,23 @@ internal sealed class Scene : FrameworkElement
         DrawBowl(dc,Engine.WaterSpot,Engine.State.Water,true,Engine.Now);
         DrawLitter(dc);
         if(Engine.State.Sleeping)nestOcclusion=Engine.State.SleepingInNest;
-        DrawCat(dc,Engine.VisualPosition.X,Engine.VisualPosition.Y-lift,Engine.Action,Engine.ActionTime,Engine.FacingLeft);
-        if(!Engine.State.Sleeping&&DisplayedClip is not ("video-20" or "video-21"))nestOcclusion=false;
+        DrawCat(dc,Engine.VisualPosition.X,Engine.VisualPosition.Y-lift,Engine.AligningForCare?"care-ready":Engine.Action,Engine.ActionTime,Engine.FacingLeft);
+        if(!Engine.State.Sleeping&&DisplayedClip is not ("video-20" or "video-21" or "video-18"))nestOcclusion=false;
         if(nestOcclusion)DrawNest(dc,true);
+        if(Engine.Action is "toilet" or "bury")
+        {
+            var p=Engine.LitterSpot;
+            // Only the tray's front wall occludes paws; the back rim stays behind.
+            dc.PushClip(new RectangleGeometry(new Rect(p.X-InteractionGeometry.LitterHalfWidth,p.Y-36,InteractionGeometry.LitterHalfWidth*2,36)));
+            DrawLitter(dc);dc.Pop();
+        }
+        if(Engine.Action is "eat" or "drink")
+        {
+            bool water=Engine.Action=="drink";var p=water?Engine.WaterSpot:Engine.FoodSpot;
+            // The muzzle enters the opening, behind the near lip of the bowl.
+            dc.PushClip(new RectangleGeometry(new Rect(p.X-36,p.Y-30,72,30)));
+            DrawBowl(dc,p,water?shownWater:shownFood,water,Engine.Now);dc.Pop();
+        }
         DrawWand(dc);
         if(IsDragging&&pressedObject=="cat"&&AtNest)
         {dc.DrawRoundedRectangle(null,new Pen(Brush("#A3C7A2"),3),NestRect,30,30);}
@@ -329,7 +346,7 @@ internal sealed class Scene : FrameworkElement
         var p=Engine.Nest;
         if(nestSprite is not null)
         {
-            if(foreground)dc.PushClip(System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-98},{p.Y-66} Q {p.X},{p.Y+8} {p.X+98},{p.Y-66} L {p.X+98},{p.Y} L {p.X-98},{p.Y} Z")));
+            if(foreground)dc.PushClip(System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-98},{p.Y-84} Q {p.X},{p.Y-16} {p.X+98},{p.Y-84} L {p.X+98},{p.Y} L {p.X-98},{p.Y} Z")));
             dc.DrawImage(nestSprite,new Rect(p.X-98,p.Y-146,196,146));
             if(foreground)dc.Pop();return;
         }
@@ -413,6 +430,11 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity)
     {
+        dc.PushTransform(new ScaleTransform(InteractionGeometry.LitterScale,InteractionGeometry.LitterScale,p.X,p.Y));
+        DrawLitterUnscaled(dc,p,quantity);dc.Pop();
+    }
+    private static void DrawLitterUnscaled(DrawingContext dc,Spot p,double quantity)
+    {
         p=new Spot(p.X,p.Y-28);
         if(litterSprite is not null)
         {
@@ -444,7 +466,9 @@ internal sealed class Scene : FrameworkElement
         var sample=playback.Sample(action,Engine.Now,left);
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
-            poseLift=Engine.Grounded&&nestOcclusion?(sprite.Clip=="video-20"?26:sprite.Clip=="video-21"?26*(1-sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1)):0):0;
+            double targetLift=Engine.Grounded?InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),nestOcclusion,action):0;
+            double delta=poseUpdatedAt<0?0:Math.Max(0,Engine.Now-poseUpdatedAt);
+            poseLift=poseUpdatedAt<0?targetLift:poseLift+(targetLift-poseLift)*(1-Math.Exp(-delta*18));poseUpdatedAt=Engine.Now;
             y-=poseLift;
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;

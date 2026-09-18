@@ -22,14 +22,14 @@ int notices=0;b.RequestedAttention+=()=>notices++;
 b.AdvanceNeeds(301);for(int i=0;i<1200;i++)b.Update(.1,12);
 Check(notices<=4&&notices>0,"unmet needs use global reminder cooldown");Check(t.Food==0&&t.Water==0,"begging never consumes absent supplies");
 var furniture=new PetState();var home=new PetEngine(furniture);home.Layout(1200,800);
-Check(furniture.X>900&&furniture.Y>600&&home.Nest.X-home.LitterSpot.X<390,"first layout places cat and compact home at bottom right");
+Check(furniture.X>900&&furniture.Y>600&&home.Nest.X-home.LitterSpot.X<420,"first layout places cat and compact home at bottom right");
 home.MoveObject("food",new Spot(500,500));home.Layout(1200,800);
 Check(home.FoodSpot==new Spot(500,home.GroundY),"layout refresh preserves freely moved object");
 home.Sleep();home.MoveObject("nest",new Spot(800,500));
 Check(home.Action=="sleep"&&furniture.X==800&&furniture.Y==home.GroundY,"moving occupied nest carries sleeping cat");
 home.Recall();home.MoveObject("water",new Spot(-999,9999));
 Check(home.WaterSpot.X>=48&&home.WaterSpot.Y<=760,"offscreen furniture constrained to visible area");
-home.Demo("eat");home.MoveObject("food",new Spot(furniture.X,furniture.Y));home.Update(.1,12);
+home.Demo("eat");home.MoveObject("food",new Spot(furniture.X+InteractionGeometry.MouthOffsetX,furniture.Y));home.Update(.1,12);
 Check(home.Action=="eat","moving bowl while cat approaches retargets destination");
 double beforeFood=furniture.Food;home.MoveObject("food",new Spot(200,300));for(int i=0;i<15;i++)home.Update(.1,12);
 Check(furniture.Food==beforeFood&&home.Action=="walk","moving bowl during eating interrupts old consumption");
@@ -61,7 +61,7 @@ for(int seed=0;seed<50;seed++)
  if(randomStay.State.RestDuration<1200||randomStay.State.RestDuration>3600)throw new Exception("stay range");
 }
 Check(true,"sampled stays always fall within twenty to sixty minutes");
-var mover=new PetEngine(new PetState{X=500,Y=500,RestDuration=120,RestElapsed=119},99);mover.Layout(1200,800);Advance(mover,5);
+var mover=new PetEngine(new PetState{X=350,Y=500,RestDuration=120,RestElapsed=119},99);mover.Layout(1200,800);Advance(mover,5);
 Check(mover.Action=="sleep","legacy short stay settles to sleep instead of forcing relocation");Advance(mover,10);
 Check(mover.Action!="walk"&&mover.State.RestElapsed<135&&mover.State.RestDuration>=120,"rest expiry never forces a sleeping cat to roam");
 var hover=new PetEngine(new PetState{X=500,Y=400,RestDuration=600},1);
@@ -240,9 +240,9 @@ var recalled=RequestingCat();double shortageStarted=recalled.State.FoodClock.Una
 Check(recalled.State.CareRequest is null&&new Spot(recalled.State.X,recalled.State.Y)==recalledAt,"recall clears guidance and remains at home instead of immediately walking away");
 Advance(recalled,5);
 Check(recalled.State.CareRequest=="food"&&recalled.State.FoodClock.UnavailableSince==shortageStarted,"manual command releases priority and retains unresolved shortage age");
-var emptyDemo=RequestingCat();emptyDemo.State.X=emptyDemo.FoodSpot.X;emptyDemo.State.Y=emptyDemo.FoodSpot.Y;emptyDemo.Demo("eat");Advance(emptyDemo,5);
+var emptyDemo=RequestingCat();emptyDemo.State.X=emptyDemo.CareDestination(emptyDemo.FoodSpot,"eat").X;emptyDemo.State.Y=emptyDemo.FoodSpot.Y;emptyDemo.Demo("eat");Advance(emptyDemo,5);
 Check(emptyDemo.State.Food==0&&emptyDemo.State.CareRequest=="food","empty-bowl demo never invents supplies and releases control to normal request");
-var interruptDemo=RequestingCat();interruptDemo.State.X=interruptDemo.WaterSpot.X;interruptDemo.State.Y=interruptDemo.WaterSpot.Y;interruptDemo.Demo("drink");Advance(interruptDemo,1.4);double waterAtPickup=interruptDemo.State.Water;
+var interruptDemo=RequestingCat();interruptDemo.State.X=interruptDemo.CareDestination(interruptDemo.WaterSpot,"drink").X;interruptDemo.State.Y=interruptDemo.WaterSpot.Y;interruptDemo.Demo("drink");Advance(interruptDemo,1.4);double waterAtPickup=interruptDemo.State.Water;
 interruptDemo.BeginDrag();Advance(interruptDemo,5);interruptDemo.Drop(true);Advance(interruptDemo,1);
 Check(interruptDemo.State.Water==waterAtPickup&&interruptDemo.Action=="sleep","drag interrupts debug consumption and dropping can enter protected sleep");
 var placementCat=new PetEngine(new PetState{X=500,Y=700},1){Nest=new Spot(500,500)};
@@ -440,10 +440,10 @@ placement=RestFixture();placement.MoveObject("food",new(placement.State.X,752));
 Check(placement.IsClearRestSpot(placement.State.X),"moving furniture over a resting cat makes the cat leave");
 placement=RestFixture();placement.BeginDrag();placement.DragTo(placement.WaterSpot);placement.Drop(false);Advance(placement,12);
 Check(placement.IsClearRestSpot(placement.State.X),"dropping on a bowl lands then walks to a clear rest point");
-placement=RestFixture();placement.State.X=placement.FoodSpot.X;placement.Demo("eat");placement.Update(.1,12);
-Check(placement.Action=="eat"&&placement.State.X==placement.FoodSpot.X,"food interaction retains access to its occupied destination");
+placement=RestFixture();placement.State.X=placement.CareDestination(placement.FoodSpot,"eat").X;placement.Demo("eat");placement.Update(.1,12);
+Check(placement.Action=="eat"&&placement.State.X+InteractionGeometry.MouthOffsetX==placement.FoodSpot.X,"food interaction retains access to its occupied destination");
 Advance(placement,18);Check(placement.IsClearRestSpot(placement.State.X)&&placement.State.Food==50,"finishing one meal leaves the bowl while consuming one layer");
-placement=RestFixture();placement.State.X=placement.WaterSpot.X;placement.Demo("drink");placement.Update(.1,12);
+placement=RestFixture();placement.State.X=placement.CareDestination(placement.WaterSpot,"drink").X;placement.Demo("drink");placement.Update(.1,12);
 Check(placement.Action=="drink","water interaction remains reachable");
 placement=RestFixture();placement.State.X=placement.LitterSpot.X;placement.Demo("toilet");placement.Update(.1,12);
 Check(placement.Action=="toilet","toilet care remains exempt during actual use");
@@ -489,11 +489,11 @@ using(var calmDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeMa
   var pb=new SpritePlayback();pb.Load(calmDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
   var cat=new PetEngine(new PetState{X=350,Y=752,Food=100,Water=100,Litter=0},seed);
   cat.Layout(1200,800);cat.VisualActionDuration=pb.ActionDuration;cat.VisualConsumptionWindow=pb.ConsumptionWindow;
-  cat.VisualVelocity=pb.HorizontalVelocity;
+  cat.VisualVelocity=pb.HorizontalVelocity;cat.VisualCareReady=pb.PrepareCare;
   int sleeping=0,moving=0,drinks=0,meals=0;string previous="";
   for(int step=0;step<36000;step++)
   {
-   cat.AdvanceNeeds(.1);cat.Update(.1,12);pb.Sample(cat.Action,cat.Now,cat.FacingLeft);
+   cat.AdvanceNeeds(.1);cat.Update(.1,12);pb.Sample(cat.AligningForCare?"care-ready":cat.Action,cat.Now,cat.FacingLeft);
    if(cat.Action=="sleep")sleeping++;if(cat.Action=="walk")moving++;
    if(cat.Action!=previous){if(cat.Action=="drink")drinks++;if(cat.Action=="eat")meals++;}previous=cat.Action;
    // Owner keeps supplies available; replenishment does not interact with the cat.
@@ -503,4 +503,37 @@ using(var calmDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeMa
   Check(sleeping>36000*.80&&moving<36000*.10&&drinks>0&&meals>0,"one-hour native-animation simulation mostly sleeps and still completes scheduled care");
  }
 }
+// Exercise actual native-video arrival routing, including a left-facing approach.
+using(var alignmentDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var animations=alignmentDoc.RootElement.GetProperty("animations");
+ foreach(bool fromRight in new[]{false,true})
+ {
+  var pb=new SpritePlayback();pb.Load(alignmentDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
+  var cat=RestFixture();cat.State.X=fromRight?850:350;
+  cat.VisualVelocity=pb.HorizontalVelocity;cat.VisualCareReady=pb.PrepareCare;
+  cat.VisualActionDuration=pb.ActionDuration;cat.VisualConsumptionWindow=pb.ConsumptionWindow;
+  cat.Demo("eat");var route=new HashSet<string>();bool reached=false;
+  for(int i=0;i<800;i++)
+  {
+   cat.Update(.05,12);var frame=pb.Sample(cat.AligningForCare?"care-ready":cat.Action,cat.Now,cat.FacingLeft);
+   if(frame is {} f)route.Add(f.Clip);
+   if(cat.Action=="eat"){reached=true;break;}
+  }
+  Check(reached&&Math.Abs(cat.State.X+InteractionGeometry.MouthOffsetX-cat.FoodSpot.X)<.01,"care reaches a mouth-aligned location from either approach direction");
+  Check(route.Contains(fromRight?"video-16":"video-11"),"care completes real stop/turn footage before lowering the head");
+  Check(cat.State.Food==70,"arrival and turn do not consume food");
+  cat.BeginDrag();cat.Update(.1,12);Check(!cat.AligningForCare&&cat.Action=="drag","pickup interrupts pending care alignment");
+ }
+}
+var edgeCare=RestFixture();edgeCare.MoveObject("food",new(-100,0));
+Check(edgeCare.CareDestination(edgeCare.FoodSpot,"eat").X>=65,"left-edge bowl leaves enough room for the supplied right-facing mouth pose");
+edgeCare.MoveObject("litter",new(-100,0));
+Check(edgeCare.LitterSpot.X>=InteractionGeometry.LitterHalfWidth,"enlarged tray stays within the screen");
+Check(InteractionGeometry.SurfaceLift("video-20",.5,true,"sleep")==54&&InteractionGeometry.SurfaceLift("video-19",1,true,"sleep")==54,"sleep entry and loop share the cushion surface");
+Check(InteractionGeometry.SurfaceLift("video-21",1,true,"wake")==InteractionGeometry.SurfaceLift("video-18",0,true,"wake")&&InteractionGeometry.SurfaceLift("video-18",1,true,"wake")==0,"wake stays on cushion through uncurl then lowers to floor");
+Check(InteractionGeometry.SurfaceLift("video-33",.5,false,"drag")==24&&InteractionGeometry.SurfaceLift("video-34",1,false,"land")==0,"pickup clears floor and landing returns to it");
+Check(InteractionGeometry.SurfaceLift("video-27",.5,false,"toilet")==50&&InteractionGeometry.SurfaceLift("video-30",.5,false,"bury")==50,"toilet and burial share the enlarged tray surface");
+var calibrated=new SpriteClip(121,24,false,288,288,.5,.921875,false,.99,1.02);
+Check(Math.Abs(calibrated.AtFrame(0).Width-285.12)<.001&&Math.Abs(calibrated.AtFrame(120).Width-293.76)<.001&&calibrated.AtFrame(60).AnchorY==calibrated.AnchorY,"pose scaling uses smooth endpoint metadata around a fixed root");
 Console.WriteLine($"{checks} checks passed.");

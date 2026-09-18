@@ -10,7 +10,7 @@ public sealed partial class PetEngine
     private const double RestHalfWidth=85,RestGap=8;
     private (double X,double Radius)[] RestObstacles()=>new[]{
         (Nest.X,98+RestHalfWidth+RestGap),(FoodSpot.X,36+RestHalfWidth+RestGap),
-        (WaterSpot.X,36+RestHalfWidth+RestGap),(LitterSpot.X,60+RestHalfWidth+RestGap)};
+        (WaterSpot.X,36+RestHalfWidth+RestGap),(LitterSpot.X,InteractionGeometry.LitterHalfWidth+RestHalfWidth+RestGap)};
 
     public bool IsClearRestSpot(double x)
     {

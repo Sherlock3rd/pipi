@@ -15,7 +15,7 @@ namespace Chenpi;
 // Isolated reviewer of the installed manifest; never touches personal pet state.
 internal sealed class VideoReviewWindow : Window
 {
-    private sealed record ReviewClip(string Id,string Label,string[] Files,double Fps);
+    private sealed record ReviewClip(string Id,string Label,string[] Files,double Fps,SpriteClip Definition);
     private readonly string root;
     private readonly bool preparedMatte;
     private readonly List<ReviewClip> clips=new();
@@ -69,7 +69,10 @@ internal sealed class VideoReviewWindow : Window
         {
             string id=item.GetProperty("id").GetString()!;
             var files=manifest.GetProperty("animations").GetProperty(id).EnumerateArray().Select(f=>f.GetString()!).ToArray();
-            clips.Add(new(id,item.GetProperty("label").GetString()!,files,manifest.GetProperty("clips").GetProperty(id).GetProperty("fps").GetDouble()));
+            var def=manifest.GetProperty("clips").GetProperty(id);double fps=def.GetProperty("fps").GetDouble();
+            double Read(string key,double fallback)=>def.TryGetProperty(key,out var v)?v.GetDouble():fallback;
+            clips.Add(new(id,item.GetProperty("label").GetString()!,files,fps,
+                new SpriteClip(files.Length,fps,true,288,288,Read("anchorX",.5),Read("anchorY",.921875),false,Read("scaleStart",1),Read("scaleEnd",1))));
         }
         var panel=new DockPanel();Content=panel;
         var heading=new StackPanel{Margin=new Thickness(16,12,16,0)};
@@ -171,6 +174,9 @@ internal sealed class VideoReviewWindow : Window
     {
         if(current is null||frames.Count==0)return;
         int index=Math.Clamp((int)Math.Floor(elapsed*current.Fps),0,frames.Count-1);cat.Source=frames[index];
+        var d=current.Definition;double factor=d.AtFrame(index).Width/d.Width;
+        var transform=new TransformGroup();transform.Children.Add(new ScaleTransform(factor,factor,cat.Width*d.AnchorX,cat.Height*d.AnchorY));
+        transform.Children.Add(new TranslateTransform(0,cat.Height*(.921875-d.AnchorY)));cat.RenderTransform=transform;
         sync=true;seek.Value=index;sync=false;
         status.Text=$"{current.Label}    第 {index+1} / {frames.Count} 帧    {index/current.Fps:0.00} 秒    {current.Fps:0.##} 帧/秒    {(playing?"播放中":"已暂停，可逐帧查看")}";
     }

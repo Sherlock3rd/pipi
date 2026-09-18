@@ -1,0 +1,987 @@
+{
+  "referenceHeights": {
+    "F": 206,
+    "SR": 201,
+    "SL": 207,
+    "WR": 198,
+    "WL": 207,
+    "I": 213,
+    "C": 150,
+    "E": 162,
+    "Q": 201,
+    "H": 257,
+    "P": 200,
+    "R": 150
+  },
+  "clips": [
+    {
+      "clip": "01",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "02",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "03",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "04",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "05",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "06",
+      "poses": [
+        "F",
+        "SR"
+      ],
+      "endpointHeights": [
+        206,
+        197
+      ],
+      "scale": [
+        1.0,
+        1.0203045685279188
+      ],
+      "correctedHeights": [
+        206.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "07",
+      "poses": [
+        "SR",
+        "F"
+      ],
+      "endpointHeights": [
+        201,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "08",
+      "poses": [
+        "F",
+        "SL"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0048543689320388
+      ],
+      "correctedHeights": [
+        206.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "09",
+      "poses": [
+        "SL",
+        "F"
+      ],
+      "endpointHeights": [
+        207,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0248756218905473
+      ],
+      "correctedHeights": [
+        207.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "10",
+      "poses": [
+        "SR",
+        "WR"
+      ],
+      "endpointHeights": [
+        200,
+        200
+      ],
+      "scale": [
+        1.005,
+        0.99
+      ],
+      "correctedHeights": [
+        200.99999999999997,
+        198.0
+      ]
+    },
+    {
+      "clip": "11",
+      "poses": [
+        "WR",
+        "SR"
+      ],
+      "endpointHeights": [
+        199,
+        200
+      ],
+      "scale": [
+        0.9949748743718593,
+        1.005
+      ],
+      "correctedHeights": [
+        198.0,
+        200.99999999999997
+      ]
+    },
+    {
+      "clip": "12",
+      "poses": [
+        "SL",
+        "WL"
+      ],
+      "endpointHeights": [
+        205,
+        206
+      ],
+      "scale": [
+        1.0097560975609756,
+        1.0048543689320388
+      ],
+      "correctedHeights": [
+        207.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "13",
+      "poses": [
+        "WL",
+        "SL"
+      ],
+      "endpointHeights": [
+        205,
+        206
+      ],
+      "scale": [
+        1.0097560975609756,
+        1.0048543689320388
+      ],
+      "correctedHeights": [
+        207.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "14",
+      "poses": [
+        "WL",
+        "WL"
+      ],
+      "endpointHeights": [
+        207,
+        207
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        207.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "15",
+      "poses": [
+        "SR",
+        "SL"
+      ],
+      "endpointHeights": [
+        198,
+        205
+      ],
+      "scale": [
+        1.0151515151515151,
+        1.0097560975609756
+      ],
+      "correctedHeights": [
+        201.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "16",
+      "poses": [
+        "SL",
+        "SR"
+      ],
+      "endpointHeights": [
+        205,
+        201
+      ],
+      "scale": [
+        1.0097560975609756,
+        1.0
+      ],
+      "correctedHeights": [
+        207.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "17",
+      "poses": [
+        "F",
+        "I"
+      ],
+      "endpointHeights": [
+        206,
+        213
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        213.0
+      ]
+    },
+    {
+      "clip": "18",
+      "poses": [
+        "I",
+        "F"
+      ],
+      "endpointHeights": [
+        211,
+        206
+      ],
+      "scale": [
+        1.009478672985782,
+        1.0
+      ],
+      "correctedHeights": [
+        213.00000000000003,
+        206.0
+      ]
+    },
+    {
+      "clip": "19",
+      "poses": [
+        "I",
+        "C"
+      ],
+      "endpointHeights": [
+        213,
+        151
+      ],
+      "scale": [
+        1.0,
+        0.9933774834437086
+      ],
+      "correctedHeights": [
+        213.0,
+        150.0
+      ]
+    },
+    {
+      "clip": "20",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "endpointHeights": [
+        150,
+        150
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        150.0,
+        150.0
+      ]
+    },
+    {
+      "clip": "21",
+      "poses": [
+        "C",
+        "I"
+      ],
+      "endpointHeights": [
+        150,
+        215
+      ],
+      "scale": [
+        1.0,
+        0.9906976744186047
+      ],
+      "correctedHeights": [
+        150.0,
+        213.0
+      ]
+    },
+    {
+      "clip": "22",
+      "poses": [
+        "SR",
+        "E"
+      ],
+      "endpointHeights": [
+        201,
+        162
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        162.0
+      ]
+    },
+    {
+      "clip": "23",
+      "poses": [
+        "E",
+        "E"
+      ],
+      "endpointHeights": [
+        162,
+        162
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        162.0,
+        162.0
+      ]
+    },
+    {
+      "clip": "24",
+      "poses": [
+        "E",
+        "SR"
+      ],
+      "endpointHeights": [
+        162,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        162.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "25",
+      "poses": [
+        "E",
+        "E"
+      ],
+      "endpointHeights": [
+        162,
+        162
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        162.0,
+        162.0
+      ]
+    },
+    {
+      "clip": "26",
+      "poses": [
+        "SR",
+        "Q"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "27",
+      "poses": [
+        "Q",
+        "Q"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "28",
+      "poses": [
+        "Q",
+        "SR"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "29",
+      "poses": [
+        "SR",
+        "P"
+      ],
+      "endpointHeights": [
+        201,
+        200
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        200.0
+      ]
+    },
+    {
+      "clip": "30",
+      "poses": [
+        "P",
+        "P"
+      ],
+      "endpointHeights": [
+        200,
+        200
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        200.0,
+        200.0
+      ]
+    },
+    {
+      "clip": "31",
+      "poses": [
+        "P",
+        "SR"
+      ],
+      "endpointHeights": [
+        200,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        200.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "32",
+      "poses": [
+        "F",
+        "H"
+      ],
+      "endpointHeights": [
+        206,
+        257
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        257.0
+      ]
+    },
+    {
+      "clip": "33",
+      "poses": [
+        "H",
+        "H"
+      ],
+      "endpointHeights": [
+        257,
+        257
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        257.0,
+        257.0
+      ]
+    },
+    {
+      "clip": "34",
+      "poses": [
+        "H",
+        "F"
+      ],
+      "endpointHeights": [
+        257,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        257.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "35",
+      "poses": [
+        "P",
+        "P"
+      ],
+      "endpointHeights": [
+        200,
+        200
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        200.0,
+        200.0
+      ]
+    },
+    {
+      "clip": "36",
+      "poses": [
+        "SL",
+        "SL"
+      ],
+      "endpointHeights": [
+        207,
+        207
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        207.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "37",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "38",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "39",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "40",
+      "poses": [
+        "F",
+        "R"
+      ],
+      "endpointHeights": [
+        206,
+        149
+      ],
+      "scale": [
+        1.0,
+        1.0067114093959733
+      ],
+      "correctedHeights": [
+        206.0,
+        150.00000000000003
+      ]
+    },
+    {
+      "clip": "41",
+      "poses": [
+        "R",
+        "R"
+      ],
+      "endpointHeights": [
+        150,
+        150
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        150.0,
+        150.0
+      ]
+    },
+    {
+      "clip": "42",
+      "poses": [
+        "R",
+        "F"
+      ],
+      "endpointHeights": [
+        150,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        150.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "43",
+      "poses": [
+        "SR",
+        "SR"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "44",
+      "poses": [
+        "SL",
+        "SL"
+      ],
+      "endpointHeights": [
+        207,
+        207
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        207.0,
+        207.0
+      ]
+    },
+    {
+      "clip": "45",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "46",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "47",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        206
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    },
+    {
+      "clip": "48",
+      "poses": [
+        "SR",
+        "SR"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "49",
+      "poses": [
+        "SR",
+        "SR"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "50",
+      "poses": [
+        "SR",
+        "SR"
+      ],
+      "endpointHeights": [
+        201,
+        201
+      ],
+      "scale": [
+        1.0,
+        1.0
+      ],
+      "correctedHeights": [
+        201.0,
+        201.0
+      ]
+    },
+    {
+      "clip": "51",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "endpointHeights": [
+        206,
+        205
+      ],
+      "scale": [
+        1.0,
+        1.0048780487804878
+      ],
+      "correctedHeights": [
+        206.0,
+        206.0
+      ]
+    }
+  ]
+}
