@@ -1,0 +1,27 @@
+{
+  "frames": 5883,
+  "canvas": 512,
+  "whiteEdgePixels": 0,
+  "maxWhiteEdgePixelsPerFrame": 0,
+  "detachedAlphaComponents": 0,
+  "estimatedCroppedPixelCacheMiB": 1213.0,
+  "pngMiB": 389.0,
+  "scope": "30 supplied clips 22-51 plus prior foundation",
+  "modelChecks": 176,
+  "runtimeSamples": {
+    "eat": {
+      "Action": "eat",
+      "DisplayedClip": "video-23",
+      "DisplayedFrame": 46,
+      "averageFrameMs": 16.777399038461546,
+      "maxFrameMs": 60.761700000000474
+    },
+    "drag": {
+      "Action": "drag",
+      "DisplayedClip": "video-33",
+      "DisplayedFrame": 47,
+      "averageFrameMs": 16.724710047846887,
+      "maxFrameMs": 46.32690000000039
+    }
+  }
+}

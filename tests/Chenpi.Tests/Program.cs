@@ -397,4 +397,31 @@ floorCat.Layout(900,600);Check(floorCat.State.Y==552&&floorCat.Nest.Y==552,"wind
 var isolatedMatte=(byte[])mattePixels.Clone();isolatedMatte[0]=isolatedMatte[1]=isolatedMatte[2]=250;isolatedMatte[3]=255;
 var isolatedClean=AlphaMatte.Clean(isolatedMatte,21,21);
 Check(isolatedClean[3]==0,"detached opaque white specks cannot bypass matte cleanup");
+if(File.Exists(runtimeManifest))
+{
+ using var careDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest));
+ if(careDoc.RootElement.TryGetProperty("careVideoGraph",out var enabled)&&enabled.GetBoolean())
+ {
+  var animations=careDoc.RootElement.GetProperty("animations");var carePlayback=new SpritePlayback();
+  carePlayback.Load(careDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
+  var used=new HashSet<string>();double clock=0;bool validCare=true;
+  foreach(var (action,left) in new[]{("eat",false),("drink",false),("toilet",false),("bury",false),("drag",false),("land",false),("toy-bat",false),("toy-bat",true),("pet",false),("rub",false),("paw",false),("roll",false),("guide-look",false),("guide-look",true),("request-food",false),("request-water",false),("request-litter",false),("guide-food",false),("guide-water",false),("guide-litter",false),("care-thanks",false)})
+  {
+   double span=carePlayback.ActionDuration(action,left)!.Value+.15;
+   for(double time=0;time<span;time+=.04)
+   {var f=carePlayback.Sample(action,clock,left)!.Value;used.Add(f.Clip);validCare&=f.Index>=0&&f.Index<f.Definition.Count&&!f.Definition.MirrorWithFacing;clock+=.04;}
+  }
+  Check(Enumerable.Range(22,30).All(n=>used.Contains("video-"+n)),"all 30 supplied care videos are reached by actual action mappings");
+  Check(validCare,"care playback preserves independent directions and valid source frame indices");
+  carePlayback.Reset();carePlayback.Sample("toy-bat",0,false);Check(carePlayback.Sample("idle",7,false)!.Value.Clip=="video-31","right toy interaction returns through the supplied paw-lowering clip");
+  carePlayback.Reset();carePlayback.Sample("drag",0);Check(carePlayback.Sample("sleep",2)!.Value.Clip=="video-34","dropping into bed plays supplied landing before sleep route");
+  carePlayback.Reset();carePlayback.Sample("eat",0);Check(carePlayback.Sample("drag",1)!.Value.Clip=="video-32","pickup interrupts care immediately without waiting for the full eating sequence");
+  var careEngine=new PetEngine(new PetState{X=400,Y=400,Food=100,RestDuration=600},1){FoodSpot=new Spot(400,400),VisualActionDuration=carePlayback.ActionDuration,VisualConsumptionWindow=carePlayback.ConsumptionWindow};
+  careEngine.Demo("eat");careEngine.Update(.1,12);
+  var window=carePlayback.ConsumptionWindow("eat")!.Value;
+  Advance(careEngine,window.Start-.2);Check(careEngine.State.Food==100,"lowering head does not consume inventory before the supplied eating loop");
+  Advance(careEngine,window.Duration+.4);Check(careEngine.State.Food==80,"one supplied eating loop consumes exactly one of five layers");
+  Advance(careEngine,6);Check(careEngine.State.Food==80,"raising head and completing care never consumes a second layer");
+ }
+}
 Console.WriteLine($"{checks} checks passed.");

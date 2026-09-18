@@ -118,6 +118,12 @@ internal sealed class PetWindow : Window
         if(Preview&&(args.Contains("--preview-motion")||args.Contains("--preview-motion-left")))
         {engine.MoveObject("food",new Spot(engine.State.X+(args.Contains("--preview-motion-left")?-140:140),engine.State.Y));engine.Demo("eat");}
         CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
+        if(Preview&&Program.Option(args,"--preview-care") is string careAction)
+        {
+            if(careAction=="drag")engine.BeginDrag();
+            else if(careAction=="pet")engine.Interact();
+            else {engine.MoveObject(careAction=="eat"?"food":careAction=="drink"?"water":"litter",new Spot(engine.State.X,engine.State.Y));engine.Demo(careAction);}
+        }
         // Isolated reproduction uses the same interaction entry point as a click.
         if(Preview&&args.Contains("--preview-wake-test"))
         {

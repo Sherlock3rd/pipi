@@ -36,6 +36,12 @@ internal sealed class VideoReviewWindow : Window
         ["正面 → 右起停 → 正面"]=new[]{"06","10","11","07"},
         ["正面 → 左行 → 正面"]=new[]{"08","12","14","13","09"},
         ["正面 → 入睡 → 醒来 → 正面"]=new[]{"17","19","20","21","18"}
+        ,["吃饭进入 → 咀嚼 → 抬头"]=new[]{"22","23","24"}
+        ,["喝水进入 → 舔水 → 抬头"]=new[]{"22","25","24"}
+        ,["如厕 → 起身 → 刨砂"]=new[]{"26","27","28","29","30","31"}
+        ,["提起 → 悬空 → 放下"]=new[]{"32","33","34"}
+        ,["右抬爪 → 抓拨 → 收爪"]=new[]{"29","35","31"}
+        ,["侧躺 → 轻滚 → 坐起"]=new[]{"40","41","42"}
     };
     private ReviewClip? current;
     private double elapsed,previous;
@@ -97,6 +103,8 @@ internal sealed class VideoReviewWindow : Window
         {
             if(current is null)return;
             string sourceRoot=Program.Option(args,"--video-sources")??Path.Combine(root,"..");
+            if(int.TryParse(current.Id[6..],out int number)&&number>=22)
+                sourceRoot=Path.GetFullPath(Path.Combine(sourceRoot,"..","..","care-v3","returned"));
             string source=Path.GetFullPath(Path.Combine(sourceRoot,current.Id=="video-right"?"00":current.Id[6..],"source.mp4"));
             if(File.Exists(source))Process.Start(new ProcessStartInfo(source){UseShellExecute=true});
         }));

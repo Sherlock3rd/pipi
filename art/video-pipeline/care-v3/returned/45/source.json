@@ -1,0 +1,15 @@
+{
+  "folder": "45-请求添粮",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 4,
+  "originalName": "45-添饭.mp4",
+  "sha256": "7a8c84689153931ffefdd110f9364de1df41ad864c846b50acca318f8e4e2a52",
+  "frames": 121,
+  "fps": 24.0,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041666666666667,
+  "authorization": "用户要求按提供素材直接替换，表现问题后续修订"
+}

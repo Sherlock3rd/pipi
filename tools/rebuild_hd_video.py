@@ -33,22 +33,24 @@ def final_coverage(result):
         result[:,:,:3][bright]=palette[labels[bright]]
     return result
 
-def extract(clip,sample=False):
+def extract(clip,sample=False,run=RUN,cache=CACHE,out=OUT):
     cv2.setNumThreads(1)
     number='00' if clip['clip']=='video-right' else clip['clip'][-2:]
-    cap=cv2.VideoCapture(str(RUN/number/'source.mp4'))
+    cap=cv2.VideoCapture(str(run/number/'source.mp4'))
     report=json.loads((RUN/'extraction.json').read_text(encoding='utf-8'))
     start,end=clip['sourceFrames'];offset=62 if number=='00' else 0
     indices=list(range(start+offset,end+offset+1))
     if sample:indices=sorted(set([indices[0],indices[len(indices)//2],indices[-1]]))
-    dest=OUT/clip['clip'];dest.mkdir(parents=True,exist_ok=True)
+    dest=out/clip['clip'];dest.mkdir(parents=True,exist_ok=True)
     files=[];diagnostics=[]
+    cap.set(cv2.CAP_PROP_POS_FRAMES,indices[0]);next_index=indices[0]
     for index in indices:
-        cap.set(cv2.CAP_PROP_POS_FRAMES,index);ok,bgr=cap.read()
+        while next_index<index:cap.grab();next_index+=1
+        ok,bgr=cap.read();next_index+=1
         assert ok,(number,index)
         rgb=cv2.cvtColor(bgr,cv2.COLOR_BGR2RGB).astype(np.float32)
         h,w=rgb.shape[:2]
-        old=np.array(Image.open(CACHE/number/f'{index:03}.png').getchannel('A'))
+        old=np.array(Image.open(cache/number/f'{index:03}.png').getchannel('A'))
         core=cv2.resize(old,(w,h),interpolation=cv2.INTER_NEAREST)>127
         # Preserve eye/coat highlights: fill internal guide holes, not texture.
         contours,_=cv2.findContours(core.astype(np.uint8),cv2.RETR_EXTERNAL,cv2.CHAIN_APPROX_SIMPLE)
@@ -82,6 +84,7 @@ def extract(clip,sample=False):
         scale=report['globalScale']*2/factor
         rx,ry=np.array(report['sourceRoot'])*factor
         ox,oy=np.array(report['outputRoot'])*2
+        oy+=clip.get('canvasOffsetY',0)
         matrix=np.array([[scale,0,ox-rx*scale],[0,scale,oy-ry*scale]],np.float32)
         pm=np.dstack([corrected*alpha[:,:,None]/255,alpha])
         scaled=cv2.warpAffine(pm,matrix,(512,512),flags=cv2.INTER_AREA,borderMode=cv2.BORDER_CONSTANT)

@@ -19,6 +19,9 @@ public sealed class SpritePlayback
     private bool reverse;
     private double started;
     private bool videoGraph;
+    private bool careGraph;
+    private string careAction="",careExit="";
+    private double careStarted,exitStarted;
     private string pose="F",destination="F";
     private int idleVariant;
     private static readonly (string From,string To,string Clip)[] edges={
@@ -52,8 +55,63 @@ public sealed class SpritePlayback
         }
         videoGraph=manifest.TryGetProperty("videoGraph",out var graph)&&graph.GetBoolean()
             &&clips.ContainsKey("video-01")&&clips.ContainsKey("video-14")&&clips.ContainsKey("video-right");
+        careGraph=manifest.TryGetProperty("careVideoGraph",out var care)&&care.GetBoolean()&&clips.ContainsKey("video-22");
     }
-    public void Reset(){group="";current="";pending.Clear();started=0;reverse=false;pose=destination="F";idleVariant=0;}
+    public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";idleVariant=0;}
+    private static string[] CareSequence(string action,bool left)=>action switch {
+        "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
+        "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
+        "drag"=>new[]{"32","33"},"land"=>new[]{"34"},
+        "toy-bat"=>left?new[]{"36"}:new[]{"29","35"},
+        "pet"=>new[]{"37"},"rub"=>new[]{"38"},"paw"=>new[]{"39"},"roll"=>new[]{"40","41","42"},
+        "guide-look"=>new[]{left?"44":"43"},
+        "request-food"=>new[]{"45"},"request-water"=>new[]{"46"},"request-litter"=>new[]{"47"},
+        "guide-food"=>new[]{"48"},"guide-water"=>new[]{"49"},"guide-litter"=>new[]{"50"},"care-thanks"=>new[]{"51"},_=>Array.Empty<string>()};
+    public double? ActionDuration(string action,bool left=false)
+    {
+        if(!careGraph)return null;var seq=CareSequence(action,left);if(seq.Length==0)return null;
+        double sum=0;foreach(var id in seq){if(!clips.TryGetValue("video-"+id,out var clip))return null;sum+=clip.Duration;}return sum;
+    }
+    public (double Start,double Duration)? ConsumptionWindow(string action)
+    {
+        if(!careGraph||action is not ("eat" or "drink"))return null;
+        return(clips["video-22"].Duration,clips[action=="eat"?"video-23":"video-25"].Duration);
+    }
+    private SpriteFrame? SampleCare(string action,double now,bool left)
+    {
+        var sequence=CareSequence(action,left);
+        if(sequence.Length>0)
+        {
+            string key=action+(action is "toy-bat" or "guide-look"?(left?"-L":"-R"):"");
+            if(key!=careAction){careAction=key;careStarted=now;careExit="";current="";group="care";pending.Clear();}
+            double elapsed=now-careStarted;
+            for(int i=0;i<sequence.Length;i++)
+            {
+                string id="video-"+sequence[i];var clip=clips[id];bool last=i==sequence.Length-1;
+                if(elapsed<clip.Duration||last)
+                {
+                    bool loop=last&&(action is "drag" or "toy-bat"||action.StartsWith("request-")||action.StartsWith("guide-"));
+                    int frame=(int)Math.Floor(Math.Max(0,elapsed)*clip.Fps);
+                    return new(id,loop?frame%clip.Count:Math.Min(clip.Count-1,frame),clip);
+                }
+                elapsed-=clip.Duration;
+            }
+        }
+        if(careAction.Length>0)
+        {
+            string before=careAction;careAction="";current="";group="care-return";
+            pose=destination=before is "eat" or "drink" or "toilet" or "bury" or "guide-food" or "guide-water" or "guide-litter"||before.EndsWith("-R")?"SR":before.EndsWith("-L")?"SL":"F";
+            if(before=="drag"){careExit="video-34";exitStarted=now;pose=destination="F";}
+            else if(before=="toy-bat-R"){careExit="video-31";exitStarted=now;pose=destination="SR";}
+        }
+        if(careExit.Length>0)
+        {
+            var clip=clips[careExit];double elapsed=now-exitStarted;
+            if(elapsed<clip.Duration)return new(careExit,(int)(Math.Max(0,elapsed)*clip.Fps),clip);
+            careExit="";
+        }
+        return null;
+    }
     private void Queue(string clip,bool backwards=false){if(clips.ContainsKey(clip))pending.Enqueue((clip,backwards));}
     private void Begin(double now)
     {
@@ -63,6 +121,7 @@ public sealed class SpritePlayback
     public SpriteFrame? Sample(string action,double now,bool facingLeft=false)
     {
         if(!double.IsFinite(now)||now<0)return null;
+        if(careGraph&&SampleCare(action,now,facingLeft) is SpriteFrame care)return care;
         if(videoGraph)return SampleVideo(action,now,facingLeft);
         string next=action switch {
             "idle" or "sit"=>"rest",

@@ -1,0 +1,15 @@
+{
+  "folder": "42-侧躺恢复坐姿",
+  "start": "R",
+  "end": "F",
+  "type": "过渡",
+  "seconds": 2,
+  "originalName": "42-卧躺坐起来.mp4",
+  "sha256": "c2508deb4f3cdf742663e45470dc0f1ad3e64863c014d8aa9d068140fc1518df",
+  "frames": 121,
+  "fps": 24.0,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041666666666667,
+  "authorization": "用户要求按提供素材直接替换，表现问题后续修订"
+}

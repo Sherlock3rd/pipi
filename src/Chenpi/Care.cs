@@ -121,11 +121,12 @@ public sealed partial class PetEngine
             return true;
         }
         bool following=pointerKnown&&CatPlayCenter.Distance(guidePointer)<=FollowRadius;
-        if(!following||guideTravelled>=70||Action=="guide-look"&&ActionTime<.6)
+        double lookDuration=VisualActionDuration?.Invoke("guide-look",FacingLeft)??.6;
+        if(!following||guideTravelled>=70||Action=="guide-look"&&ActionTime<lookDuration)
         {
             if(Action!="guide-look")SetAction("guide-look",.6,"回头等主人跟上");
             FacingLeft=guidePointer.X<State.X;
-            if(following&&ActionTime>=.6)guideTravelled=0;
+            if(following&&ActionTime>=lookDuration)guideTravelled=0;
             return true;
         }
         if(Action!="guide-walk")SetAction("guide-walk",double.MaxValue,"带路到物品旁");

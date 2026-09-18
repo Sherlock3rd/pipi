@@ -1,0 +1,15 @@
+{
+  "folder": "46-请求添水",
+  "start": "F",
+  "end": "F",
+  "type": "循环",
+  "seconds": 4,
+  "originalName": "46-加水.mp4",
+  "sha256": "37ef6631491ba52e1e289aa92b61beb9c37e94813403c425a1024e0dafe0d2d3",
+  "frames": 121,
+  "fps": 24.0,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041666666666667,
+  "authorization": "用户要求按提供素材直接替换，表现问题后续修订"
+}

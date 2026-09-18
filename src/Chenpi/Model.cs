@@ -75,6 +75,8 @@ public sealed partial class PetEngine
     // Only position waits for the visual stand/turn sequence; clocks and input keep running.
     public Func<string,double,bool,bool>? CanAdvanceMovement {get;set;}
     public Func<string,double,bool,double?>? VisualVelocity {get;set;}
+    public Func<string,bool,double?>? VisualActionDuration {get;set;}
+    public Func<string,(double Start,double Duration)?>? VisualConsumptionWindow {get;set;}
     public bool Holding { get; set; }
     public bool Dirty { get; set; }
     public Spot Nest { get; set; }
@@ -289,14 +291,15 @@ public sealed partial class PetEngine
         }
         if(Action is "eat" or "drink")
         {
-            int completed=(int)(ActionTime/1.1);
+            var consumption=VisualConsumptionWindow?.Invoke(Action);
+            int completed=consumption is {} window?(int)(Math.Max(0,ActionTime-window.Start)/Math.Max(.01,window.Duration)*4):(int)(ActionTime/1.1);
             while(bites<completed && bites<4)
             {
                 bool food=Action=="eat";
                 if(bites==0&&(food?State.Food:State.Water)>0)ScheduleNext(food?"food":"water");
                 Consume(food,5);bites++;
             }
-            if((Action=="eat" && State.Food<=0)||(Action=="drink" && State.Water<=0)) duration=ActionTime;
+            if(consumption is null&&((Action=="eat" && State.Food<=0)||(Action=="drink" && State.Water<=0))) duration=ActionTime;
         }
         if(ActionTime<duration)return;
         if(Action=="wake"&&moveAfterWake){moveAfterWake=false;Roam();return;}
@@ -337,7 +340,7 @@ public sealed partial class PetEngine
     {
         if(action!="sleep"&&State.Sleeping&&State.SleepingInNest)
         {var position=VisualPosition;State.X=position.X;State.Y=position.Y;}
-        Action=action;ActionTime=0;ActionRevision++;duration=seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;
+        Action=action;ActionTime=0;ActionRevision++;duration=seconds<double.MaxValue?VisualActionDuration?.Invoke(action,FacingLeft)??seconds:seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;
     }
     public void Interact()
     {

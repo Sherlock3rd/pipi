@@ -1,0 +1,15 @@
+{
+  "folder": "28-如厕结束起身",
+  "start": "Q",
+  "end": "SR",
+  "type": "过渡",
+  "seconds": 2,
+  "originalName": "28-如厕起身.mp4",
+  "sha256": "9e0284d3c3959073eef0afd4c66b1b23aea21249cb21dc80c0c3fe025ac00a6c",
+  "frames": 121,
+  "fps": 24.0,
+  "width": 1280,
+  "height": 720,
+  "duration": 5.041666666666667,
+  "authorization": "用户要求按提供素材直接替换，表现问题后续修订"
+}
