@@ -360,8 +360,22 @@ var mattePixels=new byte[21*21*4];
 for(int y=3;y<18;y++)for(int x=3;x<18;x++)
 {int pixelOffset=(y*21+x)*4;byte color=(byte)(x==3||x==17||y==3||y==17?245:100);mattePixels[pixelOffset]=mattePixels[pixelOffset+1]=mattePixels[pixelOffset+2]=color;mattePixels[pixelOffset+3]=255;}
 var cleanedMatte=AlphaMatte.Clean(mattePixels,21,21);
-Check(cleanedMatte[(10*21+3)*4+3]<20,"opaque white silhouette contamination becomes transparent instead of staying as a white fringe");
+Check(cleanedMatte[(10*21+3)*4+3]<50&&cleanedMatte[(10*21+3)*4]<130,"white contamination is replaced by low-coverage fur color rather than a white fringe");
 Check(cleanedMatte[(10*21+10)*4]==100&&cleanedMatte[(10*21+10)*4+3]==255,"matte repair preserves the solid interior color and opacity");
 Check(cleanedMatte[3]==0&&mattePixels[(10*21+3)*4]==245,"matte correction preserves transparent background and never mutates source bytes");
 Check(placementCat.CanDropInNest(new Spot(500,380)),"new tall plush bed shares its visible upper boundary with drop detection");
+var diagonal=new byte[25*25*4];
+for(int y=4;y<21;y++)for(int x=4;x<=y;x++){int q=(y*25+x)*4;diagonal[q]=diagonal[q+1]=diagonal[q+2]=100;diagonal[q+3]=255;}
+var aa=AlphaMatte.Clean(diagonal,25,25);
+Check(aa[(12*25+13)*4+3]>0&&aa[(12*25+12)*4+3]<255,"diagonal silhouette receives fractional coverage on both sides of hard pixel steps");
+Check(aa[(12*25+13)*4]==100,"antialiasing uses premultiplied fur color without dark or white fringe");
+var wakePosition=new PetEngine(new PetState());wakePosition.Layout(1200,800);wakePosition.Sleep();
+var sleepingAnchor=wakePosition.VisualPosition;wakePosition.Interact();
+Check(wakePosition.VisualPosition==sleepingAnchor,"click wake preserves the exact displayed nest anchor");
+wakePosition.Wake();Check(wakePosition.VisualPosition==sleepingAnchor,"repeated wake never applies the nest offset twice");
+wakePosition.Sleep();sleepingAnchor=wakePosition.VisualPosition;wakePosition.BeginDrag();
+Check(wakePosition.VisualPosition==sleepingAnchor,"pickup from nest preserves displayed anchor before pointer movement");
+var groundWake=new PetEngine(new PetState{Sleeping=true,SleepingInNest=false,X=400,Y=400});
+var groundAnchor=groundWake.VisualPosition;groundWake.Interact();
+Check(groundWake.VisualPosition==groundAnchor,"ground sleep wake does not apply a nest correction");
 Console.WriteLine($"{checks} checks passed.");

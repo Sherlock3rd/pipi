@@ -82,6 +82,7 @@ internal sealed class Scene : FrameworkElement
     private SpriteClip? lastDefinition,blendDefinition;
     private string lastSpriteClip="";
     private double blendStarted;
+    private bool nestOcclusion;
     private static BitmapSource? LoadProp(string name)
     {
         string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
@@ -200,7 +201,7 @@ internal sealed class Scene : FrameworkElement
     }
     private Point World(Point p)=>new(p.X/Scale,p.Y/Scale);
     private Rect CatRect {get {
-        if(currentCatBounds is Rect b){b.Offset(Engine.State.X-(Engine.State.SleepingInNest&&Engine.State.Sleeping?20:0),Engine.State.Y-lift-(Engine.State.SleepingInNest&&Engine.State.Sleeping?10:0));b.Inflate(7,7);return b;}
+        if(currentCatBounds is Rect b){b.Offset(Engine.VisualPosition.X,Engine.VisualPosition.Y-lift);b.Inflate(7,7);return b;}
         return new(Engine.State.X-85,Engine.State.Y-158,170,170);
     }}
     private Rect NestRect=>new(Engine.Nest.X-87,Engine.Nest.Y-129,174,154);
@@ -224,7 +225,7 @@ internal sealed class Scene : FrameworkElement
         {wandHeld=true;Engine.SetToy(true,new Spot(p.X,p.Y));CaptureMouse();Cursor=Cursors.Cross;InvalidateVisual();e.Handled=true;return;}
         string? hit=CatRect.Contains(p)?"cat":ObjectRect(Engine.LitterSpot,120).Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
         if(hit is null)return;
-        pressedObject=hit;originalPosition=hit=="cat"?new(Engine.State.X,Engine.State.Y):Engine.ObjectPosition(hit);
+        pressedObject=hit;originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
         pressed=true;pressedAt=watch.Elapsed.TotalSeconds;pressedPoint=p;grabOffset=new Vector(p.X-originalPosition.X,p.Y-originalPosition.Y);Engine.Holding=true;CaptureMouse();e.Handled=true;
     }
     protected override void OnMouseMove(MouseEventArgs e)
@@ -286,9 +287,10 @@ internal sealed class Scene : FrameworkElement
         DrawBowl(dc,Engine.FoodSpot,Engine.State.Food,false,Engine.Now);
         DrawBowl(dc,Engine.WaterSpot,Engine.State.Water,true,Engine.Now);
         DrawLitter(dc);
-        bool inNest=Engine.State.Sleeping&&Engine.State.SleepingInNest;
-        DrawCat(dc,Engine.State.X-(inNest?20:0),Engine.State.Y-lift-(inNest?10:0),Engine.Action,Engine.ActionTime,Engine.FacingLeft);
-        if(Engine.State.Sleeping&&Engine.State.SleepingInNest)DrawNest(dc,true);
+        if(Engine.State.Sleeping)nestOcclusion=Engine.State.SleepingInNest;
+        DrawCat(dc,Engine.VisualPosition.X,Engine.VisualPosition.Y-lift,Engine.Action,Engine.ActionTime,Engine.FacingLeft);
+        if(!Engine.State.Sleeping&&DisplayedClip is not ("video-20" or "video-21"))nestOcclusion=false;
+        if(nestOcclusion)DrawNest(dc,true);
         DrawWand(dc);
         if(IsDragging&&pressedObject=="cat"&&AtNest)
         {dc.DrawRoundedRectangle(null,new Pen(Brush("#A3C7A2"),3),NestRect,30,30);}

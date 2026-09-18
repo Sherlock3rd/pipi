@@ -43,10 +43,29 @@ public static class AlphaMatte
                 alpha*=ratio*ratio;
                 for(int c=0;c<3;c++)output[p+c]=pixels[q+c];
             }
-            if(distance[i]<=1)alpha*=.65;
             output[p+3]=(byte)Math.Clamp(Math.Round(alpha*255),0,255);
             if(output[p+3]<4)output[p]=output[p+1]=output[p+2]=output[p+3]=0;
         }
-        return output;
+        // Filter coverage and premultiplied color together. The old hard inward
+        // erosion amplified single-pixel stairs when the 256px source was enlarged.
+        // Restrict reconstruction to the silhouette; solid fur stays untouched.
+        var smooth=(byte[])output.Clone();
+        int[] weights={1,6,1};
+        for(int y=0;y<height;y++)for(int x=0;x<width;x++)
+        {
+            int i=y*width+x,p=i*4;
+            if(distance[i]>2)continue;
+            double a=0,b=0,g=0,r=0;
+            for(int dy=-1;dy<=1;dy++)for(int dx=-1;dx<=1;dx++)
+            {
+                int xx=x+dx,yy=y+dy;if(xx<0||xx>=width||yy<0||yy>=height)continue;
+                int q=(yy*width+xx)*4;double coverage=output[q+3]*weights[dx+1]*weights[dy+1]/64d;
+                a+=coverage;b+=output[q]*coverage;g+=output[q+1]*coverage;r+=output[q+2]*coverage;
+            }
+            smooth[p+3]=(byte)Math.Clamp(Math.Round(a),0,255);
+            if(a>0){smooth[p]=(byte)Math.Round(b/a);smooth[p+1]=(byte)Math.Round(g/a);smooth[p+2]=(byte)Math.Round(r/a);}
+            else smooth[p]=smooth[p+1]=smooth[p+2]=0;
+        }
+        return smooth;
     }
 }

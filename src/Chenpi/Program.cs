@@ -68,7 +68,9 @@ internal sealed class PetWindow : Window
     public PetWindow(Store storage,string[] arguments,PetEngine? existingEngine=null)
     {
         store=storage;args=arguments;
-        var state=existingEngine?.State??store.Load();engine=existingEngine??new PetEngine(state);
+        var state=existingEngine?.State??store.Load();
+        if(Preview&&args.Contains("--preview-wake-test")){state.Sleeping=true;state.SleepingInNest=true;}
+        engine=existingEngine??new PetEngine(state);
         boot=Native.BootIdentifier();previousAwake=Native.AwakeSeconds;
         var elapsed=ClockMath.Elapsed(state.BootId,state.AwakeSeconds,boot,previousAwake);
         engine.AdvanceNeeds(elapsed.Seconds);state.ClockGap|=elapsed.Gap;state.BootId=boot;state.AwakeSeconds=previousAwake;
@@ -116,6 +118,19 @@ internal sealed class PetWindow : Window
         if(Preview&&(args.Contains("--preview-motion")||args.Contains("--preview-motion-left")))
         {engine.MoveObject("food",new Spot(engine.State.X+(args.Contains("--preview-motion-left")?-140:140),engine.State.Y));engine.Demo("eat");}
         CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
+        // Isolated reproduction uses the same interaction entry point as a click.
+        if(Preview&&args.Contains("--preview-wake-test"))
+        {
+            engine.Sleep();
+            var wakeTimer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(2)};
+            wakeTimer.Tick+=(_,_)=>{
+                wakeTimer.Stop();var before=engine.VisualPosition;
+                var path=Program.Option(args,"--snapshot");
+                if(path is not null)scene.SavePreview(path+".before.png");
+                engine.Interact();var after=engine.VisualPosition;scene.InvalidateVisual();scene.UpdateLayout();
+                if(path is not null){scene.SavePreview(path+".click.png");File.WriteAllText(path+".wake.json",System.Text.Json.JsonSerializer.Serialize(new{before,after,deltaX=after.X-before.X,deltaY=after.Y-before.Y}));}
+            };wakeTimer.Start();
+        }
         string? snapshot=Program.Option(args,"--snapshot");
         if(snapshot is not null)
         {

@@ -323,8 +323,15 @@ public sealed partial class PetEngine
         {if(manualSequence){FinishManualSequence();return;}if(random.NextDouble()<.15)SleepHere();else SetAction(random.NextDouble()<.65?"sit":"idle",1,"找到舒服的地方啦");}
         else SetAction(arrival,arrival is "eat" or "drink" ? 4.7 : arrival=="toilet" ? 4 : arrival=="bury" ? 3 : 2,Reason);
     }
+    // One shared draw/hit-test anchor. On leaving the nest keep this world point;
+    // clearing SleepingInNest must not teleport the displayed cat by (20,10).
+    public Spot VisualPosition=>new(State.X-(State.Sleeping&&State.SleepingInNest?20:0),State.Y-(State.Sleeping&&State.SleepingInNest?10:0));
     private void SetAction(string action,double seconds,string reason)
-    {Action=action;ActionTime=0;ActionRevision++;duration=seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;}
+    {
+        if(action!="sleep"&&State.Sleeping&&State.SleepingInNest)
+        {var position=VisualPosition;State.X=position.X;State.Y=position.Y;}
+        Action=action;ActionTime=0;ActionRevision++;duration=seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;
+    }
     public void Interact()
     {
         if(State.CareRequest is not null){BeginGuide();return;}
