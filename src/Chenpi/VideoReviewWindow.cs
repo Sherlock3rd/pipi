@@ -12,13 +12,13 @@ using System.Windows.Threading;
 
 namespace Chenpi;
 
-// Isolated asset reviewer: no PetEngine, care timers, production manifest or personal save.
+// Isolated reviewer of the installed manifest; never touches personal pet state.
 internal sealed class VideoReviewWindow : Window
 {
     private sealed record ReviewClip(string Id,string Label,string[] Files,double Fps);
     private readonly string root;
     private readonly List<ReviewClip> clips=new();
-    private readonly List<BitmapImage> frames=new();
+    private readonly List<BitmapSource> frames=new();
     private readonly Image cat=new(){Width=360,Height=360,Stretch=Stretch.Uniform};
     private readonly TextBlock status=new(){FontSize=13,Margin=new Thickness(16,8,16,12)};
     private readonly Slider seek=new(){Minimum=0,Margin=new Thickness(16,8,16,8)};
@@ -44,10 +44,12 @@ internal sealed class VideoReviewWindow : Window
     private readonly string? snapshot;
     private readonly double snapshotAfter;
     private bool savedSnapshot;
+    private readonly bool closeAfterSnapshot;
 
     public VideoReviewWindow(string directory,string[] args)
     {
         root=Path.GetFullPath(directory);
+        closeAfterSnapshot=args.Contains("--exit-after-snapshot");
         snapshot=Program.Option(args,"--snapshot");
         snapshotAfter=double.TryParse(Program.Option(args,"--snapshot-delay"),out var seconds)?seconds:3;
         Title="陈皮 · 基础动作视频评审";Width=1060;Height=720;MinWidth=850;MinHeight=620;
@@ -85,12 +87,14 @@ internal sealed class VideoReviewWindow : Window
         Button Button(string label,Action action){var b=new Button{Content=label,Padding=new Thickness(10,7,10,7),Margin=new Thickness(4)};b.Click+=(_,_)=>action();return b;}
         var play=Button("暂停 / 播放",()=>playing=!playing);bar.Children.Add(play);
         bar.Children.Add(Button("上一帧",()=>Step(-1)));bar.Children.Add(Button("下一帧",()=>Step(1)));
-        bool dark=false;bar.Children.Add(Button("深浅背景",()=>{dark=!dark;stage.Background=dark?new SolidColorBrush(Color.FromRgb(39,49,60)):new SolidColorBrush(Color.FromRgb(231,232,223));}));
-        bool large=true;bar.Children.Add(Button("实际大小 / 放大",()=>{large=!large;cat.Width=cat.Height=large?360:180;}));
+        bool dark=true;stage.Background=new SolidColorBrush(Color.FromRgb(24,27,34));
+        bar.Children.Add(Button("深浅背景",()=>{dark=!dark;stage.Background=dark?new SolidColorBrush(Color.FromRgb(24,27,34)):new SolidColorBrush(Color.FromRgb(231,232,223));}));
+        bool large=true;bar.Children.Add(Button("实际大小 / 放大",()=>{large=!large;cat.Width=cat.Height=large?360:288;}));
         bar.Children.Add(Button("查看原视频",()=>
         {
             if(current is null)return;
-            string source=Path.GetFullPath(Path.Combine(root,"..",current.Id[6..],"source.mp4"));
+            string sourceRoot=Program.Option(args,"--video-sources")??Path.Combine(root,"..");
+            string source=Path.GetFullPath(Path.Combine(sourceRoot,current.Id=="video-right"?"00":current.Id[6..],"source.mp4"));
             if(File.Exists(source))Process.Start(new ProcessStartInfo(source){UseShellExecute=true});
         }));
         DockPanel.SetDock(bar,Dock.Top);panel.Children.Add(bar);
@@ -109,7 +113,7 @@ internal sealed class VideoReviewWindow : Window
         {
             string path=Path.GetFullPath(Path.Combine(root,relative));
             if(!path.StartsWith(root+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Frame outside review directory");
-            var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;image.UriSource=new Uri(path);image.EndInit();image.Freeze();frames.Add(image);
+            var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;image.UriSource=new Uri(path);image.EndInit();image.Freeze();frames.Add(Scene.PrepareBitmap(image,false,out _));
         }
         elapsed=0;previous=clock.Elapsed.TotalSeconds;sync=true;seek.Maximum=Math.Max(0,frames.Count-1);seek.Value=0;sync=false;RenderFrame();
     }
@@ -147,6 +151,7 @@ internal sealed class VideoReviewWindow : Window
             Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(snapshot))!);
             using(var stream=File.Create(snapshot))encoder.Save(stream);
             File.WriteAllText(snapshot+".json",JsonSerializer.Serialize(new{clip=current?.Id,frame=(int)(elapsed*(current?.Fps??24)),count=frames.Count,fps=current?.Fps,playing,route=activeRoute}));
+            if(closeAfterSnapshot)Close();
         }
     }
     private void RenderFrame()

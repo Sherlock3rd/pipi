@@ -149,12 +149,13 @@ public sealed class SpritePlayback
         if(frame is not SpriteFrame f)return null;
         double t=Math.Clamp((now-started)/f.Definition.Duration,0,1);
         static double Ease(double x){x=Math.Clamp(x,0,1);return x*x*(3-2*x);}
-        return f.Clip switch {
+        double velocity=f.Clip switch {
             "video-right"=>36,"video-14"=>-38,
             "video-06"=>12*Ease((t-.18)/.55),"video-08"=>-12*Ease((t-.18)/.55),
             "video-10"=>12+24*Ease(t/.5),"video-12"=>-12-26*Ease(t/.5),
             "video-11"=>36*(1-Ease(t/.85)),"video-13"=>-38*(1-Ease(t/.85)),
             "video-15"=>5*(1-2*Ease(t)),"video-16"=>-5*(1-2*Ease(t)),
             _=>0};
+        return velocity*f.Definition.Width/180;
     }
 }

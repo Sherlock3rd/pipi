@@ -4,4 +4,5 @@
   <ItemGroup><Compile Include="../../src/Chenpi/AnimationVariants.cs" Link="AnimationVariants.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/SpritePlayback.cs" Link="SpritePlayback.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/FullscreenPolicy.cs" Link="FullscreenPolicy.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../../src/Chenpi/AlphaMatte.cs" Link="AlphaMatte.cs" /></ItemGroup>
 </Project>

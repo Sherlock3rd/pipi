@@ -356,4 +356,12 @@ if(File.Exists(runtimeManifest))
  Check(Enumerable.Range(1,21).All(n=>visited.Contains("video-"+n.ToString("00")))&&visited.Contains("video-right"),"installed trimmed manifest reaches all 21 clips and accepted right gait through real routes");
  Check(framesValid,"all replacement route frames stay in bounds and preserve asymmetric eye direction");
 }
+var mattePixels=new byte[21*21*4];
+for(int y=3;y<18;y++)for(int x=3;x<18;x++)
+{int pixelOffset=(y*21+x)*4;byte color=(byte)(x==3||x==17||y==3||y==17?245:100);mattePixels[pixelOffset]=mattePixels[pixelOffset+1]=mattePixels[pixelOffset+2]=color;mattePixels[pixelOffset+3]=255;}
+var cleanedMatte=AlphaMatte.Clean(mattePixels,21,21);
+Check(cleanedMatte[(10*21+3)*4+3]<20,"opaque white silhouette contamination becomes transparent instead of staying as a white fringe");
+Check(cleanedMatte[(10*21+10)*4]==100&&cleanedMatte[(10*21+10)*4+3]==255,"matte repair preserves the solid interior color and opacity");
+Check(cleanedMatte[3]==0&&mattePixels[(10*21+3)*4]==245,"matte correction preserves transparent background and never mutates source bytes");
+Check(placementCat.CanDropInNest(new Spot(500,380)),"new tall plush bed shares its visible upper boundary with drop detection");
 Console.WriteLine($"{checks} checks passed.");

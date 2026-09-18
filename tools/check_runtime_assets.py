@@ -14,7 +14,7 @@ for clip,files in m['animations'].items():
             assert box and min(box[:2])>0 and max(box[2:])<256,(clip,p,box)
             assert a.getextrema()==(0,255),(clip,p,a.getextrema())
         count+=1
-for name in ['food-bowl-empty','kibble','water-cup-empty']:
+for name in ['food-bowl-empty','kibble','water-cup-empty','nest','litter-tray']:
     with Image.open(root/'assets/props'/f'{name}.png') as im:
         assert im.mode=='RGBA' and im.getchannel('A').getextrema()==(0,255),name
-print(f'PASS {count} replacement frames and 3 transparent props; all manifest paths resolve')
+print(f'PASS {count} replacement frames and 5 transparent props; all manifest paths resolve')

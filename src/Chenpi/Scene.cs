@@ -40,14 +40,33 @@ internal sealed class Scene : FrameworkElement
     private static readonly Dictionary<string,System.Windows.Media.Geometry> shapes=new();
     private static readonly Dictionary<(string,double,string),FormattedText> labels=new();
     private readonly System.Diagnostics.Stopwatch watch=System.Diagnostics.Stopwatch.StartNew();
-    private readonly Dictionary<string,List<BitmapImage>> frames=new();
+    private readonly Dictionary<string,List<BitmapSource>> frames=new();
     private readonly Dictionary<string,List<string>> framePaths=new();
     private readonly Queue<string> decodedClips=new();
-    private List<BitmapImage>? GetFrames(string id)
+    private readonly Dictionary<BitmapSource,Rect> frameBounds=new();
+    private Rect? currentCatBounds;
+    public const double BowlScale=.60;
+    public bool DarkPreview {get;set;}
+    internal static BitmapSource PrepareBitmap(BitmapSource original,bool crop,out Rect bounds)
+    {
+        var straight=new FormatConvertedBitmap(original,PixelFormats.Bgra32,null,0);
+        int w=straight.PixelWidth,h=straight.PixelHeight;
+        var pixels=new byte[w*h*4];straight.CopyPixels(pixels,w*4,0);
+        pixels=AlphaMatte.Clean(pixels,w,h);
+        int minX=w,minY=h,maxX=0,maxY=0;
+        for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[(y*w+x)*4+3]>8)
+        {minX=Math.Min(minX,x);minY=Math.Min(minY,y);maxX=Math.Max(maxX,x+1);maxY=Math.Max(maxY,y+1);}
+        bounds=new Rect(minX/(double)w,minY/(double)h,(maxX-minX)/(double)w,(maxY-minY)/(double)h);
+        BitmapSource result=BitmapSource.Create(w,h,96,96,PixelFormats.Bgra32,null,pixels,w*4);
+        result=new FormatConvertedBitmap(result,PixelFormats.Pbgra32,null,0);result.Freeze();
+        if(crop){result=new CroppedBitmap(result,new Int32Rect(minX,minY,maxX-minX,maxY-minY));result.Freeze();}
+        return result;
+    }
+    private List<BitmapSource>? GetFrames(string id)
     {
         if(frames.TryGetValue(id,out var cached))return cached;
         if(!framePaths.TryGetValue(id,out var paths))return null;
-        var images=new List<BitmapImage>();
+        var images=new List<BitmapSource>();
         foreach(var full in paths)
         {
             var bitmap=new BitmapImage();bitmap.BeginInit();bitmap.CacheOption=BitmapCacheOption.OnLoad;
@@ -59,18 +78,20 @@ internal sealed class Scene : FrameworkElement
     }
     private readonly AnimationVariants variants=new();
     private readonly SpritePlayback playback=new();
-    private BitmapImage? lastSprite,blendFrom;
+    private BitmapSource? lastSprite,blendFrom;
     private SpriteClip? lastDefinition,blendDefinition;
     private string lastSpriteClip="";
     private double blendStarted;
-    private static BitmapImage? LoadProp(string name)
+    private static BitmapSource? LoadProp(string name)
     {
         string path=Path.Combine(AppContext.BaseDirectory,"assets","props",name+".png");
         if(!File.Exists(path))return null;
         var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;
-        image.UriSource=new Uri(path);image.EndInit();image.Freeze();return image;
+        image.DecodePixelWidth=320;image.UriSource=new Uri(path);image.EndInit();image.Freeze();
+        return PrepareBitmap(image,name is "nest" or "litter-tray",out _);
     }
-    private static readonly BitmapImage? foodBowl=LoadProp("food-bowl-empty"),kibble=LoadProp("kibble"),waterCup=LoadProp("water-cup-empty");
+    private static readonly BitmapSource? foodBowl=LoadProp("food-bowl-empty"),kibble=LoadProp("kibble"),waterCup=LoadProp("water-cup-empty");
+    private static readonly BitmapSource? nestSprite=LoadProp("nest"),litterSprite=LoadProp("litter-tray");
     public string DisplayedClip {get;private set;}="";
     public int DisplayedFrame {get;private set;}
     public List<object> ClipTransitions {get;}=new();
@@ -124,11 +145,13 @@ internal sealed class Scene : FrameworkElement
             // Decode before showing the window. Switching a clip does zero disk IO/decode.
             Parallel.ForEach(framePaths.Where(p=>p.Key.StartsWith("video-",StringComparison.Ordinal)),
                 new ParallelOptions{MaxDegreeOfParallelism=2},entry=>{
-                    var decoded=new List<BitmapImage>();
+                    var decoded=new List<BitmapSource>();
                     foreach(string file in entry.Value)
                     {
                         var bitmap=new BitmapImage();bitmap.BeginInit();bitmap.CacheOption=BitmapCacheOption.OnLoad;
-                        bitmap.DecodePixelWidth=192;bitmap.UriSource=new Uri(file);bitmap.EndInit();bitmap.Freeze();decoded.Add(bitmap);
+                        bitmap.DecodePixelWidth=256;bitmap.UriSource=new Uri(file);bitmap.EndInit();bitmap.Freeze();
+                        var cleaned=PrepareBitmap(bitmap,false,out var bounds);decoded.Add(cleaned);
+                        lock(frameBounds)frameBounds[cleaned]=bounds;
                     }
                     lock(frames)frames[entry.Key]=decoded;
                 });
@@ -176,9 +199,13 @@ internal sealed class Scene : FrameworkElement
         Cursor=Cursors.Arrow;if(IsMouseCaptured)ReleaseMouseCapture();SaveNow?.Invoke();
     }
     private Point World(Point p)=>new(p.X/Scale,p.Y/Scale);
-    private Rect CatRect=>Engine.State.Sleeping&&(DisplayedClip is "sleep" or "video-20")?new(Engine.State.X-68,Engine.State.Y-94,136,101):new(Engine.State.X-85,Engine.State.Y-158,170,170);
-    private Rect NestRect=>new(Engine.Nest.X-82,Engine.Nest.Y-94,164,119);
-    private Rect ObjectRect(Spot p,double w=92)=>new(p.X-w/2,p==Engine.FoodSpot||p==Engine.WaterSpot?p.Y-62:p.Y-28,w,p==Engine.FoodSpot||p==Engine.WaterSpot?96:62);
+    private Rect CatRect {get {
+        if(currentCatBounds is Rect b){b.Offset(Engine.State.X-(Engine.State.SleepingInNest&&Engine.State.Sleeping?20:0),Engine.State.Y-lift-(Engine.State.SleepingInNest&&Engine.State.Sleeping?10:0));b.Inflate(7,7);return b;}
+        return new(Engine.State.X-85,Engine.State.Y-158,170,170);
+    }}
+    private Rect NestRect=>new(Engine.Nest.X-87,Engine.Nest.Y-129,174,154);
+    private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
+        ?new(p.X-30,p.Y-40,60,64):new(p.X-w/2,p.Y-34,w,68);
     private Rect SettingsRect=>new(Engine.Nest.X+59,Engine.Nest.Y-123,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
@@ -259,7 +286,8 @@ internal sealed class Scene : FrameworkElement
         DrawBowl(dc,Engine.FoodSpot,Engine.State.Food,false,Engine.Now);
         DrawBowl(dc,Engine.WaterSpot,Engine.State.Water,true,Engine.Now);
         DrawLitter(dc);
-        DrawCat(dc,Engine.State.X,Engine.State.Y-lift,Engine.Action,Engine.ActionTime,Engine.FacingLeft);
+        bool inNest=Engine.State.Sleeping&&Engine.State.SleepingInNest;
+        DrawCat(dc,Engine.State.X-(inNest?20:0),Engine.State.Y-lift-(inNest?10:0),Engine.Action,Engine.ActionTime,Engine.FacingLeft);
         if(Engine.State.Sleeping&&Engine.State.SleepingInNest)DrawNest(dc,true);
         DrawWand(dc);
         if(IsDragging&&pressedObject=="cat"&&AtNest)
@@ -288,6 +316,12 @@ internal sealed class Scene : FrameworkElement
     private void DrawNest(DrawingContext dc,bool foreground)
     {
         var p=Engine.Nest;
+        if(nestSprite is not null)
+        {
+            if(foreground)dc.PushClip(System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-87},{p.Y-45} Q {p.X},{p.Y+33} {p.X+87},{p.Y-45} L {p.X+87},{p.Y+25} L {p.X-87},{p.Y+25} Z")));
+            dc.DrawImage(nestSprite,new Rect(p.X-87,p.Y-129,174,154));
+            if(foreground)dc.Pop();return;
+        }
         if(!foreground)
         {
             Shadow(dc,p.X,p.Y+17,85,13);
@@ -299,6 +333,11 @@ internal sealed class Scene : FrameworkElement
         else dc.DrawRoundedRectangle(Brush("#C49776"),new Pen(Brush("#A67C5D"),1.5),new Rect(p.X-79,p.Y-6,158,29),12,12);
     }
     private static void DrawBowl(DrawingContext dc,Spot p,double fill,bool water,double time)
+    {
+        dc.PushTransform(new ScaleTransform(BowlScale,BowlScale,p.X,p.Y));
+        DrawBowlFullSize(dc,p,fill,water,time);dc.Pop();
+    }
+    private static void DrawBowlFullSize(DrawingContext dc,Spot p,double fill,bool water,double time)
     {
         int layers=PetEngine.SupplyLayers(fill);
         if(water&&waterCup is not null)
@@ -355,6 +394,17 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity)
     {
+        if(litterSprite is not null)
+        {
+            dc.DrawImage(litterSprite,new Rect(p.X-56,p.Y-34,112,62));
+            for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)
+            {
+                double x=p.X-29+i*14,y=p.Y+3+(i%2)*4;
+                dc.DrawEllipse(Brush("#80705A"),null,new Point(x,y),6,3.5);
+                dc.DrawEllipse(Brush("#9C876C"),null,new Point(x-1,y-.8),4,2);
+            }
+            return;
+        }
         Shadow(dc,p.X,p.Y+26,59,9);
         dc.DrawRoundedRectangle(Brush("#A4AF9C"),new Pen(Brush("#79836F"),1.5),new Rect(p.X-56,p.Y-27,112,56),15,15);
         dc.DrawRoundedRectangle(Brush("#E3D8BE"),new Pen(Brush("#C2B79C"),1),new Rect(p.X-47,p.Y-21,94,32),11,11);
@@ -371,6 +421,8 @@ internal sealed class Scene : FrameworkElement
         {
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;
+            if(frameBounds.TryGetValue(generated[sprite.Index],out var bounds))
+                currentCatBounds=new Rect((bounds.X-definition.AnchorX)*definition.Width,(bounds.Y-definition.AnchorY)*definition.Height,bounds.Width*definition.Width,bounds.Height*definition.Height);
             if(lastSpriteClip!=sprite.Clip)
             {
                 blendFrom=lastSprite;blendDefinition=lastDefinition;blendStarted=Engine.Now;lastSpriteClip=sprite.Clip;
@@ -390,7 +442,7 @@ internal sealed class Scene : FrameworkElement
             lastSprite=generated[sprite.Index];lastDefinition=definition;
             if(mirror)dc.Pop();dc.Pop();return;
         }
-        lastSprite=null;lastDefinition=null;lastSpriteClip="";
+        lastSprite=null;lastDefinition=null;lastSpriteClip="";currentCatBounds=null;
         DisplayedClip=variant?.Id??action;DisplayedFrame=0;
         if(GetFrames(variant?.Id??action) is {} set&&set.Count>0)
         {
@@ -493,7 +545,7 @@ internal sealed class Scene : FrameworkElement
     public void SavePreview(string path)
     {
         var scene=new RenderTargetBitmap((int)ActualWidth,(int)ActualHeight,96,96,PixelFormats.Pbgra32);scene.Render(this);
-        var visual=new DrawingVisual();using(var dc=visual.RenderOpen()){dc.DrawRectangle(Brush("#E6E8DF"),null,new Rect(0,0,ActualWidth,ActualHeight));dc.DrawImage(scene,new Rect(0,0,ActualWidth,ActualHeight));}
+        var visual=new DrawingVisual();using(var dc=visual.RenderOpen()){dc.DrawRectangle(Brush(DarkPreview?"#181B22":"#E6E8DF"),null,new Rect(0,0,ActualWidth,ActualHeight));dc.DrawImage(scene,new Rect(0,0,ActualWidth,ActualHeight));}
         var bitmap=new RenderTargetBitmap((int)ActualWidth,(int)ActualHeight,96,96,PixelFormats.Pbgra32);bitmap.Render(visual);
         var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));using var stream=File.Create(path);encoder.Save(stream);
     }

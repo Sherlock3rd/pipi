@@ -117,7 +117,7 @@ public sealed partial class PetEngine
     public bool ToyWithinCatchRange=>ToyHeld&&CatPlayCenter.Distance(ToyTip)<=CatCatchRadius;
     public Spot WandHome=>new(Math.Clamp(Nest.X+25,60,Width-65),Math.Max(55,Nest.Y-167));
     public bool CanDropInNest(Spot pointer)=>new Spot(State.X,State.Y).Distance(Nest)<82
-        ||(pointer.X>=Nest.X-82&&pointer.X<=Nest.X+82&&pointer.Y>=Nest.Y-94&&pointer.Y<=Nest.Y+25);
+        ||(pointer.X>=Nest.X-87&&pointer.X<=Nest.X+87&&pointer.Y>=Nest.Y-129&&pointer.Y<=Nest.Y+25);
 
     public void Layout(double width,double height,bool reset=false)
     {

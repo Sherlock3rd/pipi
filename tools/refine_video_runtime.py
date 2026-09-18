@@ -39,6 +39,7 @@ for name in ['video-'+f'{n:02}' for n in range(1,22)]+['video-right']:
         out=dest/f'{out_index:03}.png';Image.fromarray(rgba).save(out)
         files.append(out.relative_to(A).as_posix())
     manifest['animations'][name]=files;manifest['clips'][name]['fps']=fps
+    manifest['clips'][name]['width']=manifest['clips'][name]['height']=288
     report.append({'clip':name,'sourceFrames':[start,end],'fps':fps,'duration':len(files)/fps})
 manifest['runtimeRevision']='smooth-v1-trimmed-decontaminated'
 (A/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
