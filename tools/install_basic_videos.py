@@ -6,6 +6,7 @@ from extract_basic_video_candidates import extract,CACHE,RUN,OUT,ROOT
 
 assets=ROOT/'assets/pets/bluecat'
 manifest=json.loads((assets/'manifest.json').read_text(encoding='utf-8'))
+manifest.pop('videoMattePrepared',None);manifest.pop('videoFrameSize',None)
 preview=json.loads((OUT/'manifest.json').read_text(encoding='utf-8'))
 report=json.loads((RUN/'extraction.json').read_text(encoding='utf-8'))
 for clip,files in preview['animations'].items():

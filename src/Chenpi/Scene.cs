@@ -47,19 +47,25 @@ internal sealed class Scene : FrameworkElement
     private Rect? currentCatBounds;
     public const double BowlScale=.60;
     public bool DarkPreview {get;set;}
-    internal static BitmapSource PrepareBitmap(BitmapSource original,bool crop,out Rect bounds,int boundsThreshold=8)
+    internal static BitmapSource PrepareBitmap(BitmapSource original,bool crop,out Rect bounds,int boundsThreshold=8,bool cleanMatte=true)
     {
         var straight=new FormatConvertedBitmap(original,PixelFormats.Bgra32,null,0);
         int w=straight.PixelWidth,h=straight.PixelHeight;
         var pixels=new byte[w*h*4];straight.CopyPixels(pixels,w*4,0);
-        pixels=AlphaMatte.Clean(pixels,w,h);
+        if(cleanMatte)pixels=AlphaMatte.Clean(pixels,w,h);
         int minX=w,minY=h,maxX=0,maxY=0;
         for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[(y*w+x)*4+3]>boundsThreshold)
         {minX=Math.Min(minX,x);minY=Math.Min(minY,y);maxX=Math.Max(maxX,x+1);maxY=Math.Max(maxY,y+1);}
         bounds=new Rect(minX/(double)w,minY/(double)h,(maxX-minX)/(double)w,(maxY-minY)/(double)h);
         BitmapSource result=BitmapSource.Create(w,h,96,96,PixelFormats.Bgra32,null,pixels,w*4);
         result=new FormatConvertedBitmap(result,PixelFormats.Pbgra32,null,0);result.Freeze();
-        if(crop){result=new CroppedBitmap(result,new Int32Rect(minX,minY,maxX-minX,maxY-minY));result.Freeze();}
+        if(crop)
+        {
+            int cw=maxX-minX,ch=maxY-minY;
+            var cut=new CroppedBitmap(result,new Int32Rect(minX,minY,cw,ch));
+            var compact=new byte[cw*ch*4];cut.CopyPixels(compact,cw*4,0);
+            result=BitmapSource.Create(cw,ch,96,96,PixelFormats.Pbgra32,null,compact,cw*4);result.Freeze();
+        }
         return result;
     }
     private List<BitmapSource>? GetFrames(string id)
@@ -144,6 +150,7 @@ internal sealed class Scene : FrameworkElement
             }
             variants.Load(doc.RootElement,id=>framePaths.ContainsKey(id));
             playback.Load(doc.RootElement,id=>framePaths.TryGetValue(id,out var set)?set.Count:0);
+            bool prepared=doc.RootElement.TryGetProperty("videoMattePrepared",out var readyMatte)&&readyMatte.GetBoolean();
             // Decode before showing the window. Switching a clip does zero disk IO/decode.
             Parallel.ForEach(framePaths.Where(p=>p.Key.StartsWith("video-",StringComparison.Ordinal)),
                 new ParallelOptions{MaxDegreeOfParallelism=2},entry=>{
@@ -151,8 +158,8 @@ internal sealed class Scene : FrameworkElement
                     foreach(string file in entry.Value)
                     {
                         var bitmap=new BitmapImage();bitmap.BeginInit();bitmap.CacheOption=BitmapCacheOption.OnLoad;
-                        bitmap.DecodePixelWidth=256;bitmap.UriSource=new Uri(file);bitmap.EndInit();bitmap.Freeze();
-                        var cleaned=PrepareBitmap(bitmap,false,out var bounds);decoded.Add(cleaned);
+                        bitmap.UriSource=new Uri(file);bitmap.EndInit();bitmap.Freeze();
+                        var cleaned=PrepareBitmap(bitmap,true,out var bounds,1,!prepared);decoded.Add(cleaned);
                         lock(frameBounds)frameBounds[cleaned]=bounds;
                     }
                     lock(frames)frames[entry.Key]=decoded;
@@ -422,6 +429,11 @@ internal sealed class Scene : FrameworkElement
         for(int i=0;i<25;i++)dc.DrawEllipse(Brush("#C5B79B"),null,new Point(p.X-39+(i*17%78),p.Y-15+(i*11%21)),1.5,1);
         for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)dc.DrawEllipse(Brush("#8D7560"),null,new Point(p.X-32+i*16,p.Y-5+(i%2)*6),8,5);
     }
+    private void DrawVideoFrame(DrawingContext dc,BitmapSource image,SpriteClip definition)
+    {
+        var b=frameBounds.TryGetValue(image,out var bounds)?bounds:new Rect(0,0,1,1);
+        dc.DrawImage(image,new Rect((b.X-definition.AnchorX)*definition.Width,(b.Y-definition.AnchorY)*definition.Height,b.Width*definition.Width,b.Height*definition.Height));
+    }
     private void DrawCat(DrawingContext dc,double x,double y,string action,double time,bool left)
     {
         if(action==Engine.Action&&spriteRevision!=Engine.ActionRevision)
@@ -447,10 +459,10 @@ internal sealed class Scene : FrameworkElement
             double blend=Math.Clamp((Engine.Now-blendStarted)/.10,0,1);
             if(blend<1&&blendFrom is not null&&blendDefinition is not null)
             {
-                dc.DrawImage(blendFrom,new Rect(-blendDefinition.Width*blendDefinition.AnchorX,-blendDefinition.Height*blendDefinition.AnchorY,blendDefinition.Width,blendDefinition.Height));
+                DrawVideoFrame(dc,blendFrom,blendDefinition);
                 dc.PushOpacity(blend);
             }
-            dc.DrawImage(generated[sprite.Index],new Rect(-definition.Width*definition.AnchorX,-definition.Height*definition.AnchorY,definition.Width,definition.Height));
+            DrawVideoFrame(dc,generated[sprite.Index],definition);
             if(blend<1&&blendFrom is not null&&blendDefinition is not null)dc.Pop();
             lastSprite=generated[sprite.Index];lastDefinition=definition;
             if(mirror)dc.Pop();dc.Pop();return;

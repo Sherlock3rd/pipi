@@ -11,6 +11,7 @@ cuts={6:(0,90,36),7:(0,103,30),8:(0,96,36),9:(0,103,30),10:(12,96,36),
       11:(8,86,36),12:(12,96,36),13:(8,86,36),14:(0,119,24),
       15:(6,105,36),16:(6,105,36),17:(4,112,30),18:(4,112,30),19:(0,112,30),21:(0,112,30)}
 manifest=json.loads((A/'manifest.json').read_text(encoding='utf-8'))
+manifest.pop('videoMattePrepared',None);manifest.pop('videoFrameSize',None)
 report=[]
 for name in ['video-'+f'{n:02}' for n in range(1,22)]+['video-right']:
     n=int(name[-2:]) if name!='video-right' else 0

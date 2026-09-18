@@ -31,7 +31,10 @@ public static class AlphaMatte
         {
             int p=i*4;
             if(pixels[p+3]==0){output[p]=output[p+1]=output[p+2]=0;continue;}
-            if(distance[i]>3||nearest[i]<0)continue;
+            // Disconnected tiny islands have no opaque interior. Previously they
+            // bypassed cleanup and survived as flashing white pixels.
+            if(nearest[i]<0){output[p]=output[p+1]=output[p+2]=output[p+3]=0;continue;}
+            if(distance[i]>3)continue;
             int q=nearest[i]*4;double numerator=0,denominator=0,brightness=0;
             for(int c=0;c<3;c++)
             {double f=255-pixels[q+c];numerator+=(255-pixels[p+c])*f;denominator+=f*f;brightness+=pixels[p+c]-pixels[q+c];}

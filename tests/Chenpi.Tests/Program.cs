@@ -394,4 +394,7 @@ floorCat.SetToy(false,new Spot());floorCat.MoveObject("food",new Spot(700,100));
 bool onFloor=true;for(int i=0;i<100;i++){floorCat.Update(.1,12);onFloor&=floorCat.State.Y==floorCat.GroundY;}
 Check(onFloor&&floorCat.RequestSpot.Y==floorCat.GroundY&&floorCat.GuideDestination("food").Y==floorCat.GroundY,"care movement and guide destinations share floor throughout movement");
 floorCat.Layout(900,600);Check(floorCat.State.Y==552&&floorCat.Nest.Y==552,"window resize recomputes floor for cat and furniture");
+var isolatedMatte=(byte[])mattePixels.Clone();isolatedMatte[0]=isolatedMatte[1]=isolatedMatte[2]=250;isolatedMatte[3]=255;
+var isolatedClean=AlphaMatte.Clean(isolatedMatte,21,21);
+Check(isolatedClean[3]==0,"detached opaque white specks cannot bypass matte cleanup");
 Console.WriteLine($"{checks} checks passed.");

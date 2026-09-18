@@ -17,6 +17,7 @@ internal sealed class VideoReviewWindow : Window
 {
     private sealed record ReviewClip(string Id,string Label,string[] Files,double Fps);
     private readonly string root;
+    private readonly bool preparedMatte;
     private readonly List<ReviewClip> clips=new();
     private readonly List<BitmapSource> frames=new();
     private readonly Image cat=new(){Width=360,Height=360,Stretch=Stretch.Uniform};
@@ -49,6 +50,8 @@ internal sealed class VideoReviewWindow : Window
     public VideoReviewWindow(string directory,string[] args)
     {
         root=Path.GetFullPath(directory);
+        using(var settings=JsonDocument.Parse(File.ReadAllText(Path.Combine(root,"manifest.json"))))
+            preparedMatte=settings.RootElement.TryGetProperty("videoMattePrepared",out var matte)&&matte.GetBoolean();
         closeAfterSnapshot=args.Contains("--exit-after-snapshot");
         snapshot=Program.Option(args,"--snapshot");
         snapshotAfter=double.TryParse(Program.Option(args,"--snapshot-delay"),out var seconds)?seconds:3;
@@ -113,7 +116,7 @@ internal sealed class VideoReviewWindow : Window
         {
             string path=Path.GetFullPath(Path.Combine(root,relative));
             if(!path.StartsWith(root+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Frame outside review directory");
-            var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;image.UriSource=new Uri(path);image.EndInit();image.Freeze();frames.Add(Scene.PrepareBitmap(image,false,out _));
+            var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;image.UriSource=new Uri(path);image.EndInit();image.Freeze();frames.Add(Scene.PrepareBitmap(image,false,out _,8,!preparedMatte));
         }
         elapsed=0;previous=clock.Elapsed.TotalSeconds;sync=true;seek.Maximum=Math.Max(0,frames.Count-1);seek.Value=0;sync=false;RenderFrame();
     }
