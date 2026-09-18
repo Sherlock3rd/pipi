@@ -531,9 +531,37 @@ Check(edgeCare.CareDestination(edgeCare.FoodSpot,"eat").X>=65,"left-edge bowl le
 edgeCare.MoveObject("litter",new(-100,0));
 Check(edgeCare.LitterSpot.X>=InteractionGeometry.LitterHalfWidth,"enlarged tray stays within the screen");
 Check(InteractionGeometry.SurfaceLift("video-20",.5,true,"sleep")==54&&InteractionGeometry.SurfaceLift("video-19",1,true,"sleep")==54,"sleep entry and loop share the cushion surface");
-Check(InteractionGeometry.SurfaceLift("video-21",1,true,"wake")==InteractionGeometry.SurfaceLift("video-18",0,true,"wake")&&InteractionGeometry.SurfaceLift("video-18",1,true,"wake")==0,"wake stays on cushion through uncurl then lowers to floor");
+Check(InteractionGeometry.SurfaceLift("video-21",1,true,"wake")==InteractionGeometry.SurfaceLift("video-18",0,true,"wake")&&InteractionGeometry.SurfaceLift("video-18",1,true,"wake")==54,"wake remains fully supported until the cat actually walks out of the bed");
 Check(InteractionGeometry.SurfaceLift("video-33",.5,false,"drag")==24&&InteractionGeometry.SurfaceLift("video-34",1,false,"land")==0,"pickup clears floor and landing returns to it");
 Check(InteractionGeometry.SurfaceLift("video-27",.5,false,"toilet")==50&&InteractionGeometry.SurfaceLift("video-30",.5,false,"bury")==50,"toilet and burial share the enlarged tray surface");
 var calibrated=new SpriteClip(121,24,false,288,288,.5,.921875,false,.99,1.02);
 Check(Math.Abs(calibrated.AtFrame(0).Width-285.12)<.001&&Math.Abs(calibrated.AtFrame(120).Width-293.76)<.001&&calibrated.AtFrame(60).AnchorY==calibrated.AnchorY,"pose scaling uses smooth endpoint metadata around a fixed root");
+using(var phaseDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var a=phaseDoc.RootElement.GetProperty("animations");var phases=phaseDoc.RootElement.GetProperty("clips").GetProperty("video-20").GetProperty("phaseRegistration");
+ bool phasesCorrect=true,repeatedStable=true,interruptible=true;
+ for(int i=0;i<phases.GetArrayLength();i++)
+ {
+  var pb=new SpritePlayback();pb.Load(phaseDoc.RootElement,id=>a.TryGetProperty(id,out var frames)?frames.GetArrayLength():0);
+  pb.Sample("sleep",0);double now=i/24d+.000001;pb.Sample("sleep",now);
+  var wake=pb.Sample("wake",now+.001)!.Value;var again=pb.Sample("wake",now+.001)!.Value;
+  phasesCorrect&=wake.Clip=="video-21"&&Math.Abs(wake.Definition.Width-288/phases[i][0].GetDouble())<.1;
+  repeatedStable&=wake==again;
+  interruptible&=pb.Sample("drag",now+.002)!.Value.Clip=="video-32";
+ }
+ Check(phasesCorrect,"every sleeping breath phase preserves body scale on immediate wake");
+ Check(repeatedStable,"sampling velocity and rendering at the same time never reapplies wake correction");
+ Check(interruptible,"pickup interrupts wake continuation at every breath phase");
+ var pb2=new SpritePlayback();pb2.Load(phaseDoc.RootElement,id=>a.TryGetProperty(id,out var frames)?frames.GetArrayLength():0);
+ pb2.Sample("sleep",0);pb2.Sample("sleep",2.5);pb2.Sample("wake",2.501);
+ var settled=pb2.Sample("wake",3.101)!.Value;
+ var reference=new SpritePlayback();reference.Load(phaseDoc.RootElement,id=>a.TryGetProperty(id,out var frames)?frames.GetArrayLength():0);
+ reference.Sample("sleep",0);reference.Sample("wake",.001);var expected=reference.Sample("wake",.601)!.Value;
+ Check(Math.Abs(settled.Definition.Width-expected.Definition.Width)<.001,"wake continuation ends after half a second without accumulating scale drift");
+}
+var registered=new SpriteClip(121,24,false,288,288,.5,.921875,false,1,1,2,-3,2,-3).AtFrame(60);
+Check(Math.Abs((.5-registered.AnchorX)*registered.Width-2)<.001&&Math.Abs((.921875-registered.AnchorY)*registered.Height+3)<.001,"feature registration moves the shared root without stretching the pose");
+Check(InteractionGeometry.NestSupport(660,680)==54&&InteractionGeometry.NestSupport(610,680)==54&&InteractionGeometry.NestSupport(510,680)==0,"bed exit height follows horizontal progress rather than the wake clip timer");
+Check(InteractionGeometry.SurfaceLift("video-07",.5,true,"sleep")==54&&InteractionGeometry.SurfaceLift("video-17",0,true,"sleep")==54,"early sleep entry poses cannot sink below the cushion");
+Check(InteractionGeometry.SurfaceLift("video-32",0,true,"drag")==78,"lifting from the bed starts above its cushion instead of dropping toward the floor");
 Console.WriteLine($"{checks} checks passed.");

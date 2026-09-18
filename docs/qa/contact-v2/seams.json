@@ -1,0 +1,1305 @@
+{
+  "maxScaleDifferencePercent": 0.2645681334361827,
+  "seams": [
+    {
+      "source": "17",
+      "sourceFrame": 108,
+      "target": "19",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 1.0001200164200013,
+      "meanPositionChange": 5.065240061232796e-05,
+      "inliers": 99
+    },
+    {
+      "source": "19",
+      "sourceFrame": 112,
+      "target": "20",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 1.000000201128572,
+      "meanPositionChange": 7.221114458676135e-05,
+      "inliers": 157
+    },
+    {
+      "source": "21",
+      "sourceFrame": 112,
+      "target": "18",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 0.9990942315847889,
+      "meanPositionChange": 0.0759909304728124,
+      "inliers": 102
+    },
+    {
+      "source": "18",
+      "sourceFrame": 108,
+      "target": "01",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 1.0020748586584318,
+      "meanPositionChange": 7.225793393534918e-05,
+      "inliers": 150
+    },
+    {
+      "source": "16",
+      "sourceFrame": 99,
+      "target": "22",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 1.0000158541772592,
+      "meanPositionChange": 8.01885979143208e-05,
+      "inliers": 118
+    },
+    {
+      "source": "11",
+      "sourceFrame": 78,
+      "target": "22",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 1.0012275188937403,
+      "meanPositionChange": 0.00010203533842598187,
+      "inliers": 82
+    },
+    {
+      "source": "22",
+      "sourceFrame": 120,
+      "target": "23",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 0.9998792168899776,
+      "meanPositionChange": 5.3341036337778086e-05,
+      "inliers": 125
+    },
+    {
+      "source": "22",
+      "sourceFrame": 120,
+      "target": "25",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 0.9998483549993407,
+      "meanPositionChange": 0.026564229392412316,
+      "inliers": 122
+    },
+    {
+      "source": "25",
+      "sourceFrame": 120,
+      "target": "24",
+      "targetFrame": 0,
+      "breathContinuation": false,
+      "bodyScaleRatio": 1.0001812138030313,
+      "meanPositionChange": 0.00911507081640103,
+      "inliers": 134
+    },
+    {
+      "source": "20",
+      "sourceFrame": 0,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999967395523002,
+      "meanPositionChange": 0.0009402608520327773,
+      "inliers": 201
+    },
+    {
+      "source": "20",
+      "sourceFrame": 1,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999693966031472,
+      "meanPositionChange": 0.006102393311445737,
+      "inliers": 185
+    },
+    {
+      "source": "20",
+      "sourceFrame": 2,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999264816369907,
+      "meanPositionChange": 0.00562639705597599,
+      "inliers": 183
+    },
+    {
+      "source": "20",
+      "sourceFrame": 3,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999734821841466,
+      "meanPositionChange": 0.002725844086050374,
+      "inliers": 174
+    },
+    {
+      "source": "20",
+      "sourceFrame": 4,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004334359570761,
+      "meanPositionChange": 0.0058937987670630325,
+      "inliers": 169
+    },
+    {
+      "source": "20",
+      "sourceFrame": 5,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999083349724834,
+      "meanPositionChange": 0.0032702566259342467,
+      "inliers": 151
+    },
+    {
+      "source": "20",
+      "sourceFrame": 6,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004091222792786,
+      "meanPositionChange": 0.013272683954399407,
+      "inliers": 156
+    },
+    {
+      "source": "20",
+      "sourceFrame": 7,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001578104016586,
+      "meanPositionChange": 0.012383896778787809,
+      "inliers": 152
+    },
+    {
+      "source": "20",
+      "sourceFrame": 8,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000540151614262,
+      "meanPositionChange": 0.010184047870128315,
+      "inliers": 150
+    },
+    {
+      "source": "20",
+      "sourceFrame": 9,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002159266665052,
+      "meanPositionChange": 0.007950754734082749,
+      "inliers": 143
+    },
+    {
+      "source": "20",
+      "sourceFrame": 10,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002878790879386,
+      "meanPositionChange": 0.009833417452680892,
+      "inliers": 138
+    },
+    {
+      "source": "20",
+      "sourceFrame": 11,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003989964958118,
+      "meanPositionChange": 0.006820125928102426,
+      "inliers": 138
+    },
+    {
+      "source": "20",
+      "sourceFrame": 12,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003174163879265,
+      "meanPositionChange": 0.007474928537299575,
+      "inliers": 139
+    },
+    {
+      "source": "20",
+      "sourceFrame": 13,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002665434851767,
+      "meanPositionChange": 0.0016481650123467734,
+      "inliers": 142
+    },
+    {
+      "source": "20",
+      "sourceFrame": 14,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002462507398142,
+      "meanPositionChange": 0.004636075141292721,
+      "inliers": 138
+    },
+    {
+      "source": "20",
+      "sourceFrame": 15,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002004025862252,
+      "meanPositionChange": 0.004935088195661294,
+      "inliers": 137
+    },
+    {
+      "source": "20",
+      "sourceFrame": 16,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002144914622937,
+      "meanPositionChange": 0.0030465506327728214,
+      "inliers": 139
+    },
+    {
+      "source": "20",
+      "sourceFrame": 17,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003222189260281,
+      "meanPositionChange": 0.003317128102141681,
+      "inliers": 135
+    },
+    {
+      "source": "20",
+      "sourceFrame": 18,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000712042008189,
+      "meanPositionChange": 0.006618877785578397,
+      "inliers": 130
+    },
+    {
+      "source": "20",
+      "sourceFrame": 19,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000608971673643,
+      "meanPositionChange": 0.007312368146954229,
+      "inliers": 142
+    },
+    {
+      "source": "20",
+      "sourceFrame": 20,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000337685531184,
+      "meanPositionChange": 0.010287226980456676,
+      "inliers": 135
+    },
+    {
+      "source": "20",
+      "sourceFrame": 21,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9998840067928456,
+      "meanPositionChange": 0.008575181477759064,
+      "inliers": 134
+    },
+    {
+      "source": "20",
+      "sourceFrame": 22,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9998528330180528,
+      "meanPositionChange": 0.011684666990416087,
+      "inliers": 132
+    },
+    {
+      "source": "20",
+      "sourceFrame": 23,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0006973347970474,
+      "meanPositionChange": 0.012953200599177681,
+      "inliers": 128
+    },
+    {
+      "source": "20",
+      "sourceFrame": 24,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005552073855832,
+      "meanPositionChange": 0.003028685150321678,
+      "inliers": 133
+    },
+    {
+      "source": "20",
+      "sourceFrame": 25,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000350515554049,
+      "meanPositionChange": 0.011723184774568771,
+      "inliers": 127
+    },
+    {
+      "source": "20",
+      "sourceFrame": 26,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000097755146168,
+      "meanPositionChange": 0.013972249958579987,
+      "inliers": 124
+    },
+    {
+      "source": "20",
+      "sourceFrame": 27,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000504162528925,
+      "meanPositionChange": 0.007112299131347977,
+      "inliers": 122
+    },
+    {
+      "source": "20",
+      "sourceFrame": 28,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0006113517508708,
+      "meanPositionChange": 0.003930203293340368,
+      "inliers": 126
+    },
+    {
+      "source": "20",
+      "sourceFrame": 29,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000051603803732,
+      "meanPositionChange": 0.02718253188865217,
+      "inliers": 130
+    },
+    {
+      "source": "20",
+      "sourceFrame": 30,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.00107706210998,
+      "meanPositionChange": 0.0140388271667879,
+      "inliers": 124
+    },
+    {
+      "source": "20",
+      "sourceFrame": 31,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9998820927209295,
+      "meanPositionChange": 0.02576035708310769,
+      "inliers": 125
+    },
+    {
+      "source": "20",
+      "sourceFrame": 32,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000383454995997,
+      "meanPositionChange": 0.015116422623784567,
+      "inliers": 117
+    },
+    {
+      "source": "20",
+      "sourceFrame": 33,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005801357977213,
+      "meanPositionChange": 0.05291183388856486,
+      "inliers": 120
+    },
+    {
+      "source": "20",
+      "sourceFrame": 34,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003896127107816,
+      "meanPositionChange": 0.03587116164536034,
+      "inliers": 118
+    },
+    {
+      "source": "20",
+      "sourceFrame": 35,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000712370016192,
+      "meanPositionChange": 0.028202185343514125,
+      "inliers": 117
+    },
+    {
+      "source": "20",
+      "sourceFrame": 36,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0008054395106096,
+      "meanPositionChange": 0.027867858342043295,
+      "inliers": 113
+    },
+    {
+      "source": "20",
+      "sourceFrame": 37,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999759693240369,
+      "meanPositionChange": 0.026920296798535557,
+      "inliers": 119
+    },
+    {
+      "source": "20",
+      "sourceFrame": 38,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0009564969359157,
+      "meanPositionChange": 0.007232459167802942,
+      "inliers": 116
+    },
+    {
+      "source": "20",
+      "sourceFrame": 39,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000394411780051,
+      "meanPositionChange": 0.025473496650097467,
+      "inliers": 119
+    },
+    {
+      "source": "20",
+      "sourceFrame": 40,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0011784901841472,
+      "meanPositionChange": 0.028700175371774737,
+      "inliers": 113
+    },
+    {
+      "source": "20",
+      "sourceFrame": 41,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005831814371529,
+      "meanPositionChange": 0.005697352209791261,
+      "inliers": 107
+    },
+    {
+      "source": "20",
+      "sourceFrame": 42,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000902554120229,
+      "meanPositionChange": 0.029072940192204407,
+      "inliers": 112
+    },
+    {
+      "source": "20",
+      "sourceFrame": 43,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0010769840638412,
+      "meanPositionChange": 0.01766167598358577,
+      "inliers": 108
+    },
+    {
+      "source": "20",
+      "sourceFrame": 44,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0016521247246672,
+      "meanPositionChange": 0.008164716584528902,
+      "inliers": 109
+    },
+    {
+      "source": "20",
+      "sourceFrame": 45,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000817125828068,
+      "meanPositionChange": 0.01121635962921588,
+      "inliers": 109
+    },
+    {
+      "source": "20",
+      "sourceFrame": 46,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0013818847242864,
+      "meanPositionChange": 0.0119696709168327,
+      "inliers": 109
+    },
+    {
+      "source": "20",
+      "sourceFrame": 47,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0012586479883063,
+      "meanPositionChange": 0.012477341737896658,
+      "inliers": 113
+    },
+    {
+      "source": "20",
+      "sourceFrame": 48,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0006758358971133,
+      "meanPositionChange": 0.04372618070490509,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 49,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0012658067479845,
+      "meanPositionChange": 0.01773573021393459,
+      "inliers": 102
+    },
+    {
+      "source": "20",
+      "sourceFrame": 50,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000293047804119,
+      "meanPositionChange": 0.039924337295318774,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 51,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0010480122560537,
+      "meanPositionChange": 0.013086485541746929,
+      "inliers": 103
+    },
+    {
+      "source": "20",
+      "sourceFrame": 52,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005521686610728,
+      "meanPositionChange": 0.036227082800110555,
+      "inliers": 100
+    },
+    {
+      "source": "20",
+      "sourceFrame": 53,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0013853389461354,
+      "meanPositionChange": 0.03258973966343345,
+      "inliers": 99
+    },
+    {
+      "source": "20",
+      "sourceFrame": 54,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0019395652903533,
+      "meanPositionChange": 0.02120241983241013,
+      "inliers": 102
+    },
+    {
+      "source": "20",
+      "sourceFrame": 55,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.001387998876988,
+      "meanPositionChange": 0.011702565770530839,
+      "inliers": 95
+    },
+    {
+      "source": "20",
+      "sourceFrame": 56,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004833371284607,
+      "meanPositionChange": 0.0043954010324426035,
+      "inliers": 98
+    },
+    {
+      "source": "20",
+      "sourceFrame": 57,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.00056920934602,
+      "meanPositionChange": 0.016725230848443063,
+      "inliers": 102
+    },
+    {
+      "source": "20",
+      "sourceFrame": 58,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0007231009631996,
+      "meanPositionChange": 0.015111369244834822,
+      "inliers": 104
+    },
+    {
+      "source": "20",
+      "sourceFrame": 59,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001936894954713,
+      "meanPositionChange": 0.026711036808684602,
+      "inliers": 105
+    },
+    {
+      "source": "20",
+      "sourceFrame": 60,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000529082364593,
+      "meanPositionChange": 0.012971908405058862,
+      "inliers": 107
+    },
+    {
+      "source": "20",
+      "sourceFrame": 61,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005890799183839,
+      "meanPositionChange": 0.030274766988864006,
+      "inliers": 101
+    },
+    {
+      "source": "20",
+      "sourceFrame": 62,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0011605189874047,
+      "meanPositionChange": 0.027931585688963503,
+      "inliers": 105
+    },
+    {
+      "source": "20",
+      "sourceFrame": 63,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9996889813090485,
+      "meanPositionChange": 0.039718083999821394,
+      "inliers": 103
+    },
+    {
+      "source": "20",
+      "sourceFrame": 64,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002786543529416,
+      "meanPositionChange": 0.012803563516565187,
+      "inliers": 102
+    },
+    {
+      "source": "20",
+      "sourceFrame": 65,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9998464864988775,
+      "meanPositionChange": 0.02973228026917539,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 66,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9996427776982248,
+      "meanPositionChange": 0.026846233389017725,
+      "inliers": 107
+    },
+    {
+      "source": "20",
+      "sourceFrame": 67,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0013445090159343,
+      "meanPositionChange": 0.046275180936499835,
+      "inliers": 96
+    },
+    {
+      "source": "20",
+      "sourceFrame": 68,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.999113718417847,
+      "meanPositionChange": 0.024194245191125115,
+      "inliers": 95
+    },
+    {
+      "source": "20",
+      "sourceFrame": 69,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9994473609656443,
+      "meanPositionChange": 0.016281951722259994,
+      "inliers": 97
+    },
+    {
+      "source": "20",
+      "sourceFrame": 70,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002112780805432,
+      "meanPositionChange": 0.016735965920861347,
+      "inliers": 97
+    },
+    {
+      "source": "20",
+      "sourceFrame": 71,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9999597177266424,
+      "meanPositionChange": 0.018186898698453628,
+      "inliers": 94
+    },
+    {
+      "source": "20",
+      "sourceFrame": 72,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000257897614844,
+      "meanPositionChange": 0.03522303530613512,
+      "inliers": 95
+    },
+    {
+      "source": "20",
+      "sourceFrame": 73,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000913795390487,
+      "meanPositionChange": 0.032172846983932184,
+      "inliers": 103
+    },
+    {
+      "source": "20",
+      "sourceFrame": 74,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0006018048352585,
+      "meanPositionChange": 0.012178153972879531,
+      "inliers": 101
+    },
+    {
+      "source": "20",
+      "sourceFrame": 75,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005485534763485,
+      "meanPositionChange": 0.031368603439343584,
+      "inliers": 99
+    },
+    {
+      "source": "20",
+      "sourceFrame": 76,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0023761605731252,
+      "meanPositionChange": 0.010564119052264079,
+      "inliers": 103
+    },
+    {
+      "source": "20",
+      "sourceFrame": 77,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0009915142808472,
+      "meanPositionChange": 0.022781308381088588,
+      "inliers": 108
+    },
+    {
+      "source": "20",
+      "sourceFrame": 78,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0011758424452604,
+      "meanPositionChange": 0.02614044623692944,
+      "inliers": 105
+    },
+    {
+      "source": "20",
+      "sourceFrame": 79,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000696771296928,
+      "meanPositionChange": 0.050484927999744016,
+      "inliers": 105
+    },
+    {
+      "source": "20",
+      "sourceFrame": 80,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001177108812405,
+      "meanPositionChange": 0.011806974351860717,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 81,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9994355188564766,
+      "meanPositionChange": 0.042421106516311244,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 82,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.9993882690130874,
+      "meanPositionChange": 0.027044852185616926,
+      "inliers": 107
+    },
+    {
+      "source": "20",
+      "sourceFrame": 83,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0009745280541675,
+      "meanPositionChange": 0.02472748197749268,
+      "inliers": 108
+    },
+    {
+      "source": "20",
+      "sourceFrame": 84,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 0.999924999869681,
+      "meanPositionChange": 0.02109474196411187,
+      "inliers": 110
+    },
+    {
+      "source": "20",
+      "sourceFrame": 85,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001878780814684,
+      "meanPositionChange": 0.027838624598210272,
+      "inliers": 99
+    },
+    {
+      "source": "20",
+      "sourceFrame": 86,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002616649913618,
+      "meanPositionChange": 0.01747285089335629,
+      "inliers": 99
+    },
+    {
+      "source": "20",
+      "sourceFrame": 87,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0014213782137353,
+      "meanPositionChange": 0.029424295820448275,
+      "inliers": 103
+    },
+    {
+      "source": "20",
+      "sourceFrame": 88,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001872151531233,
+      "meanPositionChange": 0.024547606293332875,
+      "inliers": 105
+    },
+    {
+      "source": "20",
+      "sourceFrame": 89,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0002509225992047,
+      "meanPositionChange": 0.02302012221946727,
+      "inliers": 100
+    },
+    {
+      "source": "20",
+      "sourceFrame": 90,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000829979699974,
+      "meanPositionChange": 0.05537397160336593,
+      "inliers": 99
+    },
+    {
+      "source": "20",
+      "sourceFrame": 91,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0026456813343618,
+      "meanPositionChange": 0.0018585698270920904,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 92,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001012218574044,
+      "meanPositionChange": 0.04619315030355207,
+      "inliers": 111
+    },
+    {
+      "source": "20",
+      "sourceFrame": 93,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0008256041173194,
+      "meanPositionChange": 0.013348530452039863,
+      "inliers": 99
+    },
+    {
+      "source": "20",
+      "sourceFrame": 94,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0001114212844342,
+      "meanPositionChange": 0.022286502369173726,
+      "inliers": 103
+    },
+    {
+      "source": "20",
+      "sourceFrame": 95,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0008070999311973,
+      "meanPositionChange": 0.017453583914552914,
+      "inliers": 101
+    },
+    {
+      "source": "20",
+      "sourceFrame": 96,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000550215722447,
+      "meanPositionChange": 0.05976012075588963,
+      "inliers": 106
+    },
+    {
+      "source": "20",
+      "sourceFrame": 97,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004405820480136,
+      "meanPositionChange": 0.02040603730069425,
+      "inliers": 112
+    },
+    {
+      "source": "20",
+      "sourceFrame": 98,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000501590797184,
+      "meanPositionChange": 0.027166215490876135,
+      "inliers": 109
+    },
+    {
+      "source": "20",
+      "sourceFrame": 99,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0000684879753468,
+      "meanPositionChange": 0.03146336382489044,
+      "inliers": 107
+    },
+    {
+      "source": "20",
+      "sourceFrame": 100,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003842776292557,
+      "meanPositionChange": 0.01805677921651826,
+      "inliers": 114
+    },
+    {
+      "source": "20",
+      "sourceFrame": 101,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003792967076977,
+      "meanPositionChange": 0.011930662556269934,
+      "inliers": 120
+    },
+    {
+      "source": "20",
+      "sourceFrame": 102,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000684122224037,
+      "meanPositionChange": 0.008768316524706695,
+      "inliers": 123
+    },
+    {
+      "source": "20",
+      "sourceFrame": 103,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000188494749074,
+      "meanPositionChange": 0.00768359905004706,
+      "inliers": 116
+    },
+    {
+      "source": "20",
+      "sourceFrame": 104,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005011598485436,
+      "meanPositionChange": 0.017637246023845945,
+      "inliers": 121
+    },
+    {
+      "source": "20",
+      "sourceFrame": 105,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0007605251204863,
+      "meanPositionChange": 0.013479700840161438,
+      "inliers": 119
+    },
+    {
+      "source": "20",
+      "sourceFrame": 106,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000213381844035,
+      "meanPositionChange": 0.012967413408431612,
+      "inliers": 117
+    },
+    {
+      "source": "20",
+      "sourceFrame": 107,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003207660192903,
+      "meanPositionChange": 0.024484860320069274,
+      "inliers": 116
+    },
+    {
+      "source": "20",
+      "sourceFrame": 108,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005624776736077,
+      "meanPositionChange": 0.012048211414087942,
+      "inliers": 118
+    },
+    {
+      "source": "20",
+      "sourceFrame": 109,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0008010555996685,
+      "meanPositionChange": 0.009281614633140334,
+      "inliers": 128
+    },
+    {
+      "source": "20",
+      "sourceFrame": 110,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0007193223047854,
+      "meanPositionChange": 0.008810010909560236,
+      "inliers": 134
+    },
+    {
+      "source": "20",
+      "sourceFrame": 111,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003530164373557,
+      "meanPositionChange": 0.020230565902936076,
+      "inliers": 136
+    },
+    {
+      "source": "20",
+      "sourceFrame": 112,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0007674682730083,
+      "meanPositionChange": 0.007913547041498853,
+      "inliers": 137
+    },
+    {
+      "source": "20",
+      "sourceFrame": 113,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004762897130504,
+      "meanPositionChange": 0.0057057022106791035,
+      "inliers": 145
+    },
+    {
+      "source": "20",
+      "sourceFrame": 114,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.00037317568894,
+      "meanPositionChange": 0.0030780546637795914,
+      "inliers": 153
+    },
+    {
+      "source": "20",
+      "sourceFrame": 115,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.000517540712304,
+      "meanPositionChange": 0.008050359804736165,
+      "inliers": 147
+    },
+    {
+      "source": "20",
+      "sourceFrame": 116,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004903156603424,
+      "meanPositionChange": 0.010525630198647261,
+      "inliers": 153
+    },
+    {
+      "source": "20",
+      "sourceFrame": 117,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0006664252676052,
+      "meanPositionChange": 0.010607825736224518,
+      "inliers": 162
+    },
+    {
+      "source": "20",
+      "sourceFrame": 118,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0004951395399568,
+      "meanPositionChange": 0.01056332273875058,
+      "inliers": 164
+    },
+    {
+      "source": "20",
+      "sourceFrame": 119,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0003027189480291,
+      "meanPositionChange": 0.014044999562295898,
+      "inliers": 171
+    },
+    {
+      "source": "20",
+      "sourceFrame": 120,
+      "target": "21",
+      "targetFrame": 0,
+      "breathContinuation": true,
+      "bodyScaleRatio": 1.0005700831568867,
+      "meanPositionChange": 0.0036913393633208817,
+      "inliers": 167
+    }
+  ]
+}

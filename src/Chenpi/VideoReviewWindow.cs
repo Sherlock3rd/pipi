@@ -72,7 +72,7 @@ internal sealed class VideoReviewWindow : Window
             var def=manifest.GetProperty("clips").GetProperty(id);double fps=def.GetProperty("fps").GetDouble();
             double Read(string key,double fallback)=>def.TryGetProperty(key,out var v)?v.GetDouble():fallback;
             clips.Add(new(id,item.GetProperty("label").GetString()!,files,fps,
-                new SpriteClip(files.Length,fps,true,288,288,Read("anchorX",.5),Read("anchorY",.921875),false,Read("scaleStart",1),Read("scaleEnd",1))));
+                new SpriteClip(files.Length,fps,true,288,288,Read("anchorX",.5),Read("anchorY",.921875),false,Read("scaleStart",1),Read("scaleEnd",1),Read("offsetStartX",0),Read("offsetStartY",0),Read("offsetEndX",0),Read("offsetEndY",0))));
         }
         var panel=new DockPanel();Content=panel;
         var heading=new StackPanel{Margin=new Thickness(16,12,16,0)};
@@ -174,9 +174,9 @@ internal sealed class VideoReviewWindow : Window
     {
         if(current is null||frames.Count==0)return;
         int index=Math.Clamp((int)Math.Floor(elapsed*current.Fps),0,frames.Count-1);cat.Source=frames[index];
-        var d=current.Definition;double factor=d.AtFrame(index).Width/d.Width;
+        var d=current.Definition;var adjusted=d.AtFrame(index);double factor=adjusted.Width/d.Width;
         var transform=new TransformGroup();transform.Children.Add(new ScaleTransform(factor,factor,cat.Width*d.AnchorX,cat.Height*d.AnchorY));
-        transform.Children.Add(new TranslateTransform(0,cat.Height*(.921875-d.AnchorY)));cat.RenderTransform=transform;
+        transform.Children.Add(new TranslateTransform(cat.Width*(d.AnchorX-adjusted.AnchorX)*factor,cat.Height*((.921875-d.AnchorY)+(d.AnchorY-adjusted.AnchorY)*factor)));cat.RenderTransform=transform;
         sync=true;seek.Value=index;sync=false;
         status.Text=$"{current.Label}    第 {index+1} / {frames.Count} 帧    {index/current.Fps:0.00} 秒    {current.Fps:0.##} 帧/秒    {(playing?"播放中":"已暂停，可逐帧查看")}";
     }

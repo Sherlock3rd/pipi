@@ -89,6 +89,7 @@ internal sealed class Scene : FrameworkElement
     private readonly SpritePlayback playback=new();
     private string lastSpriteClip="";
     private bool nestOcclusion;
+    private bool nestSupported;
     private double poseLift;
     private double poseUpdatedAt=-1;
     private static BitmapSource? LoadProp(string name)
@@ -103,6 +104,7 @@ internal sealed class Scene : FrameworkElement
     private static readonly BitmapSource? nestSprite=LoadProp("nest"),litterSprite=LoadProp("litter-tray");
     public string DisplayedClip {get;private set;}="";
     public int DisplayedFrame {get;private set;}
+    public SpriteClip? DisplayedDefinition {get;private set;}
     public List<object> ClipTransitions {get;}=new();
     public bool PreviewRightWalk {get;set;}
     public bool PreviewSupplies {get;set;}
@@ -236,7 +238,7 @@ internal sealed class Scene : FrameworkElement
         if(SettingsRect.Contains(p)){OpenSettings?.Invoke();e.Handled=true;return;}
         if(WandRect.Contains(p))
         {wandHeld=true;Engine.SetToy(true,new Spot(p.X,p.Y));CaptureMouse();Cursor=Cursors.Cross;InvalidateVisual();e.Handled=true;return;}
-        string? hit=CatRect.Contains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
+        string? hit=FrontBowlContains(p,true)?"water":FrontBowlContains(p,false)?"food":CatRect.Contains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
         if(hit is null)return;
         pressedObject=hit;originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
         pressed=true;pressedAt=watch.Elapsed.TotalSeconds;pressedPoint=p;grabOffset=new Vector(p.X-originalPosition.X,p.Y-originalPosition.Y);Engine.Holding=true;CaptureMouse();e.Handled=true;
@@ -295,28 +297,29 @@ internal sealed class Scene : FrameworkElement
             DrawCat(dc,100+(Engine.Now*45)%Math.Max(1,WorldWidth-200),WorldHeight*.66,"walk",Engine.Now,false);
             dc.Pop();return;
         }
+        if(Engine.State.Sleeping)nestSupported=Engine.State.SleepingInNest;
+        if(nestSupported&&InteractionGeometry.NestSupport(Engine.VisualPosition.X,Engine.Nest.X)<=0)nestSupported=false;
+        nestOcclusion=nestSupported&&Engine.Action!="drag";
         DrawNest(dc,false);
-        DrawBowl(dc,Engine.FoodSpot,Engine.State.Food,false,Engine.Now);
-        DrawBowl(dc,Engine.WaterSpot,Engine.State.Water,true,Engine.Now);
+        bool eating=Engine.Action=="eat",drinking=Engine.Action=="drink",usingLitter=Engine.Action is "toilet" or "bury";
+        if(eating)DrawCareBowl(dc,Engine.FoodSpot,shownFood,false,false);
+        if(drinking)DrawCareBowl(dc,Engine.WaterSpot,shownWater,true,false);
         DrawLitter(dc);
-        if(Engine.State.Sleeping)nestOcclusion=Engine.State.SleepingInNest;
         DrawCat(dc,Engine.VisualPosition.X,Engine.VisualPosition.Y-lift,Engine.AligningForCare?"care-ready":Engine.Action,Engine.ActionTime,Engine.FacingLeft);
-        if(!Engine.State.Sleeping&&DisplayedClip is not ("video-20" or "video-21" or "video-18"))nestOcclusion=false;
         if(nestOcclusion)DrawNest(dc,true);
-        if(Engine.Action is "toilet" or "bury")
+        if(usingLitter)
         {
             var p=Engine.LitterSpot;
             // Only the tray's front wall occludes paws; the back rim stays behind.
             dc.PushClip(new RectangleGeometry(new Rect(p.X-InteractionGeometry.LitterHalfWidth,p.Y-36,InteractionGeometry.LitterHalfWidth*2,36)));
             DrawLitter(dc);dc.Pop();
         }
-        if(Engine.Action is "eat" or "drink")
-        {
-            bool water=Engine.Action=="drink";var p=water?Engine.WaterSpot:Engine.FoodSpot;
-            // The muzzle enters the opening, behind the near lip of the bowl.
-            dc.PushClip(new RectangleGeometry(new Rect(p.X-36,p.Y-30,72,30)));
-            DrawBowl(dc,p,water?shownWater:shownFood,water,Engine.Now);dc.Pop();
-        }
+        // Bowls stay in front of the cat on this single ground plane. Only
+        // the bowl being used is split at its curved opening, never at a flat cut.
+        if(eating)DrawCareBowl(dc,Engine.FoodSpot,shownFood,false,true);
+        else DrawBowl(dc,Engine.FoodSpot,shownFood,false,Engine.Now);
+        if(drinking)DrawCareBowl(dc,Engine.WaterSpot,shownWater,true,true);
+        else DrawBowl(dc,Engine.WaterSpot,shownWater,true,Engine.Now);
         DrawWand(dc);
         if(IsDragging&&pressedObject=="cat"&&AtNest)
         {dc.DrawRoundedRectangle(null,new Pen(Brush("#A3C7A2"),3),NestRect,30,30);}
@@ -366,6 +369,30 @@ internal sealed class Scene : FrameworkElement
         p=new Spot(p.X,p.Y-(water?19:22));
         dc.PushTransform(new ScaleTransform(BowlScale,BowlScale,p.X,p.Y));
         DrawBowlFullSize(dc,p,fill,water,time);dc.Pop();
+    }
+    private void DrawCareBowl(DrawingContext dc,Spot p,double fill,bool water,bool front)
+    {
+        var foreground=BowlForeground(p,water);
+        System.Windows.Media.Geometry clip=front?foreground:new CombinedGeometry(GeometryCombineMode.Exclude,new RectangleGeometry(new Rect(p.X-40,p.Y-80,80,82)),foreground);
+        dc.PushClip(clip);DrawBowl(dc,p,fill,water,Engine.Now);dc.Pop();
+    }
+    private static System.Windows.Media.Geometry BowlForeground(Spot p,bool water)
+    {
+        double side=water?25:27,edge=water?43:44,center=water?31:27;
+        return System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-40},{p.Y-80} L {p.X-side},{p.Y-edge} Q {p.X},{p.Y-(2*center-edge)} {p.X+side},{p.Y-edge} L {p.X+40},{p.Y-80} L {p.X+40},{p.Y+2} L {p.X-40},{p.Y+2} Z"));
+    }
+    private bool FrontBowlContains(Point at,bool water)
+    {
+        var bitmap=water?waterCup:foodBowl;if(bitmap is null)return false;
+        var p=water?Engine.WaterSpot:Engine.FoodSpot;
+        var rect=new Rect(p.X-36,p.Y-(water?61:65.8),72,72);
+        if(!rect.Contains(at))return false;
+        bool inUse=Engine.Action==(water?"drink":"eat");
+        if(inUse&&CatRect.Contains(at)&&!BowlForeground(p,water).FillContains(at))return false;
+        int x=Math.Clamp((int)((at.X-rect.X)/rect.Width*bitmap.PixelWidth),0,bitmap.PixelWidth-1);
+        int y=Math.Clamp((int)((at.Y-rect.Y)/rect.Height*bitmap.PixelHeight),0,bitmap.PixelHeight-1);
+        var pixel=new byte[4];bitmap.CopyPixels(new Int32Rect(x,y,1,1),pixel,4,0);
+        return pixel[3]>32;
     }
     private static void DrawBowlFullSize(DrawingContext dc,Spot p,double fill,bool water,double time)
     {
@@ -466,19 +493,22 @@ internal sealed class Scene : FrameworkElement
         var sample=playback.Sample(action,Engine.Now,left);
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
-            double targetLift=Engine.Grounded?InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),nestOcclusion,action):0;
+            double targetLift=Engine.Grounded?InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),false,action):0;
+            if(Engine.Grounded&&nestSupported)
+                targetLift=InteractionGeometry.NestSupport(Engine.VisualPosition.X,Engine.Nest.X)+(action=="drag"?InteractionGeometry.PickupLift:0);
             double delta=poseUpdatedAt<0?0:Math.Max(0,Engine.Now-poseUpdatedAt);
             poseLift=poseUpdatedAt<0?targetLift:poseLift+(targetLift-poseLift)*(1-Math.Exp(-delta*18));poseUpdatedAt=Engine.Now;
             y-=poseLift;
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;
+            DisplayedDefinition=definition;
             if(frameBounds.TryGetValue(generated[sprite.Index],out var bounds))
                 currentCatBounds=new Rect((bounds.X-definition.AnchorX)*definition.Width,(bounds.Y-definition.AnchorY)*definition.Height,bounds.Width*definition.Width,bounds.Height*definition.Height);
             if(lastSpriteClip!=sprite.Clip)
             {
                 lastSpriteClip=sprite.Clip;
                 if(ClipTransitions.Count>=100)ClipTransitions.RemoveAt(0);
-                ClipTransitions.Add(new {Time=Engine.Now,Clip=sprite.Clip,X=x,Y=y});
+                ClipTransitions.Add(new {Time=Engine.Now,Clip=sprite.Clip,X=x,Y=y,definition.Width,definition.Height,definition.AnchorX,definition.AnchorY});
             }
             bool mirror=left&&definition.MirrorWithFacing;
             dc.PushTransform(new TranslateTransform(x,y));if(mirror)dc.PushTransform(new ScaleTransform(-1,1));

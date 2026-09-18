@@ -4,14 +4,15 @@ using System.Text.Json;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0)
 {
     public double Duration=>Count/Fps;
     public SpriteClip AtFrame(int index)
     {
         double t=Math.Clamp(index/(double)Math.Max(1,Count-1),0,1);t=t*t*(3-2*t);
         double scale=ScaleStart+(ScaleEnd-ScaleStart)*t;
-        return this with {Width=Width*scale,Height=Height*scale,ScaleStart=1,ScaleEnd=1};
+        double ox=OffsetStartX+(OffsetEndX-OffsetStartX)*t,oy=OffsetStartY+(OffsetEndY-OffsetStartY)*t;
+        return this with {Width=Width*scale,Height=Height*scale,AnchorX=AnchorX-ox/(Width*scale),AnchorY=AnchorY-oy/(Height*scale),ScaleStart=1,ScaleEnd=1,OffsetStartX=0,OffsetStartY=0,OffsetEndX=0,OffsetEndY=0};
     }
 }
 public readonly record struct SpriteFrame(string Clip,int Index,SpriteClip Definition);
@@ -28,6 +29,9 @@ public sealed class SpritePlayback
     private bool careGraph;
     private string careAction="",careExit="";
     private double careStarted,exitStarted;
+    private readonly List<(double Scale,double X,double Y)> sleepPhases=new();
+    private SpriteFrame? lastSample;
+    private double wakeContinuationAt=-1,wakeScale=1,wakeX,wakeY;
     private string pose="F",destination="F";
     private static readonly (string From,string To,string Clip)[] edges={
         ("F","SR","06"),("SR","F","07"),("F","SL","08"),("SL","F","09"),
@@ -38,7 +42,7 @@ public sealed class SpritePlayback
 
     public void Load(JsonElement manifest,Func<string,int> frameCount)
     {
-        clips.Clear();Reset();
+        clips.Clear();sleepPhases.Clear();Reset();
         if(!manifest.TryGetProperty("clips",out var entries)||entries.ValueKind!=JsonValueKind.Object)return;
         foreach(var item in entries.EnumerateObject())
         {
@@ -55,16 +59,22 @@ public sealed class SpritePlayback
                     &&double.IsFinite(height)&&height>0&&height<=512&&double.IsFinite(ax)&&ax>=0&&ax<=1&&double.IsFinite(ay)&&ay>=0&&ay<=1)
                     clips[item.Name]=new(count,fps,loop,width,height,ax,ay,
                         !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
-                        ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"));
+                        ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"),
+                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"));
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
         videoGraph=manifest.TryGetProperty("videoGraph",out var graph)&&graph.GetBoolean()
             &&clips.ContainsKey("video-01")&&clips.ContainsKey("video-14")&&clips.ContainsKey("video-right");
         careGraph=manifest.TryGetProperty("careVideoGraph",out var care)&&care.GetBoolean()&&clips.ContainsKey("video-22");
+        if(entries.TryGetProperty("video-20",out var sleeping)&&sleeping.TryGetProperty("phaseRegistration",out var phases)&&phases.ValueKind==JsonValueKind.Array)
+            foreach(var phase in phases.EnumerateArray())
+                if(phase.ValueKind==JsonValueKind.Array&&phase.GetArrayLength()==3&&phase[0].TryGetDouble(out double s)&&phase[1].TryGetDouble(out double px)&&phase[2].TryGetDouble(out double py)
+                    &&double.IsFinite(s)&&s>=.9&&s<=1.1&&double.IsFinite(px)&&Math.Abs(px)<=20&&double.IsFinite(py)&&Math.Abs(py)<=20)sleepPhases.Add((s,px,py));
     }
     private static double ReadScale(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.9&&n<=1.1?n:1;
-    public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";}
+    private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
+    public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
         "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
@@ -128,7 +138,21 @@ public sealed class SpritePlayback
     public SpriteFrame? Sample(string action,double now,bool facingLeft=false)
     {
         var sample=SampleCore(action,now,facingLeft);
-        return sample is SpriteFrame frame?frame with {Definition=frame.Definition.AtFrame(frame.Index)}:null;
+        if(sample is not SpriteFrame frame)return null;
+        var definition=frame.Definition.AtFrame(frame.Index);
+        if(lastSample is SpriteFrame old&&old.Clip=="video-20"&&frame.Clip=="video-21"&&old.Index<sleepPhases.Count)
+        {
+            var phase=sleepPhases[old.Index];wakeScale=1/phase.Scale;wakeX=-phase.X/phase.Scale;wakeY=-phase.Y/phase.Scale;wakeContinuationAt=now;
+        }
+        if(frame.Clip=="video-21"&&wakeContinuationAt>=0)
+        {
+            double t=Math.Clamp((now-wakeContinuationAt)/.5,0,1),weight=1-t*t*(3-2*t);
+            double scale=1+(wakeScale-1)*weight,w=definition.Width*scale,h=definition.Height*scale;
+            definition=definition with {Width=w,Height=h,AnchorX=definition.AnchorX-wakeX*weight/w,AnchorY=definition.AnchorY-wakeY*weight/h};
+        }
+        else if(frame.Clip!="video-20")wakeContinuationAt=-1;
+        lastSample=frame;
+        return frame with {Definition=definition};
     }
     private SpriteFrame? SampleCore(string action,double now,bool facingLeft=false)
     {

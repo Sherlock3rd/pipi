@@ -13,15 +13,17 @@ public static class InteractionGeometry
     public const double PickupLift=24;
     // Supplied right-facing low-head clips: mouth is ~94 units right of root.
     public const double MouthOffsetX=94;
+    public static double NestSupport(double rootX,double nestX)
+    {
+        double t=Math.Clamp((Math.Abs(rootX+20-nestX)-50)/100,0,1);
+        return NestCushionLift*(1-t*t*(3-2*t));
+    }
     public static double SurfaceLift(string clip,double progress,bool inNest,string action)
     {
         double t=Math.Clamp(progress,0,1);t=t*t*(3-2*t);
-        if(action=="drag")return PickupLift;
+        if(action=="drag")return PickupLift+(inNest?NestCushionLift:0);
         if(clip=="video-34")return PickupLift*(1-t);
-        if(inNest)return clip switch {
-            "video-17"=>NestCushionLift*t,
-            "video-19" or "video-20" or "video-21"=>NestCushionLift,
-            "video-18"=>NestCushionLift*(1-t),_=>0};
+        if(inNest)return NestCushionLift;
         if(action is "toilet" or "bury")return clip=="video-26"?LitterSurfaceLift*t:LitterSurfaceLift;
         return 0;
     }

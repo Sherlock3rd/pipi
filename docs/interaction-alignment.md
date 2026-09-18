@@ -19,3 +19,6 @@
 WPF实际深色预览已检查吃饭、喝水、如厕、窝内睡眠及悬空。吃饭样本路径08→12→13→16→22→23，根节点X406、饭碗X500；如厕和悬空分别落在盆面与地面上方。截图及原始诊断保留在本地`artifacts/alignment/`，去除设备标识的摘要见[验证数据](qa/interaction-alignment/verification.json)。
 
 Release自包含构建通过。此修正校准比例和物件接触，不把原视频内部姿态/形体变化当作全部重制通过，也不声称逐帧人工看完全部动画。元数据重建工具为`tools/calibrate_pose_scale.py`，同姿态端点高度数据见[校准数据](qa/interaction-alignment/scale-calibration.json)。
+
+
+2026-09-19 覆盖：窝内入睡早期姿态同样由坐垫支撑；醒来18不再下降，实际横向走出窝沿后落地。杯碗改弧形前沿互斥分层并同步点击；校准改共同实体特征匹配及呼吸阶段承接。详见 [动态复查](contact-and-sleep-v2.md)。

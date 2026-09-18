@@ -124,7 +124,17 @@ internal sealed class PetWindow : Window
         {
             if(careAction=="drag")engine.BeginDrag();
             else if(careAction=="pet")engine.Interact();
-            else {engine.MoveObject(careAction=="eat"?"food":careAction=="drink"?"water":"litter",new Spot(engine.State.X,engine.State.Y));engine.Demo(careAction);}
+            else {if(!args.Contains("--preview-preserve-layout"))engine.MoveObject(careAction=="eat"?"food":careAction=="drink"?"water":"litter",new Spot(engine.State.X,engine.State.Y));engine.Demo(careAction);}
+        }
+        if(Preview&&Program.Option(args,"--preview-film") is string filmDirectory)
+        {
+            Directory.CreateDirectory(filmDirectory);int filmIndex=0;
+            var filmTimer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(.25)};
+            filmTimer.Tick+=(_,_)=>{
+                if(quitting){filmTimer.Stop();return;}
+                string file=Path.Combine(filmDirectory,$"{filmIndex++:0000}");scene.SavePreview(file+".png");
+                File.WriteAllText(file+".json",System.Text.Json.JsonSerializer.Serialize(new{engine.Now,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.DisplayedDefinition,engine.State.X,engine.State.Y}));
+            };filmTimer.Start();
         }
         // Isolated reproduction uses the same interaction entry point as a click.
         if(Preview&&args.Contains("--preview-wake-test"))

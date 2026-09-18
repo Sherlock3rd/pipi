@@ -1,0 +1,176 @@
+{
+  "eat": {
+    "capturedFrames": 95,
+    "route": [
+      {
+        "clip": "video-06",
+        "frame": 9,
+        "time": 0.2517618000000006
+      },
+      {
+        "clip": "video-22",
+        "frame": 1,
+        "time": 2.6122134999999993
+      },
+      {
+        "clip": "video-23",
+        "frame": 6,
+        "time": 7.8302596
+      },
+      {
+        "clip": "video-24",
+        "frame": 5,
+        "time": 12.859197000000002
+      },
+      {
+        "clip": "video-07",
+        "frame": 7,
+        "time": 17.9448013
+      },
+      {
+        "clip": "video-08",
+        "frame": 9,
+        "time": 21.416211600000004
+      },
+      {
+        "clip": "video-12",
+        "frame": 2,
+        "time": 23.9354757
+      },
+      {
+        "clip": "video-13",
+        "frame": 9,
+        "time": 26.498824000000003
+      }
+    ],
+    "diagnosticFilmIntervalSeconds": 0.25
+  },
+  "drink": {
+    "capturedFrames": 112,
+    "route": [
+      {
+        "clip": "video-08",
+        "frame": 8,
+        "time": 0.2342707000000015
+      },
+      {
+        "clip": "video-12",
+        "frame": 3,
+        "time": 2.795745
+      },
+      {
+        "clip": "video-13",
+        "frame": 8,
+        "time": 5.2791397
+      },
+      {
+        "clip": "video-16",
+        "frame": 1,
+        "time": 7.293139700000002
+      },
+      {
+        "clip": "video-22",
+        "frame": 2,
+        "time": 10.128516099999997
+      },
+      {
+        "clip": "video-25",
+        "frame": 4,
+        "time": 15.272174099999997
+      },
+      {
+        "clip": "video-24",
+        "frame": 3,
+        "time": 20.2666823
+      },
+      {
+        "clip": "video-07",
+        "frame": 5,
+        "time": 25.360141300000002
+      },
+      {
+        "clip": "video-06",
+        "frame": 0,
+        "time": 28.644904600000004
+      },
+      {
+        "clip": "video-15",
+        "frame": 0,
+        "time": 31.176072000000005
+      }
+    ],
+    "diagnosticFilmIntervalSeconds": 0.25
+  },
+  "wake-final": {
+    "capturedFrames": 67,
+    "route": [
+      {
+        "clip": "video-20",
+        "frame": 6,
+        "time": 0.2514661999999994
+      },
+      {
+        "clip": "video-21",
+        "frame": 3,
+        "time": 2.1179464999999986
+      },
+      {
+        "clip": "video-18",
+        "frame": 5,
+        "time": 5.9522173999999985
+      },
+      {
+        "clip": "video-08",
+        "frame": 7,
+        "time": 9.619274
+      },
+      {
+        "clip": "video-12",
+        "frame": 6,
+        "time": 12.2665775
+      },
+      {
+        "clip": "video-14",
+        "frame": 5,
+        "time": 14.700585399999998
+      },
+      {
+        "clip": "video-13",
+        "frame": 8,
+        "time": 17.583371
+      }
+    ],
+    "diagnosticFilmIntervalSeconds": 0.25
+  },
+  "sleep-final": {
+    "capturedFrames": 67,
+    "route": [
+      {
+        "clip": "video-06",
+        "frame": 9,
+        "time": 0.25141979999999897
+      },
+      {
+        "clip": "video-07",
+        "frame": 3,
+        "time": 2.6512455999999993
+      },
+      {
+        "clip": "video-17",
+        "frame": 4,
+        "time": 6.150813599999997
+      },
+      {
+        "clip": "video-19",
+        "frame": 6,
+        "time": 9.834094999999998
+      },
+      {
+        "clip": "video-20",
+        "frame": 4,
+        "time": 13.586336699999997
+      }
+    ],
+    "diagnosticFilmIntervalSeconds": 0.25
+  }
+}
