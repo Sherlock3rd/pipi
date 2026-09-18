@@ -77,6 +77,7 @@ public sealed partial class PetEngine
     public Func<string,double,bool,double?>? VisualVelocity {get;set;}
     public Func<string,bool,double?>? VisualActionDuration {get;set;}
     public Func<double,bool>? VisualCareReady {get;set;}
+    public Func<double,bool,bool>? VisualStandReady {get;set;}
     public bool AligningForCare {get;private set;}
     public Func<string,(double Start,double Duration)?>? VisualConsumptionWindow {get;set;}
     public bool Holding { get; set; }
@@ -107,7 +108,6 @@ public sealed partial class PetEngine
     private int clickStreak;
     private double hoverSeconds;
     private bool hoverTriggered;
-    private Spot rubTarget;
     public bool ToyHeld {get;private set;}
     public Spot ToyTip {get;private set;}
     public const double CatPlayRadius=390;
@@ -203,10 +203,10 @@ public sealed partial class PetEngine
         {if(overCat&&!State.Guiding&&Action.StartsWith("request-"))BeginGuide();hoverSeconds=0;hoverTriggered=false;return;}
         if(!overCat||Holding||ToyHeld||manualSequence||Action is "drag" or "walk" or "eat" or "drink" or "toilet" or "bury" or "sleep")
         {hoverSeconds=0;hoverTriggered=false;return;}
-        if(Action=="rub"){rubTarget=cursor;return;}
+        if(Action=="rub")return;
         if(hoverTriggered)return;
         hoverSeconds+=Math.Max(0,seconds);
-        if(hoverSeconds>=5){hoverTriggered=true;rubTarget=cursor;LastInteraction=Now;State.StillSeconds=0;SetAction("rub",4,"悬停蹭鼠标");}
+        if(hoverSeconds>=5){hoverTriggered=true;LastInteraction=Now;State.StillSeconds=0;SetAction("rub",4,"悬停蹭鼠标");}
     }
     public void SetToy(bool held,Spot tip)
     {
@@ -272,11 +272,8 @@ public sealed partial class PetEngine
             if(request is not null){BeginRequest(request);UpdateCareFlow(dt);return;}
             string? due=DueCare();if(due is not null)StartCare(due);
         }
-        if(Action=="rub")
-        {
-            FacingLeft=rubTarget.X<State.X;
-            MoveTowards(NearestRestSpot(new Spot(Math.Clamp(rubTarget.X+(FacingLeft?18:-18),65,Width-65),Math.Clamp(rubTarget.Y+82,140,Height-60))),24*dt);
-        }
+        // The supplied rub clip already contains the gesture. Do not chase
+        // alternating +/-18 mouse offsets underneath a stationary animation.
         if(Action=="walk")
         {
             var here=new Spot(State.X,State.Y); var distance=here.Distance(target);

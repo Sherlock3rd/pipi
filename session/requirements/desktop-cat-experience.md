@@ -148,3 +148,8 @@
 安装核验：已备份正式存档before-support-plane，停止并等待精确路径的旧进程退出后更新自包含运行包。安装DLL/manifest与已验证发布版本SHA256一致；新进程响应，诊断时间晚于启动时间，sceneVisibility=Visible、native.visible=true。
 
 2026-09-19 Git总账：支撑平面与猫窝放大实现319aaf6243034a04950df7131eaf7f0edb8db940已推送origin/main，远端哈希一致。正式程序已更新，存档备份及安装哈希、可见性核验完成；256项回归与连续画面记录已保存。
+
+## 2026-09-19 悬停带路与动作时长纠正
+用户指出鼠标一放上去就左右反复移动、没有转向衔接，并明确原本5秒的动作不应改，只有埋屎抬手变速。已撤销全部全局播放倍率，59片段的帧率/帧数与提速前18f2d9逐项一致；仅29的buryPlaybackRate=3在埋砂时生效，逗猫使用29仍原速，30/31及其他原本5.04秒的动作保持原时长。现场为缺水带路；回头不再把身体朝向改成鼠标方向，新增真实停步、完整5.04秒回头循环与跟随距离缓冲，反向沿转向图，抵达盆旁也先停步对齐。普通悬停蹭鼠标原地播放。267项回归通过，含两组各160秒正式素材模拟；40秒WPF连续回放06→10→11→43→10→11→49，回头期间X固定，无左右硬切。详见docs/hover-guidance-and-tempo.md与mistakes/prototype-010.md。运行安装及Git结果随后记录。
+
+安装核验：正式存档已备份before-hover-tempo；停止并等待旧进程退出后更新自包含运行包。安装DLL/manifest与已验证发布版本SHA256一致，新进程响应且诊断时间晚于启动时间，sceneVisibility=Visible、native.visible=true；正式现场稳定进入guide-look/video-43，FacingLeft=false。

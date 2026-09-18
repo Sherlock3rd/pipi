@@ -122,6 +122,7 @@ internal sealed class Scene : FrameworkElement
         Engine.VisualVelocity=playback.HorizontalVelocity;
         Engine.VisualActionDuration=playback.ActionDuration;
         Engine.VisualCareReady=playback.PrepareCare;
+        Engine.VisualStandReady=playback.PrepareStand;
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);

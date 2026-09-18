@@ -17,6 +17,7 @@ public sealed partial class PetEngine
     private Spot guidePointer;
     private bool pointerKnown;
     private double guideTravelled;
+    private bool guideFollowing;
     public Spot RequestSpot=>NearestRestSpot(new(Width/2,Grounded?GroundY:Height-65));
     private CareClock ClockFor(string kind)=>kind switch {"food"=>State.FoodClock,"water"=>State.WaterClock,_=>State.LitterClock};
     private bool Available(string kind)=>kind switch {"food"=>State.Food>0,"water"=>State.Water>0,_=>State.Litter<100};
@@ -76,7 +77,7 @@ public sealed partial class PetEngine
     private void BeginGuide()
     {
         if(State.CareRequest is null)return;
-        State.Guiding=true;guideTravelled=0;LastInteraction=Now;
+        State.Guiding=true;guideTravelled=0;guideFollowing=false;LastInteraction=Now;
         if(!pointerKnown){guidePointer=CatPlayCenter;pointerKnown=true;}
         SetAction("guide-walk",double.MaxValue,"引导前往照料物品");
     }
@@ -116,17 +117,28 @@ public sealed partial class PetEngine
         double remaining=new Spot(State.X,State.Y).Distance(goal);
         if(remaining<=2)
         {
-            State.X=goal.X;State.Y=goal.Y;FacingLeft=ObjectPosition(kind).X<State.X;
-            if(Action!="guide-"+kind)SetAction("guide-"+kind,double.MaxValue,"在物品旁示意照料");
+            State.X=goal.X;State.Y=goal.Y;
+            if(Action!="guide-"+kind)
+            {
+                // The supplied item-gesture clips start in right standing pose.
+                FacingLeft=false;
+                if(Action!="guide-arrive")SetAction("guide-arrive",double.MaxValue,"停步后示意照料");
+                if(VisualStandReady?.Invoke(Now,false)==false)return true;
+                SetAction("guide-"+kind,double.MaxValue,"在物品旁示意照料");
+            }
             return true;
         }
-        bool following=pointerKnown&&CatPlayCenter.Distance(guidePointer)<=FollowRadius;
+        guideFollowing=pointerKnown&&CatPlayCenter.Distance(guidePointer)<=(guideFollowing?FollowRadius+40:FollowRadius);
         double lookDuration=VisualActionDuration?.Invoke("guide-look",FacingLeft)??.6;
-        if(IsClearRestSpot(State.X)&&(!following||guideTravelled>=70||Action=="guide-look"&&ActionTime<lookDuration))
+        if(Action=="guide-look")
         {
-            if(Action!="guide-look")SetAction("guide-look",.6,"回头等主人跟上");
-            FacingLeft=guidePointer.X<State.X;
-            if(following&&ActionTime>=lookDuration)guideTravelled=0;
+            if(ActionTime<lookDuration||!guideFollowing||ActionTime%lookDuration>dt+.000001)return true;
+            guideTravelled=0;
+        }
+        else if(Action=="guide-stop"||(IsClearRestSpot(State.X)&&(!guideFollowing||guideTravelled>=70)))
+        {
+            if(Action!="guide-stop")SetAction("guide-stop",double.MaxValue,"停步后回头等待");
+            if(VisualStandReady?.Invoke(Now,FacingLeft)!=false)SetAction("guide-look",lookDuration,"回头等主人跟上");
             return true;
         }
         if(Action!="guide-walk")SetAction("guide-walk",double.MaxValue,"带路到物品旁");

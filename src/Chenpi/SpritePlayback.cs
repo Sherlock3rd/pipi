@@ -5,9 +5,10 @@ using System.Text.Json.Serialization;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null,double BuryPlaybackRate=1)
 {
     public double Duration=>Count/Fps;
+    public SpriteClip ForAction(string action)=>action=="bury"&&BuryPlaybackRate!=1?this with {Fps=Fps*BuryPlaybackRate,PlaybackRate=PlaybackRate*BuryPlaybackRate}:this;
     public SpriteClip OnGround(int index)=>GroundContacts is not null&&index>=0&&index<GroundContacts.Length?this with {AnchorY=GroundContacts[index]}:this;
     public SpriteClip AtFrame(int index)
     {
@@ -63,7 +64,7 @@ public sealed class SpritePlayback
                     clips[item.Name]=new(count,fps*rate,loop,width,height,ax,ay,
                         !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
                         ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"),
-                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count));
+                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count),PlaybackSpeed(value,"buryPlaybackRate"));
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
@@ -84,7 +85,7 @@ public sealed class SpritePlayback
         {if(!item.TryGetDouble(out double n)||!double.IsFinite(n)||n<.5||n>1)return null;contacts[i++]=n;}
         return contacts;
     }
-    public static double PlaybackSpeed(JsonElement value)=>value.TryGetProperty("playbackRate",out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
+    public static double PlaybackSpeed(JsonElement value,string key="playbackRate")=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
     public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
     private static string[] CareSequence(string action,bool left)=>action switch {
@@ -99,7 +100,7 @@ public sealed class SpritePlayback
     public double? ActionDuration(string action,bool left=false)
     {
         if(!careGraph)return null;var seq=CareSequence(action,left);if(seq.Length==0)return null;
-        double sum=0;foreach(var id in seq){if(!clips.TryGetValue("video-"+id,out var clip))return null;sum+=clip.Duration;}return sum;
+        double sum=0;foreach(var id in seq){if(!clips.TryGetValue("video-"+id,out var clip))return null;sum+=clip.ForAction(action).Duration;}return sum;
     }
     public (double Start,double Duration)? ConsumptionWindow(string action)
     {
@@ -116,7 +117,7 @@ public sealed class SpritePlayback
             double elapsed=now-careStarted;
             for(int i=0;i<sequence.Length;i++)
             {
-                string id="video-"+sequence[i];var clip=clips[id];bool last=i==sequence.Length-1;
+                string id="video-"+sequence[i];var clip=clips[id].ForAction(action);bool last=i==sequence.Length-1;
                 if(elapsed<clip.Duration||last)
                 {
                     bool loop=last&&(action is "drag" or "toy-bat"||action.StartsWith("request-")||action.StartsWith("guide-"));
@@ -212,6 +213,7 @@ public sealed class SpritePlayback
         string target=action switch {
             "idle" or "sit" or "wake"=>"F",
             "walk" or "toy-run" or "request-walk" or "guide-walk"=>left?"WL":"WR",
+            "guide-stop" or "guide-arrive"=>left?"SL":"SR",
             "sleep"=>"C",_=>""};
         if(action=="care-ready")target="SR";
         // Interaction wins immediately. Never queue a care/drag action behind a video.
@@ -231,7 +233,11 @@ public sealed class SpritePlayback
         }
         if(current.Length==0)
         {
-            if(pose=="SR"&&target=="SR")return new("video-22",0,clips["video-22"]);
+            if(pose==target&&pose is "SR" or "SL")
+            {
+                string stand=pose=="SL"?"video-08":"video-06";
+                return new(stand,clips[stand].Count-1,clips[stand]);
+            }
             if(pose!=target)
             {
                 var search=new Queue<(string Node,string First,string End)>();
@@ -256,6 +262,13 @@ public sealed class SpritePlayback
         if(!careGraph)return true;
         SampleVideo("care-ready",now,false);
         return pose=="SR"&&destination=="SR"&&current.Length==0;
+    }
+    public bool PrepareStand(double now,bool left)
+    {
+        if(!videoGraph)return true;
+        Sample("guide-stop",now,left);
+        string stand=left?"SL":"SR";
+        return pose==stand&&destination==stand&&current.Length==0;
     }
 
     public double? HorizontalVelocity(string action,double now,bool left)

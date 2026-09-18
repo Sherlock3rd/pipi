@@ -210,6 +210,8 @@ internal sealed class PetWindow : Window
         if(renderedFrames>0){frameIntervals+=dt;maxFrameInterval=Math.Max(maxFrameInterval,dt);}renderedFrames++;
         if(scene.Visibility==Visibility.Visible)scene.InputTick(Math.Min(.12,dt));
         else engine.ObservePointer(0,false,new Spot());
+        // Isolated regression fixture feeds the same input entry point as hover.
+        if(Preview&&args.Contains("--preview-guide-test"))engine.ObservePointer(Math.Min(.12,dt),true,new Spot(engine.State.X-30,engine.State.Y-65));
         engine.Update(Math.Min(.12,dt),DateTime.Now.Hour);
     }
     private void Tick(object? sender,EventArgs e)
@@ -227,7 +229,7 @@ internal sealed class PetWindow : Window
             scene.Visibility=fullScreen||hiddenByUser?Visibility.Hidden:Visibility.Visible;
             if(!Preview&&!engine.State.Floating && (Native.GetParent(new WindowInteropHelper(this).Handle)!=Native.DesktopHost()||!Native.IsWindow(Native.GetParent(new WindowInteropHelper(this).Handle))))
             {if(Native.DesktopHost()!=IntPtr.Zero){ReplaceDisplayWindow();return;}}
-            if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,fullscreenReason=fullscreenDecision.Reason,foreground=foreground.ToInt64(),hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));
+            if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,fullscreenReason=fullscreenDecision.Reason,foreground=foreground.ToInt64(),hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.FacingLeft,scene.DisplayedClip,scene.DisplayedFrame,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));
         }
         if(!scene.IsInteracting&&(now-lastSave>10 ||engine.Dirty&&now-lastSave>2)){Save();lastSave=now;engine.Dirty=false;}
     }

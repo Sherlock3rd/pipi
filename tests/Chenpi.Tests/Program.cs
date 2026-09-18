@@ -433,7 +433,7 @@ if(File.Exists(runtimeManifest))
   var careEngine=new PetEngine(new PetState{X=400,Y=400,Food=100,RestDuration=600},1){FoodSpot=new Spot(400,400),VisualActionDuration=carePlayback.ActionDuration,VisualConsumptionWindow=carePlayback.ConsumptionWindow};
   careEngine.Demo("eat");careEngine.Update(.1,12);
   var window=carePlayback.ConsumptionWindow("eat")!.Value;
-  Check(window.Start<1.7&&window.Duration>5&&window.Duration<5.1,"care preparation accelerates to 1.68 seconds while actual intake keeps its original duration");
+  Check(window.Start>5&&window.Start<5.1&&window.Duration>5&&window.Duration<5.1,"preparation and actual intake both retain their original five-second duration");
   Advance(careEngine,window.Start-.2);Check(careEngine.State.Food==100,"lowering head does not consume inventory before the supplied eating loop");
   Advance(careEngine,window.Duration+.4);Check(careEngine.State.Food==80,"one supplied eating loop consumes exactly one of five layers");
   Advance(careEngine,6);Check(careEngine.State.Food==80,"raising head and completing care never consumes a second layer");
@@ -613,4 +613,42 @@ using(var groundedDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runti
  Check(correct&&measured==3463,"all 3463 grounded poses place their measured contact on the support plane without rescaling");
  Check(!entries.GetProperty("video-32").TryGetProperty("groundContacts",out _)&&!entries.GetProperty("video-33").TryGetProperty("groundContacts",out _),"pickup and suspended motion retain their authored vertical trajectory");
 }
+using(var guideDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var animations=guideDoc.RootElement.GetProperty("animations");var entries=guideDoc.RootElement.GetProperty("clips");
+ var pb=new SpritePlayback();pb.Load(guideDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
+ Check(entries.EnumerateObject().All(c=>!c.Value.TryGetProperty("playbackRate",out _)),"all global playback overrides are removed, including movement, sleep and care transitions");
+ pb.Sample("bury",0);var raised=pb.Sample("bury",.5)!.Value;pb.Reset();var toyRaised=pb.Sample("toy-bat",0)!.Value;
+ Check(raised.Clip=="video-29"&&raised.Definition.Fps==72&&toyRaised.Clip=="video-29"&&toyRaised.Definition.Fps==24,"only burial uses faster paw raising; the shared toy gesture keeps its original speed");
+ pb.Reset();pb.Sample("bury",0);var lower=pb.Sample("bury",7)!.Value;
+ Check(lower.Clip=="video-31"&&lower.Definition.Duration>5&&lower.Definition.Duration<5.1,"burial paw lowering also keeps its original five seconds");
+ foreach(bool follow in new[]{false,true})
+ {
+  pb.Reset();var cat=new PetEngine(new PetState{X=1200,Food=100,Water=0,Litter=0,NestPosition=new(2237,1242),FoodPosition=new(1989,1242),WaterPosition=new(2064,1242),LitterPosition=new(412,1242)},5);
+  cat.Layout(2400,1290);cat.State.X=cat.RequestSpot.X;cat.AdvanceNeeds(301);cat.Update(.02,12);
+  cat.VisualActionDuration=pb.ActionDuration;cat.VisualVelocity=pb.HorizontalVelocity;cat.VisualStandReady=pb.PrepareStand;cat.VisualCareReady=pb.PrepareCare;
+  Spot pointer=new(cat.State.X-30,cat.State.Y-65);string previous=cat.Action;double lookStart=0,lastX=cat.State.X;int waits=0;bool faces=true,still=true,whole=true,monotone=true;var route=new List<string>();
+  for(int tick=0;tick<8000;tick++)
+  {
+   if(follow)pointer=new(cat.State.X-30,cat.State.Y-65);
+   cat.ObservePointer(.02,true,pointer);cat.Update(.02,12);
+   var frame=pb.Sample(cat.Action,cat.Now,cat.FacingLeft)!.Value;
+   if(route.Count==0||route[^1]!=frame.Clip)route.Add(frame.Clip);
+   if(cat.Action=="guide-look")
+   {faces&=!cat.FacingLeft&&frame.Clip=="video-43";if(previous!="guide-look"){lookStart=cat.Now;waits++;}else still&=Math.Abs(cat.State.X-lastX)<.001;}
+   if(previous=="guide-look"&&cat.Action!="guide-look")whole&=cat.Now-lookStart>=5;
+   monotone&=cat.State.X>=lastX-.001;lastX=cat.State.X;previous=cat.Action;
+  }
+  Check(waits>0&&faces&&still&&whole&&monotone,$"native guide with {(follow?"following":"stationary")} pointer waits five seconds without flipping or walking backwards");
+  Check(route.Zip(route.Skip(1)).Where(p=>p.Second=="video-43").All(p=>p.First=="video-11"),"each guide look is preceded by the actual right stopping clip");
+  Check(follow?cat.Action=="guide-water":cat.Action=="guide-look","following reaches the item; stationary pointer settles into a stable wait");
+ }
+ // Opposite destination while waiting must traverse the authored turn.
+ pb.Reset();pb.Sample("guide-look",0,false);var reverseRoute=new List<string>();
+ for(double reverseTime=5.1;reverseTime<20;reverseTime+=.02){var f=pb.Sample("guide-walk",reverseTime,true)!.Value;if(reverseRoute.Count==0||reverseRoute[^1]!=f.Clip)reverseRoute.Add(f.Clip);}
+ Check(reverseRoute.Take(3).SequenceEqual(new[]{"video-15","video-12","video-14"}),"reversing after a guide look plays the real turn, then starts the opposite gait");
+}
+var rubbing=new PetEngine(new PetState{X=500,Y=400},5);rubbing.ObservePointer(5.1,true,new(510,330));
+for(int i=0;i<35;i++){rubbing.ObservePointer(.1,true,new(500+(i%2==0?1:-1),330));rubbing.Update(.1,12);}
+Check(rubbing.State.X==500&&rubbing.Action=="rub","ordinary hover rubbing stays put even when the pointer crosses the cat center");
 Console.WriteLine($"{checks} checks passed.");

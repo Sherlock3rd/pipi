@@ -7221,7 +7221,6 @@
       "offsetStartY": 0.02157890796661377,
       "offsetEndX": -2.383604049682617,
       "offsetEndY": -0.25200265645980835,
-      "playbackRate": 2,
       "groundContacts": [
         0.912109375,
         0.912109375,
@@ -7330,7 +7329,6 @@
       "offsetStartY": 0.021548867225646973,
       "offsetEndX": -0.0008668899536132812,
       "offsetEndY": 0.005456417798995972,
-      "playbackRate": 2,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -7452,7 +7450,6 @@
       "offsetStartY": -0.007844120264053345,
       "offsetEndX": -0.19353961944580078,
       "offsetEndY": -0.1558207869529724,
-      "playbackRate": 2,
       "groundContacts": [
         0.912109375,
         0.912109375,
@@ -7567,7 +7564,6 @@
       "offsetStartY": 0.0,
       "offsetEndX": 0.0677032470703125,
       "offsetEndY": 0.09551721811294556,
-      "playbackRate": 2,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -7689,7 +7685,6 @@
       "offsetStartY": -0.14696332812309265,
       "offsetEndX": 1.5157442092895508,
       "offsetEndY": 0.11938914656639099,
-      "playbackRate": 1.4,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -7792,7 +7787,6 @@
       "offsetStartY": -2.846628427505493,
       "offsetEndX": 0.05330085754394531,
       "offsetEndY": -0.26853203773498535,
-      "playbackRate": 1.4,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -7889,7 +7883,6 @@
       "offsetStartY": -0.45224136114120483,
       "offsetEndX": -0.1517486572265625,
       "offsetEndY": -0.6544123291969299,
-      "playbackRate": 1.4,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -7992,7 +7985,6 @@
       "offsetStartY": -1.962545782327652,
       "offsetEndX": -0.09961509704589844,
       "offsetEndY": -0.000926971435546875,
-      "playbackRate": 1.4,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -8226,7 +8218,6 @@
       "offsetStartY": 0.07494252920150757,
       "offsetEndX": -0.4766864776611328,
       "offsetEndY": -0.0648241639137268,
-      "playbackRate": 2,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -8344,7 +8335,6 @@
       "offsetStartY": 0.09083837270736694,
       "offsetEndX": 0.012728691101074219,
       "offsetEndY": -0.009886354207992554,
-      "playbackRate": 2,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -8462,7 +8452,6 @@
       "offsetStartY": -0.14361485838890076,
       "offsetEndX": -0.9853620529174805,
       "offsetEndY": -0.16671296954154968,
-      "playbackRate": 2,
       "groundContacts": [
         0.912109375,
         0.912109375,
@@ -8589,7 +8578,6 @@
       "offsetStartY": -0.6153469234720461,
       "offsetEndX": 0.023586273193359375,
       "offsetEndY": -0.17490336298942566,
-      "playbackRate": 2,
       "groundContacts": [
         0.9296875,
         0.9296875,
@@ -8716,7 +8704,6 @@
       "offsetStartY": 0.0,
       "offsetEndX": -0.26158618927001953,
       "offsetEndY": -0.6681540906429291,
-      "playbackRate": 1.6,
       "groundContacts": [
         0.9296875,
         0.9296875,
@@ -9592,7 +9579,6 @@
       "offsetStartY": 0.0072602033615112305,
       "offsetEndX": -0.03412628173828125,
       "offsetEndY": -0.1618562936782837,
-      "playbackRate": 1.8,
       "groundContacts": [
         0.908203125,
         0.908203125,
@@ -9779,7 +9765,6 @@
       "offsetStartY": 0.0,
       "offsetEndX": -0.017423629760742188,
       "offsetEndY": -0.00033473968505859375,
-      "playbackRate": 3,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -10056,7 +10041,6 @@
       "offsetStartY": -0.0009591579437255859,
       "offsetEndX": -0.011235237121582031,
       "offsetEndY": 0.006251424551010132,
-      "playbackRate": 3,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -10333,7 +10317,6 @@
       "offsetStartY": 0.005052745342254639,
       "offsetEndX": -0.0020170211791992188,
       "offsetEndY": -0.01562628149986267,
-      "playbackRate": 3,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -10610,7 +10593,6 @@
       "offsetStartY": 0.005602061748504639,
       "offsetEndX": -0.014934539794921875,
       "offsetEndY": 0.0020272135734558105,
-      "playbackRate": 3,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -10749,7 +10731,6 @@
       "offsetStartY": 0.0023332536220550537,
       "offsetEndX": -0.0237579345703125,
       "offsetEndY": 0.01609647274017334,
-      "playbackRate": 3,
       "groundContacts": [
         0.923828125,
         0.923828125,
@@ -10872,7 +10853,8 @@
         0.919921875,
         0.919921875,
         0.919921875
-      ]
+      ],
+      "buryPlaybackRate": 3
     },
     "video-30": {
       "fps": 24.0,
@@ -11026,7 +11008,6 @@
       "offsetStartY": 0.0036542415618896484,
       "offsetEndX": -0.026813507080078125,
       "offsetEndY": 0.03119945526123047,
-      "playbackRate": 3,
       "groundContacts": [
         0.919921875,
         0.919921875,
@@ -11164,8 +11145,7 @@
       "offsetStartX": -0.00043773651123046875,
       "offsetStartY": 0.04548543691635132,
       "offsetEndX": -0.0036220550537109375,
-      "offsetEndY": -0.04253876209259033,
-      "playbackRate": 3.2
+      "offsetEndY": -0.04253876209259033
     },
     "video-33": {
       "fps": 24.0,
@@ -11195,8 +11175,7 @@
       "offsetStartX": 0.007887840270996094,
       "offsetStartY": -0.0070740580558776855,
       "offsetEndX": -0.0060939788818359375,
-      "offsetEndY": 0.01592642068862915,
-      "playbackRate": 3.2
+      "offsetEndY": 0.01592642068862915
     },
     "video-35": {
       "fps": 24.0,
