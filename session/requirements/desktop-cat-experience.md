@@ -229,3 +229,4 @@
 
 安装核验：正式进程响应，诊断文件为启动后新写入，已保留正式存档和备份；运行DLL与验证版一致。Git提交与远端核验随后记录。
 
+安装与Git总账：正式进程响应正常，诊断晚于启动时间，native.visible=true、sceneVisibility=Visible，无新错误日志；已更新正式运行包并保留存档。实现bebe6f2f1692b38a2196bb3751fe9b8cbd319a18已推送origin/main，远端哈希核验一致。
