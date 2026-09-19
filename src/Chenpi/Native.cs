@@ -1,5 +1,6 @@
 using System;
 using System.Diagnostics;
+using System.Collections.Generic;
 using System.Runtime.InteropServices;
 using System.Text;
 using System.Windows;
@@ -65,7 +66,8 @@ internal static class Native
         {
             SetParent(h,IntPtr.Zero);
             var style=GetWindowLong(h,-16);SetWindowLong(h,-16,(style&~0x40000000)|unchecked((int)0x80000000));
-            SetWindowLong(h,-20,GetWindowLong(h,-20)&~(0x00000080|0x08000000));
+            // Mouse interaction must not steal foreground activation from a game.
+            SetWindowLong(h,-20,(GetWindowLong(h,-20)&~0x00000080)|0x08000000);
         }
         else
         {
@@ -95,6 +97,17 @@ internal static class Native
     public static FullscreenDecision CheckFullScreen(IntPtr foreground,IntPtr self)
     {
         var screen=System.Windows.Forms.Screen.FromHandle(self).Bounds;
-        return FullscreenPolicy.Evaluate(ReadFullscreenCandidate(foreground),new(screen.Left,screen.Top,screen.Right,screen.Bottom));
+        return CheckFullScreenOnScreen(foreground,new(screen.Left,screen.Top,screen.Right,screen.Bottom));
+    }
+    internal static FullscreenDecision CheckFullScreenOnScreen(IntPtr foreground,PixelBounds screen)
+    {
+        var candidates=new List<FullscreenCandidate>();
+        EnumWindows((h,_)=>{
+            // Ignore transparent/nonactivating utility overlays (including us).
+            if((GetWindowLong(h,-20)&(0x00000020|0x00000080|0x08000000))!=0)return true;
+            if(ReadFullscreenCandidate(h) is {} candidate)candidates.Add(candidate);
+            return true;
+        },IntPtr.Zero);
+        return FullscreenPolicy.EvaluateVisible(ReadFullscreenCandidate(foreground),candidates,screen);
     }
 }

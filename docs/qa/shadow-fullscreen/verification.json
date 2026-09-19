@@ -1,0 +1,43 @@
+{
+  "logicChecks": 345,
+  "nativeChecks": 13,
+  "shadow": {
+    "oldOpacity": 0.19,
+    "newOpacity": 0.38,
+    "blur": 14,
+    "down": 3
+  },
+  "liveGameProbe": {
+    "game": "Baldurs Gate 3",
+    "bounds": [
+      0,
+      0,
+      1920,
+      1080
+    ],
+    "foregroundGame": {
+      "primaryHide": true,
+      "reason": "fullscreen-on-pet-screen",
+      "otherMonitorHide": false
+    },
+    "foregroundOtherMonitor": {
+      "primaryHide": true,
+      "reason": "fullscreen-visible-on-pet-screen",
+      "otherMonitorHide": false
+    }
+  },
+  "preview": {
+    "DisplayedClip": "video-20",
+    "DisplayedFrame": 119,
+    "averageFrameMs": 39.25723700787401,
+    "maxFrameMs": 64.65650000000167,
+    "averageDrawMs": 9.319127480916034
+  },
+  "installedNative": {
+    "responsive": true,
+    "freshDiagnostics": true,
+    "noActivateStyle": true,
+    "ordinaryBrowserForegroundSceneVisible": true
+  },
+  "limitations": "Read-only real-game geometry and policy probes; did not control game or test every exclusive-fullscreen/driver mode. Preview ran alongside game; timing is not an isolated benchmark."
+}

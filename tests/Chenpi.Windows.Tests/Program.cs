@@ -16,8 +16,19 @@ internal static class Program
     {for(int i=0;i<15;i++){Application.DoEvents();Thread.Sleep(20);}}
 
     [STAThread]
-    private static void Main()
+    private static void Main(string[] args)
     {
+        if(Array.IndexOf(args,"--probe-fullscreen")>=0)
+        {
+            // Read only: do not activate, resize, or send input to the running game.
+            var foreground=Native.GetForegroundWindow();
+            foreach(var display in Screen.AllScreens)
+            {
+                var b=display.Bounds;
+                Console.WriteLine(System.Text.Json.JsonSerializer.Serialize(new {display.Primary,Bounds=new PixelBounds(b.Left,b.Top,b.Right,b.Bottom),Decision=Native.CheckFullScreenOnScreen(foreground,new(b.Left,b.Top,b.Right,b.Bottom))}));
+            }
+            return;
+        }
         Application.EnableVisualStyles();
         using var window=new Fixture {Text="Chenpi native window regression",ShowInTaskbar=false,
             StartPosition=FormStartPosition.Manual,Bounds=new(100,100,600,400)};
@@ -28,7 +39,8 @@ internal static class Program
         // Keep all native observations, changing only identity to exercise the foreign-app policy.
         bool WouldHide()=>FullscreenPolicy.Evaluate(Read() with {OwnProcess=false},screen).Hide;
         Check(Read().Visible&&!Read().Minimized&&!Read().Cloaked,"native visible normal window flags");
-        Check(Read().OwnProcess&&!Native.CheckFullScreen(window.Handle,window.Handle).Hide,"own-process windows are excluded by production entry point");
+        Check(Read().OwnProcess&&!FullscreenPolicy.Evaluate(Read(),screen).Hide,"own-process window itself never qualifies as fullscreen");
+        Check(Native.CheckFullScreen(window.Handle,window.Handle).Hide==Native.CheckFullScreenOnScreen(IntPtr.Zero,screen).Hide,"own foreground preserves underlying foreign-game z-order decision");
         Check(!WouldHide(),"native ordinary window does not hide pet");
         window.WindowState=FormWindowState.Maximized;Settle();
         Check(Read().Maximized&&Read().HasCaption&&!WouldHide(),"native captioned maximized window stays visible");

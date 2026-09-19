@@ -22,7 +22,7 @@ internal sealed class Scene : FrameworkElement
         protected override HitTestResult? HitTestCore(PointHitTestParameters p)=>null;
     }
     private readonly DrawingVisual artwork=new ArtworkVisual(),overlay=new ArtworkVisual();
-    private readonly DropShadowEffect softShadow=new(){Color=Colors.Black,Opacity=.19,BlurRadius=14,ShadowDepth=3,Direction=270,RenderingBias=RenderingBias.Performance};
+    private readonly DropShadowEffect softShadow=new(){Color=Colors.Black,Opacity=.38,BlurRadius=14,ShadowDepth=3,Direction=270,RenderingBias=RenderingBias.Performance};
     internal bool SoftShadowsEnabled {get=>artwork.Effect is not null;set=>artwork.Effect=value?softShadow:null;}
     protected override int VisualChildrenCount=>2;
     protected override Visual GetVisualChild(int index)=>index switch {0=>artwork,1=>overlay,_=>throw new ArgumentOutOfRangeException(nameof(index))};

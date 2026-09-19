@@ -270,6 +270,7 @@ internal sealed class PetWindow : Window
             bool nextFull=fullscreenDecision.Hide;
             if((nextFull||hiddenByUser)&&scene.IsInteracting){scene.CancelDrag();}fullScreen=nextFull;
             scene.Visibility=fullScreen||hiddenByUser?Visibility.Hidden:Visibility.Visible;
+            if(!Preview)Topmost=engine.State.Floating&&!fullScreen&&!hiddenByUser;
             if(!Preview&&!engine.State.Floating && (Native.GetParent(new WindowInteropHelper(this).Handle)!=Native.DesktopHost()||!Native.IsWindow(Native.GetParent(new WindowInteropHelper(this).Handle))))
             {if(Native.DesktopHost()!=IntPtr.Zero){ReplaceDisplayWindow();return;}}
             if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,fullscreenReason=fullscreenDecision.Reason,foreground=foreground.ToInt64(),hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.FacingLeft,scene.DisplayedClip,scene.DisplayedFrame,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));

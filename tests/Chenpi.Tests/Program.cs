@@ -281,6 +281,16 @@ Check(!FullscreenPolicy.Evaluate(null,primaryScreen).Hide&&!FullscreenPolicy.Eva
 Check(FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(2,2,1918,1078)},primaryScreen).Hide&&!FullscreenPolicy.Evaluate(fullWindow with {Bounds=new(3,3,1917,1077)},primaryScreen).Hide,"fullscreen edge tolerance is limited to two physical pixels");
 var fullscreenSequence=new[]{fullWindow,fullWindow with {Bounds=new(100,100,1000,800)},fullWindow,fullWindow with {Minimized=true}};
 Check(fullscreenSequence.Select(window=>FullscreenPolicy.Evaluate(window,primaryScreen).Hide).SequenceEqual(new[]{true,false,true,false}),"fullscreen exit and minimization restore without sticky hidden state");
+var otherForeground=fullWindow with {Bounds=new(2100,100,3000,900),HasCaption=true};
+var ownForeground=fullWindow with {OwnProcess=true};
+var normalOnPrimary=fullWindow with {Bounds=new(100,100,1000,800),HasCaption=true};
+Check(FullscreenPolicy.EvaluateVisible(otherForeground,new[]{fullWindow},primaryScreen).Hide,"game keeps priority when foreground moves to another screen");
+Check(FullscreenPolicy.EvaluateVisible(ownForeground,new[]{ownForeground,fullWindow},primaryScreen).Hide,"own window cannot cancel visible game suppression");
+Check(!FullscreenPolicy.EvaluateVisible(otherForeground,new[]{normalOnPrimary,fullWindow},primaryScreen).Hide,"ordinary window above game restores scene instead of sticky suppression");
+Check(!FullscreenPolicy.EvaluateVisible(normalOnPrimary,new[]{fullWindow},primaryScreen).Hide,"active ordinary window on pet screen retains floating behavior");
+Check(!FullscreenPolicy.EvaluateVisible(otherForeground,new[]{fullWindow with {Minimized=true}},primaryScreen).Hide,"minimized background game restores scene");
+Check(!FullscreenPolicy.EvaluateVisible(ownForeground,new[]{otherForeground},primaryScreen).Hide,"other-screen fullscreen never suppresses pet monitor");
+Check(FullscreenPolicy.EvaluateVisible(null,new[]{fullWindow with {Cloaked=true},fullWindow},primaryScreen).Hide,"cloaked windows and temporary missing focus do not mask visible game");
 using var motionDoc=System.Text.Json.JsonDocument.Parse("""
 {"clips":{"idle":{"fps":12,"loop":true},"walk":{"fps":24,"loop":true},"move-to-sit":{"fps":24,"loop":false},"sit-to-idle":{"fps":24,"loop":false},"sit-to-sleep":{"fps":16,"loop":false},"sleep":{"fps":12,"loop":true}}}
 """);
