@@ -264,3 +264,6 @@ SpritePlayback 接入 F/SR/SL/WR/WL/I/C 动作图，正面五段轮换、左右�
 
 一键入口端到端验证成功：负对照3140像素、新版0，退出码0。正式存档已备份before-nest-depth，旧进程退出后更新自包含运行包，安装DLL与验证发布文件SHA256一致。最终启动和Git核验随后记录。
 
+
+安装与Git总账：正式进程响应正常，诊断时间晚于启动，无新错误日志。native.visible=true；sceneVisibility=Hidden由fullscreen-on-pet-screen避让触发，按既有规则保留。338项逻辑检查、82样本场景审计及左右各60秒完整流程验证完成，安装DLL与验证发布版本哈希一致。实现f7adaadcd9e37e9fa6e858ee5ad557baa383cab2已推送origin/main，远端哈希核验一致。
+
