@@ -1,0 +1,13 @@
+{
+  "anchors": 12,
+  "clips": 47,
+  "endpointCopies": 94,
+  "byteIdenticalSharedAnchors": true,
+  "allNewStatesHaveEntryAndExit": true,
+  "threeFlatPosesHaveAllInteractions": true,
+  "secondsRange": [
+    1.2,
+    5.6
+  ],
+  "dynamicQA": "pending returned video; static input validation only"
+}
