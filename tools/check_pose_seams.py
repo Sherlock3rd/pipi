@@ -23,6 +23,9 @@ def displayed(clip,index,p):
     s=c['scaleStart']+(c['scaleEnd']-c['scaleStart'])*t
     offset=np.array([c['offsetStartX']+(c['offsetEndX']-c['offsetStartX'])*t,c['offsetStartY']+(c['offsetEndY']-c['offsetStartY'])*t])
     result=(p/512-np.array([c['anchorX'],c['anchorY']]))*288*s+offset
+    if 'horizontalRegistration' in c:
+        sx, dx = c['horizontalRegistration'][index]
+        result[:, 0] = result[:, 0]*sx+dx
     if 'groundContacts' in c:
         result[:,1]=(p[:,1]/512-c['groundContacts'][index])*288*s
     elif 'landingContactY' in c:

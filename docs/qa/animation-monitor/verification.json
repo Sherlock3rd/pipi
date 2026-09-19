@@ -1,0 +1,138 @@
+{
+  "frames": 484,
+  "pairs": 486,
+  "beforeFailures": [
+    {
+      "source": "video-22/0116.png",
+      "target": "video-22/0117.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": -3.5,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 48,
+      "reliable": true,
+      "failures": [
+        "body-width"
+      ],
+      "review": [
+        "outline-change"
+      ],
+      "bodyWidthPercent": -1.4415498950327232,
+      "bodyHeightPercent": -0.1859207354316994,
+      "bodyDeltaX": 0.09911537170410156,
+      "bodyDeltaY": -0.02881590463221073,
+      "residual": 0.10566218903517377,
+      "horizontalCoverage": 0.5128888487815857
+    },
+    {
+      "source": "video-24/0116.png",
+      "target": "video-24/0117.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": -4.0,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 41,
+      "reliable": true,
+      "failures": [
+        "body-width"
+      ],
+      "review": [
+        "outline-change"
+      ],
+      "bodyWidthPercent": -1.7591580231791415,
+      "bodyHeightPercent": -0.13618657366469833,
+      "bodyDeltaX": 0.22283433377742767,
+      "bodyDeltaY": -0.04105916991829872,
+      "residual": 0.18840889523773482,
+      "horizontalCoverage": 0.5859799981117249
+    }
+  ],
+  "afterFailures": [],
+  "afterReview": [
+    {
+      "source": "video-24/0000.png",
+      "target": "video-24/0001.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": 3.0,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 42,
+      "reliable": true,
+      "failures": [],
+      "review": [
+        "outline-change"
+      ],
+      "bodyWidthPercent": 0.1199074916580889,
+      "bodyHeightPercent": 0.19087935580843762,
+      "bodyDeltaX": -0.0218785610049963,
+      "bodyDeltaY": -0.01161775179207325,
+      "residual": 0.14570978483367883,
+      "horizontalCoverage": 0.4801124036312103
+    },
+    {
+      "source": "video-24/0042.png",
+      "target": "video-24/0043.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": -1.5,
+      "outlineHeightDelta": 2.5,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 34,
+      "reliable": true,
+      "failures": [],
+      "review": [
+        "outline-change"
+      ],
+      "bodyWidthPercent": 0.2773697554800725,
+      "bodyHeightPercent": -0.4816638036951204,
+      "bodyDeltaX": -0.03987772390246391,
+      "bodyDeltaY": 0.0837676078081131,
+      "residual": 0.1923924311699914,
+      "horizontalCoverage": 0.5570316314697266
+    },
+    {
+      "source": "video-24/0044.png",
+      "target": "video-24/0045.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": -1.5,
+      "outlineHeightDelta": 2.5,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 36,
+      "reliable": true,
+      "failures": [],
+      "review": [
+        "outline-change"
+      ],
+      "bodyWidthPercent": -0.05901450375469519,
+      "bodyHeightPercent": -0.16926071550428246,
+      "bodyDeltaX": -0.012835608795285225,
+      "bodyDeltaY": 0.039113786071538925,
+      "residual": 0.13148449507871096,
+      "horizontalCoverage": 0.48851293325424194
+    },
+    {
+      "source": "video-24/0048.png",
+      "target": "video-24/0049.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": -1.0,
+      "outlineHeightDelta": 2.5,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 40,
+      "reliable": true,
+      "failures": [],
+      "review": [
+        "outline-change"
+      ],
+      "bodyWidthPercent": 0.051570771143572,
+      "bodyHeightPercent": -0.006551701821566613,
+      "bodyDeltaX": 0.008640289306640625,
+      "bodyDeltaY": 0.010869979858398438,
+      "residual": 0.11600018572240844,
+      "horizontalCoverage": 0.504461944103241
+    }
+  ],
+  "reviewDecision": "24/0->1 changes tail silhouette; 42->43,44->45,48->49 raise the head. Torso and planted feet remain stable. These source-pose warnings remain visible in the report.",
+  "selfTest": "unchanged accepted; injected 2% width jump rejected",
+  "modelChecks": 338,
+  "endpointChecks": 159,
+  "manifestScope": "only horizontalRegistration for 22/24 and careWidthRevision changed"
+}

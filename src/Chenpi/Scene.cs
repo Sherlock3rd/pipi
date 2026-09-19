@@ -518,6 +518,32 @@ internal sealed class Scene : FrameworkElement
         var b=frameBounds.TryGetValue(image,out var bounds)?bounds:new Rect(0,0,1,1);
         dc.DrawImage(image,new Rect((b.X-definition.AnchorX)*definition.Width,(b.Y-definition.AnchorY)*definition.Height,b.Width*definition.Width,b.Height*definition.Height));
     }
+    internal void ExportAnimationAudit(string directory,string? filter)
+    {
+        Directory.CreateDirectory(directory);
+        var selected=filter?.Split(',').Select(x=>x.StartsWith("video-")?x:"video-"+x).ToHashSet();
+        var records=new List<object>();
+        foreach(string id in framePaths.Keys.Where(x=>x.StartsWith("video-")&&(selected is null||selected.Contains(x))).OrderBy(x=>x))
+        {
+            var images=GetFrames(id)!;string folder=Path.Combine(directory,id);Directory.CreateDirectory(folder);
+            for(int index=0;index<images.Count;index++)
+            {
+                var frame=playback.InspectFrame(id,index)??throw new InvalidDataException("Missing clip "+id);
+                var visual=new DrawingVisual();using(var dc=visual.RenderOpen())
+                {
+                    dc.PushTransform(new ScaleTransform(2,2));dc.PushTransform(new TranslateTransform(192,288));
+                    DrawVideoFrame(dc,images[index],frame.Definition);dc.Pop();dc.Pop();
+                }
+                var bitmap=new RenderTargetBitmap(768,640,96,96,PixelFormats.Pbgra32);bitmap.Render(visual);
+                string relative=$"{id}/{index:0000}.png";
+                var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                using(var stream=File.Create(Path.Combine(directory,relative)))encoder.Save(stream);
+                records.Add(new {Clip=id,Index=index,File=relative,Definition=frame.Definition});
+            }
+        }
+        if(records.Count==0)throw new InvalidDataException("No selected animation frames");
+        File.WriteAllText(Path.Combine(directory,"frames.json"),JsonSerializer.Serialize(new {PixelsPerUnit=2,RootX=192,RootY=288,Frames=records}));
+    }
     private void DrawCat(DrawingContext dc,double x,double y,string action,double time,bool left)
     {
         if(action==Engine.Action&&spriteRevision!=Engine.ActionRevision)

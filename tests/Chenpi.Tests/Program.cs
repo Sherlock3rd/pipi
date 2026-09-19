@@ -772,4 +772,24 @@ using(var contactDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtim
  Check(Math.Abs(rollIn.Definition.AnchorY-foot)<1e-9&&Math.Abs(lyingEnd.Definition.AnchorY-rollingStart.Definition.AnchorY)<1e-9&&Math.Abs(rollingEnd.Definition.AnchorY-recovering.Definition.AnchorY)<1e-9&&Math.Abs(recovered.Definition.AnchorY-idleAgain.Definition.AnchorY)<1e-9,"rolling transfers seated and body support continuously at every clip boundary");
 }
 
+using(var widthDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var animations=widthDoc.RootElement.GetProperty("animations");var entries=widthDoc.RootElement.GetProperty("clips");
+ var player=new SpritePlayback();player.Load(widthDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
+ foreach(string id in new[]{"video-22","video-24"})
+ {
+  var entry=entries.GetProperty(id);int count=animations.GetProperty(id).GetArrayLength();var profile=SpritePlayback.ReadHorizontalRegistration(entry,count)!;
+  Check(profile is not null&&profile.Length==count&&profile[0][0]==1&&profile[^1][0]==1&&profile[0][1]==0&&profile[^1][1]==0,"horizontal correction preserves established shared endpoints: "+id);
+  bool vertical=true;
+  for(int i=0;i<count;i++)
+  {
+   double widthPhase=i/(double)(count-1);widthPhase=widthPhase*widthPhase*(3-2*widthPhase);double scale=entry.GetProperty("scaleStart").GetDouble()*(1-widthPhase)+entry.GetProperty("scaleEnd").GetDouble()*widthPhase;
+   var actual=player.InspectFrame(id,i)!.Value.Definition;
+   vertical&=Math.Abs(actual.Height-288*scale)<1e-9&&Math.Abs(actual.AnchorY-entry.GetProperty("groundContacts")[i].GetDouble())<1e-9&&actual.Fps==24;
+  }
+  Check(vertical,"width registration never changes vertical pose, foot contact or playback speed: "+id);
+ }
+ using var invalid=System.Text.Json.JsonDocument.Parse("{\"horizontalRegistration\":[[1.2,0]]}");
+ Check(SpritePlayback.ReadHorizontalRegistration(invalid.RootElement,1) is null&&player.InspectFrame("video-22",-1) is null,"invalid width corrections and out-of-range audit frames are rejected");
+}
 Console.WriteLine($"{checks} checks passed.");

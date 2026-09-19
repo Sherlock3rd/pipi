@@ -17,6 +17,17 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-animations") is string auditDirectory)
+        {
+            Directory.CreateDirectory(auditDirectory);
+            try
+            {
+                var auditApp=new System.Windows.Application();
+                new Scene(new PetEngine(new PetState())).ExportAnimationAudit(auditDirectory,Option(args,"--audit-clips"));
+            }
+            catch(Exception error){File.WriteAllText(Path.Combine(auditDirectory,"error.txt"),error.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--video-review") is string reviewDirectory)
         {
             var reviewApp=new System.Windows.Application{ShutdownMode=ShutdownMode.OnMainWindowClose};

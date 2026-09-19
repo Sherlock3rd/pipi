@@ -1,0 +1,1938 @@
+[
+  {
+    "clip": "video-22",
+    "frame": 0,
+    "horizontalScale": 1.0,
+    "offsetX": 0.0,
+    "inliers": 38,
+    "residual": 0.2887466847896576
+  },
+  {
+    "clip": "video-22",
+    "frame": 1,
+    "horizontalScale": 0.9946470061193722,
+    "offsetX": 0.05802403523591116,
+    "inliers": 24,
+    "residual": 0.3252207338809967
+  },
+  {
+    "clip": "video-22",
+    "frame": 2,
+    "horizontalScale": 0.9909656648201058,
+    "offsetX": 0.06192167219927148,
+    "inliers": 27,
+    "residual": 0.25250810384750366
+  },
+  {
+    "clip": "video-22",
+    "frame": 3,
+    "horizontalScale": 0.9831560967235252,
+    "offsetX": -0.1960125997110418,
+    "inliers": 23,
+    "residual": 0.2720452547073364
+  },
+  {
+    "clip": "video-22",
+    "frame": 4,
+    "horizontalScale": 0.9815110363736672,
+    "offsetX": -0.1776788320375516,
+    "inliers": 26,
+    "residual": 0.2635597884654999
+  },
+  {
+    "clip": "video-22",
+    "frame": 5,
+    "horizontalScale": 0.9815276819193867,
+    "offsetX": -0.1372575521029673,
+    "inliers": 34,
+    "residual": 0.3215632736682892
+  },
+  {
+    "clip": "video-22",
+    "frame": 6,
+    "horizontalScale": 0.98153409297043,
+    "offsetX": -0.12897189193875974,
+    "inliers": 30,
+    "residual": 0.30735957622528076
+  },
+  {
+    "clip": "video-22",
+    "frame": 7,
+    "horizontalScale": 0.9815338279544726,
+    "offsetX": -0.14777375659125006,
+    "inliers": 30,
+    "residual": 0.2739730775356293
+  },
+  {
+    "clip": "video-22",
+    "frame": 8,
+    "horizontalScale": 0.9814456857667245,
+    "offsetX": -0.15833535291803813,
+    "inliers": 29,
+    "residual": 0.23309694230556488
+  },
+  {
+    "clip": "video-22",
+    "frame": 9,
+    "horizontalScale": 0.9817561181899755,
+    "offsetX": -0.15683805024887132,
+    "inliers": 30,
+    "residual": 0.3121195435523987
+  },
+  {
+    "clip": "video-22",
+    "frame": 10,
+    "horizontalScale": 0.9817066723467821,
+    "offsetX": -0.15569215497996045,
+    "inliers": 39,
+    "residual": 0.35093259811401367
+  },
+  {
+    "clip": "video-22",
+    "frame": 11,
+    "horizontalScale": 0.9818152792800076,
+    "offsetX": -0.1508335375625402,
+    "inliers": 36,
+    "residual": 0.35704338550567627
+  },
+  {
+    "clip": "video-22",
+    "frame": 12,
+    "horizontalScale": 0.9816657795210215,
+    "offsetX": -0.14221184216325763,
+    "inliers": 29,
+    "residual": 0.3029874563217163
+  },
+  {
+    "clip": "video-22",
+    "frame": 13,
+    "horizontalScale": 0.9817428653690189,
+    "offsetX": -0.1498284224461163,
+    "inliers": 32,
+    "residual": 0.3353252410888672
+  },
+  {
+    "clip": "video-22",
+    "frame": 14,
+    "horizontalScale": 0.9818523989630484,
+    "offsetX": -0.13154901437940636,
+    "inliers": 40,
+    "residual": 0.3449769914150238
+  },
+  {
+    "clip": "video-22",
+    "frame": 15,
+    "horizontalScale": 0.9814389440411596,
+    "offsetX": -0.11244680895580252,
+    "inliers": 40,
+    "residual": 0.331333726644516
+  },
+  {
+    "clip": "video-22",
+    "frame": 16,
+    "horizontalScale": 0.9813842630451779,
+    "offsetX": -0.11719257937243556,
+    "inliers": 38,
+    "residual": 0.31294289231300354
+  },
+  {
+    "clip": "video-22",
+    "frame": 17,
+    "horizontalScale": 0.9811863188068537,
+    "offsetX": -0.10445339171454053,
+    "inliers": 37,
+    "residual": 0.3312200605869293
+  },
+  {
+    "clip": "video-22",
+    "frame": 18,
+    "horizontalScale": 0.9811470825519081,
+    "offsetX": -0.10528039301615622,
+    "inliers": 37,
+    "residual": 0.3083578646183014
+  },
+  {
+    "clip": "video-22",
+    "frame": 19,
+    "horizontalScale": 0.9825279221306591,
+    "offsetX": -0.14259058642786734,
+    "inliers": 37,
+    "residual": 0.31806430220603943
+  },
+  {
+    "clip": "video-22",
+    "frame": 20,
+    "horizontalScale": 0.9816793755118226,
+    "offsetX": -0.10479253890256036,
+    "inliers": 40,
+    "residual": 0.29056280851364136
+  },
+  {
+    "clip": "video-22",
+    "frame": 21,
+    "horizontalScale": 0.9822099284761605,
+    "offsetX": -0.1304767869064418,
+    "inliers": 32,
+    "residual": 0.22350597381591797
+  },
+  {
+    "clip": "video-22",
+    "frame": 22,
+    "horizontalScale": 0.9824937083915164,
+    "offsetX": -0.12286706693054626,
+    "inliers": 44,
+    "residual": 0.31535929441452026
+  },
+  {
+    "clip": "video-22",
+    "frame": 23,
+    "horizontalScale": 0.9821580329502902,
+    "offsetX": -0.13414396078495425,
+    "inliers": 45,
+    "residual": 0.3263438045978546
+  },
+  {
+    "clip": "video-22",
+    "frame": 24,
+    "horizontalScale": 0.9820326936791832,
+    "offsetX": -0.09764284816819141,
+    "inliers": 39,
+    "residual": 0.26631593704223633
+  },
+  {
+    "clip": "video-22",
+    "frame": 25,
+    "horizontalScale": 0.982222177408804,
+    "offsetX": -0.09733565712923684,
+    "inliers": 33,
+    "residual": 0.2798609733581543
+  },
+  {
+    "clip": "video-22",
+    "frame": 26,
+    "horizontalScale": 0.9824741923334375,
+    "offsetX": -0.10777098617622186,
+    "inliers": 36,
+    "residual": 0.2571122944355011
+  },
+  {
+    "clip": "video-22",
+    "frame": 27,
+    "horizontalScale": 0.9819406372519687,
+    "offsetX": -0.08293849863770988,
+    "inliers": 31,
+    "residual": 0.24857355654239655
+  },
+  {
+    "clip": "video-22",
+    "frame": 28,
+    "horizontalScale": 0.9830465396954655,
+    "offsetX": -0.09247610738568378,
+    "inliers": 27,
+    "residual": 0.23995321989059448
+  },
+  {
+    "clip": "video-22",
+    "frame": 29,
+    "horizontalScale": 0.9823813549504655,
+    "offsetX": -0.0905027625860544,
+    "inliers": 33,
+    "residual": 0.25744444131851196
+  },
+  {
+    "clip": "video-22",
+    "frame": 30,
+    "horizontalScale": 0.9821514908588246,
+    "offsetX": -0.08457102570630022,
+    "inliers": 33,
+    "residual": 0.2808796167373657
+  },
+  {
+    "clip": "video-22",
+    "frame": 31,
+    "horizontalScale": 0.9817269035724672,
+    "offsetX": -0.07099770907998483,
+    "inliers": 30,
+    "residual": 0.22372673451900482
+  },
+  {
+    "clip": "video-22",
+    "frame": 32,
+    "horizontalScale": 0.9822256055761234,
+    "offsetX": -0.041464832047696326,
+    "inliers": 38,
+    "residual": 0.3194190561771393
+  },
+  {
+    "clip": "video-22",
+    "frame": 33,
+    "horizontalScale": 0.982430554716851,
+    "offsetX": -0.04846709855472448,
+    "inliers": 34,
+    "residual": 0.2969095706939697
+  },
+  {
+    "clip": "video-22",
+    "frame": 34,
+    "horizontalScale": 0.982436820123285,
+    "offsetX": -0.04924221184030677,
+    "inliers": 34,
+    "residual": 0.282214879989624
+  },
+  {
+    "clip": "video-22",
+    "frame": 35,
+    "horizontalScale": 0.9829763440591393,
+    "offsetX": -0.04640037396801666,
+    "inliers": 35,
+    "residual": 0.28384312987327576
+  },
+  {
+    "clip": "video-22",
+    "frame": 36,
+    "horizontalScale": 0.9825926292946531,
+    "offsetX": -0.010270986129327383,
+    "inliers": 36,
+    "residual": 0.265735924243927
+  },
+  {
+    "clip": "video-22",
+    "frame": 37,
+    "horizontalScale": 0.9829207341255899,
+    "offsetX": -0.010934741617136035,
+    "inliers": 36,
+    "residual": 0.28007179498672485
+  },
+  {
+    "clip": "video-22",
+    "frame": 38,
+    "horizontalScale": 0.9825209938579699,
+    "offsetX": -0.030489428550357387,
+    "inliers": 35,
+    "residual": 0.26968225836753845
+  },
+  {
+    "clip": "video-22",
+    "frame": 39,
+    "horizontalScale": 0.9827962397938426,
+    "offsetX": -0.004255742317563489,
+    "inliers": 37,
+    "residual": 0.28498950600624084
+  },
+  {
+    "clip": "video-22",
+    "frame": 40,
+    "horizontalScale": 0.9833134582723905,
+    "offsetX": -0.024712893671981713,
+    "inliers": 35,
+    "residual": 0.30349236726760864
+  },
+  {
+    "clip": "video-22",
+    "frame": 41,
+    "horizontalScale": 0.9825656182260922,
+    "offsetX": 0.005942342334476665,
+    "inliers": 31,
+    "residual": 0.28806519508361816
+  },
+  {
+    "clip": "video-22",
+    "frame": 42,
+    "horizontalScale": 0.9829155749992667,
+    "offsetX": 0.003758408493687279,
+    "inliers": 36,
+    "residual": 0.27931997179985046
+  },
+  {
+    "clip": "video-22",
+    "frame": 43,
+    "horizontalScale": 0.9824736022606839,
+    "offsetX": -0.007751443461201058,
+    "inliers": 36,
+    "residual": 0.2621370851993561
+  },
+  {
+    "clip": "video-22",
+    "frame": 44,
+    "horizontalScale": 0.9846508800964799,
+    "offsetX": 0.01046200353852604,
+    "inliers": 30,
+    "residual": 0.26814016699790955
+  },
+  {
+    "clip": "video-22",
+    "frame": 45,
+    "horizontalScale": 0.9842289719759962,
+    "offsetX": 0.04477635761403133,
+    "inliers": 28,
+    "residual": 0.2699788510799408
+  },
+  {
+    "clip": "video-22",
+    "frame": 46,
+    "horizontalScale": 0.9818807373176873,
+    "offsetX": 0.007376067104894879,
+    "inliers": 32,
+    "residual": 0.28800269961357117
+  },
+  {
+    "clip": "video-22",
+    "frame": 47,
+    "horizontalScale": 0.9839570835188947,
+    "offsetX": 0.025069992095966775,
+    "inliers": 35,
+    "residual": 0.29710474610328674
+  },
+  {
+    "clip": "video-22",
+    "frame": 48,
+    "horizontalScale": 0.9839489087788916,
+    "offsetX": 0.01205056255168134,
+    "inliers": 32,
+    "residual": 0.2674069404602051
+  },
+  {
+    "clip": "video-22",
+    "frame": 49,
+    "horizontalScale": 0.9830614106197092,
+    "offsetX": 0.07125092230028214,
+    "inliers": 32,
+    "residual": 0.2421102523803711
+  },
+  {
+    "clip": "video-22",
+    "frame": 50,
+    "horizontalScale": 0.9841172164442757,
+    "offsetX": 0.06938317104441762,
+    "inliers": 32,
+    "residual": 0.29735660552978516
+  },
+  {
+    "clip": "video-22",
+    "frame": 51,
+    "horizontalScale": 0.9835973219823886,
+    "offsetX": 0.1462403898888166,
+    "inliers": 28,
+    "residual": 0.28320640325546265
+  },
+  {
+    "clip": "video-22",
+    "frame": 52,
+    "horizontalScale": 0.982662632741451,
+    "offsetX": 0.017679778098448756,
+    "inliers": 33,
+    "residual": 0.3014082610607147
+  },
+  {
+    "clip": "video-22",
+    "frame": 53,
+    "horizontalScale": 0.9833608982470923,
+    "offsetX": 0.056411730727756515,
+    "inliers": 30,
+    "residual": 0.3086496889591217
+  },
+  {
+    "clip": "video-22",
+    "frame": 54,
+    "horizontalScale": 0.9819916275467914,
+    "offsetX": 0.03305216859613871,
+    "inliers": 32,
+    "residual": 0.27012205123901367
+  },
+  {
+    "clip": "video-22",
+    "frame": 55,
+    "horizontalScale": 0.9821379119659633,
+    "offsetX": 0.044767653537319284,
+    "inliers": 30,
+    "residual": 0.28907471895217896
+  },
+  {
+    "clip": "video-22",
+    "frame": 56,
+    "horizontalScale": 0.9827742055045441,
+    "offsetX": 0.04916944920662609,
+    "inliers": 29,
+    "residual": 0.3053489029407501
+  },
+  {
+    "clip": "video-22",
+    "frame": 57,
+    "horizontalScale": 0.982740250438395,
+    "offsetX": 0.0658828534631028,
+    "inliers": 30,
+    "residual": 0.2814687192440033
+  },
+  {
+    "clip": "video-22",
+    "frame": 58,
+    "horizontalScale": 0.9815220452541973,
+    "offsetX": 0.057997962906142814,
+    "inliers": 29,
+    "residual": 0.31214064359664917
+  },
+  {
+    "clip": "video-22",
+    "frame": 59,
+    "horizontalScale": 0.9826999945214996,
+    "offsetX": 0.07406621905360429,
+    "inliers": 30,
+    "residual": 0.3490351438522339
+  },
+  {
+    "clip": "video-22",
+    "frame": 60,
+    "horizontalScale": 0.9828180240533633,
+    "offsetX": 0.0667672545073225,
+    "inliers": 31,
+    "residual": 0.30668148398399353
+  },
+  {
+    "clip": "video-22",
+    "frame": 61,
+    "horizontalScale": 0.9812182705356194,
+    "offsetX": 0.020570701660992334,
+    "inliers": 29,
+    "residual": 0.2963098883628845
+  },
+  {
+    "clip": "video-22",
+    "frame": 62,
+    "horizontalScale": 0.9824710278551239,
+    "offsetX": 0.08156764663333117,
+    "inliers": 29,
+    "residual": 0.23812182247638702
+  },
+  {
+    "clip": "video-22",
+    "frame": 63,
+    "horizontalScale": 0.98166655609695,
+    "offsetX": 0.030117312377682483,
+    "inliers": 30,
+    "residual": 0.284262090921402
+  },
+  {
+    "clip": "video-22",
+    "frame": 64,
+    "horizontalScale": 0.9823834099516731,
+    "offsetX": 0.07611776401370983,
+    "inliers": 31,
+    "residual": 0.31268900632858276
+  },
+  {
+    "clip": "video-22",
+    "frame": 65,
+    "horizontalScale": 0.982604627564638,
+    "offsetX": 0.07699849351024707,
+    "inliers": 35,
+    "residual": 0.3247750401496887
+  },
+  {
+    "clip": "video-22",
+    "frame": 66,
+    "horizontalScale": 0.9815520627577795,
+    "offsetX": 0.039372962119889804,
+    "inliers": 30,
+    "residual": 0.32433778047561646
+  },
+  {
+    "clip": "video-22",
+    "frame": 67,
+    "horizontalScale": 0.9831825060426219,
+    "offsetX": 0.10594268635667634,
+    "inliers": 33,
+    "residual": 0.33531883358955383
+  },
+  {
+    "clip": "video-22",
+    "frame": 68,
+    "horizontalScale": 0.9839566157988696,
+    "offsetX": 0.11650992536812652,
+    "inliers": 31,
+    "residual": 0.31186750531196594
+  },
+  {
+    "clip": "video-22",
+    "frame": 69,
+    "horizontalScale": 0.9823940022545674,
+    "offsetX": 0.06640776384826805,
+    "inliers": 31,
+    "residual": 0.28217536211013794
+  },
+  {
+    "clip": "video-22",
+    "frame": 70,
+    "horizontalScale": 0.9834135879540962,
+    "offsetX": 0.10816981428021756,
+    "inliers": 32,
+    "residual": 0.34534549713134766
+  },
+  {
+    "clip": "video-22",
+    "frame": 71,
+    "horizontalScale": 0.9831669504355611,
+    "offsetX": 0.09636365674943789,
+    "inliers": 31,
+    "residual": 0.33013325929641724
+  },
+  {
+    "clip": "video-22",
+    "frame": 72,
+    "horizontalScale": 0.9840186731498711,
+    "offsetX": 0.13810320205193066,
+    "inliers": 34,
+    "residual": 0.3477379381656647
+  },
+  {
+    "clip": "video-22",
+    "frame": 73,
+    "horizontalScale": 0.9830233229825556,
+    "offsetX": 0.08967491577308219,
+    "inliers": 37,
+    "residual": 0.3153715431690216
+  },
+  {
+    "clip": "video-22",
+    "frame": 74,
+    "horizontalScale": 0.9822697901261055,
+    "offsetX": 0.08758252687623283,
+    "inliers": 32,
+    "residual": 0.30822324752807617
+  },
+  {
+    "clip": "video-22",
+    "frame": 75,
+    "horizontalScale": 0.9833016768721526,
+    "offsetX": 0.11121586329397339,
+    "inliers": 33,
+    "residual": 0.34111669659614563
+  },
+  {
+    "clip": "video-22",
+    "frame": 76,
+    "horizontalScale": 0.9836066665769853,
+    "offsetX": 0.10393621600929337,
+    "inliers": 34,
+    "residual": 0.3037845492362976
+  },
+  {
+    "clip": "video-22",
+    "frame": 77,
+    "horizontalScale": 0.9828426310285645,
+    "offsetX": 0.08903517512530572,
+    "inliers": 37,
+    "residual": 0.3438139259815216
+  },
+  {
+    "clip": "video-22",
+    "frame": 78,
+    "horizontalScale": 0.9836456454699238,
+    "offsetX": 0.05670120703975954,
+    "inliers": 36,
+    "residual": 0.3678843080997467
+  },
+  {
+    "clip": "video-22",
+    "frame": 79,
+    "horizontalScale": 0.9829131936814014,
+    "offsetX": 0.09927647598546868,
+    "inliers": 37,
+    "residual": 0.3346586525440216
+  },
+  {
+    "clip": "video-22",
+    "frame": 80,
+    "horizontalScale": 0.9846869825804639,
+    "offsetX": 0.10783801052103308,
+    "inliers": 35,
+    "residual": 0.3257952034473419
+  },
+  {
+    "clip": "video-22",
+    "frame": 81,
+    "horizontalScale": 0.9834815185570163,
+    "offsetX": 0.04395743732680995,
+    "inliers": 32,
+    "residual": 0.32147979736328125
+  },
+  {
+    "clip": "video-22",
+    "frame": 82,
+    "horizontalScale": 0.9828015009930509,
+    "offsetX": 0.035833296657423595,
+    "inliers": 31,
+    "residual": 0.32157111167907715
+  },
+  {
+    "clip": "video-22",
+    "frame": 83,
+    "horizontalScale": 0.9824313953935188,
+    "offsetX": 0.028858677874787304,
+    "inliers": 33,
+    "residual": 0.25610998272895813
+  },
+  {
+    "clip": "video-22",
+    "frame": 84,
+    "horizontalScale": 0.9821871934247437,
+    "offsetX": 0.021683535465386945,
+    "inliers": 34,
+    "residual": 0.2648674547672272
+  },
+  {
+    "clip": "video-22",
+    "frame": 85,
+    "horizontalScale": 0.9820191964681462,
+    "offsetX": 0.033870087722020346,
+    "inliers": 35,
+    "residual": 0.3176513612270355
+  },
+  {
+    "clip": "video-22",
+    "frame": 86,
+    "horizontalScale": 0.9825707658229152,
+    "offsetX": 0.06596185988793674,
+    "inliers": 34,
+    "residual": 0.33277982473373413
+  },
+  {
+    "clip": "video-22",
+    "frame": 87,
+    "horizontalScale": 0.9819462721739037,
+    "offsetX": 0.026106213514382075,
+    "inliers": 31,
+    "residual": 0.2656702697277069
+  },
+  {
+    "clip": "video-22",
+    "frame": 88,
+    "horizontalScale": 0.9821032679050804,
+    "offsetX": 0.012186999567414137,
+    "inliers": 30,
+    "residual": 0.3329605162143707
+  },
+  {
+    "clip": "video-22",
+    "frame": 89,
+    "horizontalScale": 0.9832801868159865,
+    "offsetX": -0.0058331285972361355,
+    "inliers": 28,
+    "residual": 0.3201048672199249
+  },
+  {
+    "clip": "video-22",
+    "frame": 90,
+    "horizontalScale": 0.982836198308726,
+    "offsetX": 0.029292853955692224,
+    "inliers": 27,
+    "residual": 0.30642983317375183
+  },
+  {
+    "clip": "video-22",
+    "frame": 91,
+    "horizontalScale": 0.9832583117415262,
+    "offsetX": 0.018197870628079562,
+    "inliers": 34,
+    "residual": 0.28010064363479614
+  },
+  {
+    "clip": "video-22",
+    "frame": 92,
+    "horizontalScale": 0.9828210990307916,
+    "offsetX": -0.020579087314857233,
+    "inliers": 36,
+    "residual": 0.2720968425273895
+  },
+  {
+    "clip": "video-22",
+    "frame": 93,
+    "horizontalScale": 0.9829949211452442,
+    "offsetX": -0.021985838106497752,
+    "inliers": 31,
+    "residual": 0.2424946427345276
+  },
+  {
+    "clip": "video-22",
+    "frame": 94,
+    "horizontalScale": 0.9834915936403498,
+    "offsetX": -0.04342420279874142,
+    "inliers": 35,
+    "residual": 0.30278319120407104
+  },
+  {
+    "clip": "video-22",
+    "frame": 95,
+    "horizontalScale": 0.9829409197410931,
+    "offsetX": -0.0419027809294657,
+    "inliers": 28,
+    "residual": 0.24474607408046722
+  },
+  {
+    "clip": "video-22",
+    "frame": 96,
+    "horizontalScale": 0.982974265344431,
+    "offsetX": -0.030108050161222893,
+    "inliers": 31,
+    "residual": 0.2541341483592987
+  },
+  {
+    "clip": "video-22",
+    "frame": 97,
+    "horizontalScale": 0.983182824854829,
+    "offsetX": -0.05785302679493608,
+    "inliers": 34,
+    "residual": 0.27117425203323364
+  },
+  {
+    "clip": "video-22",
+    "frame": 98,
+    "horizontalScale": 0.9830634813963374,
+    "offsetX": -0.051355534054702084,
+    "inliers": 35,
+    "residual": 0.2536943852901459
+  },
+  {
+    "clip": "video-22",
+    "frame": 99,
+    "horizontalScale": 0.982701203070594,
+    "offsetX": -0.042500994303001347,
+    "inliers": 34,
+    "residual": 0.263866662979126
+  },
+  {
+    "clip": "video-22",
+    "frame": 100,
+    "horizontalScale": 0.9827240764513367,
+    "offsetX": -0.057434244997438134,
+    "inliers": 27,
+    "residual": 0.2881791889667511
+  },
+  {
+    "clip": "video-22",
+    "frame": 101,
+    "horizontalScale": 0.9827992333464062,
+    "offsetX": -0.06574931579055154,
+    "inliers": 32,
+    "residual": 0.29892396926879883
+  },
+  {
+    "clip": "video-22",
+    "frame": 102,
+    "horizontalScale": 0.9826835588949153,
+    "offsetX": -0.06407339367602494,
+    "inliers": 30,
+    "residual": 0.2834304869174957
+  },
+  {
+    "clip": "video-22",
+    "frame": 103,
+    "horizontalScale": 0.9825415950315465,
+    "offsetX": -0.06057522182914789,
+    "inliers": 28,
+    "residual": 0.32108959555625916
+  },
+  {
+    "clip": "video-22",
+    "frame": 104,
+    "horizontalScale": 0.9820451765561807,
+    "offsetX": -0.04725000508237842,
+    "inliers": 26,
+    "residual": 0.3033617436885834
+  },
+  {
+    "clip": "video-22",
+    "frame": 105,
+    "horizontalScale": 0.9820415296441328,
+    "offsetX": -0.05162185050271368,
+    "inliers": 25,
+    "residual": 0.27701231837272644
+  },
+  {
+    "clip": "video-22",
+    "frame": 106,
+    "horizontalScale": 0.982166629490421,
+    "offsetX": -0.0745316989233454,
+    "inliers": 30,
+    "residual": 0.28808796405792236
+  },
+  {
+    "clip": "video-22",
+    "frame": 107,
+    "horizontalScale": 0.9819061640193028,
+    "offsetX": -0.05361470566614705,
+    "inliers": 30,
+    "residual": 0.26850637793540955
+  },
+  {
+    "clip": "video-22",
+    "frame": 108,
+    "horizontalScale": 0.9818222540945684,
+    "offsetX": -0.04808432053487273,
+    "inliers": 29,
+    "residual": 0.2947971820831299
+  },
+  {
+    "clip": "video-22",
+    "frame": 109,
+    "horizontalScale": 0.9820131956332484,
+    "offsetX": -0.059610189936250016,
+    "inliers": 32,
+    "residual": 0.23822021484375
+  },
+  {
+    "clip": "video-22",
+    "frame": 110,
+    "horizontalScale": 0.9818332265279474,
+    "offsetX": -0.05737833006596728,
+    "inliers": 25,
+    "residual": 0.1958441138267517
+  },
+  {
+    "clip": "video-22",
+    "frame": 111,
+    "horizontalScale": 0.9819508243386225,
+    "offsetX": -0.0500731953751353,
+    "inliers": 30,
+    "residual": 0.23968861997127533
+  },
+  {
+    "clip": "video-22",
+    "frame": 112,
+    "horizontalScale": 0.9815634354723736,
+    "offsetX": -0.04328251931402326,
+    "inliers": 26,
+    "residual": 0.17968632280826569
+  },
+  {
+    "clip": "video-22",
+    "frame": 113,
+    "horizontalScale": 0.9818708618594124,
+    "offsetX": -0.058097021197827226,
+    "inliers": 30,
+    "residual": 0.21726176142692566
+  },
+  {
+    "clip": "video-22",
+    "frame": 114,
+    "horizontalScale": 0.9817362801384628,
+    "offsetX": -0.05803737777244751,
+    "inliers": 32,
+    "residual": 0.193323016166687
+  },
+  {
+    "clip": "video-22",
+    "frame": 115,
+    "horizontalScale": 0.9821446335678277,
+    "offsetX": -0.08061455179314568,
+    "inliers": 30,
+    "residual": 0.19344380497932434
+  },
+  {
+    "clip": "video-22",
+    "frame": 116,
+    "horizontalScale": 0.9817925272799088,
+    "offsetX": -0.05904523554965424,
+    "inliers": 34,
+    "residual": 0.285577654838562
+  },
+  {
+    "clip": "video-22",
+    "frame": 117,
+    "horizontalScale": 0.9969643981228831,
+    "offsetX": 0.025757604873298087,
+    "inliers": 33,
+    "residual": 0.302975058555603
+  },
+  {
+    "clip": "video-22",
+    "frame": 118,
+    "horizontalScale": 0.9994372352969052,
+    "offsetX": -0.00894262540446979,
+    "inliers": 32,
+    "residual": 0.31180882453918457
+  },
+  {
+    "clip": "video-22",
+    "frame": 119,
+    "horizontalScale": 0.9999431035484848,
+    "offsetX": -0.007760958109614573,
+    "inliers": 39,
+    "residual": 0.3414958119392395
+  },
+  {
+    "clip": "video-22",
+    "frame": 120,
+    "horizontalScale": 1.0,
+    "offsetX": 0.0,
+    "inliers": 40,
+    "residual": 0.3086862564086914
+  },
+  {
+    "clip": "video-24",
+    "frame": 0,
+    "horizontalScale": 1.0,
+    "offsetX": 0.0,
+    "inliers": 31,
+    "residual": 0.24216386675834656
+  },
+  {
+    "clip": "video-24",
+    "frame": 1,
+    "horizontalScale": 0.993892554290469,
+    "offsetX": 0.014931845333527049,
+    "inliers": 32,
+    "residual": 0.3021583557128906
+  },
+  {
+    "clip": "video-24",
+    "frame": 2,
+    "horizontalScale": 0.9862133773999406,
+    "offsetX": -0.056725236652506804,
+    "inliers": 31,
+    "residual": 0.29893049597740173
+  },
+  {
+    "clip": "video-24",
+    "frame": 3,
+    "horizontalScale": 0.9847828024855204,
+    "offsetX": -0.07588920070583823,
+    "inliers": 24,
+    "residual": 0.23948924243450165
+  },
+  {
+    "clip": "video-24",
+    "frame": 4,
+    "horizontalScale": 0.9818315697224219,
+    "offsetX": -0.06032976710746718,
+    "inliers": 26,
+    "residual": 0.29578498005867004
+  },
+  {
+    "clip": "video-24",
+    "frame": 5,
+    "horizontalScale": 0.9835521706426351,
+    "offsetX": -0.059775449892120344,
+    "inliers": 36,
+    "residual": 0.323285847902298
+  },
+  {
+    "clip": "video-24",
+    "frame": 6,
+    "horizontalScale": 0.9836573674668725,
+    "offsetX": -0.08755503040343993,
+    "inliers": 30,
+    "residual": 0.1983654797077179
+  },
+  {
+    "clip": "video-24",
+    "frame": 7,
+    "horizontalScale": 0.9856348579589236,
+    "offsetX": -0.05252097261115256,
+    "inliers": 37,
+    "residual": 0.31388649344444275
+  },
+  {
+    "clip": "video-24",
+    "frame": 8,
+    "horizontalScale": 0.9857366217707999,
+    "offsetX": -0.06891508525194501,
+    "inliers": 32,
+    "residual": 0.2712995111942291
+  },
+  {
+    "clip": "video-24",
+    "frame": 9,
+    "horizontalScale": 0.9829126071557746,
+    "offsetX": -0.08942893264975214,
+    "inliers": 38,
+    "residual": 0.27745217084884644
+  },
+  {
+    "clip": "video-24",
+    "frame": 10,
+    "horizontalScale": 0.984253900675964,
+    "offsetX": -0.0897958656744729,
+    "inliers": 38,
+    "residual": 0.2880566120147705
+  },
+  {
+    "clip": "video-24",
+    "frame": 11,
+    "horizontalScale": 0.9824635547900579,
+    "offsetX": -0.09161021061757028,
+    "inliers": 29,
+    "residual": 0.2599576711654663
+  },
+  {
+    "clip": "video-24",
+    "frame": 12,
+    "horizontalScale": 0.9821456616801992,
+    "offsetX": -0.09263727681968714,
+    "inliers": 25,
+    "residual": 0.22971080243587494
+  },
+  {
+    "clip": "video-24",
+    "frame": 13,
+    "horizontalScale": 0.9825177692138216,
+    "offsetX": -0.07502907105224083,
+    "inliers": 30,
+    "residual": 0.3406565487384796
+  },
+  {
+    "clip": "video-24",
+    "frame": 14,
+    "horizontalScale": 0.9825672311335301,
+    "offsetX": -0.062430479604499364,
+    "inliers": 28,
+    "residual": 0.26685550808906555
+  },
+  {
+    "clip": "video-24",
+    "frame": 15,
+    "horizontalScale": 0.9827441025179847,
+    "offsetX": -0.025239871133422628,
+    "inliers": 29,
+    "residual": 0.25091394782066345
+  },
+  {
+    "clip": "video-24",
+    "frame": 16,
+    "horizontalScale": 0.9821515604232388,
+    "offsetX": -0.04681638306743023,
+    "inliers": 36,
+    "residual": 0.2801176607608795
+  },
+  {
+    "clip": "video-24",
+    "frame": 17,
+    "horizontalScale": 0.9812330188265018,
+    "offsetX": -0.13244435670398536,
+    "inliers": 27,
+    "residual": 0.26185497641563416
+  },
+  {
+    "clip": "video-24",
+    "frame": 18,
+    "horizontalScale": 0.9817256657975066,
+    "offsetX": -0.08265563491023563,
+    "inliers": 30,
+    "residual": 0.27428486943244934
+  },
+  {
+    "clip": "video-24",
+    "frame": 19,
+    "horizontalScale": 0.9815754368048062,
+    "offsetX": -0.09573594390423483,
+    "inliers": 27,
+    "residual": 0.30306708812713623
+  },
+  {
+    "clip": "video-24",
+    "frame": 20,
+    "horizontalScale": 0.9813261488254694,
+    "offsetX": -0.11172766397523384,
+    "inliers": 25,
+    "residual": 0.3118312358856201
+  },
+  {
+    "clip": "video-24",
+    "frame": 21,
+    "horizontalScale": 0.9838890599148042,
+    "offsetX": -0.07460175944996687,
+    "inliers": 21,
+    "residual": 0.2972746789455414
+  },
+  {
+    "clip": "video-24",
+    "frame": 22,
+    "horizontalScale": 0.9841703265974971,
+    "offsetX": -0.07475635096312463,
+    "inliers": 25,
+    "residual": 0.28358185291290283
+  },
+  {
+    "clip": "video-24",
+    "frame": 23,
+    "horizontalScale": 0.9835011669895459,
+    "offsetX": -0.07763430911421669,
+    "inliers": 22,
+    "residual": 0.34173837304115295
+  },
+  {
+    "clip": "video-24",
+    "frame": 24,
+    "horizontalScale": 0.9829029723802712,
+    "offsetX": -0.1043878583074971,
+    "inliers": 23,
+    "residual": 0.33783674240112305
+  },
+  {
+    "clip": "video-24",
+    "frame": 25,
+    "horizontalScale": 0.985202670103513,
+    "offsetX": -0.03768114815306035,
+    "inliers": 20,
+    "residual": 0.30205675959587097
+  },
+  {
+    "clip": "video-24",
+    "frame": 26,
+    "horizontalScale": 0.9844076926684404,
+    "offsetX": -0.052578633666433186,
+    "inliers": 23,
+    "residual": 0.32218441367149353
+  },
+  {
+    "clip": "video-24",
+    "frame": 27,
+    "horizontalScale": 0.9842318111922425,
+    "offsetX": -0.03612678730353669,
+    "inliers": 22,
+    "residual": 0.3159523010253906
+  },
+  {
+    "clip": "video-24",
+    "frame": 28,
+    "horizontalScale": 0.9837702558431257,
+    "offsetX": -0.04780095519940742,
+    "inliers": 19,
+    "residual": 0.32587766647338867
+  },
+  {
+    "clip": "video-24",
+    "frame": 29,
+    "horizontalScale": 0.9839820252387451,
+    "offsetX": -0.061127109419347694,
+    "inliers": 19,
+    "residual": 0.31182974576950073
+  },
+  {
+    "clip": "video-24",
+    "frame": 30,
+    "horizontalScale": 0.9815749409223846,
+    "offsetX": -0.007148452705060653,
+    "inliers": 21,
+    "residual": 0.289305180311203
+  },
+  {
+    "clip": "video-24",
+    "frame": 31,
+    "horizontalScale": 0.9841524640212136,
+    "offsetX": -0.05132643571603438,
+    "inliers": 21,
+    "residual": 0.3818337619304657
+  },
+  {
+    "clip": "video-24",
+    "frame": 32,
+    "horizontalScale": 0.9830763847434816,
+    "offsetX": -0.026319823143958955,
+    "inliers": 19,
+    "residual": 0.3715972900390625
+  },
+  {
+    "clip": "video-24",
+    "frame": 33,
+    "horizontalScale": 0.9822667460902119,
+    "offsetX": -0.127522921281976,
+    "inliers": 24,
+    "residual": 0.29976844787597656
+  },
+  {
+    "clip": "video-24",
+    "frame": 34,
+    "horizontalScale": 0.9827473222569273,
+    "offsetX": 0.009840954634791916,
+    "inliers": 18,
+    "residual": 0.29817622900009155
+  },
+  {
+    "clip": "video-24",
+    "frame": 35,
+    "horizontalScale": 0.9831260048627597,
+    "offsetX": -0.003661334076695792,
+    "inliers": 22,
+    "residual": 0.30447664856910706
+  },
+  {
+    "clip": "video-24",
+    "frame": 36,
+    "horizontalScale": 0.983755446876401,
+    "offsetX": -0.00836669457666777,
+    "inliers": 19,
+    "residual": 0.27307382225990295
+  },
+  {
+    "clip": "video-24",
+    "frame": 37,
+    "horizontalScale": 0.9818509779896408,
+    "offsetX": 0.07910750478656757,
+    "inliers": 19,
+    "residual": 0.2865062654018402
+  },
+  {
+    "clip": "video-24",
+    "frame": 38,
+    "horizontalScale": 0.9831287039440094,
+    "offsetX": 0.007454573824513215,
+    "inliers": 20,
+    "residual": 0.29441380500793457
+  },
+  {
+    "clip": "video-24",
+    "frame": 39,
+    "horizontalScale": 0.9848392124957486,
+    "offsetX": -0.09567581154161454,
+    "inliers": 24,
+    "residual": 0.3119424283504486
+  },
+  {
+    "clip": "video-24",
+    "frame": 40,
+    "horizontalScale": 0.9824413219169866,
+    "offsetX": 0.042923752104056224,
+    "inliers": 26,
+    "residual": 0.27706849575042725
+  },
+  {
+    "clip": "video-24",
+    "frame": 41,
+    "horizontalScale": 0.9819371644324623,
+    "offsetX": -0.004974778969626745,
+    "inliers": 24,
+    "residual": 0.3009094297885895
+  },
+  {
+    "clip": "video-24",
+    "frame": 42,
+    "horizontalScale": 0.9812739657645513,
+    "offsetX": 0.010328737680845282,
+    "inliers": 24,
+    "residual": 0.27349409461021423
+  },
+  {
+    "clip": "video-24",
+    "frame": 43,
+    "horizontalScale": 0.9818807159458678,
+    "offsetX": -0.027888260130948556,
+    "inliers": 24,
+    "residual": 0.2399718016386032
+  },
+  {
+    "clip": "video-24",
+    "frame": 44,
+    "horizontalScale": 0.9818405843780588,
+    "offsetX": -0.0284695508371462,
+    "inliers": 28,
+    "residual": 0.2504997253417969
+  },
+  {
+    "clip": "video-24",
+    "frame": 45,
+    "horizontalScale": 0.9813448505068817,
+    "offsetX": -0.03081454471873604,
+    "inliers": 28,
+    "residual": 0.2747233211994171
+  },
+  {
+    "clip": "video-24",
+    "frame": 46,
+    "horizontalScale": 0.9817740046744411,
+    "offsetX": -0.04216070433070225,
+    "inliers": 30,
+    "residual": 0.27343034744262695
+  },
+  {
+    "clip": "video-24",
+    "frame": 47,
+    "horizontalScale": 0.9810761471898477,
+    "offsetX": -0.03672407848373672,
+    "inliers": 27,
+    "residual": 0.31923505663871765
+  },
+  {
+    "clip": "video-24",
+    "frame": 48,
+    "horizontalScale": 0.9809843024888539,
+    "offsetX": -0.021116919923492357,
+    "inliers": 31,
+    "residual": 0.3174705505371094
+  },
+  {
+    "clip": "video-24",
+    "frame": 49,
+    "horizontalScale": 0.9808732609478279,
+    "offsetX": -0.012889644985987197,
+    "inliers": 28,
+    "residual": 0.2754563093185425
+  },
+  {
+    "clip": "video-24",
+    "frame": 50,
+    "horizontalScale": 0.9808353660985685,
+    "offsetX": -0.056530070044016674,
+    "inliers": 25,
+    "residual": 0.28049036860466003
+  },
+  {
+    "clip": "video-24",
+    "frame": 51,
+    "horizontalScale": 0.9809294435646826,
+    "offsetX": -0.035024345044611306,
+    "inliers": 25,
+    "residual": 0.23278887569904327
+  },
+  {
+    "clip": "video-24",
+    "frame": 52,
+    "horizontalScale": 0.9806258969120877,
+    "offsetX": -0.016541013868462587,
+    "inliers": 27,
+    "residual": 0.23863302171230316
+  },
+  {
+    "clip": "video-24",
+    "frame": 53,
+    "horizontalScale": 0.9811914271798496,
+    "offsetX": -0.04291135825937479,
+    "inliers": 27,
+    "residual": 0.18190963566303253
+  },
+  {
+    "clip": "video-24",
+    "frame": 54,
+    "horizontalScale": 0.9803277859542386,
+    "offsetX": -0.037684217738746674,
+    "inliers": 27,
+    "residual": 0.2016422301530838
+  },
+  {
+    "clip": "video-24",
+    "frame": 55,
+    "horizontalScale": 0.9805976355889693,
+    "offsetX": -0.05211767416063441,
+    "inliers": 32,
+    "residual": 0.2018943428993225
+  },
+  {
+    "clip": "video-24",
+    "frame": 56,
+    "horizontalScale": 0.9806975001340986,
+    "offsetX": -0.042223681544439715,
+    "inliers": 29,
+    "residual": 0.21516387164592743
+  },
+  {
+    "clip": "video-24",
+    "frame": 57,
+    "horizontalScale": 0.9801059294769745,
+    "offsetX": -0.06665762378582815,
+    "inliers": 30,
+    "residual": 0.1955830305814743
+  },
+  {
+    "clip": "video-24",
+    "frame": 58,
+    "horizontalScale": 0.9801942288493057,
+    "offsetX": -0.051424012480914987,
+    "inliers": 28,
+    "residual": 0.20826612412929535
+  },
+  {
+    "clip": "video-24",
+    "frame": 59,
+    "horizontalScale": 0.9799432548854025,
+    "offsetX": -0.06928807136049295,
+    "inliers": 26,
+    "residual": 0.22515927255153656
+  },
+  {
+    "clip": "video-24",
+    "frame": 60,
+    "horizontalScale": 0.97968796054976,
+    "offsetX": -0.04995441820681151,
+    "inliers": 29,
+    "residual": 0.22546754777431488
+  },
+  {
+    "clip": "video-24",
+    "frame": 61,
+    "horizontalScale": 0.9770193091554272,
+    "offsetX": -0.15605759312039544,
+    "inliers": 29,
+    "residual": 0.3082510828971863
+  },
+  {
+    "clip": "video-24",
+    "frame": 62,
+    "horizontalScale": 0.97949514504086,
+    "offsetX": -0.06962203037262242,
+    "inliers": 29,
+    "residual": 0.20157650113105774
+  },
+  {
+    "clip": "video-24",
+    "frame": 63,
+    "horizontalScale": 0.9773522417886689,
+    "offsetX": -0.15540575699127712,
+    "inliers": 30,
+    "residual": 0.3666624426841736
+  },
+  {
+    "clip": "video-24",
+    "frame": 64,
+    "horizontalScale": 0.9796369229028663,
+    "offsetX": -0.08192110845433821,
+    "inliers": 33,
+    "residual": 0.22522711753845215
+  },
+  {
+    "clip": "video-24",
+    "frame": 65,
+    "horizontalScale": 0.9787163951025443,
+    "offsetX": -0.10300662004647862,
+    "inliers": 25,
+    "residual": 0.29968419671058655
+  },
+  {
+    "clip": "video-24",
+    "frame": 66,
+    "horizontalScale": 0.9785885507591054,
+    "offsetX": -0.13301643484695796,
+    "inliers": 27,
+    "residual": 0.2841464579105377
+  },
+  {
+    "clip": "video-24",
+    "frame": 67,
+    "horizontalScale": 0.9796078261026906,
+    "offsetX": -0.17182965019349591,
+    "inliers": 32,
+    "residual": 0.30114492774009705
+  },
+  {
+    "clip": "video-24",
+    "frame": 68,
+    "horizontalScale": 0.9795104777270887,
+    "offsetX": -0.17211604838069075,
+    "inliers": 30,
+    "residual": 0.31264951825141907
+  },
+  {
+    "clip": "video-24",
+    "frame": 69,
+    "horizontalScale": 0.9788756733141721,
+    "offsetX": -0.09803924297793717,
+    "inliers": 25,
+    "residual": 0.2998867928981781
+  },
+  {
+    "clip": "video-24",
+    "frame": 70,
+    "horizontalScale": 0.9791010676567806,
+    "offsetX": -0.10081758282867209,
+    "inliers": 31,
+    "residual": 0.24925969541072845
+  },
+  {
+    "clip": "video-24",
+    "frame": 71,
+    "horizontalScale": 0.9795317850595399,
+    "offsetX": -0.11172154358130118,
+    "inliers": 32,
+    "residual": 0.2650480270385742
+  },
+  {
+    "clip": "video-24",
+    "frame": 72,
+    "horizontalScale": 0.9795129893082873,
+    "offsetX": -0.11381704328881606,
+    "inliers": 32,
+    "residual": 0.2583284378051758
+  },
+  {
+    "clip": "video-24",
+    "frame": 73,
+    "horizontalScale": 0.9794060904685219,
+    "offsetX": -0.07947130591630419,
+    "inliers": 24,
+    "residual": 0.23900730907917023
+  },
+  {
+    "clip": "video-24",
+    "frame": 74,
+    "horizontalScale": 0.9798387648656988,
+    "offsetX": -0.10603397721763845,
+    "inliers": 28,
+    "residual": 0.23989923298358917
+  },
+  {
+    "clip": "video-24",
+    "frame": 75,
+    "horizontalScale": 0.9789408875363785,
+    "offsetX": -0.06721845370139094,
+    "inliers": 34,
+    "residual": 0.282650887966156
+  },
+  {
+    "clip": "video-24",
+    "frame": 76,
+    "horizontalScale": 0.979091918438904,
+    "offsetX": -0.054657194930065045,
+    "inliers": 31,
+    "residual": 0.2699304521083832
+  },
+  {
+    "clip": "video-24",
+    "frame": 77,
+    "horizontalScale": 0.9792616110919948,
+    "offsetX": -0.06536695358303825,
+    "inliers": 33,
+    "residual": 0.3243556022644043
+  },
+  {
+    "clip": "video-24",
+    "frame": 78,
+    "horizontalScale": 0.9800738823454305,
+    "offsetX": -0.10232157916832128,
+    "inliers": 29,
+    "residual": 0.20777209103107452
+  },
+  {
+    "clip": "video-24",
+    "frame": 79,
+    "horizontalScale": 0.9794582393596134,
+    "offsetX": -0.057404963423333184,
+    "inliers": 31,
+    "residual": 0.27236026525497437
+  },
+  {
+    "clip": "video-24",
+    "frame": 80,
+    "horizontalScale": 0.9798112247177557,
+    "offsetX": -0.09453064210148968,
+    "inliers": 28,
+    "residual": 0.31587791442871094
+  },
+  {
+    "clip": "video-24",
+    "frame": 81,
+    "horizontalScale": 0.9793373099591733,
+    "offsetX": -0.06485196621558682,
+    "inliers": 31,
+    "residual": 0.27646487951278687
+  },
+  {
+    "clip": "video-24",
+    "frame": 82,
+    "horizontalScale": 0.9793034934591488,
+    "offsetX": -0.07218025697590187,
+    "inliers": 32,
+    "residual": 0.3053772449493408
+  },
+  {
+    "clip": "video-24",
+    "frame": 83,
+    "horizontalScale": 0.9795007615149892,
+    "offsetX": -0.04451376866685209,
+    "inliers": 27,
+    "residual": 0.2605573832988739
+  },
+  {
+    "clip": "video-24",
+    "frame": 84,
+    "horizontalScale": 0.9795140579744627,
+    "offsetX": -0.059023715327594754,
+    "inliers": 24,
+    "residual": 0.25744184851646423
+  },
+  {
+    "clip": "video-24",
+    "frame": 85,
+    "horizontalScale": 0.9801263761907894,
+    "offsetX": -0.08717202387099368,
+    "inliers": 26,
+    "residual": 0.27121323347091675
+  },
+  {
+    "clip": "video-24",
+    "frame": 86,
+    "horizontalScale": 0.9802373268860348,
+    "offsetX": -0.0910021611393116,
+    "inliers": 30,
+    "residual": 0.287039190530777
+  },
+  {
+    "clip": "video-24",
+    "frame": 87,
+    "horizontalScale": 0.9798443155859883,
+    "offsetX": -0.058513953211133576,
+    "inliers": 31,
+    "residual": 0.3081832528114319
+  },
+  {
+    "clip": "video-24",
+    "frame": 88,
+    "horizontalScale": 0.9808055626037473,
+    "offsetX": -0.11295640140662518,
+    "inliers": 26,
+    "residual": 0.29276391863822937
+  },
+  {
+    "clip": "video-24",
+    "frame": 89,
+    "horizontalScale": 0.9800657651153453,
+    "offsetX": -0.06893388379889974,
+    "inliers": 30,
+    "residual": 0.2990056276321411
+  },
+  {
+    "clip": "video-24",
+    "frame": 90,
+    "horizontalScale": 0.9800337687235139,
+    "offsetX": -0.06996160784449287,
+    "inliers": 29,
+    "residual": 0.294542521238327
+  },
+  {
+    "clip": "video-24",
+    "frame": 91,
+    "horizontalScale": 0.980853099706785,
+    "offsetX": -0.11706006614632064,
+    "inliers": 29,
+    "residual": 0.2751930356025696
+  },
+  {
+    "clip": "video-24",
+    "frame": 92,
+    "horizontalScale": 0.9801955842613227,
+    "offsetX": -0.06691875222896393,
+    "inliers": 31,
+    "residual": 0.2992526590824127
+  },
+  {
+    "clip": "video-24",
+    "frame": 93,
+    "horizontalScale": 0.9803683225924933,
+    "offsetX": -0.08843624379819497,
+    "inliers": 28,
+    "residual": 0.26675087213516235
+  },
+  {
+    "clip": "video-24",
+    "frame": 94,
+    "horizontalScale": 0.9803073243149342,
+    "offsetX": -0.07909280783497394,
+    "inliers": 30,
+    "residual": 0.27095693349838257
+  },
+  {
+    "clip": "video-24",
+    "frame": 95,
+    "horizontalScale": 0.9803016848153812,
+    "offsetX": -0.09245288363829574,
+    "inliers": 23,
+    "residual": 0.25897881388664246
+  },
+  {
+    "clip": "video-24",
+    "frame": 96,
+    "horizontalScale": 0.9803785819328686,
+    "offsetX": -0.08876718573759122,
+    "inliers": 24,
+    "residual": 0.24446487426757812
+  },
+  {
+    "clip": "video-24",
+    "frame": 97,
+    "horizontalScale": 0.9806700855573928,
+    "offsetX": -0.08989339139694026,
+    "inliers": 27,
+    "residual": 0.2572055459022522
+  },
+  {
+    "clip": "video-24",
+    "frame": 98,
+    "horizontalScale": 0.9807007358089228,
+    "offsetX": -0.10256730979460035,
+    "inliers": 27,
+    "residual": 0.2776879072189331
+  },
+  {
+    "clip": "video-24",
+    "frame": 99,
+    "horizontalScale": 0.9803242708645944,
+    "offsetX": -0.08609888833775918,
+    "inliers": 29,
+    "residual": 0.26430222392082214
+  },
+  {
+    "clip": "video-24",
+    "frame": 100,
+    "horizontalScale": 0.9803228214186199,
+    "offsetX": -0.07427718689662875,
+    "inliers": 30,
+    "residual": 0.266525536775589
+  },
+  {
+    "clip": "video-24",
+    "frame": 101,
+    "horizontalScale": 0.980636280179716,
+    "offsetX": -0.07322803519512362,
+    "inliers": 22,
+    "residual": 0.2471015304327011
+  },
+  {
+    "clip": "video-24",
+    "frame": 102,
+    "horizontalScale": 0.980692819269929,
+    "offsetX": -0.07516504666868627,
+    "inliers": 27,
+    "residual": 0.2524925470352173
+  },
+  {
+    "clip": "video-24",
+    "frame": 103,
+    "horizontalScale": 0.9805886340819432,
+    "offsetX": -0.07774881668854558,
+    "inliers": 25,
+    "residual": 0.22320128977298737
+  },
+  {
+    "clip": "video-24",
+    "frame": 104,
+    "horizontalScale": 0.9807576558778741,
+    "offsetX": -0.08916445821629343,
+    "inliers": 29,
+    "residual": 0.2808164358139038
+  },
+  {
+    "clip": "video-24",
+    "frame": 105,
+    "horizontalScale": 0.9806761110291928,
+    "offsetX": -0.08629060580314521,
+    "inliers": 32,
+    "residual": 0.2747666835784912
+  },
+  {
+    "clip": "video-24",
+    "frame": 106,
+    "horizontalScale": 0.9806135829720416,
+    "offsetX": -0.08011958630663997,
+    "inliers": 31,
+    "residual": 0.22884418070316315
+  },
+  {
+    "clip": "video-24",
+    "frame": 107,
+    "horizontalScale": 0.9806235955095286,
+    "offsetX": -0.0947130977898084,
+    "inliers": 26,
+    "residual": 0.34966719150543213
+  },
+  {
+    "clip": "video-24",
+    "frame": 108,
+    "horizontalScale": 0.9806355721515798,
+    "offsetX": -0.08756541716144993,
+    "inliers": 26,
+    "residual": 0.2845432460308075
+  },
+  {
+    "clip": "video-24",
+    "frame": 109,
+    "horizontalScale": 0.9806084824143205,
+    "offsetX": -0.08209822381869394,
+    "inliers": 31,
+    "residual": 0.2606467008590698
+  },
+  {
+    "clip": "video-24",
+    "frame": 110,
+    "horizontalScale": 0.9806937853105194,
+    "offsetX": -0.0841393304437267,
+    "inliers": 25,
+    "residual": 0.2511444091796875
+  },
+  {
+    "clip": "video-24",
+    "frame": 111,
+    "horizontalScale": 0.9806864108651925,
+    "offsetX": -0.08347216239300471,
+    "inliers": 27,
+    "residual": 0.25791478157043457
+  },
+  {
+    "clip": "video-24",
+    "frame": 112,
+    "horizontalScale": 0.980535781107062,
+    "offsetX": -0.07495701669302568,
+    "inliers": 30,
+    "residual": 0.20210887491703033
+  },
+  {
+    "clip": "video-24",
+    "frame": 113,
+    "horizontalScale": 0.9808130137271323,
+    "offsetX": -0.09388792423252236,
+    "inliers": 27,
+    "residual": 0.24586515128612518
+  },
+  {
+    "clip": "video-24",
+    "frame": 114,
+    "horizontalScale": 0.9807825440279959,
+    "offsetX": -0.09211465565370835,
+    "inliers": 23,
+    "residual": 0.23760323226451874
+  },
+  {
+    "clip": "video-24",
+    "frame": 115,
+    "horizontalScale": 0.9809588946249147,
+    "offsetX": -0.1067757166703196,
+    "inliers": 24,
+    "residual": 0.25598081946372986
+  },
+  {
+    "clip": "video-24",
+    "frame": 116,
+    "horizontalScale": 0.9804858421528437,
+    "offsetX": -0.08324021922551449,
+    "inliers": 23,
+    "residual": 0.2541152238845825
+  },
+  {
+    "clip": "video-24",
+    "frame": 117,
+    "horizontalScale": 0.996631402646039,
+    "offsetX": -0.03112056524230712,
+    "inliers": 35,
+    "residual": 0.24322335422039032
+  },
+  {
+    "clip": "video-24",
+    "frame": 118,
+    "horizontalScale": 0.9993436090149092,
+    "offsetX": -0.016378428633066405,
+    "inliers": 37,
+    "residual": 0.23482492566108704
+  },
+  {
+    "clip": "video-24",
+    "frame": 119,
+    "horizontalScale": 0.9997245720602833,
+    "offsetX": -0.01032570010506456,
+    "inliers": 34,
+    "residual": 0.2280605584383011
+  },
+  {
+    "clip": "video-24",
+    "frame": 120,
+    "horizontalScale": 1.0,
+    "offsetX": 0.0,
+    "inliers": 34,
+    "residual": 0.24296458065509796
+  }
+]
