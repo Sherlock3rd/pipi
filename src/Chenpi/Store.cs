@@ -31,6 +31,7 @@ public sealed class Store
                     if(!double.IsFinite(clock.NextDue)||!double.IsFinite(clock.LastRequested)||clock.UnavailableSince is double since&&!double.IsFinite(since))throw new Exception("无效照料时钟");
                 foreach(var p in new[]{s.NestPosition,s.FoodPosition,s.WaterPosition,s.LitterPosition})if(p is Spot at&&(!double.IsFinite(at.X)||!double.IsFinite(at.Y)))throw new Exception("无效物件位置");
                 s.Food=Math.Clamp(s.Food,0,100);s.Water=Math.Clamp(s.Water,0,100);s.Hunger=Math.Clamp(s.Hunger,0,100);s.Thirst=Math.Clamp(s.Thirst,0,100);s.Litter=Math.Clamp(s.Litter,0,100);s.Energy=Math.Clamp(s.Energy,0,100);s.Bladder=Math.Clamp(s.Bladder,0,100);s.Scale=Math.Clamp(s.Scale,.7,1.5);
+                PetEngine.NormalizeLitterCover(s);
                 if(path.EndsWith(".bak"))Warning="主存档异常，已从最近备份恢复。";
                 return s;
             }

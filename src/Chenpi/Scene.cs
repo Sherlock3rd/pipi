@@ -123,6 +123,8 @@ internal sealed class Scene : FrameworkElement
         Engine.VisualActionDuration=playback.ActionDuration;
         Engine.VisualCareReady=playback.PrepareCare;
         Engine.VisualStandReady=playback.PrepareStand;
+        Engine.VisualTravel=playback.TravelTo;
+        Engine.VisualBurialWindow=playback.BurialWindow;
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
@@ -221,7 +223,7 @@ internal sealed class Scene : FrameworkElement
     private Rect NestRect=>new(Engine.Nest.X-InteractionGeometry.NestHalfWidth,Engine.Nest.Y-InteractionGeometry.NestHeight,InteractionGeometry.NestWidth,InteractionGeometry.NestHeight);
     private Rect LitterRect=>new(Engine.LitterSpot.X-InteractionGeometry.LitterHalfWidth,Engine.LitterSpot.Y-InteractionGeometry.LitterHeight,InteractionGeometry.LitterHalfWidth*2,InteractionGeometry.LitterHeight);
     private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
-        ?new(p.X-30,p.Y-70,60,70):new(p.X-w/2,p.Y-62,w,62);
+        ?new(p.X-36,p.Y-70*InteractionGeometry.BowlHeightScale,72,70*InteractionGeometry.BowlHeightScale):new(p.X-w/2,p.Y-62,w,62);
     private Rect SettingsRect=>new(Engine.Nest.X+InteractionGeometry.NestHalfWidth-28,Engine.Nest.Y-InteractionGeometry.NestHeight-4,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
@@ -290,6 +292,7 @@ internal sealed class Scene : FrameworkElement
                 DrawBowl(dc,new Spot(x,250),n*20,true,0);
                 DrawLitterLevel(dc,new Spot(x,360),n*20);
             }
+            for(int n=0;n<3;n++)DrawLitterLevel(dc,new Spot(170+n*310,480),20,new[]{n/2d,0,0,0,0});
             dc.Pop();return;
         }
         if(PreviewRightWalk)
@@ -372,10 +375,11 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawBowl(DrawingContext dc,Spot p,double fill,bool water,double time)
     {
+        dc.PushTransform(new ScaleTransform(1,InteractionGeometry.BowlHeightScale,p.X,p.Y));
         // Align the visible base (excluding source-image transparent padding).
         p=new Spot(p.X,p.Y-(water?19:22));
         dc.PushTransform(new ScaleTransform(BowlScale,BowlScale,p.X,p.Y));
-        DrawBowlFullSize(dc,p,fill,water,time);dc.Pop();
+        DrawBowlFullSize(dc,p,fill,water,time);dc.Pop();dc.Pop();
     }
     private void DrawCareBowl(DrawingContext dc,Spot p,double fill,bool water,bool front)
     {
@@ -386,13 +390,14 @@ internal sealed class Scene : FrameworkElement
     private static System.Windows.Media.Geometry BowlForeground(Spot p,bool water)
     {
         double side=water?25:27,edge=water?43:44,center=water?31:27;
-        return System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-40},{p.Y-80} L {p.X-side},{p.Y-edge} Q {p.X},{p.Y-(2*center-edge)} {p.X+side},{p.Y-edge} L {p.X+40},{p.Y-80} L {p.X+40},{p.Y+2} L {p.X-40},{p.Y+2} Z"));
+        var shape=System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-40},{p.Y-80} L {p.X-side},{p.Y-edge} Q {p.X},{p.Y-(2*center-edge)} {p.X+side},{p.Y-edge} L {p.X+40},{p.Y-80} L {p.X+40},{p.Y+2} L {p.X-40},{p.Y+2} Z")).Clone();
+        shape.Transform=new ScaleTransform(1,InteractionGeometry.BowlHeightScale,p.X,p.Y);return shape;
     }
     private bool FrontBowlContains(Point at,bool water)
     {
         var bitmap=water?waterCup:foodBowl;if(bitmap is null)return false;
         var p=water?Engine.WaterSpot:Engine.FoodSpot;
-        var rect=new Rect(p.X-36,p.Y-(water?61:65.8),72,72);
+        var rect=new Rect(p.X-36,InteractionGeometry.BowlY(p.Y,p.Y-(water?61:65.8)),72,72*InteractionGeometry.BowlHeightScale);
         if(!rect.Contains(at))return false;
         bool inUse=Engine.Action==(water?"drink":"eat");
         if(inUse&&CatRect.Contains(at)&&!BowlForeground(p,water).FillContains(at))return false;
@@ -460,14 +465,14 @@ internal sealed class Scene : FrameworkElement
     }
     private void DrawLitter(DrawingContext dc)
     {
-        DrawLitterLevel(dc,Engine.LitterSpot,Engine.State.Litter);
+        DrawLitterLevel(dc,Engine.LitterSpot,Engine.State.Litter,Engine.State.LitterCover);
     }
-    private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity)
+    private static void DrawLitterLevel(DrawingContext dc,Spot p,double quantity,double[]? covers=null)
     {
         dc.PushTransform(new ScaleTransform(InteractionGeometry.LitterScaleX,InteractionGeometry.LitterScale,p.X,p.Y));
-        DrawLitterUnscaled(dc,p,quantity);dc.Pop();
+        DrawLitterUnscaled(dc,p,quantity,covers);dc.Pop();
     }
-    private static void DrawLitterUnscaled(DrawingContext dc,Spot p,double quantity)
+    private static void DrawLitterUnscaled(DrawingContext dc,Spot p,double quantity,double[]? covers)
     {
         p=new Spot(p.X,p.Y-28);
         if(litterSprite is not null)
@@ -477,8 +482,7 @@ internal sealed class Scene : FrameworkElement
             {
                 var clump=InteractionGeometry.LitterClump(i);
                 double x=p.X+clump.X/InteractionGeometry.LitterScaleX,y=p.Y+28+clump.Y/InteractionGeometry.LitterScale;
-                dc.DrawEllipse(Brush("#80705A"),null,new Point(x,y),6,3.5);
-                dc.DrawEllipse(Brush("#9C876C"),null,new Point(x-1,y-.8),4,2);
+                DrawClump(dc,x,y,covers is not null&&i<covers.Length?covers[i]:0);
             }
             return;
         }
@@ -489,8 +493,19 @@ internal sealed class Scene : FrameworkElement
         for(int i=0;i<PetEngine.SupplyLayers(quantity);i++)
         {
             var clump=InteractionGeometry.LitterClump(i);
-            dc.DrawEllipse(Brush("#8D7560"),null,new Point(p.X+clump.X/InteractionGeometry.LitterScaleX,p.Y+28+clump.Y/InteractionGeometry.LitterScale),6,3.5);
+            DrawClump(dc,p.X+clump.X/InteractionGeometry.LitterScaleX,p.Y+28+clump.Y/InteractionGeometry.LitterScale,covers is not null&&i<covers.Length?covers[i]:0);
         }
+    }
+    private static void DrawClump(DrawingContext dc,double x,double y,double cover)
+    {
+        dc.DrawEllipse(Brush("#65503C"),null,new Point(x,y),6,3.5);
+        dc.DrawEllipse(Brush("#8C7156"),null,new Point(x-1,y-.8),4,2);
+        if(cover<=0)return;
+        // A growing opaque sand mound leaves the unburied part visible.
+        dc.PushClip(new RectangleGeometry(new Rect(x-8,y-6,16*Math.Clamp(cover,0,1),12)));
+        dc.DrawEllipse(Brush("#C5BBA4"),new Pen(Brush("#A89B80"),.4),new Point(x,y-.4),7.5,4.5);
+        for(int j=0;j<12;j++)dc.DrawEllipse(Brush(j%2==0?"#DDD3BD":"#AFA287"),null,new Point(x-5+(j*7%11),y-2+(j*3%5)),.65,.45);
+        dc.Pop();
     }
     private void DrawVideoFrame(DrawingContext dc,BitmapSource image,SpriteClip definition)
     {

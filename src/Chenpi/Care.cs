@@ -99,7 +99,7 @@ public sealed partial class PetEngine
         if(!State.Guiding)
         {
             double distance=new Spot(State.X,State.Y).Distance(RequestSpot);
-            if(distance>2)
+            if(distance>2||!MovementComplete)
             {
                 if(Action!="request-walk")SetAction("request-walk",double.MaxValue,"前往请求位置");
                 FacingLeft=RequestSpot.X<State.X;MoveTowards(RequestSpot,WalkSpeed*dt);return true;
@@ -115,7 +115,7 @@ public sealed partial class PetEngine
         }
         var goal=GuideDestination(kind);
         double remaining=new Spot(State.X,State.Y).Distance(goal);
-        if(remaining<=2)
+        if(remaining<=2&&MovementComplete)
         {
             State.X=goal.X;State.Y=goal.Y;
             if(Action!="guide-"+kind)

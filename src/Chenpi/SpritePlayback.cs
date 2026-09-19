@@ -21,7 +21,7 @@ public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,
 public readonly record struct SpriteFrame(string Clip,int Index,SpriteClip Definition);
 
 // Visual transitions never delay gameplay, input, care events or waking the cat.
-public sealed class SpritePlayback
+public sealed partial class SpritePlayback
 {
     private readonly Dictionary<string,SpriteClip> clips=new(StringComparer.Ordinal);
     private readonly Queue<(string Id,bool Reverse)> pending=new();
@@ -87,7 +87,7 @@ public sealed class SpritePlayback
     }
     public static double PlaybackSpeed(JsonElement value,string key="playbackRate")=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
-    public void Reset(){group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
+    public void Reset(){travel=null;group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
         "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
@@ -107,6 +107,8 @@ public sealed class SpritePlayback
         if(!careGraph||action is not ("eat" or "drink"))return null;
         return(clips["video-22"].Duration,clips[action=="eat"?"video-23":"video-25"].Duration);
     }
+    public (double Start,double Duration)? BurialWindow()=>careGraph?
+        (clips["video-29"].ForAction("bury").Duration,clips["video-30"].Duration):null;
     private SpriteFrame? SampleCare(string action,double now,bool left)
     {
         var sequence=CareSequence(action,left);
@@ -171,6 +173,11 @@ public sealed class SpritePlayback
     private SpriteFrame? SampleCore(string action,double now,bool facingLeft=false)
     {
         if(!double.IsFinite(now)||now<0)return null;
+        if(travel is not null)
+        {
+            if(action==travel.Action)return TravelFrame(now).Frame;
+            CancelTravel(now);
+        }
         if(careGraph&&SampleCare(action,now,facingLeft) is SpriteFrame care)return care;
         if(videoGraph)return SampleVideo(action,now,facingLeft);
         string next=action switch {
@@ -260,7 +267,7 @@ public sealed class SpritePlayback
     public bool PrepareCare(double now)
     {
         if(!careGraph)return true;
-        SampleVideo("care-ready",now,false);
+        Sample("care-ready",now,false);
         return pose=="SR"&&destination=="SR"&&current.Length==0;
     }
     public bool PrepareStand(double now,bool left)
@@ -277,14 +284,18 @@ public sealed class SpritePlayback
         var frame=Sample(action,now,left);
         if(frame is not SpriteFrame f)return null;
         double t=Math.Clamp((now-started)/f.Definition.Duration,0,1);
+        return FrameVelocity(f.Clip,t);
+    }
+    private double FrameVelocity(string id,double t)
+    {
         static double Ease(double x){x=Math.Clamp(x,0,1);return x*x*(3-2*x);}
-        double velocity=f.Clip switch {
+        double velocity=id switch {
             "video-right"=>36,"video-14"=>-38,
             "video-06"=>12*Ease((t-.18)/.55),"video-08"=>-12*Ease((t-.18)/.55),
             "video-10"=>12+24*Ease(t/.5),"video-12"=>-12-26*Ease(t/.5),
             "video-11"=>36*(1-Ease(t/.85)),"video-13"=>-38*(1-Ease(t/.85)),
             "video-15"=>5*(1-2*Ease(t)),"video-16"=>-5*(1-2*Ease(t)),
             _=>0};
-        return velocity*clips[f.Clip].Width/180*clips[f.Clip].PlaybackRate;
+        return velocity*clips[id].Width/180*clips[id].PlaybackRate;
     }
 }

@@ -626,7 +626,7 @@ using(var guideDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
  {
   pb.Reset();var cat=new PetEngine(new PetState{X=1200,Food=100,Water=0,Litter=0,NestPosition=new(2237,1242),FoodPosition=new(1989,1242),WaterPosition=new(2064,1242),LitterPosition=new(412,1242)},5);
   cat.Layout(2400,1290);cat.State.X=cat.RequestSpot.X;cat.AdvanceNeeds(301);cat.Update(.02,12);
-  cat.VisualActionDuration=pb.ActionDuration;cat.VisualVelocity=pb.HorizontalVelocity;cat.VisualStandReady=pb.PrepareStand;cat.VisualCareReady=pb.PrepareCare;
+  cat.VisualActionDuration=pb.ActionDuration;cat.VisualVelocity=pb.HorizontalVelocity;cat.VisualStandReady=pb.PrepareStand;cat.VisualCareReady=pb.PrepareCare;cat.VisualTravel=pb.TravelTo;
   Spot pointer=new(cat.State.X-30,cat.State.Y-65);string previous=cat.Action;double lookStart=0,lastX=cat.State.X;int waits=0;bool faces=true,still=true,whole=true,monotone=true;var route=new List<string>();
   for(int tick=0;tick<8000;tick++)
   {
@@ -651,4 +651,76 @@ using(var guideDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
 var rubbing=new PetEngine(new PetState{X=500,Y=400},5);rubbing.ObservePointer(5.1,true,new(510,330));
 for(int i=0;i<35;i++){rubbing.ObservePointer(.1,true,new(500+(i%2==0?1:-1),330));rubbing.Update(.1,12);}
 Check(rubbing.State.X==500&&rubbing.Action=="rub","ordinary hover rubbing stays put even when the pointer crosses the cat center");
+
+using(var travelDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var animations=travelDoc.RootElement.GetProperty("animations");
+ SpritePlayback Player(){var playback=new SpritePlayback();playback.Load(travelDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);return playback;}
+ foreach(double delta in new[]{1d,8,35,95,500,-1,-8,-35,-95,-500})
+ {
+  var playback=Player();double x=800,end=x+delta,start=x,doneAt=0;bool bounded=true;var seen=new Dictionary<string,(double First,double Last,int Max)>();
+  for(double at=0;at<90;at+=.01)
+  {
+   var move=playback.TravelTo("walk",x,end,at,delta<0)!.Value;x=move.X;
+   var frame=playback.Sample("walk",at,delta<0)!.Value;
+   bounded&=x>=Math.Min(start,end)-.001&&x<=Math.Max(start,end)+.001;
+   if(!seen.TryGetValue(frame.Clip,out var span))span=(at,at,0);
+   seen[frame.Clip]=(span.First,at,Math.Max(span.Max,frame.Index));
+   if(move.Complete){doneAt=at;break;}
+  }
+  string begin=delta<0?"video-08":"video-06",step=delta<0?"video-12":"video-10",stop=delta<0?"video-13":"video-11";
+  Check(doneAt>0&&bounded&&Math.Abs(x-end)<.001,$"{delta}-unit leg reaches exactly its target without crossing it");
+  Check(new[]{begin,step,stop}.All(id=>seen.TryGetValue(id,out var span)&&span.Max>=animations.GetProperty(id).GetArrayLength()-2),$"{delta}-unit leg retains full stand/start/stop footage");
+ }
+
+ foreach(double distance in new[]{0d,1,8,35,-1,-8,-35})
+ {
+  var player=Player();var approachCat=new PetEngine(new PetState{X=600,Food=80},5);approachCat.Layout(1800,800);approachCat.MoveObject("food",new(694+distance,approachCat.GroundY));
+  approachCat.VisualTravel=player.TravelTo;approachCat.VisualCareReady=player.PrepareCare;approachCat.VisualActionDuration=player.ActionDuration;approachCat.VisualConsumptionWindow=player.ConsumptionWindow;
+  approachCat.Demo("eat");double goal=approachCat.CareDestination(approachCat.FoodSpot,"eat").X;bool eating=false,earlyBites=false,endpoint=false;
+  for(int tick=0;tick<9000;tick++)
+  {
+   approachCat.Update(.01,12);var frame=player.Sample(approachCat.AligningForCare?"care-ready":approachCat.Action,approachCat.Now,approachCat.FacingLeft)!.Value;
+   if(approachCat.Action=="eat"){eating=true;endpoint=Math.Abs(approachCat.State.X-goal)<.001;if(approachCat.ActionTime<5)earlyBites|=approachCat.State.Food!=80;if(approachCat.ActionTime>6)break;}
+  }
+  Check(eating&&endpoint&&!earlyBites,$"native {distance}-unit food approach aligns before care and keeps its five-second preparation");
+ }
+ var changing=Player();double movingX=800;
+ for(double at=0;at<.8;at+=.01)movingX=changing.TravelTo("walk",movingX,805,at,false)!.Value.X;
+ double previous=movingX;var changed=changing.TravelTo("walk",movingX,760,.8,true)!.Value;
+ Check(Math.Abs(changed.X-previous)<.01,"retargeting a short leg preserves the current position");
+ bool changedDirectionSafely=true,sawTurn=false,sawLeftStep=false;
+ for(double at=.81;at<12;at+=.01)
+ {
+  var move=changing.TravelTo("walk",movingX,760,at,true)!.Value;movingX=move.X;
+  var frame=changing.Sample("walk",at,true)!.Value;
+  if(frame.Clip is "video-06" or "video-15")changedDirectionSafely&=Math.Abs(movingX-previous)<.001;
+  sawTurn|=frame.Clip=="video-15";sawLeftStep|=frame.Clip=="video-12";
+ }
+ Check(changedDirectionSafely&&sawTurn&&sawLeftStep,"retargeting behind the cat completes its current pose and real turn before opposite displacement");
+ Check(changing.Sample("drag",12.01)!.Value.Clip=="video-32","pickup immediately interrupts a planned movement leg");
+ var burialPlayer=Player();var cat=new PetEngine(new PetState{X=500,Litter=0},5);cat.Layout(1800,800);cat.MoveObject("litter",new(700,cat.GroundY));
+ cat.VisualTravel=burialPlayer.TravelTo;cat.VisualCareReady=burialPlayer.PrepareCare;cat.VisualActionDuration=burialPlayer.ActionDuration;cat.VisualBurialWindow=burialPlayer.BurialWindow;
+ cat.Demo("toilet");bool fresh=false,partial=false,finished=false;double partialCover=0;
+ for(int i=0;i<14000;i++)
+ {
+  cat.Update(.01,12);burialPlayer.Sample(cat.AligningForCare?"care-ready":cat.Action,cat.Now,cat.FacingLeft);
+  fresh|=cat.State.Litter==20&&cat.State.LitterCover[0]==0;
+  partial|=cat.State.LitterCover[0]>.15&&cat.State.LitterCover[0]<.85;
+  if(cat.State.LitterCover[0]>.45&&partialCover==0)
+  {
+   partialCover=cat.State.LitterCover[0];
+   var roundtrip=System.Text.Json.JsonSerializer.Deserialize<PetState>(System.Text.Json.JsonSerializer.Serialize(cat.State))!;
+   var restored=new PetEngine(roundtrip,5);Check(Math.Abs(restored.State.LitterCover[0]-partialCover)<.00001,"partially buried waste survives save/load");
+  }
+  if(cat.State.LitterCover[0]==1&&cat.Action!="bury"){finished=true;break;}
+ }
+ Check(fresh&&partial&&finished&&cat.State.Litter==20,"toilet leaves exposed waste; digging progressively covers it without cleaning inventory");
+ cat.Refill("litter");Check(cat.State.Litter==0&&cat.State.LitterCover.All(c=>c==0),"cleaning removes the clump and its burial progress");
+ var interrupted=new PetEngine(new PetState{Litter=40,LitterCover=new[]{1d,.4,0,0,0}},3);interrupted.BeginDrag();interrupted.Update(.1,12);
+ Check(interrupted.State.LitterCover[1]==.4,"interrupting care never marks unfinished burial complete");
+ var legacy=new PetEngine(new PetState{Litter=40,LitterCover=null!},3);Check(legacy.State.LitterCover.Length==5&&legacy.State.LitterCover.All(c=>c==0),"legacy saves migrate to visible unburied clumps without inventing completed burial");
+}
+Check(InteractionGeometry.BowlY(500,500)==500&&InteractionGeometry.BowlY(500,456)>456,"lower bowl geometry keeps its base grounded and lowers its rim");
+
 Console.WriteLine($"{checks} checks passed.");

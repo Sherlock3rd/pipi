@@ -12,6 +12,7 @@ public sealed class PetState
     public double Food { get; set; } = 70;
     public double Water { get; set; } = 75;
     public double Litter { get; set; } = 15;
+    public double[] LitterCover {get;set;}=new double[5];
     public double Bladder { get; set; } = 10;
     public double Energy { get; set; } = 85;
     public double X { get; set; } = -1;
@@ -78,6 +79,9 @@ public sealed partial class PetEngine
     public Func<string,bool,double?>? VisualActionDuration {get;set;}
     public Func<double,bool>? VisualCareReady {get;set;}
     public Func<double,bool,bool>? VisualStandReady {get;set;}
+    public Func<string,double,double,double,bool,(double X,bool Complete)?>? VisualTravel {get;set;}
+    public Func<(double Start,double Duration)?>? VisualBurialWindow {get;set;}
+    public bool MovementComplete {get;private set;}=true;
     public bool AligningForCare {get;private set;}
     public Func<string,(double Start,double Duration)?>? VisualConsumptionWindow {get;set;}
     public bool Holding { get; set; }
@@ -182,6 +186,7 @@ public sealed partial class PetEngine
     public PetEngine(PetState state, int? seed = null)
     {
         State = state; random = seed.HasValue?new Random(seed.Value):new Random();
+        NormalizeLitterCover(state);
         if(State.RestDuration<120||State.RestDuration>3600)NewRest();
         InitializeCare();
         tree = new Selector(
@@ -235,6 +240,9 @@ public sealed partial class PetEngine
     private void MoveTowards(Spot destination,double step)
     {
         destination=OnGround(destination);if(Grounded)State.Y=GroundY;
+        if(Grounded&&VisualTravel?.Invoke(Action,State.X,destination.X,Now,FacingLeft) is {} travel)
+        {State.X=travel.X;MovementComplete=travel.Complete;return;}
+        MovementComplete=true;
         if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
         if(VisualVelocity?.Invoke(Action,Now,FacingLeft) is double velocity)
         {
@@ -278,6 +286,8 @@ public sealed partial class PetEngine
         {
             var here=new Spot(State.X,State.Y); var distance=here.Distance(target);
             if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
+            if(Grounded&&VisualTravel is not null)
+            {MoveTowards(target,WalkSpeed*dt);if(!MovementComplete)return;distance=0;}
             if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
             if(distance<2)
             {
@@ -312,9 +322,16 @@ public sealed partial class PetEngine
             }
             if(consumption is null&&((Action=="eat" && State.Food<=0)||(Action=="drink" && State.Water<=0))) duration=ActionTime;
         }
+        if(Action=="bury"&&SupplyLayers(State.Litter)>0)
+        {
+            var window=VisualBurialWindow?.Invoke()??(0d,duration);
+            int slot=SupplyLayers(State.Litter)-1;
+            double cover=Math.Clamp((ActionTime-window.Item1)/Math.Max(.01,window.Item2),0,1);
+            if(cover>State.LitterCover[slot]){State.LitterCover[slot]=cover;Dirty=true;}
+        }
         if(ActionTime<duration)return;
         if(Action=="land"){NewRest();SetAction("sit",1,"这里也很舒服");return;}
-        if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);ScheduleNext("litter");RefreshAvailability();Dirty=true;Go(LitterSpot,"bury","走到便便旁边埋砂");return;}
+        if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);State.LitterCover[SupplyLayers(State.Litter)-1]=0;ScheduleNext("litter");RefreshAvailability();Dirty=true;Go(LitterSpot,"bury","走到便便旁边埋砂");return;}
         if(Action=="bury") {Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
         if(manualSequence){FinishManualSequence();return;}
         if(LeaveOccupiedRestSpot())return;
@@ -363,6 +380,7 @@ public sealed partial class PetEngine
     private void SetAction(string action,double seconds,string reason)
     {
         AligningForCare=false;
+        MovementComplete=true;
         if(action!="sleep"&&State.Sleeping&&State.SleepingInNest)
         {var position=VisualPosition;State.X=position.X;State.Y=position.Y;}
         Action=action;ActionTime=0;ActionRevision++;duration=seconds<double.MaxValue?VisualActionDuration?.Invoke(action,FacingLeft)??seconds:seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;
@@ -391,7 +409,7 @@ public sealed partial class PetEngine
         LastInteraction=Now;
         if(kind=="food")State.Food=Math.Min(100,(SupplyLayers(State.Food)+1)*20);
         else if(kind=="water")State.Water=Math.Min(100,(SupplyLayers(State.Water)+1)*20);
-        else State.Litter=Math.Max(0,(SupplyLayers(State.Litter)-1)*20);
+        else {State.Litter=Math.Max(0,(SupplyLayers(State.Litter)-1)*20);NormalizeLitterCover(State);}
         if(kind=="litter")
         {
             // Cleaning removes the newest clump. Do not scratch an empty target.
@@ -404,6 +422,13 @@ public sealed partial class PetEngine
         Dirty=true;
     }
     public static int SupplyLayers(double quantity)=>(int)Math.Ceiling(Math.Clamp(quantity,0,100)/20);
+    public static void NormalizeLitterCover(PetState state)
+    {
+        var old=state.LitterCover;var cover=new double[5];
+        for(int i=0;i<SupplyLayers(state.Litter);i++)
+            if(old is not null&&i<old.Length&&double.IsFinite(old[i]))cover[i]=Math.Clamp(old[i],0,1);
+        state.LitterCover=cover;
+    }
     public void Recall() {BeginManualSequence();nightRestUntil=Now+300;var spot=NearestRestSpot(new(Math.Clamp(Nest.X-145,65,Width-65),Grounded?GroundY:Math.Clamp(Nest.Y-70,140,Height-60)));State.X=spot.X;State.Y=spot.Y;NewRest();SetAction("sit",3,"回到小窝附近");}
     public void Demo(string action)
     {
