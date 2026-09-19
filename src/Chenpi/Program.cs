@@ -124,6 +124,18 @@ internal sealed class PetWindow : Window
             var dropTimer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(6)};
             dropTimer.Tick+=(_,_)=>{dropTimer.Stop();engine.Drop(args.Contains("--preview-land-in-nest"));};dropTimer.Start();
         }
+        if(Preview&&args.Contains("--preview-interaction-test"))
+        {
+            // Isolated visual QA: complete pet, paw, roll and rub with idle gaps.
+            double started=engine.Now;int step=0;double[] times={1,6.5,12,28};
+            var interactionTimer=new DispatcherTimer{Interval=TimeSpan.FromMilliseconds(50)};
+            interactionTimer.Tick+=(_,_)=>{
+                if(quitting){interactionTimer.Stop();return;}
+                if(engine.Now-started<times[step])return;
+                if(step<3)engine.Interact();else engine.ObservePointer(5.1,true,engine.CatPlayCenter);
+                if(++step==times.Length)interactionTimer.Stop();
+            };interactionTimer.Start();
+        }
         if(Preview&&args.Contains("--preview-rest-clearance"))
         {engine.State.X=engine.FoodSpot.X;engine.State.Y=engine.GroundY;}
         if(Preview&&Program.Option(args,"--preview-care") is string careAction)

@@ -610,7 +610,7 @@ using(var groundedDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runti
   var clip=new SpriteClip(profile.Length,24,true,288,288,.5,.921875,false,GroundContacts:profile);
   for(int i=0;i<profile.Length;i++){var frame=clip.AtFrame(i);correct&=Math.Abs((profile[i]-frame.AnchorY)*frame.Height)<.001&&frame.Width==288;measured++;}
  }
- Check(correct&&measured==3463,"all 3463 grounded poses place their measured contact on the support plane without rescaling");
+ Check(correct&&measured==4673,"all 4673 grounded poses place their measured contact on the support plane without rescaling");
  Check(!entries.GetProperty("video-32").TryGetProperty("groundContacts",out _)&&!entries.GetProperty("video-33").TryGetProperty("groundContacts",out _),"pickup and suspended motion retain their authored vertical trajectory");
 }
 using(var guideDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
@@ -755,6 +755,20 @@ using(var contactDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtim
   Check(Math.Abs(a[a.GetArrayLength()-1].GetDouble()-b0)<1e-9,"support endpoint agrees across "+pair.Item1+" -> "+pair.Item2);
  }
  Check(metadata.GetProperty("video-17").GetProperty("groundContacts").EnumerateArray().Max(v=>v.GetDouble())<.93,"sleep entry follows planted paws instead of the lower swinging tail");
+ foreach(var gesture in new[]{("pet","37"),("rub","38"),("paw","39"),("request-food","45"),("request-water","46"),("request-litter","47"),("care-thanks","51")})
+ {
+  var pb=ContactsPlayer();var idle=pb.Sample("idle",0)!.Value;
+  var enter=pb.Sample(gesture.Item1,1)!.Value;
+  var end=pb.Sample(gesture.Item1,6.04)!.Value;var exit=pb.Sample("idle",6.05)!.Value;
+  Check(enter.Clip=="video-"+gesture.Item2&&end.Clip==enter.Clip&&exit.Clip=="video-01"&&new[]{idle,enter,end,exit}.All(f=>Math.Abs(f.Definition.AnchorY-foot)<1e-9),gesture.Item1+" shares planted-foot height through entry, last frame and idle return");
+  Check(Math.Abs(enter.Definition.Fps-24)<1e-9&&metadata.GetProperty(enter.Clip).GetProperty("groundContacts").EnumerateArray().All(v=>v.GetDouble()==foot),gesture.Item1+" keeps a steady seated support and original frame rate");
+ }
+ var rolling=ContactsPlayer();rolling.Sample("idle",0);var rollIn=rolling.Sample("roll",1)!.Value;
+ double part=121/24d;var lyingEnd=rolling.Sample("roll",1+part-.00001)!.Value;var rollingStart=rolling.Sample("roll",1+part+.00001)!.Value;
+ var rollingEnd=rolling.Sample("roll",1+2*part-.00001)!.Value;var recovering=rolling.Sample("roll",1+2*part+.00001)!.Value;
+ var recovered=rolling.Sample("roll",1+3*part-.00001)!.Value;var idleAgain=rolling.Sample("idle",1+3*part+.00001)!.Value;
+ Check(rollIn.Clip=="video-40"&&rollingStart.Clip=="video-41"&&recovering.Clip=="video-42"&&Math.Abs(rolling.ActionDuration("roll")!.Value-3*part)<1e-9,"rolling completes the three original full-length clips");
+ Check(Math.Abs(rollIn.Definition.AnchorY-foot)<1e-9&&Math.Abs(lyingEnd.Definition.AnchorY-rollingStart.Definition.AnchorY)<1e-9&&Math.Abs(rollingEnd.Definition.AnchorY-recovering.Definition.AnchorY)<1e-9&&Math.Abs(recovered.Definition.AnchorY-idleAgain.Definition.AnchorY)<1e-9,"rolling transfers seated and body support continuously at every clip boundary");
 }
 
 Console.WriteLine($"{checks} checks passed.");

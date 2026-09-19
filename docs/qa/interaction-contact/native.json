@@ -1,0 +1,116 @@
+{
+  "modelChecks": 332,
+  "featureSeams": 159,
+  "previewSeconds": 36,
+  "samples": 125,
+  "worldX": 410,
+  "worldY": 453.25,
+  "displayScale": 0.8,
+  "transitions": [
+    {
+      "Time": 1.0743965000000006,
+      "Clip": "video-37",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288.06543731689453,
+      "Height": 288.06543731689453,
+      "AnchorX": 0.5000283355703834,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 6.123772100000002,
+      "Clip": "video-01",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288,
+      "Height": 288,
+      "AnchorX": 0.5,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 6.640625000000002,
+      "Clip": "video-39",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 287.89875411987305,
+      "Height": 287.89875411987305,
+      "AnchorX": 0.49998887982447177,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 11.660575200000002,
+      "Clip": "video-01",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288,
+      "Height": 288,
+      "AnchorX": 0.5,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 12.044821600000004,
+      "Clip": "video-40",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288.0025749206543,
+      "Height": 288.0025749206543,
+      "AnchorX": 0.4999710025995737,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 17.0884119,
+      "Clip": "video-41",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288,
+      "Height": 288,
+      "AnchorX": 0.5,
+      "AnchorY": 0.88671875
+    },
+    {
+      "Time": 22.2081227,
+      "Clip": "video-42",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288.0067837013404,
+      "Height": 288.0067837013404,
+      "AnchorX": 0.5000249095857833,
+      "AnchorY": 0.88671875
+    },
+    {
+      "Time": 27.134600000000002,
+      "Clip": "video-01",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288,
+      "Height": 288,
+      "AnchorX": 0.5,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 28.058429399999998,
+      "Clip": "video-38",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 287.95663833618164,
+      "Height": 287.95663833618164,
+      "AnchorX": 0.5000045604419515,
+      "AnchorY": 0.912109375
+    },
+    {
+      "Time": 33.08902500000001,
+      "Clip": "video-01",
+      "X": 410,
+      "Y": 453.25,
+      "Width": 288,
+      "Height": 288,
+      "AnchorX": 0.5,
+      "AnchorY": 0.912109375
+    }
+  ],
+  "averageFrameMs": 22.07679190184049,
+  "maxFrameMs": 153.7583999999974,
+  "errorLogPresent": false,
+  "fixtureInput": "Click model entry points and model hover feed; does not certify native pointer hit testing.",
+  "screenshots": "artifacts/hover-contact/native/feet-grid.png"
+}

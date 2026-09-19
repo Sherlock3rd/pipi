@@ -52,10 +52,14 @@ if __name__=='__main__':
                                    ('16',-1,'22',0),('11',-1,'22',0),('22',-1,'23',0),('22',-1,'25',0),('25',-1,'24',0),
                                    ('34',-1,'01',0),('01',-1,'17',0),('20',-1,'20',0)]]
     seams += [check('20',i,'21',0,True) for i in range(121)]
+    if manifest.get('interactionContactRevision') == 1:
+        for gesture in ['37', '38', '39', '45', '46', '47', '51']:
+            seams += [check('01',-1,gesture,0), check(gesture,-1,'01',0), check(gesture,-1,gesture,0)]
+        seams += [check(*pair) for pair in [('01',-1,'40',0),('40',-1,'41',0),('41',-1,'41',0),('41',-1,'42',0),('42',-1,'01',0)]]
     maximum=max(abs(x['bodyScaleRatio']-1) for x in seams)
     assert all(x['inliers']>=50 for x in seams)
     assert maximum<.003, maximum
     assert max(x['meanPositionChange'] for x in seams)<1.5
-    out=ROOT/('docs/qa/landing-sleep' if manifest.get('supportContactRevision')==3 else 'docs/qa/support-plane' if 'groundContacts' in manifest['clips']['video-20'] else 'docs/qa/contact-v2');out.mkdir(parents=True,exist_ok=True)
+    out=ROOT/('docs/qa/interaction-contact' if manifest.get('interactionContactRevision')==1 else 'docs/qa/landing-sleep' if manifest.get('supportContactRevision')==3 else 'docs/qa/support-plane' if 'groundContacts' in manifest['clips']['video-20'] else 'docs/qa/contact-v2');out.mkdir(parents=True,exist_ok=True)
     (out/'seams.json').write_text(json.dumps({'maxScaleDifferencePercent':maximum*100,'seams':seams},indent=2)+'\n',encoding='utf-8')
     print(f'{len(seams)} rendered seam samples passed; maximum matched-body scale difference {maximum*100:.3f}%')

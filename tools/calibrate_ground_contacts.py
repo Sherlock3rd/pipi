@@ -1,7 +1,7 @@
 """Register the support line of grounded poses; never resize or rewrite images.
 
-Only grounded foundation/care clips are included. Pickup, airborne play and
-other gestures retain their authored vertical motion. Four opaque pixels are
+Grounded foundation, care and front-pose interaction clips are included.
+Pickup and airborne play retain their authored vertical motion. Four opaque pixels are
 required in a row so isolated matte specks cannot become the contact point.
 """
 import json
@@ -70,6 +70,44 @@ def sleep_contacts(manifest):
     manifest['supportContactRevision'] = 3
     return front
 
+def interaction_contacts(manifest):
+    """Apply the same seated support to every supplied front-pose interaction.
+
+    Seated gestures keep their planted feet; rolling transfers support to the
+    underside of the body, with raised paws and the left-hand tail excluded.
+    """
+    frames = manifest['animations']
+    front = manifest['clips']['video-01']['groundContacts'][0]
+    def measure(relative, lo, hi):
+        rgba = np.asarray(Image.open(ASSETS / relative))
+        mask = (rgba[:, :, 3] >= 200) & (rgba[:, :, :3].mean(axis=2) < 190)
+        rows = np.flatnonzero(mask[:, int(lo):int(hi)].sum(axis=1) >= 4)
+        if not len(rows):
+            raise ValueError(f'No interaction support pixels: {relative}')
+        return float(rows[-1]+1)/rgba.shape[0]
+    def ease(t):
+        t = np.clip(t, 0, 1)
+        return t*t*(3-2*t)
+    rolled = measure(frames['video-41'][0], 250, 450)
+    keys = ['video-'+k for k in ['37', '38', '39', '45', '46', '47', '51']]
+    for key in keys:
+        manifest['clips'][key]['groundContacts'] = [front]*len(frames[key])
+    for key in ['video-40', 'video-41', 'video-42']:
+        raw = []
+        for i, relative in enumerate(frames[key]):
+            t = i/(len(frames[key])-1)
+            lying = 1 if key == 'video-41' else ease((t if key == 'video-40' else 1-t)/.45)
+            raw.append(measure(relative, 225+25*lying, 310+140*lying))
+        kernel = np.exp(-np.arange(-4, 5, dtype=float)**2/(2*1.4**2)); kernel /= kernel.sum()
+        smooth = np.convolve(np.pad(raw, 4, mode='wrap' if key == 'video-41' else 'edge'), kernel, mode='valid')
+        start, end = {'video-40': (front, rolled), 'video-41': (rolled, rolled), 'video-42': (rolled, front)}[key]
+        phase = np.linspace(0, 1, len(raw))
+        smooth += (start-smooth[0])*(1-ease(phase/.12)) + (end-smooth[-1])*ease((phase-.88)/.12)
+        manifest['clips'][key]['groundContacts'] = smooth.tolist()
+        keys.append(key)
+    manifest['interactionContactRevision'] = 1
+    return sum(len(frames[key]) for key in keys)
+
 if __name__ == '__main__':
     path = ASSETS / 'manifest.json'
     manifest = json.loads(path.read_text(encoding='utf-8'))
@@ -82,5 +120,6 @@ if __name__ == '__main__':
     # Landing begins in the air: only its seated endpoint joins the ground.
     # Runtime blends this endpoint into the final fifth of the original descent.
     manifest['clips']['video-34']['landingContactY'] = sleep_contacts(manifest)
+    total += interaction_contacts(manifest)
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
-    print(f'{len(keys)} grounded clips / {total} support samples; no image bytes changed')
+    print(f'{len(keys)+10} grounded clips / {total} support samples; no image bytes changed')
