@@ -46,6 +46,8 @@ IDENTITY=(BASE/'身份约束.txt').read_text(encoding='utf-8').strip()
 PREFIX='固定机位与镜头、1672×941横画幅、浅暖灰干净背景、既有2D绘本厚涂蓝猫。成年蓝灰短毛、圆颊、短深鼻、自然灰嘴垫、轻嘴线和粗尾一致。'+IDENTITY+'只生成一只完整的陈皮；没有墙、家具、人手、屏幕边框、文字、气泡、特效或烘焙阴影。不要变成照片或3D。首尾不单独缩放、裁图、镜像、倒放。头骨和胸廓大小稳定，爪/躯干按支撑面连续承重，尾尖不能决定整猫的高度。'
 def sha(p):return hashlib.sha256(p.read_bytes()).hexdigest()
 def main():
+    if (OUT/'参考返工-20260920.md').exists():
+        raise SystemExit('v4 pose references were rejected; revise and review anchors before explicitly lifting this rebuild guard.')
     (OUT/'anchors').mkdir(parents=True,exist_ok=True)
     for key in ['F','SR','SL','WR','WL']:shutil.copyfile(BASE/'anchors'/ANCHORS[key],OUT/'anchors'/ANCHORS[key])
     anchor_records={}

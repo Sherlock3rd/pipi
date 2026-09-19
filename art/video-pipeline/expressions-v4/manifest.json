@@ -1,5 +1,5 @@
 {
-  "status": "endpoint-candidates-awaiting-user-review-and-external-video",
+  "status": "rejected-pose-reference-mismatch-awaiting-revision",
   "runtimeChanged": false,
   "generator": "builtin image_gen",
   "anchors": {
@@ -640,5 +640,6 @@
       "2": "same-pose stronger twitch then one look-back meow",
       "3": "stand to SR"
     }
-  }
+  },
+  "revisionNote": "参考返工-20260920.md"
 }
