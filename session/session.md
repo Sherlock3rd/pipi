@@ -254,3 +254,6 @@ SpritePlayback 接入 F/SR/SL/WR/WL/I/C 动作图，正面五段轮换、左右�
 
 
 一键入口端到端验证：tools/check-animation.ps1用22片段完成依赖自检、Release自包含发布、WPF导出及报告生成，121帧/120对检查退出码0，无可靠突变或复核项。正式存档已备份before-animation-monitor；停止旧进程后更新运行包，DLL/manifest安装哈希与验证版本一致。最终启动与Git核验随后记录。
+
+
+安装及Git总账：正式程序响应正常，诊断时间晚于启动时间，无新错误日志。启动核验时native.visible=true，但sceneVisibility=Hidden，原因fullScreen=true/fullscreen-on-pet-screen；按已有全屏避让规则隐藏，未擅自禁用避让，也不将其误记为场景可见通过。已备份存档，DLL/manifest安装哈希与验证版本一致。实现9cec3bd1a6248fcdf89a70f7cff2098bff14a925 已推送origin/main并核验远端一致。338项回归、159个端点检查、484帧/486对实际渲染逐帧对比及两组吃喝场景核验完成；修复后0处可靠身体比例突变，4处原姿态轮廓复核提示保留。
