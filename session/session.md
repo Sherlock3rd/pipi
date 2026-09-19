@@ -243,3 +243,6 @@ SpritePlayback 接入 F/SR/SL/WR/WL/I/C 动作图，正面五段轮换、左右�
 
 
 实机核验：左右回窝、吃饭、喝水四组各45秒隔离WPF预览完成，无错误日志。实际画面确认原比例食水盆整体下移、伸舌接触内容；两侧回窝覆盖迈步、停止、转坐、入睡及蜷睡，原图窝沿轮廓替换了斜向纹理切片。匿名量化记录docs/qa/bowl-baseline-nest/native.json，截图保留artifacts/nest-entry/。333项回归通过；安装及Git结果随后补充。
+
+
+安装及Git总账：正式存档已备份before-baseline-nest，精确路径旧进程退出后更新运行包，安装DLL与已验证发布文件SHA256一致。新进程响应，诊断写入晚于启动时间，sceneVisibility=Visible、native.visible=true，未产生新错误日志。实现da9f8ebb0326a7e46690096a248dcc069ab1b179 已成功推送origin/main并核验远端一致；333项检查与四组各45秒实际预览完成。
