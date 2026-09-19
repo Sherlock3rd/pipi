@@ -722,7 +722,7 @@ using(var travelDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtime
  var legacy=new PetEngine(new PetState{Litter=40,LitterCover=null!},3);Check(legacy.State.LitterCover.Length==5&&legacy.State.LitterCover.All(c=>c==0),"legacy saves migrate to visible unburied clumps without inventing completed burial");
 }
 foreach(bool isWaterBowl in new[]{false,true})
- Check(InteractionGeometry.BowlY(500,500,isWaterBowl)==500&&InteractionGeometry.BowlY(500,456,isWaterBowl)>456,"lower bowl geometry keeps its base grounded and lowers its rim: water="+isWaterBowl);
+ Check(InteractionGeometry.BowlY(500,500,isWaterBowl)>500&&Math.Abs(InteractionGeometry.BowlY(500,500,isWaterBowl)-InteractionGeometry.BowlY(500,456,isWaterBowl)-44)<1e-9,"bowl baseline moves down without changing its real height: water="+isWaterBowl);
 
 
 using(var contactDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))

@@ -23,10 +23,10 @@ public static class InteractionGeometry
     public const double PickupLift=24;
     // Supplied right-facing low-head clips: mouth is ~94 units right of root.
     public const double MouthOffsetX=94;
-    // Tongue tips in the supplied eat/drink loops reach ~19.1 / 5.1 above ground.
-    // Keep each content surface at its own contact height; both bases stay grounded.
-    public static double BowlHeightScale(bool water)=>water?.16:.51;
-    public static double BowlY(double ground,double y,bool water)=>ground+(y-ground)*BowlHeightScale(water);
+    // Move intact props below the cat's foot plane so their contents meet the tongue.
+    // Positive screen Y points down. The source aspect ratio is never compressed.
+    public static double BowlBaseOffset(bool water)=>water?28.4:18.5;
+    public static double BowlY(double ground,double y,bool water)=>y+BowlBaseOffset(water);
     // Relative to the tray, shared by waste rendering and both care destinations.
     public static Spot LitterClump(int index)=>Math.Clamp(index,0,4) switch {
         0=>new(15,-50),1=>new(35,-47),2=>new(55,-51),3=>new(25,-44),_=>new(45,-43)};
