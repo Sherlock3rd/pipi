@@ -721,7 +721,8 @@ using(var travelDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtime
  Check(interrupted.State.LitterCover[1]==.4,"interrupting care never marks unfinished burial complete");
  var legacy=new PetEngine(new PetState{Litter=40,LitterCover=null!},3);Check(legacy.State.LitterCover.Length==5&&legacy.State.LitterCover.All(c=>c==0),"legacy saves migrate to visible unburied clumps without inventing completed burial");
 }
-Check(InteractionGeometry.BowlY(500,500)==500&&InteractionGeometry.BowlY(500,456)>456,"lower bowl geometry keeps its base grounded and lowers its rim");
+foreach(bool isWaterBowl in new[]{false,true})
+ Check(InteractionGeometry.BowlY(500,500,isWaterBowl)==500&&InteractionGeometry.BowlY(500,456,isWaterBowl)>456,"lower bowl geometry keeps its base grounded and lowers its rim: water="+isWaterBowl);
 
 
 using(var contactDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))

@@ -1,0 +1,303 @@
+{
+  "eat": {
+    "seconds": 45,
+    "samples": 162,
+    "clips": [
+      "video-22",
+      "video-23",
+      "video-24",
+      "video-07",
+      "video-08",
+      "video-12",
+      "video-13",
+      "video-09",
+      "video-01"
+    ],
+    "averageFrameMs": 19.6728375328084,
+    "maxFrameMs": 233.41309999999993,
+    "errorLogPresent": false,
+    "contactSamples": [
+      {
+        "Now": 7.5786045,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 0,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 7.845541400000001,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 6,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.111974800000002,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 12,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.4806055,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 21,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.780163000000002,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 28,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.046963000000002,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 35,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.3287847,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 42,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.580026800000002,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 48,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.846561000000001,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 54,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.129271500000002,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 61,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.3810577,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 67,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.6471418,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 73,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.913410200000001,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 80,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.1951748,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 86,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.444994900000001,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 92,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.695035,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 98,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.963254,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 105,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 12.230280100000002,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 111,
+        "X": 456,
+        "Y": 453.25
+      },
+      {
+        "Now": 12.4811802,
+        "DisplayedClip": "video-23",
+        "DisplayedFrame": 117,
+        "X": 456,
+        "Y": 453.25
+      }
+    ]
+  },
+  "drink": {
+    "seconds": 45,
+    "samples": 162,
+    "clips": [
+      "video-22",
+      "video-25",
+      "video-24",
+      "video-07",
+      "video-08",
+      "video-12",
+      "video-13",
+      "video-09",
+      "video-01"
+    ],
+    "averageFrameMs": 19.635456787429067,
+    "maxFrameMs": 248.82949999999937,
+    "errorLogPresent": false,
+    "contactSamples": [
+      {
+        "Now": 7.795741900000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 5,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.078664300000003,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 12,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.430916700000001,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 20,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.730341600000003,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 27,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 8.997071300000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 34,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.278732300000001,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 40,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.530083600000001,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 46,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 9.7967437,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 53,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.078687300000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 60,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.331392800000003,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 66,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.612260500000001,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 72,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 10.863547700000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 78,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.128825900000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 85,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.380351200000003,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 91,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.645231200000001,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 97,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 11.914658800000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 104,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 12.180476800000001,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 110,
+        "X": 551,
+        "Y": 453.25
+      },
+      {
+        "Now": 12.431758300000002,
+        "DisplayedClip": "video-25",
+        "DisplayedFrame": 116,
+        "X": 551,
+        "Y": 453.25
+      }
+    ]
+  },
+  "modelChecks": 333,
+  "visualReview": "Actual WPF mouth crops at retraction and extension; food contact and water-tip contact checked. Water prop is now a shallow dish."
+}

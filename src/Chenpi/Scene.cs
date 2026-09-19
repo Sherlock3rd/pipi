@@ -223,7 +223,7 @@ internal sealed class Scene : FrameworkElement
     private Rect NestRect=>new(Engine.Nest.X-InteractionGeometry.NestHalfWidth,Engine.Nest.Y-InteractionGeometry.NestHeight,InteractionGeometry.NestWidth,InteractionGeometry.NestHeight);
     private Rect LitterRect=>new(Engine.LitterSpot.X-InteractionGeometry.LitterHalfWidth,Engine.LitterSpot.Y-InteractionGeometry.LitterHeight,InteractionGeometry.LitterHalfWidth*2,InteractionGeometry.LitterHeight);
     private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
-        ?new(p.X-36,p.Y-70*InteractionGeometry.BowlHeightScale,72,70*InteractionGeometry.BowlHeightScale):new(p.X-w/2,p.Y-62,w,62);
+        ?new(p.X-36,p.Y-70*InteractionGeometry.BowlHeightScale(p==Engine.WaterSpot),72,70*InteractionGeometry.BowlHeightScale(p==Engine.WaterSpot)):new(p.X-w/2,p.Y-62,w,62);
     private Rect SettingsRect=>new(Engine.Nest.X+InteractionGeometry.NestHalfWidth-28,Engine.Nest.Y-InteractionGeometry.NestHeight-4,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
@@ -375,7 +375,7 @@ internal sealed class Scene : FrameworkElement
     }
     private static void DrawBowl(DrawingContext dc,Spot p,double fill,bool water,double time)
     {
-        dc.PushTransform(new ScaleTransform(1,InteractionGeometry.BowlHeightScale,p.X,p.Y));
+        dc.PushTransform(new ScaleTransform(1,InteractionGeometry.BowlHeightScale(water),p.X,p.Y));
         // Align the visible base (excluding source-image transparent padding).
         p=new Spot(p.X,p.Y-(water?19:22));
         dc.PushTransform(new ScaleTransform(BowlScale,BowlScale,p.X,p.Y));
@@ -391,13 +391,13 @@ internal sealed class Scene : FrameworkElement
     {
         double side=water?25:27,edge=water?43:44,center=water?31:27;
         var shape=System.Windows.Media.Geometry.Parse(FormattableString.Invariant($"M {p.X-40},{p.Y-80} L {p.X-side},{p.Y-edge} Q {p.X},{p.Y-(2*center-edge)} {p.X+side},{p.Y-edge} L {p.X+40},{p.Y-80} L {p.X+40},{p.Y+2} L {p.X-40},{p.Y+2} Z")).Clone();
-        shape.Transform=new ScaleTransform(1,InteractionGeometry.BowlHeightScale,p.X,p.Y);return shape;
+        shape.Transform=new ScaleTransform(1,InteractionGeometry.BowlHeightScale(water),p.X,p.Y);return shape;
     }
     private bool FrontBowlContains(Point at,bool water)
     {
         var bitmap=water?waterCup:foodBowl;if(bitmap is null)return false;
         var p=water?Engine.WaterSpot:Engine.FoodSpot;
-        var rect=new Rect(p.X-36,InteractionGeometry.BowlY(p.Y,p.Y-(water?61:65.8)),72,72*InteractionGeometry.BowlHeightScale);
+        var rect=new Rect(p.X-36,InteractionGeometry.BowlY(p.Y,p.Y-(water?61:65.8),water),72,72*InteractionGeometry.BowlHeightScale(water));
         if(!rect.Contains(at))return false;
         bool inUse=Engine.Action==(water?"drink":"eat");
         if(inUse&&CatRect.Contains(at)&&!BowlForeground(p,water).FillContains(at))return false;

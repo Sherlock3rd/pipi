@@ -1,0 +1,871 @@
+[
+  {
+    "clip": "video-23",
+    "visibleTongueFrames": 64,
+    "extendedTipHeight": 19.131101529756776,
+    "samples": [
+      {
+        "frame": 8,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.687583814362682
+      },
+      {
+        "frame": 9,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.687605460822816
+      },
+      {
+        "frame": 10,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.687629437151678
+      },
+      {
+        "frame": 11,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.687655697665566
+      },
+      {
+        "frame": 12,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.68768419668078
+      },
+      {
+        "frame": 13,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.687714888513632
+      },
+      {
+        "frame": 14,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.250254805408417
+      },
+      {
+        "frame": 15,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.25029074412305
+      },
+      {
+        "frame": 21,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.68803388256696
+      },
+      {
+        "frame": 22,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.688082253991936
+      },
+      {
+        "frame": 23,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.688132361397535
+      },
+      {
+        "frame": 24,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.125664611697196
+      },
+      {
+        "frame": 25,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.125716527089633
+      },
+      {
+        "frame": 26,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.68829264266106
+      },
+      {
+        "frame": 27,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.250873501070778
+      },
+      {
+        "frame": 33,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.688718863973627
+      },
+      {
+        "frame": 34,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.688785052041833
+      },
+      {
+        "frame": 35,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.688852427886257
+      },
+      {
+        "frame": 36,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.126380347371104
+      },
+      {
+        "frame": 37,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.126447972735548
+      },
+      {
+        "frame": 38,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.689061225239808
+      },
+      {
+        "frame": 39,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.689132895352085
+      },
+      {
+        "frame": 45,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.689581463608192
+      },
+      {
+        "frame": 46,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.689658889866745
+      },
+      {
+        "frame": 47,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.689736955697104
+      },
+      {
+        "frame": 48,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.12724945497513
+      },
+      {
+        "frame": 49,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.127326399814493
+      },
+      {
+        "frame": 50,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.689974533782028
+      },
+      {
+        "frame": 51,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.690054701062618
+      },
+      {
+        "frame": 56,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.690460791091127
+      },
+      {
+        "frame": 57,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.690542740036037
+      },
+      {
+        "frame": 58,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.690624826032046
+      },
+      {
+        "frame": 59,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.128115374727017
+      },
+      {
+        "frame": 60,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.128195248544216
+      },
+      {
+        "frame": 61,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.69087144948969
+      },
+      {
+        "frame": 62,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.690953626853105
+      },
+      {
+        "frame": 63,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.253636733216233
+      },
+      {
+        "frame": 68,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.69144317338864
+      },
+      {
+        "frame": 69,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.691523751822533
+      },
+      {
+        "frame": 70,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.691603919103123
+      },
+      {
+        "frame": 71,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.12906409727394
+      },
+      {
+        "frame": 72,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.69176283746958
+      },
+      {
+        "frame": 73,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.691841497188047
+      },
+      {
+        "frame": 74,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.254545836247505
+      },
+      {
+        "frame": 80,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.692372928063076
+      },
+      {
+        "frame": 81,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.692445557533066
+      },
+      {
+        "frame": 82,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.129873878284048
+      },
+      {
+        "frame": 83,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.129942524352884
+      },
+      {
+        "frame": 84,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.692657507061956
+      },
+      {
+        "frame": 85,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.692726024998894
+      },
+      {
+        "frame": 86,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.692793400843318
+      },
+      {
+        "frame": 91,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.693111549748185
+      },
+      {
+        "frame": 92,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.693171113679806
+      },
+      {
+        "frame": 93,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.693229215733005
+      },
+      {
+        "frame": 94,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.69328581022409
+      },
+      {
+        "frame": 95,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.1306739699988
+      },
+      {
+        "frame": 96,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.256062702178955
+      },
+      {
+        "frame": 101,
+        "sourceTipY": 437,
+        "heightAboveGround": 20.256311234562656
+      },
+      {
+        "frame": 102,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.693678811872378
+      },
+      {
+        "frame": 103,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.69371978253786
+      },
+      {
+        "frame": 104,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.13107996626695
+      },
+      {
+        "frame": 105,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.131115905416664
+      },
+      {
+        "frame": 106,
+        "sourceTipY": 438,
+        "heightAboveGround": 19.693830725404744
+      },
+      {
+        "frame": 107,
+        "sourceTipY": 439,
+        "heightAboveGround": 19.131181748246618
+      }
+    ]
+  },
+  {
+    "clip": "video-25",
+    "visibleTongueFrames": 107,
+    "extendedTipHeight": 5.062056121216016,
+    "samples": [
+      {
+        "frame": 4,
+        "sourceTipY": 426,
+        "heightAboveGround": 26.43633644164602
+      },
+      {
+        "frame": 5,
+        "sourceTipY": 426,
+        "heightAboveGround": 26.436328247063408
+      },
+      {
+        "frame": 6,
+        "sourceTipY": 426,
+        "heightAboveGround": 26.43631831789948
+      },
+      {
+        "frame": 7,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.31135746502434
+      },
+      {
+        "frame": 8,
+        "sourceTipY": 456,
+        "heightAboveGround": 9.562063563694556
+      },
+      {
+        "frame": 9,
+        "sourceTipY": 459,
+        "heightAboveGround": 7.8746361305569295
+      },
+      {
+        "frame": 10,
+        "sourceTipY": 460,
+        "heightAboveGround": 7.312157542988037
+      },
+      {
+        "frame": 11,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.06225944286515
+      },
+      {
+        "frame": 12,
+        "sourceTipY": 448,
+        "heightAboveGround": 14.061821320652962
+      },
+      {
+        "frame": 13,
+        "sourceTipY": 447,
+        "heightAboveGround": 14.624282452361813
+      },
+      {
+        "frame": 14,
+        "sourceTipY": 447,
+        "heightAboveGround": 14.624269911260654
+      },
+      {
+        "frame": 15,
+        "sourceTipY": 446,
+        "heightAboveGround": 15.186727974069072
+      },
+      {
+        "frame": 16,
+        "sourceTipY": 459,
+        "heightAboveGround": 7.874592082480589
+      },
+      {
+        "frame": 17,
+        "sourceTipY": 463,
+        "heightAboveGround": 5.624702900968647
+      },
+      {
+        "frame": 18,
+        "sourceTipY": 463,
+        "heightAboveGround": 5.624696883056313
+      },
+      {
+        "frame": 19,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062221524984809
+      },
+      {
+        "frame": 20,
+        "sourceTipY": 449,
+        "heightAboveGround": 13.4992416203022
+      },
+      {
+        "frame": 21,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.31104724337696
+      },
+      {
+        "frame": 22,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.311015271050856
+      },
+      {
+        "frame": 23,
+        "sourceTipY": 426,
+        "heightAboveGround": 26.43591469134119
+      },
+      {
+        "frame": 24,
+        "sourceTipY": 459,
+        "heightAboveGround": 7.874517128884793
+      },
+      {
+        "frame": 25,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062182518042391
+      },
+      {
+        "frame": 26,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062175241859629
+      },
+      {
+        "frame": 27,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062167760345386
+      },
+      {
+        "frame": 28,
+        "sourceTipY": 449,
+        "heightAboveGround": 13.49909354543686
+      },
+      {
+        "frame": 29,
+        "sourceTipY": 447,
+        "heightAboveGround": 14.62399526027295
+      },
+      {
+        "frame": 30,
+        "sourceTipY": 446,
+        "heightAboveGround": 15.18643243261613
+      },
+      {
+        "frame": 31,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.310679508784087
+      },
+      {
+        "frame": 32,
+        "sourceTipY": 458,
+        "heightAboveGround": 8.436879140287639
+      },
+      {
+        "frame": 33,
+        "sourceTipY": 463,
+        "heightAboveGround": 5.624576552768703
+      },
+      {
+        "frame": 34,
+        "sourceTipY": 463,
+        "heightAboveGround": 5.6245668308374785
+      },
+      {
+        "frame": 35,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.0621012409974355
+      },
+      {
+        "frame": 36,
+        "sourceTipY": 448,
+        "heightAboveGround": 14.061367175728083
+      },
+      {
+        "frame": 37,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.31041490293457
+      },
+      {
+        "frame": 38,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.31036819505505
+      },
+      {
+        "frame": 39,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.310320822867798
+      },
+      {
+        "frame": 40,
+        "sourceTipY": 459,
+        "heightAboveGround": 7.874307098488013
+      },
+      {
+        "frame": 41,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062044841270661
+      },
+      {
+        "frame": 42,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062035004483536
+      },
+      {
+        "frame": 43,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.062025058991509
+      },
+      {
+        "frame": 44,
+        "sourceTipY": 449,
+        "heightAboveGround": 13.498706695556642
+      },
+      {
+        "frame": 45,
+        "sourceTipY": 429,
+        "heightAboveGround": 24.74757934513036
+      },
+      {
+        "frame": 46,
+        "sourceTipY": 429,
+        "heightAboveGround": 24.74752930553506
+      },
+      {
+        "frame": 47,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30992155378801
+      },
+      {
+        "frame": 48,
+        "sourceTipY": 458,
+        "heightAboveGround": 8.436623187214137
+      },
+      {
+        "frame": 49,
+        "sourceTipY": 463,
+        "heightAboveGround": 5.624403823810474
+      },
+      {
+        "frame": 50,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.0619529040995985
+      },
+      {
+        "frame": 51,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061942306378158
+      },
+      {
+        "frame": 52,
+        "sourceTipY": 449,
+        "heightAboveGround": 13.498484411478042
+      },
+      {
+        "frame": 53,
+        "sourceTipY": 429,
+        "heightAboveGround": 24.74716910803908
+      },
+      {
+        "frame": 54,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30955105627887
+      },
+      {
+        "frame": 55,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30949716179748
+      },
+      {
+        "frame": 56,
+        "sourceTipY": 459,
+        "heightAboveGround": 7.874048969527086
+      },
+      {
+        "frame": 57,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061877790018683
+      },
+      {
+        "frame": 58,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061866938652471
+      },
+      {
+        "frame": 59,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061856075207936
+      },
+      {
+        "frame": 60,
+        "sourceTipY": 448,
+        "heightAboveGround": 14.060681127011776
+      },
+      {
+        "frame": 61,
+        "sourceTipY": 446,
+        "heightAboveGround": 15.18550300872163
+      },
+      {
+        "frame": 62,
+        "sourceTipY": 446,
+        "heightAboveGround": 15.185470418388023
+      },
+      {
+        "frame": 63,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.309063107148976
+      },
+      {
+        "frame": 64,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.309008940905333
+      },
+      {
+        "frame": 65,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308954895444913
+      },
+      {
+        "frame": 66,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308901000963523
+      },
+      {
+        "frame": 67,
+        "sourceTipY": 455,
+        "heightAboveGround": 10.123538915062788
+      },
+      {
+        "frame": 68,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061758757144212
+      },
+      {
+        "frame": 69,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061748105070321
+      },
+      {
+        "frame": 70,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.06173750734888
+      },
+      {
+        "frame": 71,
+        "sourceTipY": 455,
+        "heightAboveGround": 10.123453940038104
+      },
+      {
+        "frame": 72,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308582495599985
+      },
+      {
+        "frame": 73,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308530503454385
+      },
+      {
+        "frame": 74,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308478903854265
+      },
+      {
+        "frame": 75,
+        "sourceTipY": 452,
+        "heightAboveGround": 11.810599605931202
+      },
+      {
+        "frame": 76,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061675400614738
+      },
+      {
+        "frame": 77,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.06166535245697
+      },
+      {
+        "frame": 78,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061655406964943
+      },
+      {
+        "frame": 79,
+        "sourceTipY": 458,
+        "heightAboveGround": 8.436075950296363
+      },
+      {
+        "frame": 80,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30817924067378
+      },
+      {
+        "frame": 81,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308131234374596
+      },
+      {
+        "frame": 82,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.308083862187342
+      },
+      {
+        "frame": 83,
+        "sourceTipY": 452,
+        "heightAboveGround": 11.810417338676984
+      },
+      {
+        "frame": 84,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061598228186369
+      },
+      {
+        "frame": 85,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061589170451043
+      },
+      {
+        "frame": 86,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061580263694748
+      },
+      {
+        "frame": 87,
+        "sourceTipY": 456,
+        "heightAboveGround": 9.56074619302922
+      },
+      {
+        "frame": 88,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30781463637948
+      },
+      {
+        "frame": 89,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.307772548458306
+      },
+      {
+        "frame": 90,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30773133621551
+      },
+      {
+        "frame": 91,
+        "sourceTipY": 452,
+        "heightAboveGround": 11.810255813928555
+      },
+      {
+        "frame": 92,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.0615303319096565
+      },
+      {
+        "frame": 93,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061522651103092
+      },
+      {
+        "frame": 94,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.06151516958885
+      },
+      {
+        "frame": 95,
+        "sourceTipY": 455,
+        "heightAboveGround": 10.123015786812175
+      },
+      {
+        "frame": 96,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.307504142969847
+      },
+      {
+        "frame": 97,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.30746990595828
+      },
+      {
+        "frame": 98,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.307436786191538
+      },
+      {
+        "frame": 99,
+        "sourceTipY": 453,
+        "heightAboveGround": 11.247735472829081
+      },
+      {
+        "frame": 100,
+        "sourceTipY": 464,
+        "heightAboveGround": 5.061474803835154
+      },
+      {
+        "frame": 101,
+        "sourceTipY": 460,
+        "heightAboveGround": 7.311010613780857
+      },
+      {
+        "frame": 102,
+        "sourceTipY": 465,
+        "heightAboveGround": 4.4990784148424865
+      },
+      {
+        "frame": 103,
+        "sourceTipY": 448,
+        "heightAboveGround": 14.059605001601934
+      },
+      {
+        "frame": 104,
+        "sourceTipY": 429,
+        "heightAboveGround": 24.744879593571028
+      },
+      {
+        "frame": 105,
+        "sourceTipY": 429,
+        "heightAboveGround": 24.744855683413334
+      },
+      {
+        "frame": 106,
+        "sourceTipY": 428,
+        "heightAboveGround": 25.307215672368184
+      },
+      {
+        "frame": 107,
+        "sourceTipY": 427,
+        "heightAboveGround": 25.869576054763204
+      },
+      {
+        "frame": 108,
+        "sourceTipY": 425,
+        "heightAboveGround": 26.994318592071533
+      },
+      {
+        "frame": 109,
+        "sourceTipY": 425,
+        "heightAboveGround": 26.994298499111085
+      },
+      {
+        "frame": 110,
+        "sourceTipY": 425,
+        "heightAboveGround": 26.994279984384775
+      }
+    ]
+  }
+]
