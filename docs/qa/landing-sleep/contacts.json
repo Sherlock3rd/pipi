@@ -1,0 +1,67 @@
+{
+  "units": "logical pixels for anchor ranges and steps, not raw-image limb motion",
+  "priorLandingGroundGap": 2.797033242881298,
+  "newLandingGroundGap": 0,
+  "clips": [
+    {
+      "clip": "video-01",
+      "frames": 121,
+      "oldAnchorRange": 0.0,
+      "newAnchorRange": 0.0,
+      "oldMaximumStep": 0.0,
+      "newMaximumStep": 0.0,
+      "first": 0.912109375,
+      "last": 0.912109375
+    },
+    {
+      "clip": "video-17",
+      "frames": 109,
+      "oldAnchorRange": 11.8125,
+      "newAnchorRange": 3.375000000000032,
+      "oldMaximumStep": 2.25,
+      "newMaximumStep": 0.4308137681942732,
+      "first": 0.912109375,
+      "last": 0.921875
+    },
+    {
+      "clip": "video-18",
+      "frames": 109,
+      "oldAnchorRange": 5.0625,
+      "newAnchorRange": 4.097954441079416,
+      "oldMaximumStep": 1.125,
+      "newMaximumStep": 0.807826547306945,
+      "first": 0.921875,
+      "last": 0.912109375
+    },
+    {
+      "clip": "video-19",
+      "frames": 113,
+      "oldAnchorRange": 18.5625,
+      "newAnchorRange": 8.072296980794928,
+      "oldMaximumStep": 3.9375,
+      "newMaximumStep": 1.2705326055388468,
+      "first": 0.921875,
+      "last": 0.908203125
+    },
+    {
+      "clip": "video-20",
+      "frames": 121,
+      "oldAnchorRange": 0.5625,
+      "newAnchorRange": 0.0,
+      "oldMaximumStep": 0.5625,
+      "newMaximumStep": 0.0,
+      "first": 0.908203125,
+      "last": 0.908203125
+    },
+    {
+      "clip": "video-21",
+      "frames": 113,
+      "oldAnchorRange": 15.75,
+      "newAnchorRange": 7.7479556134254715,
+      "oldMaximumStep": 3.375,
+      "newMaximumStep": 0.38256015971861856,
+      "first": 0.908203125,
+      "last": 0.921875
+    }
+  ]
+}

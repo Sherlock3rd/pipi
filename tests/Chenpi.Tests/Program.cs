@@ -723,4 +723,38 @@ using(var travelDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtime
 }
 Check(InteractionGeometry.BowlY(500,500)==500&&InteractionGeometry.BowlY(500,456)>456,"lower bowl geometry keeps its base grounded and lowers its rim");
 
+
+using(var contactDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
+{
+ var animations=contactDoc.RootElement.GetProperty("animations");var metadata=contactDoc.RootElement.GetProperty("clips");
+ SpritePlayback ContactsPlayer(){var pb=new SpritePlayback();pb.Load(contactDoc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);return pb;}
+ var landing=ContactsPlayer();landing.Sample("land",0);var first=landing.Sample("land",0)!.Value;var middle=landing.Sample("land",2)!.Value;
+ double duration=landing.ActionDuration("land")!.Value;
+ var last=landing.Sample("land",duration-.00001)!.Value;var resting=landing.Sample("idle",duration)!.Value;
+ double foot=metadata.GetProperty("video-01").GetProperty("groundContacts")[0].GetDouble();
+ Check(last.Clip=="video-34"&&resting.Clip=="video-01"&&Math.Abs(last.Definition.AnchorY-foot)<1e-9&&Math.Abs(resting.Definition.AnchorY-foot)<1e-9,"landing and idle place their shared seated paws on the same ground line");
+ Check(first.Definition.LandingContactY is not null&&Math.Abs(first.Definition.AnchorY-(.921875-first.Definition.OffsetStartY/288))<.001&&middle.Definition.AnchorY>.92,"landing preserves its airborne first four seconds");
+ double priorY=0,maxStep=0;
+ for(int i=96;i<=120;i++)
+ {
+  landing.Reset();landing.Sample("land",0);var frame=landing.Sample("land",i/24d)!.Value;
+  double y=(foot-frame.Definition.AnchorY)*frame.Definition.Height-InteractionGeometry.SurfaceLift(frame.Clip,i/120d,false,"land");
+  if(i>96)maxStep=Math.Max(maxStep,Math.Abs(y-priorY));priorY=y;
+ }
+ Check(maxStep<.5&&Math.Abs(priorY)<.001,"final landing correction settles continuously without a last-frame vertical snap");
+ foreach(string next in new[]{"idle","sleep"})
+ {
+  var pb=ContactsPlayer();pb.Sample("drag",0);pb.Sample("drag",6);pb.Sample(next,6.01);var end=pb.Sample(next,6.01+duration-.00001)!.Value;var after=pb.Sample(next,6.01+duration+.001)!.Value;
+  Check(end.Clip=="video-34"&&Math.Abs(end.Definition.AnchorY-after.Definition.AnchorY)<1e-9,"implicit drop exit uses the same grounded endpoint before "+next);
+ }
+ var sleeping=metadata.GetProperty("video-20").GetProperty("groundContacts").EnumerateArray().Select(v=>v.GetDouble()).ToArray();
+ Check(sleeping.All(v=>v==sleeping[0]),"breathing never moves the whole cat in response to one-pixel outline thresholds");
+ foreach(var pair in new[]{("01","17"),("17","19"),("19","20"),("20","21"),("21","18"),("18","01")})
+ {
+  var a=metadata.GetProperty("video-"+pair.Item1).GetProperty("groundContacts");var b0=metadata.GetProperty("video-"+pair.Item2).GetProperty("groundContacts")[0].GetDouble();
+  Check(Math.Abs(a[a.GetArrayLength()-1].GetDouble()-b0)<1e-9,"support endpoint agrees across "+pair.Item1+" -> "+pair.Item2);
+ }
+ Check(metadata.GetProperty("video-17").GetProperty("groundContacts").EnumerateArray().Max(v=>v.GetDouble())<.93,"sleep entry follows planted paws instead of the lower swinging tail");
+}
+
 Console.WriteLine($"{checks} checks passed.");

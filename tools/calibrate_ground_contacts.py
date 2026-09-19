@@ -22,6 +22,54 @@ def contacts_for(files):
         result.append((int(rows[-1]) + 1) / alpha.shape[0])
     return result
 
+def sleep_contacts(manifest):
+    """Use planted forepaws, not the swinging tail, through the sleep route.
+
+    ROI coordinates refer to the supplied 512px frames inspected in QA. When
+    paws tuck under the curled body, support transfers to its resting underside.
+    The breathing loop uses one fixed support anchor, not a quantized silhouette.
+    """
+    def measure(relative, lo, hi):
+        rgba = np.asarray(Image.open(ASSETS / relative))
+        mask = (rgba[:, :, 3] >= 200) & (rgba[:, :, :3].mean(axis=2) < 190)
+        rows = np.flatnonzero(np.count_nonzero(mask[:, int(lo):int(hi)], axis=1) >= 4)
+        if not len(rows):
+            raise ValueError(f'No paw/support pixels in {lo}:{hi}: {relative}')
+        return float(rows[-1] + 1) / rgba.shape[0]
+    def ease(t):
+        t = np.clip(t, 0, 1)
+        return t*t*(3-2*t)
+    frames = manifest['animations']
+    front = measure(frames['video-01'][0], 225, 310)
+    side = measure(frames['video-19'][0], 330, 400)
+    curled = float(np.median([measure(f, 230, 320) for f in frames['video-20']]))
+    profiles = {'video-01': [front]*len(frames['video-01']),
+                'video-20': [curled]*len(frames['video-20'])}
+    for key in ['video-17', 'video-18', 'video-19', 'video-21']:
+        raw = []
+        for i, relative in enumerate(frames[key]):
+            t = i/(len(frames[key])-1)
+            if key in ['video-17', 'video-18']:
+                turn = ease((t if key == 'video-17' else 1-t)/.55)
+                raw.append(measure(relative, 225+105*turn, 310+90*turn))
+            else:
+                curl = ease((t-.3)/.35) if key == 'video-19' else 1-ease((t-.35)/.4)
+                paw = measure(relative, 365, 450)
+                body = measure(relative, 230, 320)
+                raw.append(paw*(1-curl)+body*curl)
+        # Remove one-pixel alpha threshold steps without smoothing the animation.
+        kernel = np.exp(-np.arange(-4, 5, dtype=float)**2/(2*1.4**2)); kernel /= kernel.sum()
+        smooth = np.convolve(np.pad(raw, 4, mode='edge'), kernel, mode='valid')
+        start, end = {'video-17': (front, side), 'video-18': (side, front),
+                      'video-19': (side, curled), 'video-21': (curled, side)}[key]
+        phase = np.linspace(0, 1, len(raw))
+        smooth += (start-smooth[0])*(1-ease(phase/.12)) + (end-smooth[-1])*ease((phase-.88)/.12)
+        profiles[key] = smooth.tolist()
+    for key, values in profiles.items():
+        manifest['clips'][key]['groundContacts'] = values
+    manifest['supportContactRevision'] = 3
+    return front
+
 if __name__ == '__main__':
     path = ASSETS / 'manifest.json'
     manifest = json.loads(path.read_text(encoding='utf-8'))
@@ -31,5 +79,8 @@ if __name__ == '__main__':
         contacts = contacts_for(manifest['animations'][key])
         manifest['clips'][key]['groundContacts'] = contacts
         total += len(contacts)
+    # Landing begins in the air: only its seated endpoint joins the ground.
+    # Runtime blends this endpoint into the final fifth of the original descent.
+    manifest['clips']['video-34']['landingContactY'] = sleep_contacts(manifest)
     path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + '\n', encoding='utf-8')
     print(f'{len(keys)} grounded clips / {total} support samples; no image bytes changed')

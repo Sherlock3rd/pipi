@@ -25,6 +25,10 @@ def displayed(clip,index,p):
     result=(p/512-np.array([c['anchorX'],c['anchorY']]))*288*s+offset
     if 'groundContacts' in c:
         result[:,1]=(p[:,1]/512-c['groundContacts'][index])*288*s
+    elif 'landingContactY' in c:
+        blend=np.clip((index/(count-1)-.8)/.2,0,1);blend=blend*blend*(3-2*blend)
+        anchored=(p[:,1]/512-c['landingContactY'])*288*s
+        result[:,1]=result[:,1]*(1-blend)+anchored*blend
     return result
 
 def check(a,ia,b,ib,continue_breath=False):
@@ -45,12 +49,13 @@ def check(a,ia,b,ib,continue_breath=False):
 
 if __name__=='__main__':
     seams=[check(*pair) for pair in [('17',-1,'19',0),('19',-1,'20',0),('21',-1,'18',0),('18',-1,'01',0),
-                                   ('16',-1,'22',0),('11',-1,'22',0),('22',-1,'23',0),('22',-1,'25',0),('25',-1,'24',0)]]
+                                   ('16',-1,'22',0),('11',-1,'22',0),('22',-1,'23',0),('22',-1,'25',0),('25',-1,'24',0),
+                                   ('34',-1,'01',0),('01',-1,'17',0),('20',-1,'20',0)]]
     seams += [check('20',i,'21',0,True) for i in range(121)]
     maximum=max(abs(x['bodyScaleRatio']-1) for x in seams)
     assert all(x['inliers']>=50 for x in seams)
     assert maximum<.003, maximum
     assert max(x['meanPositionChange'] for x in seams)<1.5
-    out=ROOT/('docs/qa/support-plane' if 'groundContacts' in manifest['clips']['video-20'] else 'docs/qa/contact-v2');out.mkdir(parents=True,exist_ok=True)
+    out=ROOT/('docs/qa/landing-sleep' if manifest.get('supportContactRevision')==3 else 'docs/qa/support-plane' if 'groundContacts' in manifest['clips']['video-20'] else 'docs/qa/contact-v2');out.mkdir(parents=True,exist_ok=True)
     (out/'seams.json').write_text(json.dumps({'maxScaleDifferencePercent':maximum*100,'seams':seams},indent=2)+'\n',encoding='utf-8')
     print(f'{len(seams)} rendered seam samples passed; maximum matched-body scale difference {maximum*100:.3f}%')

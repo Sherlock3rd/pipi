@@ -5,7 +5,7 @@ using System.Text.Json.Serialization;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null,double BuryPlaybackRate=1)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null,double BuryPlaybackRate=1,double? LandingContactY=null)
 {
     public double Duration=>Count/Fps;
     public SpriteClip ForAction(string action)=>action=="bury"&&BuryPlaybackRate!=1?this with {Fps=Fps*BuryPlaybackRate,PlaybackRate=PlaybackRate*BuryPlaybackRate}:this;
@@ -15,7 +15,16 @@ public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,
         double t=Math.Clamp(index/(double)Math.Max(1,Count-1),0,1);t=t*t*(3-2*t);
         double scale=ScaleStart+(ScaleEnd-ScaleStart)*t;
         double ox=OffsetStartX+(OffsetEndX-OffsetStartX)*t,oy=OffsetStartY+(OffsetEndY-OffsetStartY)*t;
-        return (this with {Width=Width*scale,Height=Height*scale,AnchorX=AnchorX-ox/(Width*scale),AnchorY=AnchorY-oy/(Height*scale),ScaleStart=1,ScaleEnd=1,OffsetStartX=0,OffsetStartY=0,OffsetEndX=0,OffsetEndY=0}).OnGround(index);
+        var result=this with {Width=Width*scale,Height=Height*scale,AnchorX=AnchorX-ox/(Width*scale),AnchorY=AnchorY-oy/(Height*scale),ScaleStart=1,ScaleEnd=1,OffsetStartX=0,OffsetStartY=0,OffsetEndX=0,OffsetEndY=0};
+        if(LandingContactY is double contact)
+        {
+            // Preserve the airborne descent. Only the seated final fifth joins
+            // the grounded idle anchor; neither body scale nor timing changes.
+            double settle=Math.Clamp((index/(double)Math.Max(1,Count-1)-.8)/.2,0,1);
+            settle=settle*settle*(3-2*settle);
+            result=result with {AnchorY=result.AnchorY+(contact-result.AnchorY)*settle};
+        }
+        return result.OnGround(index);
     }
 }
 public readonly record struct SpriteFrame(string Clip,int Index,SpriteClip Definition);
@@ -64,7 +73,7 @@ public sealed partial class SpritePlayback
                     clips[item.Name]=new(count,fps*rate,loop,width,height,ax,ay,
                         !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
                         ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"),
-                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count),PlaybackSpeed(value,"buryPlaybackRate"));
+                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count),PlaybackSpeed(value,"buryPlaybackRate"),ReadLandingContact(value));
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
@@ -77,6 +86,7 @@ public sealed partial class SpritePlayback
                     &&double.IsFinite(s)&&s>=.9&&s<=1.1&&double.IsFinite(px)&&Math.Abs(px)<=20&&double.IsFinite(py)&&Math.Abs(py)<=20)sleepPhases.Add((s,px,py));
     }
     private static double ReadScale(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.9&&n<=1.1?n:1;
+    private static double? ReadLandingContact(JsonElement value)=>value.TryGetProperty("landingContactY",out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=1?n:null;
     public static double[]? ReadGroundContacts(JsonElement value,int count)
     {
         if(!value.TryGetProperty("groundContacts",out var list)||list.ValueKind!=JsonValueKind.Array||list.GetArrayLength()!=count)return null;

@@ -1,0 +1,59 @@
+{
+  "drop-idle": {
+    "samples": 54,
+    "duration": 14.571188400000002,
+    "transitions": [
+      {
+        "time": 0.2505077999999994,
+        "clip": "video-32"
+      },
+      {
+        "time": 5.300387199999999,
+        "clip": "video-33"
+      },
+      {
+        "time": 5.9296067,
+        "clip": "video-34"
+      },
+      {
+        "time": 11.139294900000001,
+        "clip": "video-01"
+      }
+    ],
+    "sleepLoopWraps": 0,
+    "rootYRange": [
+      453.25,
+      453.25
+    ],
+    "newErrors": false,
+    "lastSampleToIdleFootDifference": 0.07481236776814729
+  },
+  "sleep": {
+    "samples": 100,
+    "duration": 26.6311727,
+    "transitions": [
+      {
+        "time": 0.26378310000000127,
+        "clip": "video-01"
+      },
+      {
+        "time": 1.0615752,
+        "clip": "video-17"
+      },
+      {
+        "time": 4.746219800000002,
+        "clip": "video-19"
+      },
+      {
+        "time": 8.427630100000002,
+        "clip": "video-20"
+      }
+    ],
+    "sleepLoopWraps": 3,
+    "rootYRange": [
+      453.25,
+      453.25
+    ],
+    "newErrors": false
+  }
+}
