@@ -98,6 +98,7 @@ internal sealed class PetWindow : Window
         scene=new Scene(engine){OpenSettings=ShowSettings,SaveNow=Save};Content=scene;
         scene.PreviewSupplies=Preview&&args.Contains("--preview-supplies");
         scene.DarkPreview=Preview&&args.Contains("--preview-dark");
+        if(Preview&&args.Contains("--preview-no-shadow"))scene.SoftShadowsEnabled=false;
         if(scene.DarkPreview)Background=Color("#181B22");
         if(Preview&&args.Contains("--preview-walk"))
         {

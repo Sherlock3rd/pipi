@@ -1,0 +1,52 @@
+{
+  "shadow": {
+    "opacity": 0.19,
+    "blurLogical": 14,
+    "downLogical": 3
+  },
+  "existingLogicChecks": 338,
+  "sameDisplayedFrame": true,
+  "previews": {
+    "baseline": {
+      "Action": "sleep",
+      "DisplayedClip": "video-20",
+      "DisplayedFrame": 37,
+      "renderedFrames": 716,
+      "averageFrameMs": 16.74948979020979,
+      "maxFrameMs": 45.914499999998526,
+      "averageDrawMs": 1.6787673157162706
+    },
+    "normal": {
+      "Action": "sleep",
+      "DisplayedClip": "video-20",
+      "DisplayedFrame": 37,
+      "renderedFrames": 695,
+      "averageFrameMs": 17.267530979827086,
+      "maxFrameMs": 66.3651999999999,
+      "averageDrawMs": 1.728409025787965
+    },
+    "drag": {
+      "Action": "drag",
+      "DisplayedClip": "video-33",
+      "DisplayedFrame": 45,
+      "renderedFrames": 694,
+      "averageFrameMs": 17.276605916305922,
+      "maxFrameMs": 65.21419999999978,
+      "averageDrawMs": 1.8708301291248222
+    },
+    "nest": {
+      "Action": "idle",
+      "DisplayedClip": "video-07",
+      "DisplayedFrame": 54,
+      "renderedFrames": 1752,
+      "averageFrameMs": 25.681982695602514,
+      "maxFrameMs": 356.35660000000155,
+      "averageDrawMs": 0.5140475783475789
+    }
+  },
+  "darkenedPixels": 16780,
+  "controlsUnchanged": true,
+  "nestFilmSamples": 159,
+  "nestFinalSupport": 0,
+  "previewErrors": []
+}

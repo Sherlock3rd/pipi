@@ -9,11 +9,23 @@ using System.Windows;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using System.Windows.Media.Effects;
 
 namespace Chenpi;
 
 internal sealed class Scene : FrameworkElement
 {
+    // Keep the alpha-based shadow off labels and controls, and apply it after
+    // furniture occlusion so split rims cannot cast artificial dark seams.
+    private sealed class ArtworkVisual : DrawingVisual
+    {
+        protected override HitTestResult? HitTestCore(PointHitTestParameters p)=>null;
+    }
+    private readonly DrawingVisual artwork=new ArtworkVisual(),overlay=new ArtworkVisual();
+    private readonly DropShadowEffect softShadow=new(){Color=Colors.Black,Opacity=.19,BlurRadius=14,ShadowDepth=3,Direction=270,RenderingBias=RenderingBias.Performance};
+    internal bool SoftShadowsEnabled {get=>artwork.Effect is not null;set=>artwork.Effect=value?softShadow:null;}
+    protected override int VisualChildrenCount=>2;
+    protected override Visual GetVisualChild(int index)=>index switch {0=>artwork,1=>overlay,_=>throw new ArgumentOutOfRangeException(nameof(index))};
     public PetEngine Engine {get;}
     public Action? OpenSettings;
     public Action? SaveNow;
@@ -115,6 +127,7 @@ internal sealed class Scene : FrameworkElement
     public double WorldHeight=>ActualHeight/Scale;
     public Scene(PetEngine engine)
     {
+        AddVisualChild(artwork);AddVisualChild(overlay);SoftShadowsEnabled=true;
         Engine=engine;shownFood=engine.State.Food;shownWater=engine.State.Water;Focusable=false;Cursor=Cursors.Arrow;
         RenderOptions.SetBitmapScalingMode(this,BitmapScalingMode.HighQuality);
         LoadSprites();
@@ -279,10 +292,14 @@ internal sealed class Scene : FrameworkElement
     }
     private void ReturnWand(){wandHeld=false;Engine.SetToy(false,new Spot());Cursor=Cursors.Arrow;if(IsMouseCaptured)ReleaseMouseCapture();SaveNow?.Invoke();InvalidateVisual();}
     protected override void OnMouseRightButtonUp(MouseButtonEventArgs e){if(wandHeld)ReturnWand();else OpenSettings?.Invoke();e.Handled=true;}
-    protected override void OnRender(DrawingContext dc)
+    protected override void OnRender(DrawingContext context)
     {
         long started=System.Diagnostics.Stopwatch.GetTimestamp();
-        base.OnRender(dc);dc.PushTransform(new ScaleTransform(Scale,Scale));
+        base.OnRender(context);
+        using var art=artwork.RenderOpen();using var ui=overlay.RenderOpen();
+        var dc=art;
+        softShadow.BlurRadius=14*Scale;softShadow.ShadowDepth=3*Scale;
+        dc.PushTransform(new ScaleTransform(Scale,Scale));
         if(PreviewSupplies)
         {
             for(int n=0;n<=5;n++)
@@ -325,6 +342,7 @@ internal sealed class Scene : FrameworkElement
         if(drinking)DrawCareBowl(dc,Engine.WaterSpot,shownWater,true,true);
         else DrawBowl(dc,Engine.WaterSpot,shownWater,true,Engine.Now);
         DrawWand(dc);
+        dc.Pop();dc=ui;dc.PushTransform(new ScaleTransform(Scale,Scale));
         if(IsDragging&&pressedObject=="cat"&&AtNest)
         {dc.DrawRoundedRectangle(null,new Pen(Brush("#A3C7A2"),3),NestRect,30,30);}
         var age=DateTimeOffset.UtcNow-Engine.State.AdoptedAt;
