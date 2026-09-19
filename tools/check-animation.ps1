@@ -2,6 +2,7 @@ param(
     [Parameter(Mandatory=$true)][string]$Python,
     [string]$OpenCvPath,
     [string]$Clips='all',
+    [switch]$NestOcclusion,
     [string]$Output='artifacts/animation-monitor/latest'
 )
 $ErrorActionPreference='Stop'
@@ -14,11 +15,13 @@ try {
     & .tools/dotnet/dotnet.exe publish src/Chenpi -c Release -r win-x64 --self-contained true -o "$Output/publish" --no-restore
     if($LASTEXITCODE -ne 0){throw 'Audit build failed'}
     $taskOutput=[IO.Path]::GetFullPath($Output)
-    $taskArgs=@('--audit-animations',('"'+$taskOutput+'/frames"'))
-    if($Clips -ne 'all'){$taskArgs+=@('--audit-clips',$Clips)}
+    $taskMode=if($NestOcclusion){'--audit-nest-occlusion'}else{'--audit-animations'}
+    $taskArgs=@($taskMode,('"'+$taskOutput+'/frames"'))
+    if(-not $NestOcclusion -and $Clips -ne 'all'){$taskArgs+=@('--audit-clips',$Clips)}
     $taskProcess=Start-Process -FilePath "$taskOutput/publish/Chenpi.exe" -ArgumentList $taskArgs -WindowStyle Hidden -PassThru
     $taskProcess.WaitForExit()
     if($taskProcess.ExitCode -ne 0){throw "WPF export failed; inspect $Output/frames/error.txt"}
+    if($NestOcclusion){Get-Content "$taskOutput/frames/occlusion.json" -Raw | ConvertFrom-Json | Select-Object OldWorst,NewWorst;Write-Output "Review before/after scene captures in $taskOutput/frames";exit 0}
     & $Python tools/check_animation_continuity.py "$Output/frames" --out "$Output/report"
     $taskResult=$LASTEXITCODE
     Write-Output "Open $taskOutput/report/index.html to review actual adjacent frames."

@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-nest-occlusion") is string nestAuditDirectory)
+        {
+            Directory.CreateDirectory(nestAuditDirectory);
+            try {var auditApp=new System.Windows.Application();new Scene(new PetEngine(new PetState())).ExportNestOcclusionAudit(nestAuditDirectory);}
+            catch(Exception error){File.WriteAllText(Path.Combine(nestAuditDirectory,"error.txt"),error.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--audit-animations") is string auditDirectory)
         {
             Directory.CreateDirectory(auditDirectory);
@@ -134,6 +141,12 @@ internal sealed class PetWindow : Window
             engine.BeginDrag();
             var dropTimer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(6)};
             dropTimer.Tick+=(_,_)=>{dropTimer.Stop();engine.Drop(args.Contains("--preview-land-in-nest"));};dropTimer.Start();
+        }
+        if(Preview&&args.Contains("--preview-nest-roundtrip"))
+        {
+            engine.Demo("sleep");
+            var exitTimer=new DispatcherTimer{Interval=TimeSpan.FromSeconds(27)};
+            exitTimer.Tick+=(_,_)=>{exitTimer.Stop();if(!quitting)engine.Wake();};exitTimer.Start();
         }
         if(Preview&&args.Contains("--preview-interaction-test"))
         {

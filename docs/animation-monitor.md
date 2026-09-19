@@ -34,3 +34,5 @@
 
 
 安装及Git总账：正式程序响应正常，诊断时间晚于启动时间，无新错误日志。启动核验时native.visible=true，但sceneVisibility=Hidden，原因fullScreen=true/fullscreen-on-pet-screen；按已有全屏避让规则隐藏，未擅自禁用避让，也不将其误记为场景可见通过。已备份存档，DLL/manifest安装哈希与验证版本一致。实现9cec3bd1a6248fcdf89a70f7cff2098bff14a925 已推送origin/main并核验远端一致。338项回归、159个端点检查、484帧/486对实际渲染逐帧对比及两组吃喝场景核验完成；修复后0处可靠身体比例突变，4处原姿态轮廓复核提示保留。
+
+家具遮挡另用 `-NestOcclusion` 运行场景像素审计，真实猫层与窝前景层检测错误交叠，保留旧遮罩负对照。输出 `frames/occlusion.json` 及左右前后对比PNG，故障退出码1。它补充尺寸监测，详见[nest-foreground-depth.md](nest-foreground-depth.md)。

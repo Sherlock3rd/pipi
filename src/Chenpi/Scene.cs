@@ -361,9 +361,10 @@ internal sealed class Scene : FrameworkElement
         {
             if(foreground)
             {
-                // Follow the actual bolster tops and cushion seam, not a generic
-                // parabola that pastes a diagonal strip across the entering cat.
-                var rim=System.Windows.Media.Geometry.Parse("M -98,-82 C -94,-101 -74,-113 -54,-109 C -58,-94 -66,-87 -67,-72 C -63,-57 -37,-46 0,-46 C 36,-45 59,-50 67,-67 C 64,-85 60,-95 65,-109 C 84,-101 96,-88 98,-70 L 98,0 L -98,0 Z").Clone();
+                // High side bolsters belong behind a cat crossing into the seat.
+                // Only the low front lip may cover the planted paws. Promoting
+                // the whole side arm here severs the trailing leg and tail.
+                var rim=System.Windows.Media.Geometry.Parse("M -98,-34 Q -82,-39 -67,-53 C -48,-46 -25,-46 0,-46 C 25,-46 48,-46 67,-53 Q 82,-39 98,-34 L 98,0 L -98,0 Z").Clone();
                 rim.Transform=new TranslateTransform(p.X,p.Y);dc.PushClip(rim);
             }
             dc.DrawImage(nestSprite,new Rect(p.X-98,p.Y-146,196,146));
@@ -543,6 +544,44 @@ internal sealed class Scene : FrameworkElement
         }
         if(records.Count==0)throw new InvalidDataException("No selected animation frames");
         File.WriteAllText(Path.Combine(directory,"frames.json"),JsonSerializer.Serialize(new {PixelsPerUnit=2,RootX=192,RootY=288,Frames=records}));
+    }
+    internal void ExportNestOcclusionAudit(string directory)
+    {
+        Directory.CreateDirectory(directory);Engine.Layout(900,450);Engine.MoveObject("nest",new Spot(450,Engine.GroundY));
+        var records=new List<object>();int oldWorst=0,newWorst=0;
+        RenderTargetBitmap Render(Action<DrawingContext> draw)
+        {var visual=new DrawingVisual();using(var dc=visual.RenderOpen())draw(dc);var bitmap=new RenderTargetBitmap(900,450,96,96,PixelFormats.Pbgra32);bitmap.Render(visual);return bitmap;}
+        byte[] Pixels(BitmapSource bitmap){var bytes=new byte[900*450*4];bitmap.CopyPixels(bytes,900*4,0);return bytes;}
+        void Save(BitmapSource bitmap,string name){var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));using var stream=File.Create(Path.Combine(directory,name));encoder.Save(stream);}
+        foreach(int side in new[]{-1,1})for(int i=0;i<=40;i++)
+        {
+            string id=side<0?"video-right":"video-14";var images=GetFrames(id)!;int index=(i*3)%images.Count;
+            double x=Engine.Nest.X-InteractionGeometry.NestRestOffsetX+side*(180-i*4.5);
+            double footY=Engine.GroundY-InteractionGeometry.NestSupport(x,Engine.Nest.X);
+            var sprite=playback.InspectFrame(id,index)!.Value;
+            void Cat(DrawingContext dc){dc.PushTransform(new TranslateTransform(x,footY));DrawVideoFrame(dc,images[index],sprite.Definition);dc.Pop();}
+            void Foreground(DrawingContext dc,bool legacy)
+            {
+                if(!InteractionGeometry.InsideNestSeat(x,Engine.Nest.X))return;
+                if(!legacy){DrawNest(dc,true);return;}
+                // Negative control: the previous high-arm mask must fail.
+                var p=Engine.Nest;dc.PushTransform(new ScaleTransform(InteractionGeometry.NestScale,InteractionGeometry.NestScale,p.X,p.Y));
+                var shape=System.Windows.Media.Geometry.Parse("M -98,-82 C -94,-101 -74,-113 -54,-109 C -58,-94 -66,-87 -67,-72 C -63,-57 -37,-46 0,-46 C 36,-45 59,-50 67,-67 C 64,-85 60,-95 65,-109 C 84,-101 96,-88 98,-70 L 98,0 L -98,0 Z").Clone();
+                shape.Transform=new TranslateTransform(p.X,p.Y);dc.PushClip(shape);dc.DrawImage(nestSprite,new Rect(p.X-98,p.Y-146,196,146));dc.Pop();dc.Pop();
+            }
+            var cat=Pixels(Render(Cat));var oldLayer=Pixels(Render(dc=>Foreground(dc,true)));var newLayer=Pixels(Render(dc=>Foreground(dc,false)));
+            int oldCovered=0,newCovered=0;
+            // Allow the front lip to cover the bottom 12 logical units of paws;
+            // it must never remove the upper leg, torso or tail root.
+            for(int y=0;y<Math.Min(450,footY-12);y++)for(int px=0;px<900;px++)
+            {int alpha=(y*900+px)*4+3;if(cat[alpha]>128){if(oldLayer[alpha]>128)oldCovered++;if(newLayer[alpha]>128)newCovered++;}}
+            oldWorst=Math.Max(oldWorst,oldCovered);newWorst=Math.Max(newWorst,newCovered);
+            records.Add(new {Side=side,Step=i,Clip=id,Frame=index,X=x,FootY=footY,OldBodyCovered=oldCovered,NewBodyCovered=newCovered});
+            if(i is 26 or 30 or 34 or 40)
+                foreach(bool legacy in new[]{true,false})Save(Render(dc=>{DrawNest(dc,false);Cat(dc);Foreground(dc,legacy);}),$"{(side<0?"left":"right")}-{i}-{(legacy?"before":"after")}.png");
+        }
+        File.WriteAllText(Path.Combine(directory,"occlusion.json"),JsonSerializer.Serialize(new {OldWorst=oldWorst,NewWorst=newWorst,Samples=records}));
+        if(oldWorst<100||newWorst!=0)throw new InvalidDataException("Nest foreground audit failed; inspect occlusion.json");
     }
     private void DrawCat(DrawingContext dc,double x,double y,string action,double time,bool left)
     {
