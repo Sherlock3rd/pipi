@@ -1,0 +1,61 @@
+{
+  "status": "revised-candidates-visually-inspected",
+  "userAccepted": false,
+  "runtimeChanged": false,
+  "pixelAlignmentValidated": false,
+  "anchors": {
+    "HR": {
+      "reference": "新增09扶墙标准图",
+      "observation": "身体向墙倾斜，上前掌耳侧、下前掌胸前，均朝同一墙面；头回望，尾下垂，后脚承重。",
+      "sha256": "a63f6ba945dec93130740c99548578ca3f96d0be444b16aef3777fb3f855bbce",
+      "file": "anchors/HR-右边扶墙.png"
+    },
+    "HL": {
+      "reference": "新增09反侧设计",
+      "observation": "单独生成左侧扶墙，上掌耳侧、下掌胸前、头回望，身体朝墙倾斜；浅背景。",
+      "sha256": "1d16f7bc5240138e30d269c537c25ce038635f1e1996c04c47bf33df9879d7e0",
+      "file": "anchors/HL-左边扶墙.png"
+    },
+    "A": {
+      "reference": "05主，04/07辅",
+      "observation": "左侧脸贴地，近脸前爪弯曲，后腿一伸一屈，尾靠后腿；闭眼不主动看镜头。",
+      "sha256": "beabaac6e7b9e2811cfb90f1cc70fdbe69da490665ee1457956888712cf5cb63",
+      "file": "anchors/A-侧躺收爪.png"
+    },
+    "B": {
+      "reference": "02中性基态推导",
+      "observation": "露肚、右侧头后仰贴地，两前腿向头顶一高一低展开；闭嘴。",
+      "sha256": "4d4cc9c4d3b762b071657c3a8dbaf62d07a91b0fe49dabb4b797537fd1fb0e2b",
+      "file": "anchors/B-露肚仰躺.png"
+    },
+    "C": {
+      "reference": "08",
+      "observation": "背向，近臀远头，正脸不可见，尾绕近侧、腿不对称伸出。",
+      "sha256": "250ea532638ee871982837e3a26dbef5452927b01392e361107e59d303305b6b",
+      "file": "anchors/C-侧躺舒展.png"
+    },
+    "M": {
+      "reference": "新增10捂脸标准图",
+      "observation": "低伏侧面椭圆蜷睡，头在左埋于前爪、近前臂盖脸，圆背在右、尾围前缘。",
+      "sha256": "df2b6e651475efefe4e58111b7b339dc9ded62ed5afe148bcbcd2323e62b182b",
+      "file": "anchors/M-掩面睡姿.png"
+    },
+    "D": {
+      "reference": "07身份细节；姿态为设计",
+      "observation": "低头胸腹贴地、前爪朝画面右下，作为趴卧连接；不声称逐像素复刻照片。",
+      "sha256": "45a7962d982fc9bd9d22d096618641502ee76551185a319cccc8e51c59294162",
+      "file": "anchors/D-趴卧.png"
+    }
+  },
+  "limitations": [
+    "源图头骨/胸廓尺度、接触线及投影仍需逐段验证，不能从同画幅推导尺寸一致。",
+    "C保留照片纵深特征，进入/退出须验证固定镜头下可否通过身体转向达到；M已按新增标准改为低伏侧视。若视角不连续则重制，不转镜头。",
+    "独立左扶边不是逐像素镜像，但大小眼细差在倾头下不能仅凭本次静态图量化认定通过。",
+    "短毛笔触仍为绘本化处理，最终美术认可由用户决定。"
+  ],
+  "peak": {
+    "file": "peaks/B-仰躺哈欠峰值.png",
+    "sha256": "d2fe02546520ecf02b3e655b383174eb2b1642a6b6aeae805e033b92fa4dfbc3",
+    "observation": "只张嘴哈欠；B的身体、四爪、头后仰与构图基本保持，非静止循环端点。"
+  }
+}

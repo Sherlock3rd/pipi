@@ -1,0 +1,98 @@
+{
+  "status": "generated-photo-revision-candidates",
+  "date": "2026-09-20",
+  "mode": "builtin image_gen",
+  "canvas": [
+    1672,
+    941
+  ],
+  "userAccepted": false,
+  "referencePolicy": "Eight photos constrain poses; latest user wall and face-cover illustrations override earlier HR/HL/M poses. No runtime pixel-alignment claim.",
+  "jobs": [
+    {
+      "key": "C",
+      "prompt": "Use case: illustration-story. Create ONE clean production keyframe of Chenpi, adult blue-gray British shorthair, for an existing 2D painted picture-book animation. Reference image 1 is the PRIMARY exact anatomical POSE reference; keep its specific limb arrangement and head angle. Reference image 2 is STYLE/IDENTITY only, never transfer its sitting pose. Dense short gray fur painted in soft compact strokes, not feathers/scales/leaf tiles, no white muzzle, compact dark nose and quiet mouth line, adult stocky proportions and thick tail. Golden eyes only when visible; own left eye subtly smaller. Single entire cat, no objects, no furniture, no hands, no text or watermark, no cast shadow. Landscape canvas 1672x941, matching style reference warm off-white uniform background. Keep ample margins and all paws/tail inside. Ground contact around y=750, do not autoscale to fill the canvas. Head physical width about 220px as style reference; body keeps adult proportions. Pose takes priority over making a cute portrait. BACK-FACING RELAXED SIDE SPRAWL. Reproduce photo1's view from behind the hips along the cat toward the distant head: broad heavy rump nearest viewer at lower-left-center, spine receding diagonally to upper-right, back toward camera, face almost entirely hidden turned away, one small ear silhouette visible. Hind legs relaxed unevenly to foreground right, thick tail curls along foreground left, forelegs reach away to upper-right, torso lying fully on side. Keep foreshortening and diagonal body axis, no face-facing profile, no raised alert head, no eye contact. Extract only the cat pose from screenshot, no interface, human or bedding. Whole cat including limbs fits in canvas with generous margin.",
+      "referenceFiles": [
+        "reference-08.png",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-84d630e4-2502-4e20-a046-97fc9d647c26.png"
+    },
+    {
+      "key": "A",
+      "prompt": "Use case: illustration-story. Create ONE clean production keyframe of Chenpi, adult blue-gray British shorthair, for an existing 2D painted picture-book animation. Reference image 1 is the PRIMARY exact anatomical POSE reference; keep its specific limb arrangement and head angle. Reference image 2 is STYLE/IDENTITY only, never transfer its sitting pose. Dense short gray fur painted in soft compact strokes, not feathers/scales/leaf tiles, no white muzzle, compact dark nose and quiet mouth line, adult stocky proportions and thick tail. Golden eyes only when visible; own left eye subtly smaller. Single entire cat, no objects, no furniture, no hands, no text or watermark, no cast shadow. Landscape canvas 1672x941, matching style reference warm off-white uniform background. Keep ample margins and all paws/tail inside. Ground contact around y=750, do not autoscale to fill the canvas. Head physical width about 220px as style reference; body keeps adult proportions. Pose takes priority over making a cute portrait. SIDE RECLINING pose closely matching photo1: head to LEFT, face resting sideways on ground, eyes fully closed and not looking at viewer. Belly turned partially toward viewer, back extends diagonally right. Near forepaw bent loosely up beside cheek, other forepaw bent down near chest. One hind leg stretches long down-right, other hind leg folded closer to belly, paws at clearly different distances. Thick tail beside the extended hind leg to right. Preserve slumped shoulders and heavy relaxed cheek contact; do not prop head alert above hands. Do not rotate into tidy right-facing generic stock cat. Reproduce specific limbs from photo, full cat no crop. Keep head physical size matching style image.",
+      "referenceFiles": [
+        "reference-05.jpg",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-e38081ac-acf3-41ba-9660-254e9e7f762a.png"
+    },
+    {
+      "key": "B",
+      "prompt": "Use case: illustration-story. Create ONE clean production keyframe of Chenpi, adult blue-gray British shorthair, for an existing 2D painted picture-book animation. Reference image 1 is the PRIMARY exact anatomical POSE reference; keep its specific limb arrangement and head angle. Reference image 2 is STYLE/IDENTITY only, never transfer its sitting pose. Dense short gray fur painted in soft compact strokes, not feathers/scales/leaf tiles, no white muzzle, compact dark nose and quiet mouth line, adult stocky proportions and thick tail. Golden eyes only when visible; own left eye subtly smaller. Single entire cat, no objects, no furniture, no hands, no text or watermark, no cast shadow. Landscape canvas 1672x941, matching style reference warm off-white uniform background. Keep ample margins and all paws/tail inside. Ground contact around y=750, do not autoscale to fill the canvas. Head physical width about 220px as style reference; body keeps adult proportions. Pose takes priority over making a cute portrait. SUPINE REST BASE matching photo1's body arrangement immediately before its yawn. Head on RIGHT tipped back/sideways onto ground, eyes closed, mouth CLOSED at rest. Back planted, belly upward, haunch to left, rear legs loosely asymmetric. Both forelegs extend toward head and beyond it as in photo1: far foreleg reaches to right almost along ground, near foreleg angled upward-right with gently bent wrist, not four neat upright paws. Relax the extension a little to create a sustainable resting pose but preserve asymmetry and shoulder geometry. Photo1's mouth-open apex is NOT this neutral frame. Full thick tail on left beside hindquarters; no forced face front.",
+      "referenceFiles": [
+        "reference-02-compatible.png",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-c88e1521-a6f2-4607-ba60-71c1f1762267.png"
+    },
+    {
+      "key": "D",
+      "prompt": "Use case: illustration-story. Create ONE clean production keyframe of Chenpi, adult blue-gray British shorthair, for an existing 2D painted picture-book animation. Reference image 1 is the PRIMARY exact anatomical POSE reference; keep its specific limb arrangement and head angle. Reference image 2 is STYLE/IDENTITY only, never transfer its sitting pose. Dense short gray fur painted in soft compact strokes, not feathers/scales/leaf tiles, no white muzzle, compact dark nose and quiet mouth line, adult stocky proportions and thick tail. Golden eyes only when visible; own left eye subtly smaller. Single entire cat, no objects, no furniture, no hands, no text or watermark, no cast shadow. Landscape canvas 1672x941, matching style reference warm off-white uniform background. Keep ample margins and all paws/tail inside. Ground contact around y=750, do not autoscale to fill the canvas. Head physical width about 220px as style reference; body keeps adult proportions. Pose takes priority over making a cute portrait. CONNECTING POSE D: this is a designed relaxed sternal prone connecting posture rather than literal copy of the lateral photograph. Preserve dense short gray fur, heavy cheeks and relaxed closed/half-closed eyes from photo, but chest and abdomen rest on ground, both forelegs reach comfortably to RIGHT, head to right in three-quarter profile looking down/away, hindlegs folded at left alongside abdomen, thick tail lies to left. Keep chin low, neck relaxed, not alert hunting crouch, no eye contact. Entire cat at same physical head scale as style reference. Pure off-white backdrop, no photograph background or screenshot UI.",
+      "referenceFiles": [
+        "reference-07.png",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-4c8076c3-2701-4dec-af61-461db3cb4c99.png"
+    },
+    {
+      "key": "Y",
+      "prompt": "Use case precise-object-edit. Image1 is the exact edit target and canonical Chenpi supine neutral keyframe. Image2 is pose reference for YAWNING PEAK only. Keep image1 body, all four limbs, fur style, camera, size, root position, background and entire tail identical. Change ONLY mouth and eyelids to show one natural full cat yawn as photo2: eyes squeeze gently closed, jaw opens, pink tongue curves naturally upward within mouth, head stays tipped sideways/back resting on ground. Small natural teeth, no roaring or angry expression, no long human mouth, no facial ballooning. Preserve cheekbone/skull size and tiny dark nose. This is an intermediate peak reference for a B-to-B animation; not neutral loop endpoint. 1672x941 exact landscape opaque off-white background, no text.",
+      "referenceFiles": [
+        "exec-c88e1521-a6f2-4607-ba60-71c1f1762267.png",
+        "reference-02-compatible.png"
+      ],
+      "outputFile": "exec-9cb15dbd-54ed-4b4e-96df-66d59e6f0645.png"
+    },
+    {
+      "key": "HR",
+      "prompt": "Use case illustration-story. Generate one Chenpi animation keyframe. Image1 is the NEW AUTHORITATIVE EXACT WALL-BRACING POSE supplied by the user, overrides previous references. Image2 is painted character identity/style and 1672x941 canvas reference, not sitting pose. Adult stocky blue-gray cat, short dense softly painted fur, compact natural gray muzzle and small dark nose, golden eyes, own left eye subtly smaller. Match image1's specific diagonal lean, raised paw placement, hindleg support and turned head. Single complete cat with all feet and tail; same pale warm off-white opaque background as image2, no transparency, no text. Do NOT paint the wall, vertical stripe, floor line or shadows from image1: these are separately placed at runtime. However both forepaw CONTACT surfaces must coincide with the SAME invisible vertical wall line. Exact 1672 by 941 horizontal canvas. Preserve adult proportions, cat centered with generous room all around. RIGHT WALL: copy image1 anatomy and silhouette directly: hind paws below and LEFT of front-paw contact line, torso leans about 15-20 degrees to RIGHT from vertical, stretched chest. The UPPER foreleg reaches upward-right with its paw at EAR HEIGHT pressed flat to wall; the LOWER foreleg reaches right across chest with paw at lower chest height, pressed to same wall line. Do not curl hands into fists near chest. Head turns left/back toward viewer with slight tilt. Thick tail droops out to LEFT and curves down. Both rear legs support the cat, far leg naturally overlapped, hind paws stay ground. Preserve real feline shoulders; not human standing.",
+      "referenceFiles": [
+        "codex-clipboard-cdec48fc-5cd1-4875-ab4d-fb9990bc9b16.png",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-b0309622-d191-4a20-887a-c49aead1028c.png"
+    },
+    {
+      "key": "HL",
+      "prompt": "Use case illustration-story. Generate one Chenpi animation keyframe. Image1 is the NEW AUTHORITATIVE EXACT WALL-BRACING POSE supplied by the user, overrides previous references. Image2 is painted character identity/style and 1672x941 canvas reference, not sitting pose. Adult stocky blue-gray cat, short dense softly painted fur, compact natural gray muzzle and small dark nose, golden eyes, own left eye subtly smaller. Match image1's specific diagonal lean, raised paw placement, hindleg support and turned head. Single complete cat with all feet and tail; same pale warm off-white opaque background as image2, no transparency, no text. Do NOT paint the wall, vertical stripe, floor line or shadows from image1: these are separately placed at runtime. However both forepaw CONTACT surfaces must coincide with the SAME invisible vertical wall line. Exact 1672 by 941 horizontal canvas. Preserve adult proportions, cat centered with generous room all around. LEFT WALL: independently draw opposite side version of image1's anatomy and silhouette (not pixel mirror): hind paws below and RIGHT of forepaw wall line, torso leans 15-20 degrees LEFT from vertical. Upper foreleg reaches upward-left, paw at EAR HEIGHT pressed flat on left invisible wall; lower foreleg reaches left across chest, paw at lower chest height on SAME wall line. Forelegs are reaching toward the wall, not folded fists at chest. Head turns back toward observer with slight tilt, own-left eye remains slightly smaller in correct anatomy. Thick tail droops out RIGHT then down. Both hindlegs ground supporting. No wall painted.",
+      "referenceFiles": [
+        "codex-clipboard-cdec48fc-5cd1-4875-ab4d-fb9990bc9b16.png",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-5f466eec-edf5-430e-8b51-921892d70b3a.png"
+    },
+    {
+      "key": "M",
+      "prompt": "Use case illustration-story. One production animation keyframe of Chenpi in FACE-COVERED CURLED SLEEP. Image1 is the NEW EXACT AUTHORITATIVE POSE, overrides earlier top-down curled photo. Copy image1's LOW SIDE-VIEW silhouette, camera angle and anatomy faithfully. Image2 supplies adult blue-gray cat identity, painted style and 1672x941 landscape canvas/background only. Cat is curled tightly into a low horizontal oval seen from the SIDE, NOT a top-down round ball and NOT belly-up. Head on LEFT lowered and buried into paws, face almost completely concealed, one ear visible angled down; near foreleg folds OVER face from shoulder, paw covers eyes and muzzle rather than posing above forehead. Rounded back and tucked haunches on RIGHT arch around head. Hindlegs tucked invisibly under body, not lifted toward camera. Thick tail lies across entire FRONT/lower rim sweeping right to left, encircling curled body. Do not expose a cute face or front-facing nose, do not show all four paws or paw pads. Preserve dense short gray fur, stocky adult physical proportions; softly painted 2D matte picture-book style with subtle strokes not spiky feather tiles. Entire one cat with ample margin, off-white opaque plain backdrop matching image2, no cast shadow, no bedding, no wall, no text or watermark. No transparent background. Exact 1672x941 landscape canvas; low cat composition centered in lower middle. Image1's body pose and low viewing angle are highest priority.",
+      "referenceFiles": [
+        "codex-clipboard-84fdd13c-f010-4fb4-b3f9-0c033de0d779.png",
+        "F-正面坐姿.png"
+      ],
+      "outputFile": "exec-9e37a072-dc71-4544-b3fd-032a4009e8ba.png"
+    }
+  ],
+  "additionalEdits": [
+    {
+      "key": "A",
+      "prompt": "Use case precise-object-edit. Image1 is ONLY the output canvas/background template: 1672 pixels wide x 941 pixels tall. Image2 is the EXACT CAT artwork to retain. Output a single image of ONLY the cat from image2, with identical pose, physical pixel scale, location, fur, facial features and paw positions. Do NOT include or imitate the sitting cat in image1. Image2 is 1671x941; extend canvas by ONE pale warm off-white background pixel column on the right to exactly 1672x941, keeping artwork unchanged. Do not rescale, rotate or redraw the cat. Preserve opaque pale off-white background, no transparency, no shadow. Final must be 1672x941 like image1. This is a one-pixel canvas-extension production correction only.",
+      "reason": "Initial canvas was 1671 wide; regenerated to 1672, inspected again."
+    }
+  ],
+  "notes": [
+    "MPO source02 first displayed frame re-encoded to PNG solely for tool format compatibility. Original preserved.",
+    "Earlier wall/face-cover renders superseded by two additional user references during this turn.",
+    "All PNGs copied from builtin image_gen; no scripted resizing, mirroring or retouching of generated cat artwork.",
+    "历史关键图生成记录.json describes rejected old poses only."
+  ]
+}
