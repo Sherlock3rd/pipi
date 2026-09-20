@@ -182,6 +182,7 @@ internal sealed class PetWindow : Window
     {
         if(initialized)return;
         initialized=true;
+        RefreshTrayIcon();
         if(!Preview)FitScreen();UpdateLayout();
         if(args.Contains("--floating"))engine.State.Floating=true;
         ApplyLayer();scene.LayoutWorld();previousAnimation=animationClock.Elapsed.TotalSeconds;
@@ -189,7 +190,7 @@ internal sealed class PetWindow : Window
         // desktop host has accepted it. This removes an intermittent first-frame
         // race where the pet is running behind the desktop on some machines.
         Native.EnsureVisible(this);
-        Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,new Action(()=>{if(!quitting){ApplyLayer();Native.EnsureVisible(this);scene.InvalidateVisual();}}));
+        Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,new Action(()=>{if(!quitting){RefreshTrayIcon();ApplyLayer();Native.EnsureVisible(this);scene.InvalidateVisual();}}));
         if(Preview&&(args.Contains("--preview-motion")||args.Contains("--preview-motion-left")))
         {engine.MoveObject("food",new Spot(engine.State.X+(args.Contains("--preview-motion-left")?-140:140),engine.State.Y));engine.Demo("eat");}
         CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
@@ -288,6 +289,13 @@ internal sealed class PetWindow : Window
         windowStatus=engine.State.Floating?"悬浮模式 · 全屏自动避让":appliedFloating?"壁纸兼容悬浮 · 全屏自动避让":attached?"桌面模式 · 普通窗口可覆盖":"桌面挂接未成功，请切换悬浮模式";
         if(layerStatus is not null)layerStatus.Text=LayerDescription;
         scene.InvalidateVisual();
+    }
+    private void RefreshTrayIcon()
+    {
+        if(quitting)return;
+        tray.Text="陈皮 · 桌面小猫";
+        tray.Visible=false;
+        tray.Visible=true;
     }
     private bool EffectiveFloating=>engine.State.Floating||(!Preview&&Native.WallpaperEngineRunning());
     private void SwitchLayer(bool floating)
