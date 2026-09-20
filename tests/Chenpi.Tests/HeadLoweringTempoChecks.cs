@@ -8,26 +8,34 @@ public static class HeadLoweringTempoChecks
         using var doc=JsonDocument.Parse(File.ReadAllText(manifestPath));
         var animations=doc.RootElement.GetProperty("animations");
         SpritePlayback Player(){var p=new SpritePlayback();p.Load(doc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);return p;}
-        check(doc.RootElement.GetProperty("clips").EnumerateObject().Where(c=>c.Value.TryGetProperty("eatDrinkPlaybackRate",out _)).Select(c=>c.Name).SequenceEqual(new[]{"video-22"}),"only the shared head-lowering clip opts into eating/drinking acceleration");
+        check(doc.RootElement.GetProperty("clips").EnumerateObject().Where(c=>c.Value.TryGetProperty("eatDrinkPlaybackRate",out _)).Select(c=>c.Name).SequenceEqual(new[]{"video-22","video-24"}),"only head lowering and raising opt into eating/drinking acceleration");
         foreach(string action in new[]{"eat","drink"})
         {
             var p=Player();var original=p.InspectFrame("video-22",0)!.Value.Definition;
             var intake=p.InspectFrame(action=="eat"?"video-23":"video-25",0)!.Value;
             var finish=p.InspectFrame("video-24",0)!.Value.Definition;
-            double lowering=original.Duration/1.5;
-            check(Math.Abs(p.ActionDuration(action)!.Value-(lowering+intake.Definition.Duration+finish.Duration))<1e-9,action+" total duration changes only by the shorter preparation");
+            double lowering=original.Duration/2.25;
+            check(Math.Abs(p.ActionDuration(action)!.Value-(lowering+intake.Definition.Duration+finish.Duration/2.25))<1e-9,action+" total duration includes both faster head transitions");
             p.Sample(action,0);bool unchanged=true;
             for(int i=0;i<original.Count;i++)
             {
-                var actual=p.Sample(action,(i+.1)/(original.Fps*1.5))!.Value;
+                var actual=p.Sample(action,(i+.1)/(original.Fps*2.25))!.Value;
                 var source=p.InspectFrame("video-22",i)!.Value.Definition;
-                unchanged&=actual.Clip=="video-22"&&actual.Index==i&&actual.Definition.Fps==36&&actual.Definition.Width==source.Width&&actual.Definition.Height==source.Height&&actual.Definition.AnchorX==source.AnchorX&&actual.Definition.AnchorY==source.AnchorY;
+                unchanged&=actual.Clip=="video-22"&&actual.Index==i&&actual.Definition.Fps==54&&actual.Definition.Width==source.Width&&actual.Definition.Height==source.Height&&actual.Definition.AnchorX==source.AnchorX&&actual.Definition.AnchorY==source.AnchorY;
             }
-            check(unchanged,action+" retains every source frame and all size/contact calibration at 36 fps");
+            check(unchanged,action+" lowering retains every source frame and all size/contact calibration at 54 fps");
             var before=p.Sample(action,lowering-.00001)!.Value;var after=p.Sample(action,lowering+.00001)!.Value;
             var endLoop=p.Sample(action,lowering+intake.Definition.Duration-.00001)!.Value;
             var raise=p.Sample(action,lowering+intake.Definition.Duration+.00001)!.Value;
-            check(before.Index==original.Count-1&&after.Clip==intake.Clip&&after.Index==0&&after.Definition.Fps==24&&endLoop.Index==intake.Definition.Count-1&&raise.Clip=="video-24"&&raise.Index==0&&raise.Definition.Fps==24,action+" keeps complete intake and raising clips at original speed across both seams");
+            check(before.Index==original.Count-1&&after.Clip==intake.Clip&&after.Index==0&&after.Definition.Fps==24&&endLoop.Index==intake.Definition.Count-1&&raise.Clip=="video-24"&&raise.Index==0&&raise.Definition.Fps==54,action+" joins the original-speed intake to the accelerated complete raising clip");
+            unchanged=true;
+            for(int i=0;i<finish.Count;i++)
+            {
+                var actual=p.Sample(action,lowering+intake.Definition.Duration+(i+.1)/54)!.Value;
+                var source=p.InspectFrame("video-24",i)!.Value.Definition;
+                unchanged&=actual.Clip=="video-24"&&actual.Index==i&&actual.Definition.Fps==54&&actual.Definition.Width==source.Width&&actual.Definition.Height==source.Height&&actual.Definition.AnchorX==source.AnchorX&&actual.Definition.AnchorY==source.AnchorY;
+            }
+            check(unchanged,action+" raising retains every source frame and all size/contact calibration at 54 fps");
             var state=new PetState{X=400,Y=400,Food=100,Water=100,RestDuration=600,FoodClock=new(){NextDue=99999},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}};
             var engine=new PetEngine(state,1){FoodSpot=new(400,400),WaterSpot=new(400,400),VisualActionDuration=p.ActionDuration,VisualConsumptionWindow=p.ConsumptionWindow};
             engine.Demo(action);engine.Update(.001,12);

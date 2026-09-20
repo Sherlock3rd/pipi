@@ -1,0 +1,72 @@
+{
+  "logicalChecks": 381,
+  "previewType": "two isolated actual WPF runs; not manual desktop interaction",
+  "previews": [
+    {
+      "action": "eat",
+      "samples": 96,
+      "clips": {
+        "video-22": {
+          "samples": 7,
+          "fps": 54,
+          "firstTime": 7.126946499999995,
+          "lastTime": 9.101343199999997,
+          "firstFrame": 1,
+          "lastFrame": 108
+        },
+        "video-23": {
+          "samples": 16,
+          "fps": 24,
+          "firstTime": 9.415011899999998,
+          "lastTime": 14.273345099999997,
+          "firstFrame": 1,
+          "lastFrame": 118
+        },
+        "video-24": {
+          "samples": 7,
+          "fps": 54,
+          "firstTime": 14.589705599999998,
+          "lastTime": 16.354969699999995,
+          "firstFrame": 11,
+          "lastFrame": 106
+        }
+      },
+      "food": 60,
+      "water": 80,
+      "errors": false
+    },
+    {
+      "action": "drink",
+      "samples": 107,
+      "clips": {
+        "video-22": {
+          "samples": 8,
+          "fps": 54,
+          "firstTime": 7.334521699999999,
+          "lastTime": 9.2858068,
+          "firstFrame": 12,
+          "lastFrame": 117
+        },
+        "video-25": {
+          "samples": 18,
+          "fps": 24,
+          "firstTime": 9.569630700000001,
+          "lastTime": 14.2403218,
+          "firstFrame": 5,
+          "lastFrame": 117
+        },
+        "video-24": {
+          "samples": 8,
+          "fps": 54,
+          "firstTime": 14.507675200000005,
+          "lastTime": 16.492451400000004,
+          "firstFrame": 6,
+          "lastFrame": 113
+        }
+      },
+      "food": 80,
+      "water": 60,
+      "errors": false
+    }
+  ]
+}
