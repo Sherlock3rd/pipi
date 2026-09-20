@@ -15,7 +15,7 @@ public static class CareRequestChecks
             check(state.CareRequest is null,"long-empty bowls never request before an actual meal or drink is due: "+kind);
             var clock=kind=="food"?state.FoodClock:state.WaterClock;clock.NextDue=1001;
             cat.AdvanceNeeds(1);Advance(cat,100);
-            check(state.CareRequest==kind&&cat.Action=="request-"+kind&&new Spot(state.X,state.Y)==cat.CareDestination(cat.ObjectPosition(kind),kind=="food"?"eat":"drink"),"due unmet demand wakes and requests at the correct bowl: "+kind);
+            check(state.CareRequest==kind&&cat.Action=="request-"+kind&&new Spot(state.X,state.Y)==cat.OnGround(cat.ObjectPosition(kind)),"due unmet demand wakes and requests at the correct bowl: "+kind);
             check(state.Food==0&&state.Water==0,"request gestures cannot consume absent stock: "+kind);
             var oldX=state.X;cat.MoveObject(kind,new(1600,cat.GroundY));cat.Update(.1,12);
             check(cat.Action=="request-walk"&&Math.Abs(state.X-oldX)<5,"moving an empty requested bowl starts real travel without teleporting: "+kind);

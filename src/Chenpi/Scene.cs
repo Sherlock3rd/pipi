@@ -13,7 +13,7 @@ using System.Windows.Media.Effects;
 
 namespace Chenpi;
 
-internal sealed class Scene : FrameworkElement
+internal sealed partial class Scene : FrameworkElement
 {
     // Keep the alpha-based shadow off labels and controls, and apply it after
     // furniture occlusion so split rims cannot cast artificial dark seams.
@@ -135,6 +135,7 @@ internal sealed class Scene : FrameworkElement
         Engine.VisualVelocity=playback.HorizontalVelocity;
         Engine.VisualActionDuration=playback.ActionDuration;
         Engine.VisualCareReady=playback.PrepareCare;
+        Engine.VisualRequestFinishReady=playback.PrepareRequestFinish;
         Engine.VisualStandReady=playback.PrepareStand;
         playback.WalkingCallEvery=()=>(int)Engine.Settings.Get("walk.callEvery");
         Engine.VisualTravel=playback.TravelTo;

@@ -138,7 +138,7 @@ Check(requestState.CareRequest is null,"empty resource waits a full five awake m
 requester.AdvanceNeeds(1);requester.Update(.1,12);
 Check(requestState.CareRequest=="water"&&requester.Action=="request-walk","due demand plus five-minute empty resource initiates walk to its bowl");
 Advance(requester,new Spot(requestState.X,requestState.Y).Distance(requester.RequestSpot)/PetEngine.WalkSpeed+1);
-Check(requester.Action=="request-water"&&new Spot(requestState.X,requestState.Y)==requester.CareDestination(requester.WaterSpot,"drink"),"requesting cat stands at the actual bowl usage position");
+Check(requester.Action=="request-water"&&new Spot(requestState.X,requestState.Y)==requester.OnGround(requester.WaterSpot),"front-facing request is centered on the actual bowl");
 requester.MoveObject("water",new Spot(800,requester.GroundY));
 requester.ObservePointer(.01,true,requester.CatPlayCenter);
 Check(requestState.Guiding&&requester.Action=="guide-walk","hover immediately overrides request with guidance, without five-second rub delay");
@@ -809,4 +809,5 @@ CareRequestChecks.Run(Check);
 HeadLoweringTempoChecks.Run(Check,runtimeManifest);
 ExpressionChecks.Run(Check,runtimeManifest);
 BehaviorSettingsChecks.Run(Check,runtimeManifest);
+RequestGestureChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

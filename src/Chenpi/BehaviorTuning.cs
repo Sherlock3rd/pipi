@@ -23,6 +23,7 @@ public sealed partial class PetEngine
     public string ActiveBehaviorNode=>Holding||Action is "drag" or "land"?"input":
         ToyOverlaps||Action.StartsWith("toy-")?"toy":
         State.CareRequest is not null?(State.Guiding?"guide":"request"):
+        Action is "care-finish" or "care-thanks"?"guide":
         Action=="eat"?"food":Action=="drink"?"water":Action is "toilet" or "bury"?"litter":
         Action is "rest-HL" or "rest-HR"?"wall":
         Action.StartsWith("expr-")?"gesture":

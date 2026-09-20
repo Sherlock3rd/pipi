@@ -79,6 +79,7 @@ public sealed partial class PetEngine
     public Func<string,double,bool,double?>? VisualVelocity {get;set;}
     public Func<string,bool,double?>? VisualActionDuration {get;set;}
     public Func<double,bool>? VisualCareReady {get;set;}
+    public Func<double,bool>? VisualRequestFinishReady {get;set;}
     public Func<double,bool,bool>? VisualStandReady {get;set;}
     public Func<string,double,double,double,bool,(double X,bool Complete)?>? VisualTravel {get;set;}
     public Func<(double Start,double Duration)?>? VisualBurialWindow {get;set;}
@@ -278,6 +279,7 @@ public sealed partial class PetEngine
         if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&!CanRestAtWall()&&LeaveOccupiedRestSpot())return;
         if(ToyOverlaps){TickToy(dt);return;}
         if(Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"等主人靠近一点");}
+        if(UpdateRequestFinish())return;
         if(UpdateCareFlow(dt))return;
         if(CanStartCare())
         {

@@ -22,6 +22,7 @@ COMMON_EDGES = [('01','06'),('06','10'),('10','right'),('right','11'),('11','07'
                 ('26','27'),('27','28'),('29','30'),('30','31'),('32','33'),('33','34'),('34','01'),
                 ('01','40'),('40','41'),('41','42'),('42','01')]
 COMMON_EDGES += [(a,b) for gesture in ['37','38','39','45','46','47','51'] for a,b in [('01',gesture),(gesture,'01')]]
+COMMON_EDGES += [(gesture,'07') for gesture in ['48','49','50']] + [('07','51')]
 # The returned expression pack shares declared pose endpoints. Include every
 # legal pair, not just a hand-picked happy path through the new sleep graph.
 expression_manifest=Path(__file__).resolve().parents[1]/'art/video-pipeline/expressions-v4/manifest.json'

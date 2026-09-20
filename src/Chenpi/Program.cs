@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-care-request") is string requestAudit)
+        {
+            Directory.CreateDirectory(requestAudit);
+            try{var app=new System.Windows.Application();RequestGestureAudit.Run(requestAudit,Option(args,"--request-kind")??"food",args.Contains("--request-guided"));}
+            catch(Exception e){File.WriteAllText(Path.Combine(requestAudit,"error.txt"),e.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--audit-nest-occlusion") is string nestAuditDirectory)
         {
             Directory.CreateDirectory(nestAuditDirectory);

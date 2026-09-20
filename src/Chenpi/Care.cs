@@ -18,6 +18,7 @@ public sealed partial class PetEngine
     private bool pointerKnown;
     private double guideTravelled;
     private bool guideFollowing;
+    private bool requestFinishThanks;
     public Spot RequestSpot=>State.CareRequest is string kind?RequestDestination(kind):NearestRestSpot(new(State.X,State.Y));
     private CareClock ClockFor(string kind)=>kind switch {"food"=>State.FoodClock,"water"=>State.WaterClock,_=>State.LitterClock};
     private bool Available(string kind)=>kind switch {"food"=>State.Food>0,"water"=>State.Water>0,_=>State.Litter<100};
@@ -87,13 +88,30 @@ public sealed partial class PetEngine
     private void FinishRequest()
     {
         bool guided=State.Guiding;State.CareRequest=null;State.Guiding=false;guideTravelled=0;NewRest();
+        if(VisualRequestFinishReady is not null)
+        {
+            requestFinishThanks=guided;
+            SetAction("care-finish",double.MaxValue,"完成当前示意并衔接坐姿");return;
+        }
         SetAction(guided?"care-thanks":"sit",guided?2:1,"照料已完成");
     }
     public Spot RequestDestination(string kind)=>kind switch {
+        // 45/46 face forward: the pointing paw and gaze are near the root,
+        // unlike the low-head mouth 94 units to the right in 22/23/25.
+        "food"=>OnGround(FoodSpot),
+        "water"=>OnGround(WaterSpot),
+        _=>NearestRestSpot(OnGround(LitterSpot))};
+    public Spot GuideDestination(string kind)=>kind switch {
         "food"=>CareDestination(FoodSpot,"eat"),
         "water"=>CareDestination(WaterSpot,"drink"),
-        _=>NearestRestSpot(OnGround(LitterSpot))};
-    public Spot GuideDestination(string kind)=>RequestDestination(kind);
+        _=>RequestDestination(kind)};
+    private bool UpdateRequestFinish()
+    {
+        if(Action!="care-finish")return false;
+        if(VisualRequestFinishReady?.Invoke(Now)!=false)
+            SetAction(requestFinishThanks?"care-thanks":"sit",requestFinishThanks?2:1,"照料已完成");
+        return true;
+    }
     private bool UpdateCareFlow(double dt)
     {
         string? kind=State.CareRequest;if(kind is null)return false;

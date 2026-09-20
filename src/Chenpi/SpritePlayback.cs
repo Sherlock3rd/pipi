@@ -52,6 +52,7 @@ public sealed partial class SpritePlayback
     private bool careGraph;
     private string careAction="",careExit="";
     private double careStarted,exitStarted;
+    private double requestFinishAt=-1;
     private readonly List<(double Scale,double X,double Y)> sleepPhases=new();
     private SpriteFrame? lastSample;
     private double wakeContinuationAt=-1,wakeScale=1,wakeX,wakeY;
@@ -120,7 +121,7 @@ public sealed partial class SpritePlayback
     }
     public static double PlaybackSpeed(JsonElement value,string key="playbackRate")=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
-    public void Reset(){travel=null;group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;carriedExpression=null;}
+    public void Reset(){travel=null;group="";current="";careAction=careExit="";requestFinishAt=-1;pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;carriedExpression=null;}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
         "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
@@ -146,6 +147,16 @@ public sealed partial class SpritePlayback
         (clips["video-29"].ForAction("bury").Duration,clips["video-30"].Duration):null;
     private SpriteFrame? SampleCare(string action,double now,bool left)
     {
+        if(action!="care-finish")requestFinishAt=-1;
+        else if(careAction is "request-food" or "request-water" or "request-litter" or "guide-food" or "guide-water" or "guide-litter")
+        {
+            string id="video-"+CareSequence(careAction,left)[0];var finishing=clips[id];
+            // Refill changes stock immediately, but finish the currently visible
+            // gesture at its authored endpoint before walking through the graph.
+            if(requestFinishAt<0)requestFinishAt=careStarted+Math.Max(1,Math.Ceiling((now-careStarted)/finishing.Duration-1e-8))*finishing.Duration;
+            if(now<requestFinishAt-1e-8)
+                return new(id,FrameIndex(now-careStarted,finishing.Fps)%finishing.Count,finishing);
+        }
         var sequence=HasExpressions&&action.StartsWith("expr-")&&clips.ContainsKey("video-"+action[5..])?new[]{action[5..]}:CareSequence(action,left);
         if(sequence.Length>0)
         {
@@ -158,7 +169,7 @@ public sealed partial class SpritePlayback
                 if(elapsed<clip.Duration||last)
                 {
                     bool loop=last&&(action is "drag" or "toy-bat"||action.StartsWith("request-")||action.StartsWith("guide-"));
-                    int frame=(int)Math.Floor(Math.Max(0,elapsed)*clip.Fps);
+                    int frame=FrameIndex(elapsed,clip.Fps);
                     return new(id,loop?frame%clip.Count:Math.Min(clip.Count-1,frame),clip);
                 }
                 elapsed-=clip.Duration;
@@ -180,6 +191,9 @@ public sealed partial class SpritePlayback
         return null;
     }
     private void Queue(string clip,bool backwards=false){if(clips.ContainsKey(clip))pending.Enqueue((clip,backwards));}
+    // Stabilize exact frame boundaries (e.g. a 24 Hz audit) against binary
+    // rounding; this does not change frame duration or skip an authored frame.
+    private static int FrameIndex(double elapsed,double fps)=>(int)Math.Floor(Math.Max(0,elapsed)*fps+1e-8);
     private void Begin(double now)
     {
         if(pending.Count==0){current="";return;}
@@ -254,7 +268,7 @@ public sealed partial class SpritePlayback
     private SpriteFrame? SampleVideo(string action,double now,bool left)
     {
         string target=action switch {
-            "idle" or "sit" or "wake"=>"F",
+            "idle" or "sit" or "wake" or "care-finish"=>"F",
             "walk" or "toy-run" or "request-walk" or "guide-walk"=>left?"WL":"WR",
             "guide-stop" or "guide-arrive" or "toy-ready"=>left?"SL":"SR",
             "sleep"=>"C",_=>""};
@@ -271,7 +285,7 @@ public sealed partial class SpritePlayback
         {
             var playing=clips[current];
             if(!playing.Loop&&now-started<playing.Duration)
-                return new(current,(int)Math.Min(playing.Count-1,Math.Floor((now-started)*playing.Fps)),playing);
+                return new(current,Math.Min(playing.Count-1,FrameIndex(now-started,playing.Fps)),playing);
             if(!playing.Loop){nextStarted=started+playing.Duration;pose=destination;current="";}
             else if(pose!=target)current="";
         }
@@ -298,7 +312,7 @@ public sealed partial class SpritePlayback
             started=nextStarted;
         }
         if(!clips.TryGetValue(current,out var clip))return null;
-        int frame=(int)Math.Floor(Math.Max(0,now-started)*clip.Fps);
+        int frame=FrameIndex(now-started,clip.Fps);
         return new(current,clip.Loop?frame%clip.Count:Math.Min(clip.Count-1,frame),clip);
     }
     public bool PrepareCare(double now)
@@ -306,6 +320,12 @@ public sealed partial class SpritePlayback
         if(!careGraph)return true;
         Sample("care-ready",now,false);
         return pose=="SR"&&destination=="SR"&&current.Length==0;
+    }
+    public bool PrepareRequestFinish(double now)
+    {
+        if(!careGraph)return true;
+        Sample("care-finish",now);
+        return careAction.Length==0&&pose=="F"&&destination=="F"&&(current.Length==0||clips[current].Loop);
     }
     public bool PrepareStand(double now,bool left)
     {
