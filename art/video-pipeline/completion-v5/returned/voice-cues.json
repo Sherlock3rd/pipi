@@ -1,0 +1,42 @@
+{
+  "FrameNumbering": "zero-based runtime index; ClosedFrame exclusive",
+  "SourceOpenWindows": [
+    [
+      12,
+      33
+    ],
+    [
+      61,
+      81
+    ]
+  ],
+  "SourceFrames": 97,
+  "RuntimeFrames": 145,
+  "Composition": "source 0..47 + 0..47 + 48..96; no generated or interpolated art",
+  "Bindings": [
+    [
+      117,
+      12,
+      33,
+      [
+        "meow1"
+      ]
+    ],
+    [
+      117,
+      60,
+      81,
+      [
+        "meow3"
+      ]
+    ],
+    [
+      117,
+      109,
+      129,
+      [
+        "meow4"
+      ]
+    ]
+  ]
+}

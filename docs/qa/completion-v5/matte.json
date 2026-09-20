@@ -1,0 +1,2561 @@
+{
+  "affectedFrames": 639,
+  "details": [
+    {
+      "file": "video-101\\045.png",
+      "removed": 14
+    },
+    {
+      "file": "video-101\\046.png",
+      "removed": 58
+    },
+    {
+      "file": "video-101\\054.png",
+      "removed": 121
+    },
+    {
+      "file": "video-101\\055.png",
+      "removed": 98
+    },
+    {
+      "file": "video-101\\056.png",
+      "removed": 70
+    },
+    {
+      "file": "video-101\\057.png",
+      "removed": 80
+    },
+    {
+      "file": "video-101\\058.png",
+      "removed": 22
+    },
+    {
+      "file": "video-101\\063.png",
+      "removed": 89
+    },
+    {
+      "file": "video-101\\065.png",
+      "removed": 186
+    },
+    {
+      "file": "video-101\\066.png",
+      "removed": 68
+    },
+    {
+      "file": "video-101\\070.png",
+      "removed": 12
+    },
+    {
+      "file": "video-101\\071.png",
+      "removed": 138
+    },
+    {
+      "file": "video-101\\072.png",
+      "removed": 233
+    },
+    {
+      "file": "video-101\\073.png",
+      "removed": 300
+    },
+    {
+      "file": "video-101\\074.png",
+      "removed": 409
+    },
+    {
+      "file": "video-101\\075.png",
+      "removed": 472
+    },
+    {
+      "file": "video-101\\076.png",
+      "removed": 524
+    },
+    {
+      "file": "video-101\\077.png",
+      "removed": 478
+    },
+    {
+      "file": "video-101\\078.png",
+      "removed": 419
+    },
+    {
+      "file": "video-101\\079.png",
+      "removed": 238
+    },
+    {
+      "file": "video-101\\080.png",
+      "removed": 99
+    },
+    {
+      "file": "video-102\\033.png",
+      "removed": 38
+    },
+    {
+      "file": "video-102\\034.png",
+      "removed": 37
+    },
+    {
+      "file": "video-102\\035.png",
+      "removed": 37
+    },
+    {
+      "file": "video-102\\036.png",
+      "removed": 35
+    },
+    {
+      "file": "video-102\\037.png",
+      "removed": 34
+    },
+    {
+      "file": "video-102\\038.png",
+      "removed": 33
+    },
+    {
+      "file": "video-102\\039.png",
+      "removed": 29
+    },
+    {
+      "file": "video-102\\040.png",
+      "removed": 24
+    },
+    {
+      "file": "video-102\\041.png",
+      "removed": 111
+    },
+    {
+      "file": "video-102\\042.png",
+      "removed": 37
+    },
+    {
+      "file": "video-102\\043.png",
+      "removed": 75
+    },
+    {
+      "file": "video-102\\044.png",
+      "removed": 47
+    },
+    {
+      "file": "video-102\\051.png",
+      "removed": 13
+    },
+    {
+      "file": "video-102\\052.png",
+      "removed": 40
+    },
+    {
+      "file": "video-102\\053.png",
+      "removed": 70
+    },
+    {
+      "file": "video-102\\054.png",
+      "removed": 23
+    },
+    {
+      "file": "video-102\\056.png",
+      "removed": 29
+    },
+    {
+      "file": "video-102\\057.png",
+      "removed": 14
+    },
+    {
+      "file": "video-102\\058.png",
+      "removed": 346
+    },
+    {
+      "file": "video-102\\059.png",
+      "removed": 288
+    },
+    {
+      "file": "video-102\\060.png",
+      "removed": 177
+    },
+    {
+      "file": "video-102\\061.png",
+      "removed": 36
+    },
+    {
+      "file": "video-102\\062.png",
+      "removed": 34
+    },
+    {
+      "file": "video-102\\064.png",
+      "removed": 61
+    },
+    {
+      "file": "video-102\\065.png",
+      "removed": 37
+    },
+    {
+      "file": "video-102\\066.png",
+      "removed": 29
+    },
+    {
+      "file": "video-102\\067.png",
+      "removed": 13
+    },
+    {
+      "file": "video-103\\009.png",
+      "removed": 14
+    },
+    {
+      "file": "video-103\\010.png",
+      "removed": 16
+    },
+    {
+      "file": "video-103\\011.png",
+      "removed": 17
+    },
+    {
+      "file": "video-103\\012.png",
+      "removed": 18
+    },
+    {
+      "file": "video-103\\013.png",
+      "removed": 20
+    },
+    {
+      "file": "video-103\\014.png",
+      "removed": 20
+    },
+    {
+      "file": "video-103\\015.png",
+      "removed": 42
+    },
+    {
+      "file": "video-103\\016.png",
+      "removed": 22
+    },
+    {
+      "file": "video-103\\017.png",
+      "removed": 25
+    },
+    {
+      "file": "video-103\\018.png",
+      "removed": 39
+    },
+    {
+      "file": "video-103\\035.png",
+      "removed": 33
+    },
+    {
+      "file": "video-103\\036.png",
+      "removed": 30
+    },
+    {
+      "file": "video-103\\043.png",
+      "removed": 75
+    },
+    {
+      "file": "video-103\\044.png",
+      "removed": 113
+    },
+    {
+      "file": "video-103\\045.png",
+      "removed": 136
+    },
+    {
+      "file": "video-103\\046.png",
+      "removed": 36
+    },
+    {
+      "file": "video-103\\047.png",
+      "removed": 203
+    },
+    {
+      "file": "video-103\\048.png",
+      "removed": 141
+    },
+    {
+      "file": "video-103\\049.png",
+      "removed": 59
+    },
+    {
+      "file": "video-103\\050.png",
+      "removed": 66
+    },
+    {
+      "file": "video-103\\053.png",
+      "removed": 63
+    },
+    {
+      "file": "video-103\\054.png",
+      "removed": 84
+    },
+    {
+      "file": "video-103\\059.png",
+      "removed": 18
+    },
+    {
+      "file": "video-104\\006.png",
+      "removed": 18
+    },
+    {
+      "file": "video-104\\009.png",
+      "removed": 17
+    },
+    {
+      "file": "video-104\\010.png",
+      "removed": 15
+    },
+    {
+      "file": "video-104\\011.png",
+      "removed": 49
+    },
+    {
+      "file": "video-104\\013.png",
+      "removed": 12
+    },
+    {
+      "file": "video-104\\014.png",
+      "removed": 18
+    },
+    {
+      "file": "video-104\\025.png",
+      "removed": 18
+    },
+    {
+      "file": "video-104\\027.png",
+      "removed": 15
+    },
+    {
+      "file": "video-105\\022.png",
+      "removed": 33
+    },
+    {
+      "file": "video-105\\023.png",
+      "removed": 94
+    },
+    {
+      "file": "video-105\\024.png",
+      "removed": 69
+    },
+    {
+      "file": "video-105\\025.png",
+      "removed": 72
+    },
+    {
+      "file": "video-105\\026.png",
+      "removed": 45
+    },
+    {
+      "file": "video-105\\027.png",
+      "removed": 108
+    },
+    {
+      "file": "video-105\\028.png",
+      "removed": 189
+    },
+    {
+      "file": "video-105\\029.png",
+      "removed": 246
+    },
+    {
+      "file": "video-105\\030.png",
+      "removed": 286
+    },
+    {
+      "file": "video-105\\031.png",
+      "removed": 283
+    },
+    {
+      "file": "video-105\\032.png",
+      "removed": 290
+    },
+    {
+      "file": "video-105\\033.png",
+      "removed": 366
+    },
+    {
+      "file": "video-105\\034.png",
+      "removed": 397
+    },
+    {
+      "file": "video-105\\035.png",
+      "removed": 719
+    },
+    {
+      "file": "video-105\\036.png",
+      "removed": 626
+    },
+    {
+      "file": "video-105\\037.png",
+      "removed": 392
+    },
+    {
+      "file": "video-105\\038.png",
+      "removed": 243
+    },
+    {
+      "file": "video-105\\039.png",
+      "removed": 129
+    },
+    {
+      "file": "video-105\\040.png",
+      "removed": 62
+    },
+    {
+      "file": "video-105\\051.png",
+      "removed": 76
+    },
+    {
+      "file": "video-105\\052.png",
+      "removed": 123
+    },
+    {
+      "file": "video-105\\055.png",
+      "removed": 179
+    },
+    {
+      "file": "video-105\\056.png",
+      "removed": 256
+    },
+    {
+      "file": "video-105\\057.png",
+      "removed": 438
+    },
+    {
+      "file": "video-105\\058.png",
+      "removed": 309
+    },
+    {
+      "file": "video-105\\059.png",
+      "removed": 166
+    },
+    {
+      "file": "video-105\\060.png",
+      "removed": 104
+    },
+    {
+      "file": "video-105\\061.png",
+      "removed": 145
+    },
+    {
+      "file": "video-105\\062.png",
+      "removed": 112
+    },
+    {
+      "file": "video-105\\063.png",
+      "removed": 71
+    },
+    {
+      "file": "video-105\\064.png",
+      "removed": 103
+    },
+    {
+      "file": "video-105\\065.png",
+      "removed": 216
+    },
+    {
+      "file": "video-105\\066.png",
+      "removed": 514
+    },
+    {
+      "file": "video-105\\067.png",
+      "removed": 474
+    },
+    {
+      "file": "video-105\\068.png",
+      "removed": 501
+    },
+    {
+      "file": "video-105\\069.png",
+      "removed": 374
+    },
+    {
+      "file": "video-105\\070.png",
+      "removed": 204
+    },
+    {
+      "file": "video-105\\071.png",
+      "removed": 106
+    },
+    {
+      "file": "video-106\\015.png",
+      "removed": 34
+    },
+    {
+      "file": "video-106\\016.png",
+      "removed": 48
+    },
+    {
+      "file": "video-106\\017.png",
+      "removed": 23
+    },
+    {
+      "file": "video-106\\018.png",
+      "removed": 19
+    },
+    {
+      "file": "video-106\\019.png",
+      "removed": 14
+    },
+    {
+      "file": "video-106\\021.png",
+      "removed": 31
+    },
+    {
+      "file": "video-106\\022.png",
+      "removed": 24
+    },
+    {
+      "file": "video-106\\027.png",
+      "removed": 181
+    },
+    {
+      "file": "video-106\\028.png",
+      "removed": 230
+    },
+    {
+      "file": "video-106\\029.png",
+      "removed": 151
+    },
+    {
+      "file": "video-106\\030.png",
+      "removed": 173
+    },
+    {
+      "file": "video-106\\031.png",
+      "removed": 121
+    },
+    {
+      "file": "video-106\\032.png",
+      "removed": 133
+    },
+    {
+      "file": "video-106\\033.png",
+      "removed": 136
+    },
+    {
+      "file": "video-106\\034.png",
+      "removed": 98
+    },
+    {
+      "file": "video-106\\035.png",
+      "removed": 78
+    },
+    {
+      "file": "video-106\\036.png",
+      "removed": 87
+    },
+    {
+      "file": "video-106\\043.png",
+      "removed": 93
+    },
+    {
+      "file": "video-106\\044.png",
+      "removed": 142
+    },
+    {
+      "file": "video-106\\045.png",
+      "removed": 191
+    },
+    {
+      "file": "video-106\\046.png",
+      "removed": 154
+    },
+    {
+      "file": "video-107\\004.png",
+      "removed": 15
+    },
+    {
+      "file": "video-107\\005.png",
+      "removed": 119
+    },
+    {
+      "file": "video-107\\006.png",
+      "removed": 145
+    },
+    {
+      "file": "video-107\\007.png",
+      "removed": 189
+    },
+    {
+      "file": "video-107\\008.png",
+      "removed": 286
+    },
+    {
+      "file": "video-107\\009.png",
+      "removed": 559
+    },
+    {
+      "file": "video-107\\010.png",
+      "removed": 682
+    },
+    {
+      "file": "video-107\\011.png",
+      "removed": 758
+    },
+    {
+      "file": "video-107\\012.png",
+      "removed": 650
+    },
+    {
+      "file": "video-107\\013.png",
+      "removed": 423
+    },
+    {
+      "file": "video-107\\014.png",
+      "removed": 197
+    },
+    {
+      "file": "video-107\\015.png",
+      "removed": 346
+    },
+    {
+      "file": "video-107\\016.png",
+      "removed": 287
+    },
+    {
+      "file": "video-107\\017.png",
+      "removed": 332
+    },
+    {
+      "file": "video-107\\018.png",
+      "removed": 386
+    },
+    {
+      "file": "video-107\\019.png",
+      "removed": 364
+    },
+    {
+      "file": "video-107\\020.png",
+      "removed": 347
+    },
+    {
+      "file": "video-107\\021.png",
+      "removed": 416
+    },
+    {
+      "file": "video-107\\022.png",
+      "removed": 440
+    },
+    {
+      "file": "video-107\\023.png",
+      "removed": 492
+    },
+    {
+      "file": "video-107\\024.png",
+      "removed": 628
+    },
+    {
+      "file": "video-107\\025.png",
+      "removed": 842
+    },
+    {
+      "file": "video-107\\026.png",
+      "removed": 582
+    },
+    {
+      "file": "video-107\\027.png",
+      "removed": 544
+    },
+    {
+      "file": "video-107\\028.png",
+      "removed": 479
+    },
+    {
+      "file": "video-107\\029.png",
+      "removed": 489
+    },
+    {
+      "file": "video-107\\030.png",
+      "removed": 577
+    },
+    {
+      "file": "video-107\\031.png",
+      "removed": 681
+    },
+    {
+      "file": "video-107\\032.png",
+      "removed": 783
+    },
+    {
+      "file": "video-107\\033.png",
+      "removed": 829
+    },
+    {
+      "file": "video-107\\034.png",
+      "removed": 1216
+    },
+    {
+      "file": "video-107\\035.png",
+      "removed": 637
+    },
+    {
+      "file": "video-107\\036.png",
+      "removed": 465
+    },
+    {
+      "file": "video-107\\037.png",
+      "removed": 250
+    },
+    {
+      "file": "video-107\\038.png",
+      "removed": 162
+    },
+    {
+      "file": "video-107\\039.png",
+      "removed": 125
+    },
+    {
+      "file": "video-107\\040.png",
+      "removed": 120
+    },
+    {
+      "file": "video-107\\041.png",
+      "removed": 80
+    },
+    {
+      "file": "video-107\\042.png",
+      "removed": 80
+    },
+    {
+      "file": "video-111\\118.png",
+      "removed": 47
+    },
+    {
+      "file": "video-118\\065.png",
+      "removed": 15
+    },
+    {
+      "file": "video-118\\075.png",
+      "removed": 18
+    },
+    {
+      "file": "video-118\\076.png",
+      "removed": 23
+    },
+    {
+      "file": "video-121\\038.png",
+      "removed": 25
+    },
+    {
+      "file": "video-121\\039.png",
+      "removed": 34
+    },
+    {
+      "file": "video-121\\040.png",
+      "removed": 35
+    },
+    {
+      "file": "video-121\\041.png",
+      "removed": 34
+    },
+    {
+      "file": "video-121\\042.png",
+      "removed": 46
+    },
+    {
+      "file": "video-121\\043.png",
+      "removed": 42
+    },
+    {
+      "file": "video-121\\044.png",
+      "removed": 54
+    },
+    {
+      "file": "video-121\\045.png",
+      "removed": 63
+    },
+    {
+      "file": "video-121\\046.png",
+      "removed": 78
+    },
+    {
+      "file": "video-121\\047.png",
+      "removed": 110
+    },
+    {
+      "file": "video-121\\048.png",
+      "removed": 168
+    },
+    {
+      "file": "video-121\\049.png",
+      "removed": 233
+    },
+    {
+      "file": "video-121\\050.png",
+      "removed": 302
+    },
+    {
+      "file": "video-121\\051.png",
+      "removed": 365
+    },
+    {
+      "file": "video-121\\052.png",
+      "removed": 383
+    },
+    {
+      "file": "video-121\\053.png",
+      "removed": 289
+    },
+    {
+      "file": "video-121\\054.png",
+      "removed": 212
+    },
+    {
+      "file": "video-121\\055.png",
+      "removed": 166
+    },
+    {
+      "file": "video-121\\056.png",
+      "removed": 170
+    },
+    {
+      "file": "video-121\\057.png",
+      "removed": 119
+    },
+    {
+      "file": "video-121\\058.png",
+      "removed": 86
+    },
+    {
+      "file": "video-121\\059.png",
+      "removed": 23
+    },
+    {
+      "file": "video-121\\060.png",
+      "removed": 49
+    },
+    {
+      "file": "video-121\\061.png",
+      "removed": 20
+    },
+    {
+      "file": "video-121\\062.png",
+      "removed": 41
+    },
+    {
+      "file": "video-121\\063.png",
+      "removed": 34
+    },
+    {
+      "file": "video-121\\064.png",
+      "removed": 24
+    },
+    {
+      "file": "video-122\\038.png",
+      "removed": 24
+    },
+    {
+      "file": "video-122\\039.png",
+      "removed": 30
+    },
+    {
+      "file": "video-122\\040.png",
+      "removed": 12
+    },
+    {
+      "file": "video-122\\041.png",
+      "removed": 18
+    },
+    {
+      "file": "video-122\\045.png",
+      "removed": 163
+    },
+    {
+      "file": "video-122\\046.png",
+      "removed": 250
+    },
+    {
+      "file": "video-122\\047.png",
+      "removed": 157
+    },
+    {
+      "file": "video-122\\057.png",
+      "removed": 15
+    },
+    {
+      "file": "video-122\\058.png",
+      "removed": 43
+    },
+    {
+      "file": "video-122\\059.png",
+      "removed": 15
+    },
+    {
+      "file": "video-123\\036.png",
+      "removed": 17
+    },
+    {
+      "file": "video-123\\040.png",
+      "removed": 363
+    },
+    {
+      "file": "video-123\\045.png",
+      "removed": 21
+    },
+    {
+      "file": "video-123\\046.png",
+      "removed": 26
+    },
+    {
+      "file": "video-123\\047.png",
+      "removed": 25
+    },
+    {
+      "file": "video-123\\048.png",
+      "removed": 195
+    },
+    {
+      "file": "video-123\\049.png",
+      "removed": 151
+    },
+    {
+      "file": "video-123\\050.png",
+      "removed": 145
+    },
+    {
+      "file": "video-123\\051.png",
+      "removed": 143
+    },
+    {
+      "file": "video-123\\052.png",
+      "removed": 235
+    },
+    {
+      "file": "video-123\\053.png",
+      "removed": 162
+    },
+    {
+      "file": "video-123\\054.png",
+      "removed": 154
+    },
+    {
+      "file": "video-123\\055.png",
+      "removed": 125
+    },
+    {
+      "file": "video-123\\056.png",
+      "removed": 132
+    },
+    {
+      "file": "video-123\\057.png",
+      "removed": 149
+    },
+    {
+      "file": "video-123\\058.png",
+      "removed": 165
+    },
+    {
+      "file": "video-123\\059.png",
+      "removed": 159
+    },
+    {
+      "file": "video-123\\060.png",
+      "removed": 170
+    },
+    {
+      "file": "video-123\\061.png",
+      "removed": 383
+    },
+    {
+      "file": "video-123\\062.png",
+      "removed": 365
+    },
+    {
+      "file": "video-123\\063.png",
+      "removed": 357
+    },
+    {
+      "file": "video-123\\064.png",
+      "removed": 734
+    },
+    {
+      "file": "video-123\\065.png",
+      "removed": 69
+    },
+    {
+      "file": "video-123\\066.png",
+      "removed": 47
+    },
+    {
+      "file": "video-123\\067.png",
+      "removed": 46
+    },
+    {
+      "file": "video-123\\068.png",
+      "removed": 267
+    },
+    {
+      "file": "video-123\\069.png",
+      "removed": 385
+    },
+    {
+      "file": "video-123\\070.png",
+      "removed": 322
+    },
+    {
+      "file": "video-123\\071.png",
+      "removed": 377
+    },
+    {
+      "file": "video-123\\072.png",
+      "removed": 234
+    },
+    {
+      "file": "video-123\\073.png",
+      "removed": 299
+    },
+    {
+      "file": "video-123\\074.png",
+      "removed": 329
+    },
+    {
+      "file": "video-123\\075.png",
+      "removed": 329
+    },
+    {
+      "file": "video-123\\076.png",
+      "removed": 357
+    },
+    {
+      "file": "video-123\\077.png",
+      "removed": 399
+    },
+    {
+      "file": "video-123\\078.png",
+      "removed": 411
+    },
+    {
+      "file": "video-123\\079.png",
+      "removed": 437
+    },
+    {
+      "file": "video-123\\080.png",
+      "removed": 392
+    },
+    {
+      "file": "video-123\\081.png",
+      "removed": 311
+    },
+    {
+      "file": "video-123\\082.png",
+      "removed": 316
+    },
+    {
+      "file": "video-123\\083.png",
+      "removed": 322
+    },
+    {
+      "file": "video-123\\084.png",
+      "removed": 108
+    },
+    {
+      "file": "video-124\\003.png",
+      "removed": 76
+    },
+    {
+      "file": "video-124\\004.png",
+      "removed": 85
+    },
+    {
+      "file": "video-124\\005.png",
+      "removed": 160
+    },
+    {
+      "file": "video-124\\006.png",
+      "removed": 184
+    },
+    {
+      "file": "video-124\\007.png",
+      "removed": 374
+    },
+    {
+      "file": "video-124\\008.png",
+      "removed": 310
+    },
+    {
+      "file": "video-124\\009.png",
+      "removed": 140
+    },
+    {
+      "file": "video-124\\010.png",
+      "removed": 61
+    },
+    {
+      "file": "video-124\\011.png",
+      "removed": 15
+    },
+    {
+      "file": "video-124\\012.png",
+      "removed": 15
+    },
+    {
+      "file": "video-124\\013.png",
+      "removed": 40
+    },
+    {
+      "file": "video-124\\015.png",
+      "removed": 42
+    },
+    {
+      "file": "video-124\\016.png",
+      "removed": 166
+    },
+    {
+      "file": "video-124\\017.png",
+      "removed": 112
+    },
+    {
+      "file": "video-124\\018.png",
+      "removed": 204
+    },
+    {
+      "file": "video-124\\019.png",
+      "removed": 120
+    },
+    {
+      "file": "video-124\\020.png",
+      "removed": 134
+    },
+    {
+      "file": "video-124\\021.png",
+      "removed": 137
+    },
+    {
+      "file": "video-124\\022.png",
+      "removed": 143
+    },
+    {
+      "file": "video-124\\023.png",
+      "removed": 134
+    },
+    {
+      "file": "video-124\\024.png",
+      "removed": 229
+    },
+    {
+      "file": "video-124\\025.png",
+      "removed": 308
+    },
+    {
+      "file": "video-124\\026.png",
+      "removed": 294
+    },
+    {
+      "file": "video-124\\027.png",
+      "removed": 189
+    },
+    {
+      "file": "video-124\\028.png",
+      "removed": 231
+    },
+    {
+      "file": "video-124\\029.png",
+      "removed": 159
+    },
+    {
+      "file": "video-124\\030.png",
+      "removed": 142
+    },
+    {
+      "file": "video-124\\031.png",
+      "removed": 109
+    },
+    {
+      "file": "video-124\\032.png",
+      "removed": 84
+    },
+    {
+      "file": "video-124\\033.png",
+      "removed": 71
+    },
+    {
+      "file": "video-124\\034.png",
+      "removed": 88
+    },
+    {
+      "file": "video-124\\035.png",
+      "removed": 97
+    },
+    {
+      "file": "video-124\\036.png",
+      "removed": 151
+    },
+    {
+      "file": "video-124\\037.png",
+      "removed": 170
+    },
+    {
+      "file": "video-124\\038.png",
+      "removed": 198
+    },
+    {
+      "file": "video-124\\039.png",
+      "removed": 215
+    },
+    {
+      "file": "video-124\\040.png",
+      "removed": 223
+    },
+    {
+      "file": "video-124\\041.png",
+      "removed": 169
+    },
+    {
+      "file": "video-124\\042.png",
+      "removed": 133
+    },
+    {
+      "file": "video-124\\043.png",
+      "removed": 111
+    },
+    {
+      "file": "video-124\\044.png",
+      "removed": 82
+    },
+    {
+      "file": "video-124\\045.png",
+      "removed": 80
+    },
+    {
+      "file": "video-124\\046.png",
+      "removed": 82
+    },
+    {
+      "file": "video-124\\047.png",
+      "removed": 66
+    },
+    {
+      "file": "video-124\\048.png",
+      "removed": 72
+    },
+    {
+      "file": "video-124\\049.png",
+      "removed": 72
+    },
+    {
+      "file": "video-124\\050.png",
+      "removed": 75
+    },
+    {
+      "file": "video-124\\051.png",
+      "removed": 77
+    },
+    {
+      "file": "video-124\\052.png",
+      "removed": 56
+    },
+    {
+      "file": "video-124\\053.png",
+      "removed": 75
+    },
+    {
+      "file": "video-124\\054.png",
+      "removed": 52
+    },
+    {
+      "file": "video-124\\055.png",
+      "removed": 27
+    },
+    {
+      "file": "video-125\\011.png",
+      "removed": 20
+    },
+    {
+      "file": "video-125\\012.png",
+      "removed": 40
+    },
+    {
+      "file": "video-125\\013.png",
+      "removed": 118
+    },
+    {
+      "file": "video-125\\014.png",
+      "removed": 134
+    },
+    {
+      "file": "video-125\\015.png",
+      "removed": 282
+    },
+    {
+      "file": "video-125\\016.png",
+      "removed": 287
+    },
+    {
+      "file": "video-125\\017.png",
+      "removed": 368
+    },
+    {
+      "file": "video-125\\018.png",
+      "removed": 346
+    },
+    {
+      "file": "video-125\\019.png",
+      "removed": 651
+    },
+    {
+      "file": "video-125\\020.png",
+      "removed": 666
+    },
+    {
+      "file": "video-125\\027.png",
+      "removed": 533
+    },
+    {
+      "file": "video-125\\028.png",
+      "removed": 666
+    },
+    {
+      "file": "video-125\\029.png",
+      "removed": 344
+    },
+    {
+      "file": "video-125\\030.png",
+      "removed": 586
+    },
+    {
+      "file": "video-125\\031.png",
+      "removed": 335
+    },
+    {
+      "file": "video-125\\032.png",
+      "removed": 332
+    },
+    {
+      "file": "video-125\\033.png",
+      "removed": 409
+    },
+    {
+      "file": "video-125\\034.png",
+      "removed": 416
+    },
+    {
+      "file": "video-125\\035.png",
+      "removed": 235
+    },
+    {
+      "file": "video-125\\036.png",
+      "removed": 179
+    },
+    {
+      "file": "video-125\\037.png",
+      "removed": 154
+    },
+    {
+      "file": "video-125\\038.png",
+      "removed": 143
+    },
+    {
+      "file": "video-125\\039.png",
+      "removed": 110
+    },
+    {
+      "file": "video-125\\040.png",
+      "removed": 100
+    },
+    {
+      "file": "video-125\\041.png",
+      "removed": 80
+    },
+    {
+      "file": "video-125\\042.png",
+      "removed": 83
+    },
+    {
+      "file": "video-125\\043.png",
+      "removed": 12
+    },
+    {
+      "file": "video-125\\045.png",
+      "removed": 164
+    },
+    {
+      "file": "video-125\\046.png",
+      "removed": 168
+    },
+    {
+      "file": "video-127\\033.png",
+      "removed": 21
+    },
+    {
+      "file": "video-127\\034.png",
+      "removed": 52
+    },
+    {
+      "file": "video-127\\035.png",
+      "removed": 14
+    },
+    {
+      "file": "video-127\\036.png",
+      "removed": 33
+    },
+    {
+      "file": "video-127\\037.png",
+      "removed": 158
+    },
+    {
+      "file": "video-127\\038.png",
+      "removed": 169
+    },
+    {
+      "file": "video-127\\039.png",
+      "removed": 90
+    },
+    {
+      "file": "video-127\\040.png",
+      "removed": 19
+    },
+    {
+      "file": "video-127\\047.png",
+      "removed": 55
+    },
+    {
+      "file": "video-127\\048.png",
+      "removed": 67
+    },
+    {
+      "file": "video-127\\049.png",
+      "removed": 116
+    },
+    {
+      "file": "video-127\\051.png",
+      "removed": 38
+    },
+    {
+      "file": "video-127\\054.png",
+      "removed": 15
+    },
+    {
+      "file": "video-127\\057.png",
+      "removed": 12
+    },
+    {
+      "file": "video-127\\058.png",
+      "removed": 28
+    },
+    {
+      "file": "video-127\\059.png",
+      "removed": 22
+    },
+    {
+      "file": "video-127\\061.png",
+      "removed": 40
+    },
+    {
+      "file": "video-127\\062.png",
+      "removed": 96
+    },
+    {
+      "file": "video-127\\063.png",
+      "removed": 50
+    },
+    {
+      "file": "video-128\\023.png",
+      "removed": 21
+    },
+    {
+      "file": "video-128\\024.png",
+      "removed": 53
+    },
+    {
+      "file": "video-128\\025.png",
+      "removed": 37
+    },
+    {
+      "file": "video-128\\026.png",
+      "removed": 87
+    },
+    {
+      "file": "video-128\\027.png",
+      "removed": 130
+    },
+    {
+      "file": "video-128\\028.png",
+      "removed": 160
+    },
+    {
+      "file": "video-128\\029.png",
+      "removed": 243
+    },
+    {
+      "file": "video-128\\030.png",
+      "removed": 379
+    },
+    {
+      "file": "video-128\\031.png",
+      "removed": 497
+    },
+    {
+      "file": "video-128\\032.png",
+      "removed": 563
+    },
+    {
+      "file": "video-128\\033.png",
+      "removed": 881
+    },
+    {
+      "file": "video-128\\034.png",
+      "removed": 985
+    },
+    {
+      "file": "video-128\\035.png",
+      "removed": 1483
+    },
+    {
+      "file": "video-128\\036.png",
+      "removed": 1764
+    },
+    {
+      "file": "video-128\\037.png",
+      "removed": 1939
+    },
+    {
+      "file": "video-128\\038.png",
+      "removed": 1474
+    },
+    {
+      "file": "video-128\\039.png",
+      "removed": 1498
+    },
+    {
+      "file": "video-128\\040.png",
+      "removed": 1337
+    },
+    {
+      "file": "video-128\\041.png",
+      "removed": 1122
+    },
+    {
+      "file": "video-128\\042.png",
+      "removed": 842
+    },
+    {
+      "file": "video-128\\043.png",
+      "removed": 1007
+    },
+    {
+      "file": "video-128\\044.png",
+      "removed": 2514
+    },
+    {
+      "file": "video-128\\045.png",
+      "removed": 1822
+    },
+    {
+      "file": "video-130\\044.png",
+      "removed": 266
+    },
+    {
+      "file": "video-130\\045.png",
+      "removed": 243
+    },
+    {
+      "file": "video-130\\046.png",
+      "removed": 1867
+    },
+    {
+      "file": "video-130\\047.png",
+      "removed": 2108
+    },
+    {
+      "file": "video-130\\048.png",
+      "removed": 2077
+    },
+    {
+      "file": "video-130\\049.png",
+      "removed": 2099
+    },
+    {
+      "file": "video-130\\050.png",
+      "removed": 1211
+    },
+    {
+      "file": "video-130\\051.png",
+      "removed": 1292
+    },
+    {
+      "file": "video-130\\052.png",
+      "removed": 61
+    },
+    {
+      "file": "video-130\\053.png",
+      "removed": 23
+    },
+    {
+      "file": "video-130\\054.png",
+      "removed": 299
+    },
+    {
+      "file": "video-130\\055.png",
+      "removed": 1738
+    },
+    {
+      "file": "video-130\\056.png",
+      "removed": 1856
+    },
+    {
+      "file": "video-130\\057.png",
+      "removed": 1739
+    },
+    {
+      "file": "video-130\\058.png",
+      "removed": 1529
+    },
+    {
+      "file": "video-130\\059.png",
+      "removed": 2073
+    },
+    {
+      "file": "video-130\\060.png",
+      "removed": 1978
+    },
+    {
+      "file": "video-130\\061.png",
+      "removed": 1877
+    },
+    {
+      "file": "video-130\\062.png",
+      "removed": 1184
+    },
+    {
+      "file": "video-130\\063.png",
+      "removed": 1073
+    },
+    {
+      "file": "video-130\\064.png",
+      "removed": 959
+    },
+    {
+      "file": "video-130\\065.png",
+      "removed": 990
+    },
+    {
+      "file": "video-130\\066.png",
+      "removed": 939
+    },
+    {
+      "file": "video-130\\067.png",
+      "removed": 757
+    },
+    {
+      "file": "video-130\\068.png",
+      "removed": 810
+    },
+    {
+      "file": "video-130\\069.png",
+      "removed": 703
+    },
+    {
+      "file": "video-130\\070.png",
+      "removed": 713
+    },
+    {
+      "file": "video-130\\071.png",
+      "removed": 633
+    },
+    {
+      "file": "video-130\\072.png",
+      "removed": 556
+    },
+    {
+      "file": "video-130\\073.png",
+      "removed": 514
+    },
+    {
+      "file": "video-130\\074.png",
+      "removed": 403
+    },
+    {
+      "file": "video-130\\075.png",
+      "removed": 379
+    },
+    {
+      "file": "video-130\\076.png",
+      "removed": 367
+    },
+    {
+      "file": "video-130\\077.png",
+      "removed": 429
+    },
+    {
+      "file": "video-130\\078.png",
+      "removed": 435
+    },
+    {
+      "file": "video-130\\079.png",
+      "removed": 474
+    },
+    {
+      "file": "video-130\\080.png",
+      "removed": 73
+    },
+    {
+      "file": "video-130\\081.png",
+      "removed": 165
+    },
+    {
+      "file": "video-130\\082.png",
+      "removed": 173
+    },
+    {
+      "file": "video-130\\083.png",
+      "removed": 149
+    },
+    {
+      "file": "video-130\\084.png",
+      "removed": 81
+    },
+    {
+      "file": "video-130\\085.png",
+      "removed": 189
+    },
+    {
+      "file": "video-130\\086.png",
+      "removed": 169
+    },
+    {
+      "file": "video-130\\087.png",
+      "removed": 72
+    },
+    {
+      "file": "video-130\\088.png",
+      "removed": 103
+    },
+    {
+      "file": "video-130\\089.png",
+      "removed": 91
+    },
+    {
+      "file": "video-130\\090.png",
+      "removed": 72
+    },
+    {
+      "file": "video-130\\091.png",
+      "removed": 58
+    },
+    {
+      "file": "video-130\\092.png",
+      "removed": 52
+    },
+    {
+      "file": "video-130\\093.png",
+      "removed": 43
+    },
+    {
+      "file": "video-130\\094.png",
+      "removed": 98
+    },
+    {
+      "file": "video-130\\095.png",
+      "removed": 62
+    },
+    {
+      "file": "video-131\\001.png",
+      "removed": 33
+    },
+    {
+      "file": "video-131\\031.png",
+      "removed": 70
+    },
+    {
+      "file": "video-131\\032.png",
+      "removed": 33
+    },
+    {
+      "file": "video-131\\033.png",
+      "removed": 158
+    },
+    {
+      "file": "video-131\\034.png",
+      "removed": 177
+    },
+    {
+      "file": "video-131\\035.png",
+      "removed": 32
+    },
+    {
+      "file": "video-131\\036.png",
+      "removed": 33
+    },
+    {
+      "file": "video-131\\041.png",
+      "removed": 1846
+    },
+    {
+      "file": "video-131\\042.png",
+      "removed": 1622
+    },
+    {
+      "file": "video-131\\043.png",
+      "removed": 256
+    },
+    {
+      "file": "video-131\\044.png",
+      "removed": 93
+    },
+    {
+      "file": "video-133\\037.png",
+      "removed": 682
+    },
+    {
+      "file": "video-133\\038.png",
+      "removed": 580
+    },
+    {
+      "file": "video-133\\039.png",
+      "removed": 639
+    },
+    {
+      "file": "video-133\\040.png",
+      "removed": 609
+    },
+    {
+      "file": "video-133\\041.png",
+      "removed": 295
+    },
+    {
+      "file": "video-133\\042.png",
+      "removed": 313
+    },
+    {
+      "file": "video-133\\043.png",
+      "removed": 286
+    },
+    {
+      "file": "video-133\\044.png",
+      "removed": 239
+    },
+    {
+      "file": "video-133\\045.png",
+      "removed": 177
+    },
+    {
+      "file": "video-133\\046.png",
+      "removed": 87
+    },
+    {
+      "file": "video-133\\047.png",
+      "removed": 132
+    },
+    {
+      "file": "video-133\\048.png",
+      "removed": 126
+    },
+    {
+      "file": "video-133\\049.png",
+      "removed": 121
+    },
+    {
+      "file": "video-133\\050.png",
+      "removed": 104
+    },
+    {
+      "file": "video-133\\051.png",
+      "removed": 68
+    },
+    {
+      "file": "video-133\\052.png",
+      "removed": 117
+    },
+    {
+      "file": "video-133\\053.png",
+      "removed": 123
+    },
+    {
+      "file": "video-133\\054.png",
+      "removed": 67
+    },
+    {
+      "file": "video-133\\058.png",
+      "removed": 43
+    },
+    {
+      "file": "video-133\\059.png",
+      "removed": 52
+    },
+    {
+      "file": "video-133\\060.png",
+      "removed": 52
+    },
+    {
+      "file": "video-133\\061.png",
+      "removed": 60
+    },
+    {
+      "file": "video-133\\062.png",
+      "removed": 87
+    },
+    {
+      "file": "video-133\\063.png",
+      "removed": 53
+    },
+    {
+      "file": "video-134\\013.png",
+      "removed": 32
+    },
+    {
+      "file": "video-134\\014.png",
+      "removed": 44
+    },
+    {
+      "file": "video-134\\015.png",
+      "removed": 28
+    },
+    {
+      "file": "video-134\\016.png",
+      "removed": 46
+    },
+    {
+      "file": "video-134\\017.png",
+      "removed": 80
+    },
+    {
+      "file": "video-134\\018.png",
+      "removed": 74
+    },
+    {
+      "file": "video-134\\019.png",
+      "removed": 379
+    },
+    {
+      "file": "video-134\\020.png",
+      "removed": 368
+    },
+    {
+      "file": "video-134\\021.png",
+      "removed": 371
+    },
+    {
+      "file": "video-134\\022.png",
+      "removed": 312
+    },
+    {
+      "file": "video-134\\023.png",
+      "removed": 302
+    },
+    {
+      "file": "video-134\\024.png",
+      "removed": 266
+    },
+    {
+      "file": "video-134\\025.png",
+      "removed": 162
+    },
+    {
+      "file": "video-134\\026.png",
+      "removed": 173
+    },
+    {
+      "file": "video-134\\027.png",
+      "removed": 175
+    },
+    {
+      "file": "video-134\\028.png",
+      "removed": 189
+    },
+    {
+      "file": "video-134\\029.png",
+      "removed": 109
+    },
+    {
+      "file": "video-134\\030.png",
+      "removed": 110
+    },
+    {
+      "file": "video-134\\031.png",
+      "removed": 111
+    },
+    {
+      "file": "video-134\\032.png",
+      "removed": 95
+    },
+    {
+      "file": "video-134\\033.png",
+      "removed": 97
+    },
+    {
+      "file": "video-134\\034.png",
+      "removed": 95
+    },
+    {
+      "file": "video-136\\024.png",
+      "removed": 185
+    },
+    {
+      "file": "video-136\\025.png",
+      "removed": 192
+    },
+    {
+      "file": "video-136\\026.png",
+      "removed": 309
+    },
+    {
+      "file": "video-136\\027.png",
+      "removed": 286
+    },
+    {
+      "file": "video-136\\028.png",
+      "removed": 225
+    },
+    {
+      "file": "video-136\\029.png",
+      "removed": 209
+    },
+    {
+      "file": "video-136\\030.png",
+      "removed": 224
+    },
+    {
+      "file": "video-136\\031.png",
+      "removed": 224
+    },
+    {
+      "file": "video-136\\032.png",
+      "removed": 503
+    },
+    {
+      "file": "video-136\\033.png",
+      "removed": 545
+    },
+    {
+      "file": "video-136\\034.png",
+      "removed": 681
+    },
+    {
+      "file": "video-136\\035.png",
+      "removed": 782
+    },
+    {
+      "file": "video-136\\037.png",
+      "removed": 898
+    },
+    {
+      "file": "video-136\\038.png",
+      "removed": 777
+    },
+    {
+      "file": "video-136\\039.png",
+      "removed": 736
+    },
+    {
+      "file": "video-136\\040.png",
+      "removed": 670
+    },
+    {
+      "file": "video-136\\041.png",
+      "removed": 604
+    },
+    {
+      "file": "video-136\\042.png",
+      "removed": 535
+    },
+    {
+      "file": "video-136\\043.png",
+      "removed": 538
+    },
+    {
+      "file": "video-136\\044.png",
+      "removed": 503
+    },
+    {
+      "file": "video-136\\045.png",
+      "removed": 470
+    },
+    {
+      "file": "video-136\\046.png",
+      "removed": 398
+    },
+    {
+      "file": "video-136\\047.png",
+      "removed": 387
+    },
+    {
+      "file": "video-136\\048.png",
+      "removed": 315
+    },
+    {
+      "file": "video-136\\049.png",
+      "removed": 308
+    },
+    {
+      "file": "video-136\\050.png",
+      "removed": 162
+    },
+    {
+      "file": "video-136\\051.png",
+      "removed": 196
+    },
+    {
+      "file": "video-136\\052.png",
+      "removed": 167
+    },
+    {
+      "file": "video-136\\053.png",
+      "removed": 136
+    },
+    {
+      "file": "video-136\\054.png",
+      "removed": 130
+    },
+    {
+      "file": "video-136\\055.png",
+      "removed": 113
+    },
+    {
+      "file": "video-136\\056.png",
+      "removed": 97
+    },
+    {
+      "file": "video-136\\057.png",
+      "removed": 90
+    },
+    {
+      "file": "video-136\\058.png",
+      "removed": 45
+    },
+    {
+      "file": "video-136\\059.png",
+      "removed": 42
+    },
+    {
+      "file": "video-136\\060.png",
+      "removed": 58
+    },
+    {
+      "file": "video-136\\061.png",
+      "removed": 43
+    },
+    {
+      "file": "video-136\\062.png",
+      "removed": 22
+    },
+    {
+      "file": "video-136\\065.png",
+      "removed": 12
+    },
+    {
+      "file": "video-136\\066.png",
+      "removed": 22
+    },
+    {
+      "file": "video-136\\067.png",
+      "removed": 12
+    },
+    {
+      "file": "video-136\\069.png",
+      "removed": 12
+    },
+    {
+      "file": "video-136\\073.png",
+      "removed": 33
+    },
+    {
+      "file": "video-136\\074.png",
+      "removed": 14
+    },
+    {
+      "file": "video-136\\075.png",
+      "removed": 18
+    },
+    {
+      "file": "video-136\\076.png",
+      "removed": 31
+    },
+    {
+      "file": "video-136\\077.png",
+      "removed": 37
+    },
+    {
+      "file": "video-136\\078.png",
+      "removed": 15
+    },
+    {
+      "file": "video-136\\079.png",
+      "removed": 37
+    },
+    {
+      "file": "video-136\\081.png",
+      "removed": 21
+    },
+    {
+      "file": "video-136\\082.png",
+      "removed": 19
+    },
+    {
+      "file": "video-136\\083.png",
+      "removed": 20
+    },
+    {
+      "file": "video-136\\084.png",
+      "removed": 16
+    },
+    {
+      "file": "video-136\\085.png",
+      "removed": 16
+    },
+    {
+      "file": "video-137\\008.png",
+      "removed": 13
+    },
+    {
+      "file": "video-137\\009.png",
+      "removed": 17
+    },
+    {
+      "file": "video-137\\010.png",
+      "removed": 71
+    },
+    {
+      "file": "video-137\\011.png",
+      "removed": 59
+    },
+    {
+      "file": "video-137\\012.png",
+      "removed": 77
+    },
+    {
+      "file": "video-137\\013.png",
+      "removed": 92
+    },
+    {
+      "file": "video-137\\014.png",
+      "removed": 90
+    },
+    {
+      "file": "video-137\\015.png",
+      "removed": 93
+    },
+    {
+      "file": "video-137\\016.png",
+      "removed": 222
+    },
+    {
+      "file": "video-137\\017.png",
+      "removed": 242
+    },
+    {
+      "file": "video-137\\018.png",
+      "removed": 341
+    },
+    {
+      "file": "video-137\\019.png",
+      "removed": 325
+    },
+    {
+      "file": "video-137\\020.png",
+      "removed": 505
+    },
+    {
+      "file": "video-137\\021.png",
+      "removed": 413
+    },
+    {
+      "file": "video-137\\022.png",
+      "removed": 935
+    },
+    {
+      "file": "video-137\\023.png",
+      "removed": 941
+    },
+    {
+      "file": "video-137\\024.png",
+      "removed": 1057
+    },
+    {
+      "file": "video-137\\025.png",
+      "removed": 1172
+    },
+    {
+      "file": "video-137\\026.png",
+      "removed": 1284
+    },
+    {
+      "file": "video-137\\027.png",
+      "removed": 1274
+    },
+    {
+      "file": "video-137\\028.png",
+      "removed": 1228
+    },
+    {
+      "file": "video-137\\029.png",
+      "removed": 873
+    },
+    {
+      "file": "video-137\\030.png",
+      "removed": 681
+    },
+    {
+      "file": "video-137\\031.png",
+      "removed": 658
+    },
+    {
+      "file": "video-137\\032.png",
+      "removed": 643
+    },
+    {
+      "file": "video-137\\033.png",
+      "removed": 751
+    },
+    {
+      "file": "video-137\\034.png",
+      "removed": 868
+    },
+    {
+      "file": "video-137\\035.png",
+      "removed": 879
+    },
+    {
+      "file": "video-137\\036.png",
+      "removed": 616
+    },
+    {
+      "file": "video-137\\037.png",
+      "removed": 1230
+    },
+    {
+      "file": "video-137\\038.png",
+      "removed": 588
+    },
+    {
+      "file": "video-137\\039.png",
+      "removed": 585
+    },
+    {
+      "file": "video-139\\022.png",
+      "removed": 342
+    },
+    {
+      "file": "video-139\\023.png",
+      "removed": 216
+    },
+    {
+      "file": "video-139\\024.png",
+      "removed": 305
+    },
+    {
+      "file": "video-139\\025.png",
+      "removed": 225
+    },
+    {
+      "file": "video-139\\026.png",
+      "removed": 406
+    },
+    {
+      "file": "video-139\\027.png",
+      "removed": 427
+    },
+    {
+      "file": "video-139\\028.png",
+      "removed": 407
+    },
+    {
+      "file": "video-139\\029.png",
+      "removed": 523
+    },
+    {
+      "file": "video-139\\030.png",
+      "removed": 494
+    },
+    {
+      "file": "video-139\\031.png",
+      "removed": 497
+    },
+    {
+      "file": "video-139\\032.png",
+      "removed": 783
+    },
+    {
+      "file": "video-139\\033.png",
+      "removed": 923
+    },
+    {
+      "file": "video-139\\034.png",
+      "removed": 868
+    },
+    {
+      "file": "video-139\\035.png",
+      "removed": 889
+    },
+    {
+      "file": "video-139\\036.png",
+      "removed": 1072
+    },
+    {
+      "file": "video-139\\037.png",
+      "removed": 1688
+    },
+    {
+      "file": "video-139\\038.png",
+      "removed": 2057
+    },
+    {
+      "file": "video-139\\039.png",
+      "removed": 1794
+    },
+    {
+      "file": "video-139\\040.png",
+      "removed": 1726
+    },
+    {
+      "file": "video-139\\041.png",
+      "removed": 1467
+    },
+    {
+      "file": "video-139\\042.png",
+      "removed": 1222
+    },
+    {
+      "file": "video-139\\043.png",
+      "removed": 701
+    },
+    {
+      "file": "video-139\\044.png",
+      "removed": 539
+    },
+    {
+      "file": "video-139\\045.png",
+      "removed": 483
+    },
+    {
+      "file": "video-139\\046.png",
+      "removed": 386
+    },
+    {
+      "file": "video-139\\047.png",
+      "removed": 316
+    },
+    {
+      "file": "video-139\\048.png",
+      "removed": 318
+    },
+    {
+      "file": "video-139\\049.png",
+      "removed": 289
+    },
+    {
+      "file": "video-139\\050.png",
+      "removed": 242
+    },
+    {
+      "file": "video-139\\051.png",
+      "removed": 314
+    },
+    {
+      "file": "video-139\\052.png",
+      "removed": 307
+    },
+    {
+      "file": "video-139\\053.png",
+      "removed": 311
+    },
+    {
+      "file": "video-139\\054.png",
+      "removed": 276
+    },
+    {
+      "file": "video-139\\055.png",
+      "removed": 256
+    },
+    {
+      "file": "video-139\\056.png",
+      "removed": 237
+    },
+    {
+      "file": "video-139\\057.png",
+      "removed": 257
+    },
+    {
+      "file": "video-139\\058.png",
+      "removed": 250
+    },
+    {
+      "file": "video-139\\059.png",
+      "removed": 236
+    },
+    {
+      "file": "video-139\\060.png",
+      "removed": 240
+    },
+    {
+      "file": "video-139\\061.png",
+      "removed": 191
+    },
+    {
+      "file": "video-139\\062.png",
+      "removed": 262
+    },
+    {
+      "file": "video-139\\063.png",
+      "removed": 152
+    },
+    {
+      "file": "video-139\\064.png",
+      "removed": 158
+    },
+    {
+      "file": "video-139\\065.png",
+      "removed": 132
+    },
+    {
+      "file": "video-139\\066.png",
+      "removed": 132
+    },
+    {
+      "file": "video-139\\067.png",
+      "removed": 102
+    },
+    {
+      "file": "video-139\\068.png",
+      "removed": 116
+    },
+    {
+      "file": "video-139\\069.png",
+      "removed": 130
+    },
+    {
+      "file": "video-139\\070.png",
+      "removed": 122
+    },
+    {
+      "file": "video-139\\071.png",
+      "removed": 93
+    },
+    {
+      "file": "video-139\\072.png",
+      "removed": 91
+    },
+    {
+      "file": "video-139\\073.png",
+      "removed": 74
+    },
+    {
+      "file": "video-139\\074.png",
+      "removed": 93
+    },
+    {
+      "file": "video-139\\075.png",
+      "removed": 78
+    },
+    {
+      "file": "video-139\\076.png",
+      "removed": 73
+    },
+    {
+      "file": "video-139\\077.png",
+      "removed": 33
+    },
+    {
+      "file": "video-139\\078.png",
+      "removed": 84
+    },
+    {
+      "file": "video-139\\079.png",
+      "removed": 25
+    },
+    {
+      "file": "video-139\\080.png",
+      "removed": 53
+    },
+    {
+      "file": "video-139\\081.png",
+      "removed": 43
+    },
+    {
+      "file": "video-139\\082.png",
+      "removed": 30
+    }
+  ]
+}

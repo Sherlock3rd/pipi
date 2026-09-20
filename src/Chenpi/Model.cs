@@ -34,6 +34,8 @@ public sealed class PetState
     public double LayoutWidth { get; set; }
     public double LayoutHeight { get; set; }
     public string BootId { get; set; } = "";
+    public bool StartupSeen {get;set;}
+    public string StartupBoot {get;set;}="";
     public double AwakeSeconds { get; set; }
     public double TotalSeconds { get; set; }
     public DateTimeOffset SavedAt { get; set; } = DateTimeOffset.UtcNow;
@@ -101,6 +103,7 @@ public sealed partial class PetEngine
     private double toyStep;
     private Spot target;
     private string arrival = "idle";
+    private bool settleAfterCare;
     private double duration = 3;
     private int bites;
     private double sleepGrace;
@@ -214,6 +217,7 @@ public sealed partial class PetEngine
     private void NewRest(){ResetMovementChoice();State.RestDuration=Settings.Range(random,"rest",60);State.RestElapsed=0;State.StillSeconds=0;Dirty=true;}
     public void ObservePointer(double seconds,bool overCat,Spot cursor)
     {
+        if(StartupActive)return;
         guidePointer=cursor;pointerKnown=true;
         if(!Holding&&!ToyHeld&&State.CareRequest is not null)
         {if(overCat&&!State.Guiding&&Action.StartsWith("request-"))BeginGuide();hoverSeconds=0;hoverTriggered=false;return;}
@@ -226,6 +230,7 @@ public sealed partial class PetEngine
     }
     public void SetToy(bool held,Spot tip)
     {
+        if(held&&QueueStartupCommand(()=>SetToy(held,tip)))return;
         if(held)CancelDebugBehavior();
         ToyHeld=held;ToyTip=tip;
         if(!held&&Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"玩够啦，歇一会儿");}
@@ -280,7 +285,9 @@ public sealed partial class PetEngine
     }
     public void Update(double dt, int hour)
     {
+        if(StartupActive&&PresentationPaused)return;
         dt=Math.Clamp(dt,0,0.12); Now+=dt; localHour=hour;if(Grounded)State.Y=GroundY;
+        if(StartupActive){ActionTime+=dt;UpdateStartup(dt);return;}
         if(Holding) return;
         ActionTime+=dt;
         if(Action=="drag") return;
@@ -350,7 +357,8 @@ public sealed partial class PetEngine
             if(cover>State.LitterCover[slot]){State.LitterCover[slot]=cover;Dirty=true;}
         }
         if(ActionTime<duration)return;
-        if(Action=="land"){NewRest();SetAction("sit",1,"这里也很舒服");return;}
+        if(Action=="land")
+        {NewRest();if(dropIntoNest){dropIntoNest=false;Sleep();}else if(VisualDropPose?.Invoke() is string dropped)RestInPose(dropped);else SetAction("sit",1,"这里也很舒服");return;}
         if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);State.LitterCover[SupplyLayers(State.Litter)-1]=0;ScheduleNext("litter");RefreshAvailability();Dirty=true;Go(LitterSpot,"bury","走到便便旁边埋砂");return;}
         if(Action=="bury") {Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
         if(manualSequence){FinishManualSequence();return;}
@@ -367,6 +375,7 @@ public sealed partial class PetEngine
     }
     private void Go(Spot destination,string next,string reason)
     {
+        settleAfterCare=CompletionEnabled&&next=="settle"&&(Action is "eat" or "drink" or "bury" or "expr-119" or "expr-120"||settleAfterCare);
         target=next=="settle"?NearestRestSpot(destination):CareDestination(destination,next);if(Math.Abs(target.X-State.X)>.1)FacingLeft=target.X<State.X;
         arrival=next;SetAction("walk",double.MaxValue,reason);
     }
@@ -392,7 +401,7 @@ public sealed partial class PetEngine
         if(arrival=="sleep")Sleep(false);
         else if(arrival.StartsWith("rest-"))RestInPose(arrival[5..]);
         else if(arrival=="settle")
-        {if(manualSequence){FinishManualSequence();return;}SetAction("idle",RestDelay,"找到舒服的地方，安静歇一会儿");}
+        {if(settleAfterCare){settleAfterCare=false;manualSequence=false;careResumeAfter=Now+3;RestInPose("D");return;}if(manualSequence){FinishManualSequence();return;}SetAction("idle",RestDelay,"找到舒服的地方，安静歇一会儿");}
         else SetAction(arrival,arrival is "eat" or "drink" ? 4.7 : arrival=="toilet" ? 4 : arrival=="bury" ? 3 : 2,Reason);
     }
     // One shared draw/hit-test anchor. On leaving the nest keep this world point;
@@ -409,6 +418,7 @@ public sealed partial class PetEngine
     }
     public void Interact()
     {
+        if(QueueStartupCommand(Interact))return;
         CancelDebugBehavior();ResetMovementChoice();
         if(State.CareRequest is not null){BeginGuide();return;}
         if(InteractRelaxed())return;
@@ -421,15 +431,21 @@ public sealed partial class PetEngine
     {debugPose=null;debugExpression=0;CancelCareRequest();Holding=false;ToyHeld=false;manualSequence=true;careResumeAfter=0;hoverSeconds=0;hoverTriggered=false;LastInteraction=Now;State.StillSeconds=0;}
     private void FinishManualSequence()
     {manualSequence=false;careResumeAfter=Now+3;NewRest();if(LeaveOccupiedRestSpot())return;SetAction("sit",1,"手动动作完成，稍作停留");}
-    public void BeginDrag() {BeginManualSequence();manualSequence=false;SetAction("drag",double.MaxValue,"被主人拎起来啦");}
+    public void BeginDrag() {if(QueueStartupCommand(BeginDrag))return;BeginManualSequence();manualSequence=false;SetAction("drag",double.MaxValue,"被主人拎起来啦");}
     public void Drop(bool inNest)
-    {LastInteraction=Now;if(inNest)Sleep();else SetAction("land",0.7,"稳稳落地");}
+    {
+        // A release can arrive while greeting cancellation is still reaching F.
+        // No pickup has played yet, so do not start an H-to-F landing clip.
+        if(QueueStartupCommand(()=>{LastInteraction=Now;if(inNest)Sleep();else{NewRest();SetAction("idle",RestDelay,"取消提起，恢复休息");}}))return;
+        LastInteraction=Now;dropIntoNest=inNest&&VisualDropPose?.Invoke() is not null;if(inNest&&!dropIntoNest)Sleep();else SetAction("land",0.7,"稳稳落地");
+    }
     public void Sleep(bool newRest=true)
     {CancelCareRequest();manualSequence=false;Holding=false;ToyHeld=false;State.X=Nest.X;State.Y=Nest.Y;if(newRest)NewRest();sleepGrace=Now+Settings.Get("sleep.grace");SetAction("sleep",double.MaxValue,"猫窝睡眠");State.SleepingInNest=true;}
     private void SleepHere(){if(LeaveOccupiedRestSpot())return;sleepGrace=Now+Settings.Get("sleep.grace");if(BeginRelaxedSleep())return;SetAction("sleep",double.MaxValue,"就在这里打个盹");State.SleepingInNest=false;}
     public void Wake() {ResetMovementChoice();nightRestUntil=Now+Settings.Get("night.grace");State.StillSeconds=0;State.RestElapsed=0;if(ExpressionsEnabled&&IsRelaxing){RestInPose(RelaxedPose=="M"?"A":"SR",false);return;}SetAction("wake",2.0,"唤醒伸展");}
     public void Refill(string kind)
     {
+        QueueStartupCommand(()=>{});
         LastInteraction=Now;
         if(kind=="food")State.Food=Math.Min(100,(SupplyLayers(State.Food)+1)*20);
         else if(kind=="water")State.Water=Math.Min(100,(SupplyLayers(State.Water)+1)*20);
@@ -453,9 +469,10 @@ public sealed partial class PetEngine
             if(old is not null&&i<old.Length&&double.IsFinite(old[i]))cover[i]=Math.Clamp(old[i],0,1);
         state.LitterCover=cover;
     }
-    public void Recall() {BeginManualSequence();nightRestUntil=Now+Settings.Get("night.grace");var spot=NearestRestSpot(new(Math.Clamp(Nest.X-145,65,Width-65),Grounded?GroundY:Math.Clamp(Nest.Y-70,140,Height-60)));State.X=spot.X;State.Y=spot.Y;NewRest();SetAction("sit",3,"回到小窝附近");}
+    public void Recall() {if(QueueStartupCommand(Recall))return;BeginManualSequence();nightRestUntil=Now+Settings.Get("night.grace");var spot=NearestRestSpot(new(Math.Clamp(Nest.X-145,65,Width-65),Grounded?GroundY:Math.Clamp(Nest.Y-70,140,Height-60)));State.X=spot.X;State.Y=spot.Y;NewRest();SetAction("sit",3,"回到小窝附近");}
     public void Demo(string action)
     {
+        if(QueueStartupCommand(()=>Demo(action)))return;
         BeginManualSequence();
         if(action=="eat"){State.Hunger=65; Go(FoodSpot,"eat","演示：去吃饭");}
         else if(action=="drink"){State.Thirst=65;Go(WaterSpot,"drink","演示：去喝水");}

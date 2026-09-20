@@ -10,13 +10,14 @@ public sealed class Store
     public string DirectoryPath {get;}
     public string PathName=>Path.Combine(DirectoryPath,"pet-state.json");
     public string? Warning {get;private set;}
+    public bool IsFirstRun {get;private set;}
     private static readonly JsonSerializerOptions Options=new(){WriteIndented=true};
     private Task pendingWrite=Task.CompletedTask;
     public string? WriteError {get;private set;}
     public Store(string folder) {DirectoryPath=folder;Directory.CreateDirectory(folder);}
     public PetState Load()
     {
-        if(!File.Exists(PathName)&&!File.Exists(PathName+".bak"))return new PetState();
+        if(!File.Exists(PathName)&&!File.Exists(PathName+".bak")){IsFirstRun=true;return new PetState();}
         foreach(string path in new[]{PathName,PathName+".bak"})
         {
             if(!File.Exists(path))continue;

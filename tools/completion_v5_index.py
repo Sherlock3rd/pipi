@@ -16,14 +16,14 @@ def build_index(out, items, anchors):
         folder = c['folder']
         prompt = (out/c['promptFile']).read_text(encoding='utf-8')
         pics = ''.join(f'<figure><a href="{folder}/{label}.png" target="_blank"><img loading="lazy" src="{folder}/{label}.png" alt="{c[pose]} {label}" width="1672" height="941"></a><figcaption>{label} · {c[pose]}</figcaption></figure>' for label, pose in [('首帧', 'start'), ('尾帧', 'end')])
-        review = '<span class="review">新锚点待评审</span>' if c['anchorReviewRequired'] else '<span class="existing">沿用已有锚点</span>'
+        review = '<span class="existing">返片已接入</span>' if c.get('runtimeEnabled') else '<span class="review">新锚点待评审</span>' if c['anchorReviewRequired'] else '<span class="existing">沿用已有锚点</span>'
         cards.append(f'''<article data-group="{c['group']}" data-priority="{c['priority']}" id="clip-{c['id']}">
 <div class="cardtitle"><h2>{c['id']} · {c['name']}</h2>{review}</div>
 <p class="meta">{c['priority']} · {c['group']} · {c['type']} · {c['suggestedSeconds']} 秒 · {c['start']} → {c['end']}</p>
 <div class="pair">{pics}</div><p>{html.escape(c['motion'])}</p>
 <div class="actions"><button class="copy" data-target="prompt-{c['id']}">复制完整提示词</button><a href="{folder}/提示词.txt" download>下载提示词</a><a href="{folder}/首帧.png" download>首帧原图</a><a href="{folder}/尾帧.png" download>尾帧原图</a><a href="{folder}/制作说明.md">制作说明</a></div>
 <details><summary>查看完整提示词</summary><pre id="prompt-{c['id']}">{html.escape(prompt)}</pre></details></article>''')
-    gallery = ''.join(f'<figure><a href="{a["file"]}" target="_blank"><img loading="lazy" src="{a["file"]}" alt="{pose} 候选锚点" width="1672" height="941"></a><figcaption>{pose} · 待用户评审</figcaption></figure>' for pose, a in anchors.items() if a['status'] == 'candidate-awaiting-user-review')
+    gallery = ''.join(f'<figure><a href="{a["file"]}" target="_blank"><img loading="lazy" src="{a["file"]}" alt="{pose} 制作锚点" width="1672" height="941"></a><figcaption>{pose} · 制作参考</figcaption></figure>' for pose, a in anchors.items() if a['status'] in ('candidate-awaiting-user-review','used-in-returned-video'))
     options = ''.join(f'<option>{g}</option>' for g in dict.fromkeys(c['group'] for c in items))
     page = '''<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>陈皮 · 待补动画制作包 v5</title><style>
 *{box-sizing:border-box}body{font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif;color:#35463e;background:#f4f1e9;margin:0}main{max-width:1180px;margin:auto;padding:32px 24px}h1{font-size:34px;line-height:1.3;margin:10px 0}h2{font-size:22px;margin:0}.eyebrow,.meta{color:#728176}.stats{display:flex;gap:12px;flex-wrap:wrap}.stats span{background:#e5eadf;border-radius:8px;padding:8px 14px}a{color:#286c58}header{padding:12px 0 22px}article,.intro{background:#fff;border:1px solid #dedfd3;border-radius:15px;padding:22px;margin:24px 0}.cardtitle{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.review,.existing{font-size:12px;border-radius:20px;padding:3px 12px;white-space:nowrap}.review{background:#f7ebd4;color:#896131}.existing{background:#eaf1e5;color:#47744b}.pair,.gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px}figure{margin:0}img{width:100%;height:auto;display:block;border-radius:8px;background:#faf9f4}figcaption{font-size:13px;color:#728176;margin-top:6px}.actions,.filters{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.actions{margin:18px 0}.actions a{font-size:14px}button,select,input{font:inherit;border:1px solid #b6c8b9;border-radius:7px;padding:8px 12px;background:white;color:#35463e}button{background:#286c58;color:white;cursor:pointer}input{min-width:0;flex:1}details{margin-top:16px}summary{cursor:pointer;color:#286c58}pre{font:14px/1.8 system-ui;white-space:pre-wrap;overflow-wrap:anywhere;background:#f7f8f2;padding:18px;border-radius:8px}.filters{padding:18px;background:#e8eadd;border-radius:10px}.filters label{display:flex;align-items:center;gap:8px}#notice{min-height:28px;margin:8px 0;color:#286c58}.gallery{margin-top:16px}#empty{padding:24px;text-align:center}footer{color:#728176;font-size:13px}@media(max-width:650px){main{padding:18px 12px}h1{font-size:27px}.pair,.gallery{grid-template-columns:1fr}article{padding:15px}.filters{align-items:stretch}.filters label{width:100%}.filters select{flex:1}.filters input{width:100%;flex:auto}.actions{gap:10px}.cardtitle h2{font-size:20px}}[hidden]{display:none!important}
@@ -35,6 +35,9 @@ function filter(){const group=document.getElementById('group').value,priority=do
 for(const id of ['group','priority','search'])document.getElementById(id).addEventListener('input',filter);
 document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const pre=document.getElementById(button.dataset.target);try{await navigator.clipboard.writeText(pre.textContent);notice.textContent='完整提示词已复制';button.textContent='已复制';setTimeout(()=>button.textContent='复制完整提示词',1800);}catch{pre.closest('details').open=true;const range=document.createRange();range.selectNodeContents(pre);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);notice.textContent='浏览器未允许自动复制，已选中完整提示词，请按 Ctrl+C。';}}));
 </script></body></html>'''.replace('GALLERY', gallery).replace('OPTIONS', options).replace('CARDS', ''.join(cards))
+    if all(c.get('runtimeEnabled') for c in items):
+        page=page.replace('开场继续等待独立跑步等返片，不启用替代版。','099—139均已返片接入，独立开场已启用；117复用一段完整开合嘴，三次叫声按实际张嘴帧同步。')
+        page=page.replace('新视频及动态检测待返片','返片已接入；制作参考与原始提示词继续保留')
     # ZIP preview tools extract only index.html into a temporary folder. Embed
     # each distinct original once, then give every image/link its own Blob URL.
     assets = {}
@@ -79,7 +82,7 @@ def verify_pack(out, items, anchors):
         if c['type'] == '循环':
             assert (out/c['startFrame']).read_bytes() == (out/c['endFrame']).read_bytes()
             loops += 1
-        assert not c['runtimeEnabled']
+        if c['runtimeEnabled']:assert c['status']=='returned-and-integrated'
     class Links(HTMLParser):
         def handle_starttag(self, tag, attrs):
             for k, v in attrs:
@@ -94,4 +97,4 @@ def verify_pack(out, items, anchors):
     assert len(re.findall(r'<img ', page)) == 90
     return dict(clips=41,anchors=18,newCandidateAnchors=8,endpointCopies=82,fullPrompts=41,
                 byteIdenticalSharedEndpoints=True,loopEndpointsIdentical=loops,allImages1672x941=True,
-                allLocalHtmlLinksExist=True,standaloneHtml=True,embeddedImages=90,embeddedOriginalPngs=sum(a['mime']=='image/png' for a in embedded.values()),newAnchorsUserApproved=False,dynamicQA='pending returned video',runtimeChanged=False)
+                allLocalHtmlLinksExist=True,standaloneHtml=True,embeddedImages=90,embeddedOriginalPngs=sum(a['mime']=='image/png' for a in embedded.values()),newAnchorsUserApproved=False,dynamicQA='see docs/qa/completion-v5' if all(c['runtimeEnabled'] for c in items) else 'pending returned video',runtimeChanged=all(c['runtimeEnabled'] for c in items))

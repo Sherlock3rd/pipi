@@ -1,5 +1,5 @@
 {
-  "Version": 1,
+  "Version": 2,
   "Sources": {
     "meow1": {
       "File": "source/小皮叫声1.MP3",
@@ -205,6 +205,51 @@
           "Seconds": 0.71140589569161,
           "Tempo": 1,
           "Sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+        }
+      ]
+    },
+    {
+      "Clip": "video-117",
+      "OpenFrame": 12,
+      "ClosedFrame": 33,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "117-12-meow1.wav",
+          "Source": "meow1",
+          "Seconds": 0.8150793650793651,
+          "Tempo": 1,
+          "Sha256": "fb4e452765c2973eb79bd2eebb5a0ac2a7ac9ea3cbe6263dd777ca7fe850f92b"
+        }
+      ]
+    },
+    {
+      "Clip": "video-117",
+      "OpenFrame": 60,
+      "ClosedFrame": 81,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "117-60-meow3.wav",
+          "Source": "meow3",
+          "Seconds": 0.6116326530612245,
+          "Tempo": 1,
+          "Sha256": "54caaeef6c2be917af00e11d9a84333121c2ac3aa009c2124addc4f4c14a0281"
+        }
+      ]
+    },
+    {
+      "Clip": "video-117",
+      "OpenFrame": 109,
+      "ClosedFrame": 129,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "117-109-meow4.wav",
+          "Source": "meow4",
+          "Seconds": 0.6665079365079365,
+          "Tempo": 1,
+          "Sha256": "a0925533bde7d1b4dbea534410826294fdddf8992c9533c6c3839ff24ae3e7f8"
         }
       ]
     }

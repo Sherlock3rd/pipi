@@ -43,7 +43,7 @@ public static class ExpressionChecks
         {
             var p=Player();var c=Cat(p);c.MoveObject("nest",new(70,c.GroundY));long revision=c.ActionRevision;
             check(c.ExecuteBehavior("wall-left").Contains("家具")&&c.ActionRevision==revision,"blocked wall is rejected before changing current action");
-            check(c.ExecuteBehavior("intro-run").Contains("等待")&&c.ActionRevision==revision,"missing startup never uses walking substitute");
+            check(!c.CompletionEnabled&&c.ExecuteBehavior("intro-run").Contains("尚未加载")&&c.ActionRevision==revision,"missing startup never uses walking substitute");
             c.State.Food=0;check(c.ExecuteBehavior("food").Contains("为空")&&c.State.Food==0&&c.ActionRevision==revision,"debug eating does not create stock");
         }
         {
@@ -85,7 +85,7 @@ public static class ExpressionChecks
         {
             var p=Player();p.RestorePose(pose);var before=p.Sample("rest-"+pose,0)!.Value;
             var carried=p.Sample("drag",.1)!.Value;var dropped=p.Sample("land",1)!.Value;
-            check(before.Clip==carried.Clip&&before.Index==carried.Index&&dropped.Clip==carried.Clip,"drag/drop keeps actual "+pose+" art instead of snapping to seated pickup");
+            check(p.HasCompletion&&pose is not ("HR" or "HL")?carried.Clip is "video-125" or "video-128" or "video-131" or "video-134" or "video-137":before.Clip==carried.Clip&&before.Index==carried.Index&&dropped.Clip==carried.Clip,"drag/drop uses authored "+pose+" pickup without snapping to seated pickup");
         }
         {
             var p=Player();var c=Cat(p);var seen=new HashSet<string>();c.Demo("eat");bool meal=false;var post=new List<string>();

@@ -1,32 +1,215 @@
 {
-  "MissingClips": 41,
-  "StartupRequiredClips": 11,
-  "PriorityOneTransitions": 6,
-  "NewAnchors": 8,
-  "ExistingReferenceImages": 10,
-  "AudioItems": 1,
-  "AllReferenceHashesVerified": true,
-  "ZipCrcPassed": true,
-  "StartupEnabled": false,
-  "RuntimeFramesChanged": false,
-  "Choreography": [
-    "sleep",
-    "wake",
-    "run",
-    "pace",
-    "rub",
-    "call",
-    "sit",
-    "normal"
+  "logicChecks": 750,
+  "windowsChecks": 13,
+  "sourceVideos": 41,
+  "originalVideoHashesVerified": true,
+  "originalMp3sUnchanged": 7,
+  "uniqueNewPngs": 4457,
+  "runtimeNewFrameReferences": 4505,
+  "allRuntimeFrameReferencesVerified": 15211,
+  "nativeStartup": {
+    "NativeFrameEvents": true,
+    "HardwareAudioLatencyMeasured": false,
+    "Routes": [
+      {
+        "NestRight": false,
+        "Frames": 1730,
+        "Seconds": 72.08333333333333,
+        "Clips": [
+          "video-20",
+          "video-21",
+          "video-99",
+          "video-108",
+          "video-109",
+          "video-110",
+          "video-15",
+          "video-12",
+          "video-13",
+          "video-08",
+          "video-16",
+          "video-10",
+          "video-right",
+          "video-11",
+          "video-06",
+          "video-15",
+          "video-12",
+          "video-13",
+          "video-115",
+          "video-116",
+          "video-117",
+          "video-118"
+        ],
+        "Voices": [
+          {
+            "Time": 61.5,
+            "Clip": "video-117",
+            "Frame": 12,
+            "File": "117-12-meow1.wav"
+          },
+          {
+            "Time": 63.5,
+            "Clip": "video-117",
+            "Frame": 60,
+            "File": "117-60-meow3.wav"
+          },
+          {
+            "Time": 65.54166666666667,
+            "Clip": "video-117",
+            "Frame": 109,
+            "File": "117-109-meow4.wav"
+          }
+        ],
+        "Food": 80,
+        "Water": 60,
+        "Litter": 20,
+        "FinalX": 1500
+      },
+      {
+        "NestRight": true,
+        "Frames": 1590,
+        "Seconds": 66.25,
+        "Clips": [
+          "video-20",
+          "video-21",
+          "video-100",
+          "video-111",
+          "video-112",
+          "video-113",
+          "video-12",
+          "video-13",
+          "video-08",
+          "video-16",
+          "video-10",
+          "video-right",
+          "video-11",
+          "video-06",
+          "video-15",
+          "video-12",
+          "video-13",
+          "video-115",
+          "video-116",
+          "video-117",
+          "video-118"
+        ],
+        "Voices": [
+          {
+            "Time": 55.625,
+            "Clip": "video-117",
+            "Frame": 12,
+            "File": "117-12-meow1.wav"
+          },
+          {
+            "Time": 57.625,
+            "Clip": "video-117",
+            "Frame": 60,
+            "File": "117-60-meow3.wav"
+          },
+          {
+            "Time": 59.666666666666664,
+            "Clip": "video-117",
+            "Frame": 109,
+            "File": "117-109-meow4.wav"
+          }
+        ],
+        "Food": 80,
+        "Water": 60,
+        "Litter": 20,
+        "FinalX": 1500
+      }
+    ]
+  },
+  "nativeCarries": [
+    {
+      "pose": "D",
+      "frames": 338,
+      "maxAdjacentLift": 0.37494574652777857,
+      "clips": [
+        "video-125",
+        "video-126",
+        "video-127"
+      ]
+    },
+    {
+      "pose": "A",
+      "frames": 361,
+      "maxAdjacentLift": 0.3749457465277768,
+      "clips": [
+        "video-128",
+        "video-129",
+        "video-130"
+      ]
+    },
+    {
+      "pose": "B",
+      "frames": 338,
+      "maxAdjacentLift": 0.37494574652777857,
+      "clips": [
+        "video-131",
+        "video-132",
+        "video-133"
+      ]
+    },
+    {
+      "pose": "X",
+      "frames": 361,
+      "maxAdjacentLift": 0.3749457465277768,
+      "clips": [
+        "video-134",
+        "video-135",
+        "video-136"
+      ]
+    },
+    {
+      "pose": "M",
+      "frames": 361,
+      "maxAdjacentLift": 0.29997222222222497,
+      "clips": [
+        "video-137",
+        "video-138",
+        "video-139"
+      ]
+    }
   ],
-  "CallCount": 3,
-  "WorkbenchFixture": "WPF controls and startup-plan capture",
-  "ArchiveSha256": "fc7ce3dbe00e2a8b96bbb39d961b93563ad81eacfca67e739270e05efa9d5bfb",
-  "RootHashesVerified": true,
-  "ConfigurationPreserved": true,
-  "AutoStartSettingPreserved": true,
-  "ProductionResponding": true,
-  "StateSavedAfterStartup": true,
-  "WorkbenchOpened": true,
-  "EngineSchedulingChanged": false
+  "nest": {
+    "samples": 82,
+    "oldNegativeControlCovered": 3140,
+    "newBodyCovered": 0
+  },
+  "editor": {
+    "DoubleClickExecutes": true,
+    "SingleClickSelects": true,
+    "MissingStartupAssetsRejected": true,
+    "StartupPreviewStarts": true,
+    "SavedAndReadBack": true,
+    "InvalidRejected": true,
+    "CareRescheduled": true,
+    "ParameterCount": 64,
+    "Food": 80,
+    "Water": 80
+  },
+  "installation": {
+    "ProcessId": 254416,
+    "Muted": false,
+    "AutoStartEnabled": false,
+    "BehaviorSettingsHash": "A9662E3A684FCD516F8DBB29B75F7BF2A7F9C1BD033CEE4FD45F61D38D4C68BE",
+    "NewPngHashMatches": 4457,
+    "ChangedRootFiles": [
+      "Chenpi.dll",
+      "Chenpi.pdb"
+    ],
+    "Stamp": "20260920-205852",
+    "PreservedUserPreferences": true,
+    "Volume": 0.25,
+    "AudioAndManifestHashMatches": 5,
+    "NewAssetHashMatches": 4458,
+    "RootHashMatches": 252
+  },
+  "monitor": {
+    "frameCount": 6727,
+    "pairCount": 6851,
+    "failureCount": 1191,
+    "reviewCount": 1333
+  },
+  "monitorThresholdsAreNotAllCleared": true,
+  "hardwareAudioLatencyMeasured": false
 }

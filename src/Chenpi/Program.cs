@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-completion") is string completionAudit)
+        {
+            Directory.CreateDirectory(completionAudit);
+            try{var app=new System.Windows.Application();new Scene(new PetEngine(new PetState(),7)).ExportCompletionAudit(completionAudit,args.Contains("--audit-completion-resume"));}
+            catch(Exception e){File.WriteAllText(Path.Combine(completionAudit,"error.txt"),e.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--audit-voice") is string voiceAudit)
         {
             Directory.CreateDirectory(voiceAudit);
@@ -41,7 +48,7 @@ internal static class Program
         if(Option(args,"--audit-nest-occlusion") is string nestAuditDirectory)
         {
             Directory.CreateDirectory(nestAuditDirectory);
-            try {var auditApp=new System.Windows.Application();new Scene(new PetEngine(new PetState())).ExportNestOcclusionAudit(nestAuditDirectory);}
+            try {var auditApp=new System.Windows.Application();new Scene(new PetEngine(new PetState()),"right,14").ExportNestOcclusionAudit(nestAuditDirectory);}
             catch(Exception error){File.WriteAllText(Path.Combine(nestAuditDirectory,"error.txt"),error.ToString());Environment.ExitCode=1;}
             return;
         }
@@ -51,7 +58,8 @@ internal static class Program
             try
             {
                 var auditApp=new System.Windows.Application();
-                new Scene(new PetEngine(new PetState())).ExportAnimationAudit(auditDirectory,Option(args,"--audit-clips"));
+                bool resume=args.Contains("--audit-resume");
+                new Scene(new PetEngine(new PetState()),Option(args,"--audit-clips"),resume?auditDirectory:null).ExportAnimationAudit(auditDirectory,Option(args,"--audit-clips"),resume);
             }
             catch(Exception error){File.WriteAllText(Path.Combine(auditDirectory,"error.txt"),error.ToString());Environment.ExitCode=1;}
             return;
@@ -114,6 +122,7 @@ internal sealed class PetWindow : Window
     private readonly string boot;
     private bool Preview=>args.Contains("--preview");
     private int renderedFrames;
+    private bool startupPending;
     private double frameIntervals;
     private double maxFrameInterval;
 
@@ -131,6 +140,10 @@ internal sealed class PetWindow : Window
         if(Preview){Title="陈皮 · 交互预览";AllowsTransparency=false;WindowStyle=WindowStyle.SingleBorderWindow;Background=Color("#E6E8DF");ShowInTaskbar=true;ShowActivated=true;Width=820;Height=440;WindowStartupLocation=WindowStartupLocation.CenterScreen;}
         else FitScreen();
         scene=new Scene(engine){OpenSettings=ShowSettings,SaveNow=Save};Content=scene;
+        startupPending=existingEngine is null&&(!Preview&&PetEngine.StartupEligible(state,store.IsFirstRun,args.Contains("--autostart"),boot)||Preview&&args.Contains("--preview-startup"));
+        // The first visible frame is already asleep in the nest. The visibility
+        // check below only starts the timeline and persists its one-shot marker.
+        if(startupPending){engine.Sleep();engine.VisualRestorePose?.Invoke("C");}
         voice=new CatVoicePlayer(Path.Combine(AppContext.BaseDirectory,"assets","audio","cat"));
         voice.SetVolume(engine.State.Volume);scene.FramePresented+=OnFramePresented;
         if(voice.Warning is string warning)store.Log("voice",new IOException(warning));
@@ -310,6 +323,12 @@ internal sealed class PetWindow : Window
         else engine.ObservePointer(0,false,new Spot());
         // Isolated regression fixture feeds the same input entry point as hover.
         if(Preview&&args.Contains("--preview-guide-test"))engine.ObservePointer(Math.Min(.12,dt),true,new Spot(engine.State.X-30,engine.State.Y-65));
+        engine.PresentationPaused=fullScreen||hiddenByUser||scene.Visibility!=Visibility.Visible;
+        if(startupPending&&lastWindowCheck>0&&!engine.PresentationPaused)
+        {
+            startupPending=false;
+            if(engine.BeginStartup(store.IsFirstRun,args.Contains("--autostart"),boot,Preview)){store.Flush();store.Save(engine.State);}
+        }
         engine.Update(Math.Min(.12,dt),DateTime.Now.Hour);
         voice.SetVolume(engine.State.Volume);if(!VoiceAllowed)voice.Silence();
     }
@@ -402,7 +421,7 @@ internal sealed class PetWindow : Window
         {
             string host=Environment.ProcessPath!;
             string command=Path.GetFileNameWithoutExtension(host).Equals("dotnet",StringComparison.OrdinalIgnoreCase)?$"\"{host}\" \"{typeof(Program).Assembly.Location}\"":$"\"{host}\"";
-            key.SetValue("Chenpi",command);
+            key.SetValue("Chenpi",command+" --autostart");
         }
         else key.DeleteValue("Chenpi",false);
     }

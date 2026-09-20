@@ -1,0 +1,1113 @@
+{
+  "clips": [
+    {
+      "id": 99,
+      "poses": [
+        "I",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0001689195632935,
+          "offsetX": -0.007304191589355469,
+          "support": 600.0145515656985,
+          "inliers": 136,
+          "residual": 0.20896164192789612
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999694228172302,
+          "offsetX": -0.009059429168701172,
+          "support": 600.9946035284763,
+          "inliers": 149,
+          "residual": 0.28177828356651785
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 0.4475222574023192
+    },
+    {
+      "id": 100,
+      "poses": [
+        "I",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000035047531128,
+          "offsetX": -0.015260696411132812,
+          "support": 600.020291570935,
+          "inliers": 135,
+          "residual": 0.21624563912339873
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000272989273071,
+          "offsetX": -0.01911449432373047,
+          "support": 601.0245777811632,
+          "inliers": 142,
+          "residual": 0.27809221370692516
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.1561302186635274
+    },
+    {
+      "id": 101,
+      "poses": [
+        "SR",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9997944831848145,
+          "offsetX": -0.000171661376953125,
+          "support": 601.0266888155362,
+          "inliers": 139,
+          "residual": 0.22412280306408114
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000382661819458,
+          "offsetX": 0.004351615905761719,
+          "support": 609.9918556945707,
+          "inliers": 191,
+          "residual": 0.2028726837094695
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 0.6493937207673
+    },
+    {
+      "id": 102,
+      "poses": [
+        "SL",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000459909439087,
+          "offsetX": 0.013466835021972656,
+          "support": 600.9422184135152,
+          "inliers": 162,
+          "residual": 0.21121885986876823
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998119473457336,
+          "offsetX": 0.0006480216979980469,
+          "support": 610.0011869516869,
+          "inliers": 184,
+          "residual": 0.1976707240009037
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.5736463239555007
+    },
+    {
+      "id": 103,
+      "poses": [
+        "D",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999346137046814,
+          "offsetX": 0.014320850372314453,
+          "support": 610.0087888027023,
+          "inliers": 185,
+          "residual": 0.19461542514625238
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999971389770508,
+          "offsetX": -0.03369712829589844,
+          "support": 600.9902753551731,
+          "inliers": 144,
+          "residual": 0.29114607842177886
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.0210432092672903
+    },
+    {
+      "id": 104,
+      "poses": [
+        "D",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999014735221863,
+          "offsetX": 0.005480289459228516,
+          "support": 610.0205523951714,
+          "inliers": 203,
+          "residual": 0.15819273179064788
+        },
+        {
+          "accepted": true,
+          "scale": 1.0005661249160767,
+          "offsetX": 0.010994911193847656,
+          "support": 600.9443058361511,
+          "inliers": 134,
+          "residual": 0.2722548223244882
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.1261135599018246
+    },
+    {
+      "id": 105,
+      "poses": [
+        "A",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998603463172913,
+          "offsetX": -0.0017037391662597656,
+          "support": 582.0060534586462,
+          "inliers": 469,
+          "residual": 0.16753763147328637
+        },
+        {
+          "accepted": true,
+          "scale": 1.000272274017334,
+          "offsetX": 0.015389442443847656,
+          "support": 600.9397427591726,
+          "inliers": 152,
+          "residual": 0.2470778170120171
+        }
+      ],
+      "method": "reviewed anatomical support keys; exclude tail and suspended extremities",
+      "maxAdjacentSupportDelta": 0.5389498697916935
+    },
+    {
+      "id": 106,
+      "poses": [
+        "B",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999741911888123,
+          "offsetX": -0.0011458396911621094,
+          "support": 602.9900802793957,
+          "inliers": 442,
+          "residual": 0.13672323627929225
+        },
+        {
+          "accepted": true,
+          "scale": 1.000233769416809,
+          "offsetX": 0.007982254028320312,
+          "support": 601.006780827379,
+          "inliers": 145,
+          "residual": 0.2744551764036899
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.2434284809880083
+    },
+    {
+      "id": 107,
+      "poses": [
+        "X",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9997177124023438,
+          "offsetX": -0.000823974609375,
+          "support": 636.0835807227077,
+          "inliers": 186,
+          "residual": 0.22393450852282937
+        },
+        {
+          "accepted": true,
+          "scale": 1.0004591941833496,
+          "offsetX": 0.013707160949707031,
+          "support": 600.9452103435704,
+          "inliers": 156,
+          "residual": 0.25741580567865024
+        }
+      ],
+      "method": "reviewed anatomical support keys; exclude tail and suspended extremities",
+      "maxAdjacentSupportDelta": 2.455019420205012
+    },
+    {
+      "id": 108,
+      "poses": [
+        "SR",
+        "RR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999471306800842,
+          "offsetX": 0.008304119110107422,
+          "support": 600.9923453456355,
+          "inliers": 157,
+          "residual": 0.2000750297051951
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998542666435242,
+          "offsetX": -0.011977672576904297,
+          "support": 595.0250084486995,
+          "inliers": 85,
+          "residual": 0.38324809072945687
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.04195395257165302
+    },
+    {
+      "id": 109,
+      "poses": [
+        "RR",
+        "RR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 595.0,
+          "inliers": 195,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998797178268433,
+          "offsetX": 0.041670799255371094,
+          "support": 594.9214729984111,
+          "inliers": 100,
+          "residual": 0.35040057387085727
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 110,
+      "poses": [
+        "RR",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9997975826263428,
+          "offsetX": 0.0052013397216796875,
+          "support": 595.0221762246167,
+          "inliers": 121,
+          "residual": 0.21378347466302147
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998682737350464,
+          "offsetX": 0.0017251968383789062,
+          "support": 601.0034538288689,
+          "inliers": 137,
+          "residual": 0.26697836905282224
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.042051964093943184
+    },
+    {
+      "id": 111,
+      "poses": [
+        "SL",
+        "RL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0004327297210693,
+          "offsetX": 0.004677772521972656,
+          "support": 600.9426520077243,
+          "inliers": 152,
+          "residual": 0.21713719617514546
+        },
+        {
+          "accepted": true,
+          "scale": 0.99992835521698,
+          "offsetX": -0.019028663635253906,
+          "support": 598.0587169276325,
+          "inliers": 87,
+          "residual": 0.42103770049462835
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.020275790969968455
+    },
+    {
+      "id": 112,
+      "poses": [
+        "RL",
+        "RL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 598.0,
+          "inliers": 208,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.0001522302627563,
+          "offsetX": 0.015990257263183594,
+          "support": 597.9573736707953,
+          "inliers": 107,
+          "residual": 0.35522731627761184
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 113,
+      "poses": [
+        "RL",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0002425909042358,
+          "offsetX": 0.006085395812988281,
+          "support": 597.9777997943662,
+          "inliers": 139,
+          "residual": 0.14910010385064146
+        },
+        {
+          "accepted": true,
+          "scale": 1.0006203651428223,
+          "offsetX": -0.0008840560913085938,
+          "support": 600.9290234282112,
+          "inliers": 143,
+          "residual": 0.25926990804100414
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.02593473629446663
+    },
+    {
+      "id": 114,
+      "poses": [
+        "SR",
+        "SF"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000557899475098,
+          "offsetX": -0.014436721801757812,
+          "support": 600.9905491379503,
+          "inliers": 157,
+          "residual": 0.20415040091950856
+        },
+        {
+          "accepted": true,
+          "scale": 1.0002490282058716,
+          "offsetX": 0.00035190582275390625,
+          "support": 619.9719217604926,
+          "inliers": 201,
+          "residual": 0.2573481817600314
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.0601481829627062
+    },
+    {
+      "id": 115,
+      "poses": [
+        "SL",
+        "SF"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0002959966659546,
+          "offsetX": 0.007836341857910156,
+          "support": 600.9640233909988,
+          "inliers": 153,
+          "residual": 0.19179540662802474
+        },
+        {
+          "accepted": true,
+          "scale": 1.0002468824386597,
+          "offsetX": -0.008368492126464844,
+          "support": 619.9444197543488,
+          "inliers": 216,
+          "residual": 0.231930504628802
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 0.8950445148046384
+    },
+    {
+      "id": 116,
+      "poses": [
+        "SF",
+        "SF"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0006097555160522,
+          "offsetX": -0.011218070983886719,
+          "support": 619.9028030827321,
+          "inliers": 228,
+          "residual": 0.1897250343485936
+        },
+        {
+          "accepted": true,
+          "scale": 1.000074863433838,
+          "offsetX": -0.010488510131835938,
+          "support": 619.965061895982,
+          "inliers": 195,
+          "residual": 0.2491779950781453
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0005471174346851626
+    },
+    {
+      "id": 117,
+      "poses": [
+        "SF",
+        "SF"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 620.0,
+          "inliers": 304,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.000152587890625,
+          "offsetX": 0.011140823364257812,
+          "support": 619.938180819577,
+          "inliers": 203,
+          "residual": 0.23648815030373938
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0003621984692969704
+    },
+    {
+      "id": 118,
+      "poses": [
+        "SF",
+        "F"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0004668235778809,
+          "offsetX": -0.010042190551757812,
+          "support": 619.9109893519518,
+          "inliers": 209,
+          "residual": 0.1794288055086636
+        },
+        {
+          "accepted": true,
+          "scale": 1.0001932382583618,
+          "offsetX": -0.005604743957519531,
+          "support": 594.9956808091889,
+          "inliers": 176,
+          "residual": 0.2175456159529917
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 1.8137931773349791
+    },
+    {
+      "id": 119,
+      "poses": [
+        "SR",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998829364776611,
+          "offsetX": 0.0012874603271484375,
+          "support": 601.0062079544319,
+          "inliers": 153,
+          "residual": 0.18889166386956224
+        },
+        {
+          "accepted": true,
+          "scale": 1.000023603439331,
+          "offsetX": -0.0060596466064453125,
+          "support": 600.9675045530913,
+          "inliers": 137,
+          "residual": 0.22827063468219014
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 0.0014265763657732577
+    },
+    {
+      "id": 120,
+      "poses": [
+        "SL",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0004655122756958,
+          "offsetX": 0.008977890014648438,
+          "support": 600.9517254247924,
+          "inliers": 161,
+          "residual": 0.2277884204412013
+        },
+        {
+          "accepted": true,
+          "scale": 1.0002310276031494,
+          "offsetX": 0.000858306884765625,
+          "support": 600.9840198718891,
+          "inliers": 127,
+          "residual": 0.2540489343272931
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 0.002119292842913012
+    },
+    {
+      "id": 121,
+      "poses": [
+        "C",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0001615285873413,
+          "offsetX": -0.004677772521972656,
+          "support": 592.9853926650213,
+          "inliers": 209,
+          "residual": 0.1260792866452277
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999885559082031,
+          "offsetX": 0.0064716339111328125,
+          "support": 609.98183420373,
+          "inliers": 181,
+          "residual": 0.2421852673070152
+        }
+      ],
+      "method": "planted paw/body region; registered shared endpoints",
+      "maxAdjacentSupportDelta": 0.7226499721765265
+    },
+    {
+      "id": 122,
+      "poses": [
+        "D",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000543594360352,
+          "offsetX": -0.0026950836181640625,
+          "support": 610.0250364045381,
+          "inliers": 205,
+          "residual": 0.15767204033558047
+        },
+        {
+          "accepted": true,
+          "scale": 0.999853789806366,
+          "offsetX": 0.012140750885009766,
+          "support": 593.0180102097419,
+          "inliers": 180,
+          "residual": 0.2084918180260494
+        }
+      ],
+      "method": "reviewed anatomical support keys; exclude tail and suspended extremities",
+      "maxAdjacentSupportDelta": 0.7369824218750125
+    },
+    {
+      "id": 123,
+      "poses": [
+        "C",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000169038772583,
+          "offsetX": 0.0054416656494140625,
+          "support": 592.9814892111181,
+          "inliers": 203,
+          "residual": 0.14031019202158915
+        },
+        {
+          "accepted": true,
+          "scale": 0.9994691610336304,
+          "offsetX": -0.0028238296508789062,
+          "support": 582.0248428136168,
+          "inliers": 410,
+          "residual": 0.22984902213393665
+        }
+      ],
+      "method": "reviewed anatomical support keys; exclude tail and suspended extremities",
+      "maxAdjacentSupportDelta": 0.981549479166695
+    },
+    {
+      "id": 124,
+      "poses": [
+        "A",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998639822006226,
+          "offsetX": 0.007853507995605469,
+          "support": 582.0180381037565,
+          "inliers": 441,
+          "residual": 0.16599567222851852
+        },
+        {
+          "accepted": true,
+          "scale": 0.999968945980072,
+          "offsetX": 0.005136966705322266,
+          "support": 592.98869056152,
+          "inliers": 186,
+          "residual": 0.19110805696534355
+        }
+      ],
+      "method": "reviewed anatomical support keys; exclude tail and suspended extremities",
+      "maxAdjacentSupportDelta": 0.8597081502278812
+    },
+    {
+      "id": 125,
+      "poses": [
+        "D",
+        "H_D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998561143875122,
+          "offsetX": 0.0027208328247070312,
+          "support": 609.9913334297478,
+          "inliers": 224,
+          "residual": 0.17095724127997663
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999087452888489,
+          "offsetX": 0.007514476776123047,
+          "support": 587.0342825345135,
+          "inliers": 190,
+          "residual": 0.24649268007050482
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.20174176373410546
+    },
+    {
+      "id": 126,
+      "poses": [
+        "H_D",
+        "H_D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 587.0,
+          "inliers": 338,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.000049352645874,
+          "offsetX": -0.0023517608642578125,
+          "support": 586.9881509429824,
+          "inliers": 202,
+          "residual": 0.21389882697512647
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 127,
+      "poses": [
+        "H_D",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9997807145118713,
+          "offsetX": -0.014887332916259766,
+          "support": 587.0085747567731,
+          "inliers": 204,
+          "residual": 0.20276328751448125
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999304413795471,
+          "offsetX": -0.002167224884033203,
+          "support": 610.0160341687127,
+          "inliers": 188,
+          "residual": 0.21734175379769866
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.20218474324023816
+    },
+    {
+      "id": 128,
+      "poses": [
+        "A",
+        "H_A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.999805748462677,
+          "offsetX": -0.0014119148254394531,
+          "support": 582.0213532203522,
+          "inliers": 429,
+          "residual": 0.18925084874326295
+        },
+        {
+          "accepted": true,
+          "scale": 0.9997079968452454,
+          "offsetX": -0.02274942398071289,
+          "support": 619.0255755361648,
+          "inliers": 479,
+          "residual": 0.24860810886976686
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.3251853693956761
+    },
+    {
+      "id": 129,
+      "poses": [
+        "H_A",
+        "H_A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 619.0,
+          "inliers": 732,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9997974634170532,
+          "offsetX": -0.007493019104003906,
+          "support": 619.0246671330284,
+          "inliers": 480,
+          "residual": 0.21230108314862464
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 130,
+      "poses": [
+        "H_A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999839663505554,
+          "offsetX": -0.009076595306396484,
+          "support": 618.9756837164712,
+          "inliers": 505,
+          "residual": 0.19624447633018643
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998633861541748,
+          "offsetX": 0.010831832885742188,
+          "support": 582.0289455856849,
+          "inliers": 420,
+          "residual": 0.2217839694053795
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.2597576986161556
+    },
+    {
+      "id": 131,
+      "poses": [
+        "B",
+        "H_B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000014305114746,
+          "offsetX": 0.0067291259765625,
+          "support": 603.0126140697374,
+          "inliers": 409,
+          "residual": 0.17437525564975623
+        },
+        {
+          "accepted": true,
+          "scale": 0.9996057748794556,
+          "offsetX": -0.0034589767456054688,
+          "support": 573.0224696764016,
+          "inliers": 451,
+          "residual": 0.20089575279955108
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.21084867793202733
+    },
+    {
+      "id": 132,
+      "poses": [
+        "H_B",
+        "H_B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 573.0,
+          "inliers": 673,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999215602874756,
+          "offsetX": -0.0013217926025390625,
+          "support": 573.0016111207149,
+          "inliers": 456,
+          "residual": 0.19593715255419178
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 133,
+      "poses": [
+        "H_B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999778866767883,
+          "offsetX": -0.005634784698486328,
+          "support": 572.9876462469553,
+          "inliers": 503,
+          "residual": 0.15061231832676059
+        },
+        {
+          "accepted": true,
+          "scale": 0.999922513961792,
+          "offsetX": 0.000102996826171875,
+          "support": 603.002199104955,
+          "inliers": 410,
+          "residual": 0.18571332748745578
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.2637616155009823
+    },
+    {
+      "id": 134,
+      "poses": [
+        "X",
+        "H_X"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999227523803711,
+          "offsetX": 0.014093399047851562,
+          "support": 636.0309128798898,
+          "inliers": 217,
+          "residual": 0.1657680628072767
+        },
+        {
+          "accepted": true,
+          "scale": 1.000112771987915,
+          "offsetX": 0.005664825439453125,
+          "support": 594.9531085919466,
+          "inliers": 152,
+          "residual": 0.21556668029852832
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.36098315612028387
+    },
+    {
+      "id": 135,
+      "poses": [
+        "H_X",
+        "H_X"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 595.0,
+          "inliers": 223,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9995812177658081,
+          "offsetX": 0.017106056213378906,
+          "support": 595.0450622205234,
+          "inliers": 154,
+          "residual": 0.199223716027861
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 136,
+      "poses": [
+        "H_X",
+        "X"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9996398687362671,
+          "offsetX": -0.006823539733886719,
+          "support": 595.0505389783685,
+          "inliers": 138,
+          "residual": 0.2052027324230321
+        },
+        {
+          "accepted": true,
+          "scale": 0.9994634389877319,
+          "offsetX": 0.013741493225097656,
+          "support": 636.0756684045182,
+          "inliers": 188,
+          "residual": 0.2241915629778131
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.2884312322090139
+    },
+    {
+      "id": 137,
+      "poses": [
+        "M",
+        "H_M"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999260902404785,
+          "offsetX": -0.0075702667236328125,
+          "support": 601.0040453086008,
+          "inliers": 443,
+          "residual": 0.1943608442627012
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998049736022949,
+          "offsetX": -0.0006008148193359375,
+          "support": 646.0149670226632,
+          "inliers": 392,
+          "residual": 0.25340971020524894
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.3164537393165432
+    },
+    {
+      "id": 138,
+      "poses": [
+        "H_M",
+        "H_M"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "support": 646.0,
+          "inliers": 578,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.0001331567764282,
+          "offsetX": 0.014376640319824219,
+          "support": 645.9750802320696,
+          "inliers": 397,
+          "residual": 0.23434714355255015
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.0
+    },
+    {
+      "id": 139,
+      "poses": [
+        "H_M",
+        "M"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999123811721802,
+          "offsetX": 0.0007638931274414062,
+          "support": 646.0211116691919,
+          "inliers": 409,
+          "residual": 0.20026091773885368
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999719262123108,
+          "offsetX": 0.0017809867858886719,
+          "support": 601.020626587577,
+          "inliers": 418,
+          "residual": 0.2249420187887115
+        }
+      ],
+      "method": "fixed registered root; preserve airborne/body motion",
+      "maxAdjacentSupportDelta": 0.316380363539281
+    }
+  ],
+  "clippedFrames": [],
+  "rejectedFits": 0
+}

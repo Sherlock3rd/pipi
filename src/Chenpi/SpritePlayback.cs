@@ -53,6 +53,7 @@ public sealed partial class SpritePlayback
     private string careAction="",careExit="";
     private double careStarted,exitStarted;
     private double requestFinishAt=-1;
+    private bool requestFinishStanding;
     private readonly List<(double Scale,double X,double Y)> sleepPhases=new();
     private SpriteFrame? lastSample;
     private double wakeContinuationAt=-1,wakeScale=1,wakeX,wakeY;
@@ -66,7 +67,7 @@ public sealed partial class SpritePlayback
 
     public void Load(JsonElement manifest,Func<string,int> frameCount)
     {
-        clips.Clear();sleepPhases.Clear();Reset();
+        clips.Clear();sleepPhases.Clear();HasCompletion=false;Reset();
         if(!manifest.TryGetProperty("clips",out var entries)||entries.ValueKind!=JsonValueKind.Object)return;
         foreach(var item in entries.EnumerateObject())
         {
@@ -92,6 +93,7 @@ public sealed partial class SpritePlayback
         videoGraph=manifest.TryGetProperty("videoGraph",out var graph)&&graph.GetBoolean()
             &&clips.ContainsKey("video-01")&&clips.ContainsKey("video-14")&&clips.ContainsKey("video-right");
         careGraph=manifest.TryGetProperty("careVideoGraph",out var care)&&care.GetBoolean()&&clips.ContainsKey("video-22");
+        HasCompletion=true;for(int n=99;n<=139;n++)if(!clips.ContainsKey("video-"+n)){HasCompletion=false;break;}
         if(entries.TryGetProperty("video-20",out var sleeping)&&sleeping.TryGetProperty("phaseRegistration",out var phases)&&phases.ValueKind==JsonValueKind.Array)
             foreach(var phase in phases.EnumerateArray())
                 if(phase.ValueKind==JsonValueKind.Array&&phase.GetArrayLength()==3&&phase[0].TryGetDouble(out double s)&&phase[1].TryGetDouble(out double px)&&phase[2].TryGetDouble(out double py)
@@ -121,7 +123,7 @@ public sealed partial class SpritePlayback
     }
     public static double PlaybackSpeed(JsonElement value,string key="playbackRate")=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
-    public void Reset(){travel=null;group="";current="";careAction=careExit="";requestFinishAt=-1;pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;carriedExpression=null;}
+    public void Reset(){travel=null;liftedBase=null;group="";current="";careAction=careExit="";requestFinishAt=-1;pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;carriedExpression=null;}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
         "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
@@ -133,6 +135,7 @@ public sealed partial class SpritePlayback
         "guide-food"=>new[]{"48"},"guide-water"=>new[]{"49"},"guide-litter"=>new[]{"50"},"care-thanks"=>new[]{"51"},_=>Array.Empty<string>()};
     public double? ActionDuration(string action,bool left=false)
     {
+        if(action=="land"&&ReleaseDuration() is double release)return release;
         if(carriedExpression is not null&&action=="land")return .7;
         if(HasExpressions&&action.StartsWith("expr-")&&clips.TryGetValue("video-"+action[5..],out var expression))return expression.Duration;
         if(!careGraph)return null;var seq=CareSequence(action,left);if(seq.Length==0)return null;
@@ -147,9 +150,10 @@ public sealed partial class SpritePlayback
         (clips["video-29"].ForAction("bury").Duration,clips["video-30"].Duration):null;
     private SpriteFrame? SampleCare(string action,double now,bool left)
     {
-        if(action!="care-finish")requestFinishAt=-1;
+        if(action!="care-finish"){requestFinishAt=-1;requestFinishStanding=false;}
         else if(careAction is "request-food" or "request-water" or "request-litter" or "guide-food" or "guide-water" or "guide-litter")
         {
+            requestFinishStanding=HasCompletion&&careAction.StartsWith("guide-");
             string id="video-"+CareSequence(careAction,left)[0];var finishing=clips[id];
             // Refill changes stock immediately, but finish the currently visible
             // gesture at its authored endpoint before walking through the graph.
@@ -222,6 +226,8 @@ public sealed partial class SpritePlayback
     private SpriteFrame? SampleCore(string action,double now,bool facingLeft=false)
     {
         if(!double.IsFinite(now)||now<0)return null;
+        if(travel is not null&&action!=travel.Action)CancelTravel(now);
+        if(SampleAuthoredCarry(action,now) is SpriteFrame authoredCarry)return authoredCarry;
         if(SampleCarriedExpression(action,now) is SpriteFrame carried)return carried;
         if(travel is not null)
         {
@@ -269,10 +275,12 @@ public sealed partial class SpritePlayback
     {
         string target=action switch {
             "idle" or "sit" or "wake" or "care-finish"=>"F",
+            "run"=>left?"RL":"RR",
             "walk" or "toy-run" or "request-walk" or "guide-walk"=>left?"WL":"WR",
             "guide-stop" or "guide-arrive" or "toy-ready"=>left?"SL":"SR",
             "sleep"=>"C",_=>""};
         if(action=="care-ready")target="SR";
+        if(action=="care-finish"&&requestFinishStanding)target="SR";
         if(HasExpressions&&action.StartsWith("rest-"))target=action[5..];
         // Interaction wins immediately. Never queue a care/drag action behind a video.
         if(target.Length==0){Reset();return null;}
@@ -291,9 +299,9 @@ public sealed partial class SpritePlayback
         }
         if(current.Length==0)
         {
-            if(pose==target&&pose is "SR" or "SL")
+            if(pose==target&&pose is "SR" or "SL" or "SF")
             {
-                string stand=pose=="SL"?"video-08":"video-06";
+                string stand=pose=="SF"?"video-114":pose=="SL"?"video-08":"video-06";
                 return new(stand,clips[stand].Count-1,clips[stand]);
             }
             if(pose!=target)
@@ -308,7 +316,7 @@ public sealed partial class SpritePlayback
                         search.Enqueue((e.To,route.First.Length==0?e.Clip:route.First,route.First.Length==0?e.To:route.End));
                 }
             }
-            else current=PoseLoop(pose) is string loop&&loop.Length>0?"video-"+loop:pose switch {"WR" or "WL"=>WalkingLoop(pose),"C"=>"video-20",_=>"video-01"};
+            else current=PoseLoop(pose) is string loop&&loop.Length>0?"video-"+loop:pose switch {"RR"=>"video-109","RL"=>"video-112","WR" or "WL"=>WalkingLoop(pose),"C"=>"video-20",_=>"video-01"};
             started=nextStarted;
         }
         if(!clips.TryGetValue(current,out var clip))return null;
@@ -325,7 +333,8 @@ public sealed partial class SpritePlayback
     {
         if(!careGraph)return true;
         Sample("care-finish",now);
-        return careAction.Length==0&&pose=="F"&&destination=="F"&&(current.Length==0||clips[current].Loop);
+        string target=requestFinishStanding?"SR":"F";
+        return careAction.Length==0&&pose==target&&destination==target&&(current.Length==0||clips[current].Loop);
     }
     public bool PrepareStand(double now,bool left)
     {
@@ -347,12 +356,16 @@ public sealed partial class SpritePlayback
     {
         static double Ease(double x){x=Math.Clamp(x,0,1);return x*x*(3-2*x);}
         double velocity=id switch {
+            "video-109"=>RunSpeedRight,"video-112"=>-RunSpeedLeft,
+            "video-108"=>RunSpeedRight*Ease(t),"video-111"=>-RunSpeedLeft*Ease(t),
+            "video-110"=>RunSpeedRight*(1-Ease(t)),"video-113"=>-RunSpeedLeft*(1-Ease(t)),
             "video-right" or "video-86"=>36,"video-14" or "video-87"=>-38,
             "video-06"=>12*Ease((t-.18)/.55),"video-08"=>-12*Ease((t-.18)/.55),
             "video-10"=>12+24*Ease(t/.5),"video-12"=>-12-26*Ease(t/.5),
             "video-11"=>36*(1-Ease(t/.85)),"video-13"=>-38*(1-Ease(t/.85)),
             "video-15"=>5*(1-2*Ease(t)),"video-16"=>-5*(1-2*Ease(t)),
             _=>0};
+        if(id is "video-108" or "video-109" or "video-110" or "video-111" or "video-112" or "video-113")return velocity;
         return velocity*clips[id].Width/(id is "video-86" or "video-87"?225:180)*clips[id].PlaybackRate;
     }
 }

@@ -18,6 +18,8 @@ NAMES = {'meow1':'小皮叫声1', 'meow2':'小皮叫声2', 'meow3':'小皮叫声
 BINDINGS = [(69,43,57,['annoyed1']), (73,31,42,['lying2']), (77,50,59,['meow3']),
             (86,49,61,['meow2']), (87,65,84,['meow3']), (88,35,71,['meow1','meow4']),
             (89,32,67,['lying1']), (90,43,75,['lying1','lying2']), (91,39,72,['lying2'])]
+completion_cues=ROOT/'art/video-pipeline/completion-v5/returned/voice-cues.json'
+if completion_cues.exists():BINDINGS+=json.loads(completion_cues.read_text(encoding='utf-8'))['Bindings']
 rate = 44100
 sources = {}
 trimmed = {}
@@ -39,7 +41,7 @@ for key, name in NAMES.items():
     sources[key] = dict(File='source/'+path.name,Sha256=hashlib.sha256(path.read_bytes()).hexdigest(),
                         OriginalSeconds=len(samples)/rate,TrimStartSeconds=start/rate,
                         TrimEndSeconds=end/rate,Gain=gain)
-manifest = dict(Version=1,Sources=sources,Bindings=[],
+manifest = dict(Version=2,Sources=sources,Bindings=[],
                 Pending=[dict(Clip='video-92',Reason='背向镜头，嘴部被头部遮挡；未确认可见张嘴帧，暂不配音。')])
 for clip, opened, closed, choices in BINDINGS:
     sounds=[]
@@ -59,7 +61,7 @@ for clip, opened, closed, choices in BINDINGS:
         audio=audio[:int(available*rate)]
         fade=min(int(.008*rate),len(audio)//2)
         audio[:fade]*=np.linspace(0,1,fade);audio[-fade:]*=np.linspace(1,0,fade)
-        file=f'{clip}-{key}.wav'
+        file=f'{clip}-{opened}-{key}.wav' if clip>=99 else f'{clip}-{key}.wav'
         with wave.open(str(OUT/file),'wb') as writer:
             writer.setnchannels(1);writer.setsampwidth(2);writer.setframerate(rate)
             writer.writeframes((np.clip(audio,-1,1)*32767).astype('<i2').tobytes())

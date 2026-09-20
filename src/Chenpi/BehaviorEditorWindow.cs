@@ -30,13 +30,14 @@ internal sealed class BehaviorEditorWindow : Window
         new("litter","如厕／埋砂","到期且猫砂可用：进入盆面 → 如厕 → 换位转身 → 埋砂 → 离开。埋砂不等于清理。",new[]{"litter"}),
         new("rest","⑦ 自主休息","安静达到阈值或休息周期到期进入睡姿；到期继续睡，不强制漫游。夜间／低能量规则也可触发休息。",new[]{"rest"}),
         new("poses","选择入睡姿态","按同组权重抽取地面睡姿，经真实素材衔接进入；权重0只排除随机选入，不删除必要的过渡姿态。",new[]{"poses"}),
-        new("seated","坐姿","趴卧从坐姿进入；当前站立直接趴下、趴卧直接站起素材尚缺。",Array.Empty<string>()),
-        new("pose-D","趴卧","经坐姿进入；醒来先坐起。可调整随机入睡权重和趴卧小动作。",new[]{"gesture-D"}),
+        new("seated","坐姿","正面坐姿与左右站姿连通；新增侧坐直接起身99/100，站立直接趴下101/102。",Array.Empty<string>()),
+        new("pose-C","蜷睡","可在地面直接进入，与趴卧、侧躺互通；醒来侧坐直接站起。",new[]{"poses","changes"}),
+        new("pose-D","趴卧","左右站姿可直接趴卧，趴卧可直接朝左右站起；与蜷睡直接互通。",new[]{"gesture-D"}),
         new("pose-A","侧躺","连接趴卧、露肚、舒展和掩面；第三击使用直接起身片段。",new[]{"gesture-A","click"}),
         new("pose-B","露肚","由侧躺翻入；第三击直接朝右站起。",new[]{"gesture-B","click"}),
         new("pose-X","舒展","由侧躺翻入；第三击直接朝右站起。",new[]{"gesture-X","click"}),
         new("pose-M","掩面","由侧躺卷身进入；持续呼吸，不随机哈欠／叫声；单击放爪回侧躺。",Array.Empty<string>()),
-        new("changes","侧躺之后换哪种姿态","趴卧会转侧躺；露肚／舒展会回侧躺；侧躺按权重选择露肚、舒展或掩面。掩面会持续睡眠直到互动或照料。",new[]{"changes"}),
+        new("changes","侧躺之后换哪种姿态","蜷睡与趴卧、侧躺互通；露肚／舒展会回侧躺；侧躺按权重选择蜷睡、露肚、舒展或掩面。掩面会持续睡眠直到互动或照料。",new[]{"changes"}),
         new("gesture","睡姿小动作与换姿","等待随机间隔后，按概率选择短动作或换睡姿。短动作在当前姿态内按权重选择哈欠、叫声、伸展；完整播放后回呼吸。",new[]{"gesture"}),
         new("gesture-D","趴卧 · 小动作","趴卧时的哈欠、叫声、伸展概率。三个权重只在趴卧短动作分支内比较。",new[]{"gesture-D"}),
         new("gesture-A","侧躺 · 小动作","侧躺时的哈欠、叫声、伸展概率。",new[]{"gesture-A"}),
@@ -45,18 +46,18 @@ internal sealed class BehaviorEditorWindow : Window
         new("click","躺姿点击分级","侧躺／露肚／舒展：第一击轻抖、第二击强反应、第三击直接站起。窗口从第一击起算。掩面单击直接放爪。",new[]{"click"}),
         new("wall","屏边扶墙","与左部、中部、右部空位同级抽签。从当前位置走到可用屏边，完整扶墙并落地，再去安全空位休息；无靠边前提和启动次数限制。",new[]{"wall","destinations"}),
         new("night","作息辅助条件","夜间且能量较低时倾向休息；不强制打断互动。起止小时相同表示关闭夜间加成，安静入睡仍有效。",new[]{"night"}),
-        new("nest","猫窝／原蜷睡","拖进窝或手动回窝使用原蜷睡，保留坐垫支撑和窝沿遮挡。旧侧坐直接站立素材尚缺，不能通过改概率消除中间姿态。",new[]{"rest"}),
+        new("nest","猫窝／蜷睡","保留坐垫支撑和窝沿遮挡。醒来经21到侧坐，再用99/100直接左右站起；蜷睡与趴卧、侧躺通过121—124互通。",new[]{"rest"}),
         new("movement","⑥ 清醒自主移动","清醒安静等待后按概率决定是否移动；选中后，左／中／右空位和屏边扶墙在同级目的地池按权重抽取。照料与互动优先，睡着时不触发。",new[]{"movement","destinations"}),
         new("destinations","普通空位","按左部20%、中部50%、右部80%屏宽寻找附近安全空位，过滤当前位置、重复落点及不可用位置；与屏边扶墙共享权重池。",new[]{"destinations"}),
-        new("startup","启动开场 · 待素材","独立的一次性连续开场设计。首次有效运行、开机自启各触发一次，普通重开不重复。用户已明确等独立跑步素材补齐后再启用；当前不执行、不改变既有自启设置。108—118共11段专用片与新姿态锚点待制作、接缝验收和运行接入。",Array.Empty<string>()),
+        new("startup","启动开场","首次有效运行、开机自启每个系统启动周期一次；普通重开不重复。使用独立跑步108—113，转正面蹭头、叫声后坐定。双击可手动预览完整流程，预览不消耗自动触发次数。",new[]{"startup"}),
         new("intro-sleep","① 窝内睡眠","初始在现有猫窝坐垫上蜷睡，复用20；不改猫窝摆放、不跳到地面。开场期间照料期限继续计时，库存不变。",Array.Empty<string>()),
-        new("intro-wake","② 醒来离窝","先醒到侧坐I，再站起，脚掌沿坐垫支撑连续离窝。优先补99/100直接侧坐起身；已有21→18→06/08仍列为过渡路径。",Array.Empty<string>()),
+        new("intro-wake","② 醒来离窝","先醒到侧坐I，再站起，脚掌沿坐垫支撑连续离窝。使用99/100直接侧坐起身，再接真实跑步。",Array.Empty<string>()),
         new("intro-run","③ 跑到屏幕中部","使用独立左右跑步起步、循环、停步108—113；依据窝与目标的真实位置选方向。不得用现有走路加速替代。目标为中部可坐空位，中央被家具占用时寻找最近空位。",Array.Empty<string>()),
-        new("intro-pace","④ 中部来回踱步","到达中部后短距离来回，再回到中点。复用真实左右行走和15/16转身，路径依据当前家具/屏宽计算，不能身体朝左却向右滑动。往返次数及范围留作返片接入时可调参数。",Array.Empty<string>()),
-        new("intro-rub","⑤ 朝前蹭蹭脑袋","先114/115转为正面四足站姿SF，再116朝屏幕前方探头轻蹭并回SF。不要提前坐下，也不要放大整只猫模拟向镜头靠近；需要新SF标准图。",Array.Empty<string>()),
-        new("intro-call","⑥ 连叫三次","117是一段SF→SF的三连叫，清楚张嘴/合嘴三次，各次间短停顿，最后合嘴。不能重复播放已有坐叫88来偷换姿态。声音需三处同步提示点，仍尊重静音设置。",Array.Empty<string>()),
+        new("intro-pace","④ 中部来回踱步","到达中部后短距离来回，再回到中点。复用真实左右行走和15/16转身，路径依据当前家具/屏宽计算，不能身体朝左却向右滑动。往返次数及范围可在开场总节点调节。",Array.Empty<string>()),
+        new("intro-rub","⑤ 朝前蹭蹭脑袋","先114/115转为正面四足站姿SF，再116朝屏幕前方探头轻蹭并回SF。不要提前坐下，也不要放大整只猫模拟向镜头靠近。",Array.Empty<string>()),
+        new("intro-call","⑥ 连叫三次","117返片实际两次张嘴，当前复用首段完整开合嘴一次，组成三连叫；最后合嘴。不能重复播放已有坐叫88来偷换姿态。声音需三处同步提示点，仍尊重静音设置。",Array.Empty<string>()),
         new("intro-sit","⑦ 在中部坐定","118由正面四足SF平稳坐到既有F；手脚接触地面、位置不跳变。完整坐定后才结束开场。",Array.Empty<string>()),
-        new("intro-done","⑧ 交回正常行为树","进入原待机与照料调度，不补扣库存、不重抽照料期限。开场后仍用正常入睡等待。设计中拖拽/手动命令可取消开场，全屏遮挡暂停表演计时，不在看不到时偷播完。",Array.Empty<string>())
+        new("intro-done","⑧ 交回正常行为树","进入原待机与照料调度，不补扣库存、不重抽照料期限。开场后仍用正常入睡等待。拖拽/手动命令可取消开场，全屏遮挡暂停表演计时，不在看不到时偷播完。",Array.Empty<string>())
     };
     private readonly PetEngine engine;
     private readonly BehaviorSettingsStore store;
@@ -99,7 +100,7 @@ internal sealed class BehaviorEditorWindow : Window
         header.Children.Add(Label("看清决策顺序，调整节奏与概率。连线表示决策关系；参数保存后生效；双击动作会立即在桌面执行。",12,"#697B75"));
         var bar=new StackPanel{Orientation=Orientation.Horizontal,Margin=new Thickness(0,14,0,0)};header.Children.Add(bar);
         bar.Children.Add(Button("全局流程",()=>{view="global";BuildGraph();Fit();}));bar.Children.Add(Button("睡姿与反应",()=>{view="sleep";BuildGraph();Fit();}));
-        bar.Children.Add(Button("启动开场 · 待素材",ShowStartupPlan));
+        bar.Children.Add(Button("启动开场",ShowStartupPlan));
         bar.Children.Add(Button("全部参数",()=>{selected="all";BuildInspector();}));bar.Children.Add(Button("适合窗口",Fit));
         bar.Children.Add(zoom);bar.Children.Add(Label("缩放",12));zoom.ValueChanged+=(_,_)=>canvas.LayoutTransform=new ScaleTransform(zoom.Value,zoom.Value);
         var bottom=new Border{Background=Brush("#FFFFFF"),BorderBrush=Brush("#DFE6DF"),BorderThickness=new Thickness(0,1,0,0),Padding=new Thickness(24,12,24,14)};DockPanel.SetDock(bottom,Dock.Bottom);shell.Children.Add(bottom);
@@ -118,11 +119,11 @@ internal sealed class BehaviorEditorWindow : Window
     private void Fit(){zoom.Value=Math.Clamp(Math.Min((graphScroll.ActualWidth-25)/canvas.Width,(graphScroll.ActualHeight-25)/canvas.Height),zoom.Minimum,1);canvas.LayoutTransform=new ScaleTransform(zoom.Value,zoom.Value);}
     internal void ShowStartupPlan(){view="startup";selected="startup";BuildGraph();BuildInspector();Fit();}
     private string Summary(string id)=>id switch {
-        "startup"=>"设计已整理 · 未启用 · 首次运行 / 开机自启",
-        "intro-sleep"=>"蜷睡20 · 坐垫支撑", "intro-wake"=>"离窝支撑连续 · 待补直接起身99/100",
-        "intro-run"=>"待补108—113 · 独立跑步素材", "intro-pace"=>"左右踱步 + 真实转向 · 回到中点",
-        "intro-rub"=>"待补114—116 · 正面站姿SF", "intro-call"=>"待补117 · 单段三次开合嘴",
-        "intro-sit"=>"待补118 · SF → 正面坐姿F", "intro-done"=>"坐定后恢复照料 / 互动 / 入睡",
+        "startup"=>"独立连续开场 · 首次运行 / 开机自启 · 双击预览",
+        "intro-sleep"=>"蜷睡20 · 坐垫支撑", "intro-wake"=>"离窝支撑连续 · 直接起身99/100",
+        "intro-run"=>"108—113 · 独立跑步素材", "intro-pace"=>"左右踱步 + 真实转向 · 回到中点",
+        "intro-rub"=>"114—116 · 正面站姿SF", "intro-call"=>"117 · 三次开合嘴与原声同步",
+        "intro-sit"=>"118 · SF → 正面坐姿F", "intro-done"=>"坐定后恢复照料 / 互动 / 入睡",
         "rest"=>$"安静 {engine.Settings.Get("sleep.delay"):0.#} 秒入睡",
         "food" or "water" or "litter"=>$"独立周期 {engine.Settings.Get(id+".min"):0.#}～{engine.Settings.Get(id+".max"):0.#} 分钟",
         "request"=>$"需求成立 + 缺货等待 {engine.Settings.Get("request.delay"):0.#} 秒",
@@ -197,8 +198,8 @@ internal sealed class BehaviorEditorWindow : Window
             Connect(new[]{new Point(180,320),new Point(210,320)},true);Connect(new[]{new Point(370,320),new Point(420,320)},true);
             Connect(new[]{new Point(600,320),new Point(790,320)},true);Connect(new[]{new Point(510,360),new Point(510,405)},true);
             Connect(new[]{new Point(600,340),new Point(660,340),new Point(660,445),new Point(790,445)},true);
-            Card("seated",40,280,140);Card("pose-D",210,280,160);Card("pose-A",420,280,180);Card("pose-B",790,280,180);Card("pose-X",420,405,180);Card("pose-M",790,405,180);
-            var note=Label("侧躺 / 露肚 / 舒展第三击 → 朝右站起；\n趴卧直接站起、旧侧坐直接站起待补片。",14,"#977045");Canvas.SetLeft(note,45);Canvas.SetTop(note,425);note.Width=340;canvas.Children.Add(note);
+            Card("seated",40,280,140);Card("pose-D",210,280,160);Card("pose-A",420,280,180);Card("pose-B",790,280,180);Card("pose-C",210,405,160);Card("pose-X",420,405,180);Card("pose-M",790,405,180);
+            var note=Label("侧躺 / 露肚 / 舒展第三击 → 朝右站起；\n趴卧、侧坐均可直接朝左右站起。",14,"#977045");Canvas.SetLeft(note,45);Canvas.SetTop(note,505);note.Width=900;canvas.Children.Add(note);
             Card("gesture",45,550,950,"呼吸停留 → 等待间隔 → 短动作或换姿态 → 回到呼吸");
             foreach(var (id,x) in new[]{("gesture-D",45d),("gesture-A",290d),("gesture-B",535d),("gesture-X",780d)}){Line(x+35,630,x+35,660);Card(id,x,660,220);}
             Card("nest",45,820,950);
@@ -221,13 +222,13 @@ internal sealed class BehaviorEditorWindow : Window
             var sides=new WrapPanel{Margin=new Thickness(0,10,0,15)};
             sides.Children.Add(Button("左侧扶墙",()=>ExecuteNode("wall-left")));sides.Children.Add(Button("右侧扶墙",()=>ExecuteNode("wall-right")));inspector.Children.Add(sides);
         }
-        else if(selected is "food" or "water" or "litter" or "nest" or "rest" or "poses" or "seated" or "movement" or "click" or "input" or "gesture" or "changes"||selected.StartsWith("pose-")||selected.StartsWith("gesture-"))
+        else if(selected is "startup" or "food" or "water" or "litter" or "nest" or "rest" or "poses" or "seated" or "movement" or "click" or "input" or "gesture" or "changes"||selected.StartsWith("pose-")||selected.StartsWith("gesture-"))
         {
             var execute=Button("执行此动作",()=>ExecuteNode(selected));execute.Margin=new Thickness(0,0,0,15);inspector.Children.Add(execute);
             if(selected is "food" or "water" or "litter")inspector.Children.Add(Label("在桌面真实执行，会消耗库存或使用猫砂。",11,"#9A7852"));
         }
         var parameters=BehaviorSettings.Catalog.Where(p=>selected=="all"||node!.Groups.Contains(p.Group)||selected.StartsWith("pose-")&&p.Key=="pose."+selected[5..]).ToList();
-        if(parameters.Count==0)inspector.Children.Add(Label(selected=="startup"||selected.StartsWith("intro-")?"待素材的独立流程设计，尚未接入自动触发；当前没有生效参数。返片通过验收后再启用。":"此节点是固定条件／顺序。请点击下级节点调整对应参数。",13,"#9A7852"));
+        if(parameters.Count==0)inspector.Children.Add(Label(selected.StartsWith("intro-")?"双击此节点从窝内睡眠开始预览完整开场；等待、踱步范围和往返次数在开场总节点调节。":"此节点是固定条件／顺序。请点击下级节点调整对应参数。",13,"#9A7852"));
         foreach(var p in parameters)
         {
             var box=new StackPanel{Margin=new Thickness(0,0,0,18)};inspector.Children.Add(box);box.Children.Add(Label(p.Label,14));
@@ -289,12 +290,13 @@ internal sealed class BehaviorEditorWindow : Window
         if(Math.Abs(engine.CareSecondsRemaining["food"]-120)>.001)throw new Exception("Care reschedule mismatch");
         long revision=engine.ActionRevision;NodeClick("pose-A",1);if(engine.ActionRevision!=revision)throw new Exception("Single click executed action");
         NodeClick("pose-A",2);if(!engine.DebugBehaviorActive)throw new Exception("Double click did not execute action");
-        revision=engine.ActionRevision;NodeClick("intro-run",2);if(engine.ActionRevision!=revision||!status.Text.Contains("等待"))throw new Exception("Dormant startup was executed");
+        revision=engine.ActionRevision;NodeClick("intro-run",2);if(engine.ActionRevision!=revision||!status.Text.Contains("尚未加载"))throw new Exception("Missing startup assets were not gated");
+        engine.CompletionEnabled=true;NodeClick("intro-run",2);if(!engine.StartupActive)throw new Exception("Double click did not start greeting preview");
         selected="wall";BuildInspector();Capture(System.IO.Path.Combine(output,"wall-debug.png"));
         selected="rest";BuildInspector();Capture(System.IO.Path.Combine(output,"overview.png"));view="sleep";BuildGraph();Fit();selected="gesture-A";BuildInspector();Capture(System.IO.Path.Combine(output,"sleep.png"));
         Width=1000;Height=700;UpdateLayout();Fit();Capture(System.IO.Path.Combine(output,"compact.png"));
         Width=1320;Height=900;UpdateLayout();view="startup";selected="startup";BuildGraph();BuildInspector();Fit();Capture(System.IO.Path.Combine(output,"startup-plan.png"));
-        File.WriteAllText(System.IO.Path.Combine(output,"ui-verification.json"),JsonSerializer.Serialize(new{DoubleClickExecutes=true,SingleClickSelects=true,DormantStartupRejected=true,SavedAndReadBack=true,InvalidRejected=true,CareRescheduled=true,ParameterCount=BehaviorSettings.Catalog.Count,Food=engine.State.Food,Water=engine.State.Water,ConfigurationPath=store.PathName}));AppliedInFixture=true;dirty=false;discardOnClose=true;Close();
+        File.WriteAllText(System.IO.Path.Combine(output,"ui-verification.json"),JsonSerializer.Serialize(new{DoubleClickExecutes=true,SingleClickSelects=true,MissingStartupAssetsRejected=true,StartupPreviewStarts=true,SavedAndReadBack=true,InvalidRejected=true,CareRescheduled=true,ParameterCount=BehaviorSettings.Catalog.Count,Food=engine.State.Food,Water=engine.State.Water,ConfigurationPath=store.PathName}));AppliedInFixture=true;dirty=false;discardOnClose=true;Close();
     }
     private void Capture(string path)
     {

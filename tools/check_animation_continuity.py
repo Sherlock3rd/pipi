@@ -32,6 +32,18 @@ if expression_manifest.exists():
     COMMON_EDGES += [('01','58'),('59','01'),('24','52'),('11','52'),('13','55'),('54','15'),('57','16'),('70','10'),('74','10'),('78','10'),('70','15'),('74','15'),('78','15')]
     COMMON_EDGES += [('right','86'),('86','right'),('14','87'),('87','14'),('01','88'),('88','01'),('11','93'),('93','10'),('13','94'),('94','12'),('24','15')]
 
+completion_manifest=Path(__file__).resolve().parents[1]/'art/video-pipeline/completion-v5/manifest.json'
+if completion_manifest.exists():
+    completed=json.loads(completion_manifest.read_text(encoding='utf-8'))['clips']
+    canonical={'I':'19','C':'20','SR':'22','SL':'09','D':'66','A':'67','B':'71','X':'75','M':'84','F':'01'}
+    incoming={**canonical,'I':'21','SR':'11','SL':'13'}
+    COMMON_EDGES += [(str(a['id']),str(b['id'])) for a in completed for b in completed if a['end']==b['start'] and a['id']!=b['id']]
+    for clip in completed:
+        if clip['start'] in incoming: COMMON_EDGES.append((incoming[clip['start']],str(clip['id'])))
+        if clip['end'] in canonical: COMMON_EDGES.append((str(clip['id']),canonical[clip['end']]))
+    COMMON_EDGES += [('21','99'),('21','100'),('110','15'),('113','16'),('24','119'),('119','101'),('120','102')]
+COMMON_EDGES=list(dict.fromkeys(COMMON_EDGES))
+
 def features(path, frame=None, export=None):
     rgba = np.asarray(Image.open(path).convert('RGBA'))
     alpha = rgba[:, :, 3] > 128
@@ -97,7 +109,7 @@ def compare(a, b, pixels_per_unit):
         result['review'].append('support-or-tail-change')
     return result
 
-def run(directory, output):
+def run(directory, output, reuse_internals=None):
     data = json.loads((directory/'frames.json').read_text(encoding='utf-8-sig'))
     frames = data['Frames']
     groups = {}
@@ -109,11 +121,18 @@ def run(directory, output):
             cache[f['File']] = features(directory/f['File'], f, data)
         return cache[f['File']]
     comparisons = []
+    if reuse_internals:
+        previous=json.loads(reuse_internals.read_text(encoding='utf-8'))
+        assert previous['frameCount']==len(frames)
+        assert (directory/'frames.json').stat().st_mtime<=reuse_internals.stat().st_mtime
+        assert all((directory/f['File']).stat().st_mtime<=reuse_internals.stat().st_mtime for f in frames)
+        comparisons=[r for r in previous['comparisons'] if r['kind'] in ('within-clip','loop')]
     def add(a, b, kind):
         comparisons.append(dict(source=a['File'], target=b['File'], kind=kind,
                                 **compare(read(a), read(b), data['PixelsPerUnit'])))
     for clip, sequence in groups.items():
         sequence.sort(key=lambda f: f['Index'])
+        if reuse_internals:continue
         for a, b in zip(sequence, sequence[1:]):
             add(a, b, 'within-clip')
         if sequence[0]['Definition']['Loop']:
@@ -175,10 +194,11 @@ if __name__ == '__main__':
     parser.add_argument('directory', type=Path, nargs='?')
     parser.add_argument('--out', type=Path, default=Path('artifacts/animation-monitor/report'))
     parser.add_argument('--self-test', action='store_true')
+    parser.add_argument('--reuse-internals',type=Path,help='Reuse a completed scan of unchanged exported pixels; recompute all seams.')
     args = parser.parse_args()
     if args.self_test:
         self_test()
     if args.directory:
-        raise SystemExit(run(args.directory, args.out))
+        raise SystemExit(run(args.directory, args.out,args.reuse_internals))
     if not args.self_test:
         parser.error('Provide an export directory or --self-test')

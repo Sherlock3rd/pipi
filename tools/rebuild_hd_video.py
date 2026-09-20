@@ -36,7 +36,7 @@ def final_coverage(result):
 
 def extract(clip,sample=False,run=RUN,cache=CACHE,out=OUT):
     cv2.setNumThreads(1)
-    number='00' if clip['clip']=='video-right' else clip['clip'][-2:]
+    number=clip.get('sourceNumber','00' if clip['clip']=='video-right' else clip['clip'][-2:])
     cap=cv2.VideoCapture(str(run/number/'source.mp4'))
     report=json.loads((RUN/'extraction.json').read_text(encoding='utf-8'))
     start,end=clip['sourceFrames'];offset=62 if number=='00' else 0

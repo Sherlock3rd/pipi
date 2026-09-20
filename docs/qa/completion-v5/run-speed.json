@@ -1,0 +1,20 @@
+{
+  "109": {
+    "medianStanceSpeed": 137.50048065185547,
+    "quartiles": [
+      112.9977798461914,
+      160.11629104614258
+    ],
+    "samples": 74,
+    "method": "lower-paw ROI, horizontal ground-phase flow; excludes vertical swing >0.75px/frame"
+  },
+  "112": {
+    "medianStanceSpeed": 129.59395599365234,
+    "quartiles": [
+      121.50172424316406,
+      135.87398147583008
+    ],
+    "samples": 120,
+    "method": "lower-paw ROI, horizontal ground-phase flow; excludes vertical swing >0.75px/frame"
+  }
+}

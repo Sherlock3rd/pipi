@@ -14,7 +14,7 @@ public sealed partial class SpritePlayback
     // fit their root displacement to the leg, and add only whole walk cycles.
     public (double X,bool Complete)? TravelTo(string action,double from,double to,double now,bool left)
     {
-        if(!videoGraph||action is not ("walk" or "request-walk" or "guide-walk"))return null;
+        if(!videoGraph||action is not ("run" or "walk" or "request-walk" or "guide-walk"))return null;
         if(travel is not null&&(travel.Action!=action||Math.Abs(travel.To-to)>.01))CancelTravel(now);
         if(travel is null)
         {
@@ -22,19 +22,22 @@ public sealed partial class SpritePlayback
             Sample(action,now,left);
             // Pickup landing must finish before the motion graph owns a leg.
             if(careExit.Length>0)return(from,false);
-            var minimum=PredictTravel(now,left,0);
+            bool running=action=="run"&&HasCompletion;
+            var minimum=PredictTravel(now,left,0,running:running);
             double distance=Math.Abs(to-from),baseDistance=minimum[^1].Distance;
-            string loop=left?"video-14":"video-right";
+            string loop=running?(left?"video-112":"video-109"):(left?"video-14":"video-right");
             double cycleDistance=Math.Abs(FrameVelocity(loop,0))*clips[loop].Duration;
             string? vocal=null;double vocalDistance=0;
             int interval=WalkingCallEvery?.Invoke()??3;
-            if(HasExpressions&&interval>0&&++travelLegs%interval==0&&current is not ("video-right" or "video-14"))
+            if(!running&&HasExpressions&&interval>0&&++travelLegs%interval==0&&current is not ("video-right" or "video-14"))
             {
                 string id=left?"video-87":"video-86";double required=Math.Abs(FrameVelocity(id,0))*clips[id].Duration;
                 if(distance>=baseDistance+required){vocal=id;vocalDistance=required;}
             }
             int loops=(int)Math.Ceiling(Math.Max(0,distance-baseDistance-vocalDistance)/Math.Max(1,cycleDistance));
-            travel=new(action,from,to,now,loops==0&&vocal is null?minimum:PredictTravel(now,left,loops,vocal));
+            // A run includes at least one complete authored run cycle.
+            if(running)loops=Math.Max(1,loops);
+            travel=new(action,from,to,now,loops==0&&vocal is null?minimum:PredictTravel(now,left,loops,vocal,running));
         }
         var point=TravelFrame(now);double total=travel.Points[^1].Distance;
         bool complete=now-travel.Began>=(travel.Points.Count-1)*TravelTick;
@@ -42,18 +45,18 @@ public sealed partial class SpritePlayback
         return(travel.From+(travel.To-travel.From)*ratio,complete);
     }
 
-    private List<TravelPoint> PredictTravel(double now,bool left,int loops,string? vocal=null)
+    private List<TravelPoint> PredictTravel(double now,bool left,int loops,string? vocal=null,bool running=false)
     {
         // SampleVideo mutates only these value fields. It never writes shared
         // clips/pending queues, so prediction cannot advance the live renderer.
         var preview=(SpritePlayback)MemberwiseClone();preview.travel=null;preview.walkVocalClip=vocal;
         var result=new List<TravelPoint>();double distance=0,loopAt=-1;
-        string gait=left?"video-14":"video-right",stand=left?"SL":"SR";
+        string gait=running?(left?"video-112":"video-109"):(left?"video-14":"video-right"),stand=left?"SL":"SR";
         double stopAt=double.PositiveInfinity;
         for(int i=0;i<120*300;i++)
         {
             double at=now+i*TravelTick;
-            var frame=preview.SampleVideo(at>=stopAt?"guide-stop":"walk",at,left)!.Value;
+            var frame=preview.SampleVideo(at>=stopAt?"guide-stop":running?"run":"walk",at,left)!.Value;
             if(loopAt<0&&(frame.Clip==gait||frame.Clip==vocal))
             {
                 loopAt=at;stopAt=at+loops*clips[gait].Duration+(vocal is null?0:clips[vocal].Duration);

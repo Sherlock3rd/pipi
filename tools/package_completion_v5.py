@@ -124,7 +124,7 @@ manifest={'version':2,'status':'production-input-pack-awaiting-anchor-review-and
 (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 (OUT/'startup-greeting.json').write_text(json.dumps(plan,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 buffer=io.StringIO(newline='');writer=csv.writer(buffer,lineterminator='\n');writer.writerow(['编号','动作','优先级','分组','首姿态','尾姿态','建议秒数','状态','用途'])
-for c in items:writer.writerow([c['id'],c['name'],c['priority'],c['group'],c['start'],c['end'],c['suggestedSeconds'],'待制作，未启用',c['reason']])
+for c in items:writer.writerow([c['id'],c['name'],c['priority'],c['group'],c['start'],c['end'],c['suggestedSeconds'],'已返片并接入' if c.get('runtimeEnabled') else '待制作，未启用',c['reason']])
 (OUT/'制作清单.csv').write_text('\ufeff'+buffer.getvalue(),encoding='utf-8',newline='')
 rows='\n'.join(f"| {c['id']} | [{c['name']}]({c['file']}) | {c['start']}→{c['end']} | {c['priority']} | {c['group']} |" for c in items)
 readme=f'''# 陈皮待补动画合集 v5
@@ -183,6 +183,10 @@ flowchart TD
 manifest.json记录18张共享锚点的路径及SHA256。anchors目录包含10张已有原字节图及8张新候选；每条动作目录均有首帧.png、尾帧.png、提示词.txt、动作信息.json和制作说明.md。首尾共用锚点保证文件完全一致，不表示几何或动态验收完成。新增锚点的生成提示词见anchor-generation.json，限制见静态审核.md。
 '''
 (OUT/'README.md').write_text(readme,encoding='utf-8',newline='\n')
+from update_completion_delivery import update
+update(OUT)
+current=json.loads((OUT/'manifest.json').read_text(encoding='utf-8'))
+items,anchors=current['clips'],current['anchors']
 from completion_v5_index import build_index, verify_pack
 build_index(OUT,items,anchors)
 verification=verify_pack(OUT,items,anchors)

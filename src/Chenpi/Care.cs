@@ -109,7 +109,7 @@ public sealed partial class PetEngine
     {
         if(Action!="care-finish")return false;
         if(VisualRequestFinishReady?.Invoke(Now)!=false)
-            SetAction(requestFinishThanks?"care-thanks":"sit",requestFinishThanks?2:1,"照料已完成");
+            SetAction(requestFinishThanks?(CompletionEnabled?"expr-119":"care-thanks"):"sit",requestFinishThanks?2:1,"照料已完成");
         return true;
     }
     private bool UpdateCareFlow(double dt)

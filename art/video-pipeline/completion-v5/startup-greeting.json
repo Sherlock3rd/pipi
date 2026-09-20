@@ -1,7 +1,7 @@
 {
   "id": "startup-greeting",
-  "status": "awaiting-independent-running-and-front-standing-assets",
-  "enabled": false,
+  "status": "implemented",
+  "enabled": true,
   "userDecision": "等独立跑步素材补齐后再启用开场；不加速现有走路替代。",
   "triggers": [
     "first-valid-run",
@@ -139,5 +139,6 @@
     "透明提取、跑步根位移和姿态图接入完成",
     "片内相邻帧/循环/接缝/承重脚/窝沿场景审计通过",
     "首启、自启去重、输入取消、全屏暂停和普通行为恢复测试通过"
-  ]
+  ],
+  "implementationNote": "117原片两次张嘴，复用首段完整开合嘴一次，24fps共145帧，三声按实际绘制帧12/60/109同步。"
 }

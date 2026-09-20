@@ -19,6 +19,9 @@ public sealed class BehaviorSettings
     {
         var p=new List<BehaviorParameter>();
         void Add(string key,string group,string label,double value,double min,double max,string unit,string help)=>p.Add(new(key,group,label,value,min,max,unit,help));
+        Add("intro.sleep","startup","开场窝内等待",2,0,60,"秒","首次运行或开机自启的开场；普通重开不重复。");
+        Add("intro.span","startup","中部踱步单侧范围",100,20,400,"逻辑单位","各落点按家具摆放寻找安全空位；窄屏允许缩短。");
+        Add("intro.trips","startup","中部往返次数",1,1,3,"次","完整左右行走与转向后回到中点；三连叫保持三次。");
         Add("sleep.delay","rest","安静多久后入睡",30,1,3600,"秒","达到后寻找安全空位，沿已有过渡进入睡姿。");
         Add("rest.min","rest","休息周期下限",20,1,240,"分钟","到期继续休息，不强制起来漫游。");
         Add("rest.max","rest","休息周期上限",60,1,240,"分钟","每轮在上下限间独立抽取。");
@@ -55,9 +58,9 @@ public sealed class BehaviorSettings
         Add("night.start","night","夜间开始",23,0,23,"时","使用本地系统时间，可跨午夜；起止相同表示关闭夜间加成。");
         Add("night.end","night","夜间结束",6,0,23,"时","夜间能量不足时进入休息，照料优先级不变。");
         Add("night.grace","night","唤醒后夜间保护",300,0,3600,"秒","避免点击唤醒后立即因夜间规则回睡。");
-        foreach(var (pose,name,weight) in new[]{("D","趴卧",1),("A","侧躺",2),("B","露肚",1),("X","舒展",1),("M","掩面",2)})
+        foreach(var (pose,name,weight) in new[]{("C","蜷睡",1),("D","趴卧",1),("A","侧躺",2),("B","露肚",1),("X","舒展",1),("M","掩面",2)})
             Add("pose."+pose,"poses",name+"入睡权重",weight,0,100,"权重","同组归一化为概率；0表示不随机选入，已有过渡仍保留。");
-        foreach(var (pose,name) in new[]{("B","露肚"),("X","舒展"),("M","掩面")})
+        foreach(var (pose,name) in new[]{("C","蜷睡"),("B","露肚"),("X","舒展"),("M","掩面")})
             Add("change."+pose,"changes","侧躺转"+name+"权重",1,0,100,"权重","仅侧躺换姿时比较这三项；其他姿态沿已有路径返回侧躺。");
         foreach(var (pose,name,ids) in new[]{("D","趴卧",new[]{79,89,95}),("A","侧躺",new[]{80,90,96}),("B","露肚",new[]{81,91,97}),("X","舒展",new[]{82,92,98})})
             for(int i=0;i<3;i++)Add("gesture."+ids[i],"gesture-"+pose,name+new[]{"哈欠","叫声","伸懒腰"}[i]+"权重",1,0,100,"权重","对应视频"+ids[i]+"；同姿态内比较，原片速度和时长不变。");

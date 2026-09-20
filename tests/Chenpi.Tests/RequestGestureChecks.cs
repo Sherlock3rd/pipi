@@ -12,7 +12,7 @@ public static class RequestGestureChecks
             var p=Player();var state=new PetState{X=800,Y=752,TotalSeconds=1000,Food=0,Water=0,Litter=0,RestDuration=3600,
                 CareRequest=kind,Guiding=guided,NestPosition=new(2000,752),FoodPosition=new(800,752),WaterPosition=new(1300,752),LitterPosition=new(1750,752),
                 FoodClock=new(){NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){NextDue=99999}};
-            var c=new PetEngine(state,7){ExpressionsEnabled=true,VisualPoseReady=p.PreparePose,VisualStandReady=p.PrepareStand,VisualCareReady=p.PrepareCare,
+            var c=new PetEngine(state,7){ExpressionsEnabled=true,CompletionEnabled=p.HasCompletion,VisualPoseReady=p.PreparePose,VisualStandReady=p.PrepareStand,VisualCareReady=p.PrepareCare,
                 VisualRequestFinishReady=p.PrepareRequestFinish,VisualTravel=p.TravelTo,VisualActionDuration=p.ActionDuration,VisualConsumptionWindow=p.ConsumptionWindow};
             c.Layout(2400,800);state.X=(guided?c.GuideDestination(kind):c.RequestDestination(kind)).X;p.RestorePose(guided?"SR":"F");
             SpriteFrame Tick(){c.Update(1d/60,12);return p.Sample(c.AligningForCare?"care-ready":c.Action,c.Now,c.FacingLeft)!.Value;}
@@ -31,8 +31,8 @@ public static class RequestGestureChecks
                 if(action=="care-finish")stationary&=Math.Abs(state.X-x)<.00001;
                 if(c.Action!="care-finish")break;
             }
-            check(lastGesture==before.Definition.Count-1&&stationary&&(!guided||order.IndexOf("video-07")>=0&&order[^1]=="video-51"),
-                $"{kind}/{guided}/{phase}: current loop reaches its endpoint; standing gesture sits before thanks with no root jump");
+            check(lastGesture==before.Definition.Count-1&&stationary&&(!guided||!order.Contains("video-07")&&order[^1]=="video-119"),
+                $"{kind}/{guided}/{phase}: current loop reaches its endpoint; standing gesture thanks standing with no root jump");
             check((kind=="food"?state.Food:state.Water)==20&&(kind=="food"?state.FoodClock:state.WaterClock).NextDue==deadline,
                 $"{kind}/{guided}/{phase}: finishing and thanks do not consume or reschedule care");
             if(phase==2.1)
@@ -52,8 +52,8 @@ public static class RequestGestureChecks
                 bool ready=p.PrepareRequestFinish(now);var frame=p.Sample("care-finish",now)!.Value;last[frame.Clip]=frame.Index;
                 if(ready)break;now+=1d/24;
             }
-            check(last["video-49"]==120&&last["video-07"]==animations.GetProperty("video-07").GetArrayLength()-1,
-                "24 Hz refill playback displays the last authored gesture and sit-down frames despite floating point rounding");
+            check(last["video-49"]==120&&!last.ContainsKey("video-07"),
+                "24 Hz refill playback displays the last authored gesture then remains standing");
         }
     }
 }

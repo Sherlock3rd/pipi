@@ -126,12 +126,12 @@ internal sealed partial class Scene : FrameworkElement
     public double Scale=>Engine.State.Scale;
     public double WorldWidth=>ActualWidth/Scale;
     public double WorldHeight=>ActualHeight/Scale;
-    public Scene(PetEngine engine)
+    public Scene(PetEngine engine,string? auditPreload=null,string? resumeFrames=null)
     {
         AddVisualChild(artwork);AddVisualChild(overlay);SoftShadowsEnabled=true;
         Engine=engine;shownFood=engine.State.Food;shownWater=engine.State.Water;Focusable=false;Cursor=Cursors.Arrow;
         RenderOptions.SetBitmapScalingMode(this,BitmapScalingMode.HighQuality);
-        LoadSprites();
+        LoadSprites(auditPreload,resumeFrames);
         Engine.CanAdvanceMovement=null;
         Engine.VisualVelocity=playback.HorizontalVelocity;
         Engine.VisualActionDuration=playback.ActionDuration;
@@ -145,15 +145,18 @@ internal sealed partial class Scene : FrameworkElement
         Engine.ExpressionsEnabled=playback.HasExpressions;
         Engine.VisualPoseReady=playback.PreparePose;
         Engine.VisualWallRestComplete=playback.WallRestComplete;
+        Engine.CompletionEnabled=playback.HasCompletion;
+        Engine.VisualRestorePose=playback.RestorePose;
+        Engine.VisualDropPose=()=>playback.DropPose;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
-        var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
+        if(auditPreload is null){var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);}
         playback.Reset();poseLift=0;
         Engine.RestoreRelaxedSleep();
         if(Engine.Action.StartsWith("rest-"))playback.RestorePose(Engine.RelaxedPose);
         SizeChanged+=(_,_)=>LayoutWorld();
         LostMouseCapture+=(_,_)=>{if(pressed||IsDragging||wandHeld)CancelDrag();};
     }
-    private void LoadSprites()
+    private void LoadSprites(string? auditPreload=null,string? resumeFrames=null)
     {
         var path=Path.Combine(AppContext.BaseDirectory,"assets","pets","bluecat","manifest.json");
         if(!File.Exists(path))return;
@@ -161,9 +164,11 @@ internal sealed partial class Scene : FrameworkElement
         {
             using var doc=JsonDocument.Parse(File.ReadAllText(path));
             fps=Math.Clamp(doc.RootElement.GetProperty("fps").GetDouble(),1,30);
+            var selected=auditPreload?.Split(',').Select(x=>x.StartsWith("video-")?x:"video-"+x).ToHashSet();
             string root=Path.GetFullPath(Path.GetDirectoryName(path)!)+Path.DirectorySeparatorChar;
             foreach(var property in doc.RootElement.GetProperty("animations").EnumerateObject())
             {
+                if(selected is not null&&!selected.Contains(property.Name))continue;
                 try
                 {
                 var images=new List<string>();
@@ -184,7 +189,8 @@ internal sealed partial class Scene : FrameworkElement
             if(doc.RootElement.TryGetProperty("relaxedHalfWidth",out var footprint))Engine.RelaxedHalfWidth=footprint.GetDouble();
             bool prepared=doc.RootElement.TryGetProperty("videoMattePrepared",out var readyMatte)&&readyMatte.GetBoolean();
             // Decode before showing the window. Switching a clip does zero disk IO/decode.
-            Parallel.ForEach(framePaths.Where(p=>p.Key.StartsWith("video-",StringComparison.Ordinal)),
+            bool AlreadyExported(KeyValuePair<string,List<string>> p)=>resumeFrames is not null&&Enumerable.Range(0,p.Value.Count).All(i=>File.Exists(Path.Combine(resumeFrames,p.Key,$"{i:0000}.png")));
+            Parallel.ForEach(framePaths.Where(p=>p.Key.StartsWith("video-",StringComparison.Ordinal)&&(selected is null||selected.Contains(p.Key))&&!AlreadyExported(p)),
                 new ParallelOptions{MaxDegreeOfParallelism=2},entry=>{
                     var decoded=new List<BitmapSource>();
                     foreach(string file in entry.Value)
@@ -546,27 +552,32 @@ internal sealed partial class Scene : FrameworkElement
         var b=frameBounds.TryGetValue(image,out var bounds)?bounds:new Rect(0,0,1,1);
         dc.DrawImage(image,new Rect((b.X-definition.AnchorX)*definition.Width,(b.Y-definition.AnchorY)*definition.Height,b.Width*definition.Width,b.Height*definition.Height));
     }
-    internal void ExportAnimationAudit(string directory,string? filter)
+    internal void ExportAnimationAudit(string directory,string? filter,bool resume=false)
     {
         Directory.CreateDirectory(directory);
         var selected=filter?.Split(',').Select(x=>x.StartsWith("video-")?x:"video-"+x).ToHashSet();
         var records=new List<object>();
         foreach(string id in framePaths.Keys.Where(x=>x.StartsWith("video-")&&(selected is null||selected.Contains(x))).OrderBy(x=>x))
         {
-            var images=GetFrames(id)!;string folder=Path.Combine(directory,id);Directory.CreateDirectory(folder);
-            for(int index=0;index<images.Count;index++)
+            List<BitmapSource>? images=null;string folder=Path.Combine(directory,id);Directory.CreateDirectory(folder);
+            for(int index=0;index<framePaths[id].Count;index++)
             {
                 var frame=playback.InspectFrame(id,index)??throw new InvalidDataException("Missing clip "+id);
+                string relative=$"{id}/{index:0000}.png";
+                if(resume&&File.Exists(Path.Combine(directory,relative)))
+                {records.Add(new {Clip=id,Index=index,File=relative,Definition=frame.Definition});continue;}
+                images??=GetFrames(id)!;
                 var visual=new DrawingVisual();using(var dc=visual.RenderOpen())
                 {
                     dc.PushTransform(new ScaleTransform(2,2));dc.PushTransform(new TranslateTransform(192,256));
                     DrawVideoFrame(dc,images[index],frame.Definition);dc.Pop();dc.Pop();
                 }
                 var bitmap=new RenderTargetBitmap(768,640,96,96,PixelFormats.Pbgra32);bitmap.Render(visual);
-                string relative=$"{id}/{index:0000}.png";
                 var encoder=new PngBitmapEncoder();encoder.Frames.Add(BitmapFrame.Create(bitmap));
                 using(var stream=File.Create(Path.Combine(directory,relative)))encoder.Save(stream);
                 records.Add(new {Clip=id,Index=index,File=relative,Definition=frame.Definition});
+                // Bound the unmanaged WPF surfaces used by offline audits.
+                if(index%24==23){GC.Collect();GC.WaitForPendingFinalizers();}
             }
         }
         if(records.Count==0)throw new InvalidDataException("No selected animation frames");
@@ -619,6 +630,7 @@ internal sealed partial class Scene : FrameworkElement
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
             poseLift=Engine.Grounded?Engine.Support.Height+InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),false,action=="drag"?"drag":""):0;
+            if(Engine.Grounded&&SpritePlayback.AuthoredCarryLift(sprite) is double carryLift)poseLift=Engine.Support.Height+carryLift;
             if(Engine.Grounded&&action=="land"&&playback.CarriesExpression)poseLift+=InteractionGeometry.PickupLift*(1-Math.Clamp(Engine.ActionTime/.7,0,1));
             y-=poseLift;
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;

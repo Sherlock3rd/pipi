@@ -8,7 +8,7 @@ public static class VoiceChecks
         string directory=Path.GetFullPath(Path.Combine(Path.GetDirectoryName(manifestPath)!,"../../audio/cat"));
         var catalog=VoiceCatalog.Parse(File.ReadAllText(Path.Combine(directory,"manifest.json")));
         using var doc=JsonDocument.Parse(File.ReadAllText(manifestPath));var animations=doc.RootElement.GetProperty("animations");
-        check(catalog.Bindings.Length==9&&catalog.Bindings.SelectMany(b=>b.Sounds).Select(s=>s.Source).Distinct().Count()==7,"all seven supplied voices mapped to nine reviewed mouth windows");
+        check(catalog.Bindings.Length==12&&catalog.Bindings.SelectMany(b=>b.Sounds).Select(s=>s.Source).Distinct().Count()==7,"all seven supplied voices mapped to twelve reviewed mouth windows including startup");
         foreach(var binding in catalog.Bindings)
         {
             check(binding.ClosedFrame<animations.GetProperty(binding.Clip).GetArrayLength(),binding.Clip+" mouth window lies inside authored clip");
@@ -18,7 +18,8 @@ public static class VoiceChecks
                 check(System.Text.Encoding.ASCII.GetString(wav,0,4)=="RIFF"&&BitConverter.ToInt16(wav,20)==1&&BitConverter.ToInt16(wav,22)==1&&BitConverter.ToInt32(wav,24)==44100&&BitConverter.ToInt16(wav,34)==16&&System.Text.Encoding.ASCII.GetString(wav,36,4)=="data",sound.File+" is predecoded canonical PCM for immediate playback");
                 check(Math.Abs((wav.Length-44)/88200d-sound.Seconds)<1e-6&&sound.Seconds<(binding.ClosedFrame-binding.OpenFrame)/binding.Fps,sound.File+" ends within the mouth-open interval");
             }
-            var cues=new VoiceCues(catalog,3);var emitted=new List<int>();bool duplicate=false;
+            var single=new VoiceCatalog{Version=2,Bindings=new[]{binding}};
+            var cues=new VoiceCues(single,3);var emitted=new List<int>();bool duplicate=false;
             for(int frame=0;frame<=binding.ClosedFrame+3;frame++)
             {
                 if(cues.Observe(binding.Clip,frame,1,true).Start is not null)emitted.Add(frame);
@@ -28,12 +29,15 @@ public static class VoiceChecks
             check(emitted.SequenceEqual(new[]{binding.OpenFrame}),binding.Clip+" emits exactly at first reviewed open-mouth frame");
             check(cues.Observe(binding.Clip,0,1,true).Start is null&&cues.Observe(binding.Clip,binding.OpenFrame,1,true).Start is not null,binding.Clip+" next loop may speak once again");
             check(cues.Observe(binding.Clip,binding.OpenFrame+1,1,false).Stop&&cues.Observe(binding.Clip,binding.OpenFrame+1,1,true).Start is null,binding.Clip+" muting stops and unmuting does not replay mid-call");
-            cues=new VoiceCues(catalog);cues.Observe(binding.Clip,binding.OpenFrame-1,1,true);
+            cues=new VoiceCues(single);cues.Observe(binding.Clip,binding.OpenFrame-1,1,true);
             check(cues.Observe(binding.Clip,binding.OpenFrame+2,1,true).Start is not null,binding.Clip+" small render skip crosses onset once");
-            cues=new VoiceCues(catalog);check(cues.Observe(binding.Clip,binding.OpenFrame+3,1,true).Start is null,binding.Clip+" stale onset after seek or hidden interval is skipped");
+            cues=new VoiceCues(single);check(cues.Observe(binding.Clip,binding.OpenFrame+3,1,true).Start is null,binding.Clip+" stale onset after seek or hidden interval is skipped");
             check(cues.Observe("video-84",0,2,true).Stop,binding.Clip+" interruption stops active sound");
         }
         var quiet=new VoiceCues(catalog);
+        var triple=new VoiceCues(catalog);var calls=new List<int>();
+        for(int frame=0;frame<animations.GetProperty("video-117").GetArrayLength();frame++)if(triple.Observe("video-117",frame,1,true).Start is not null)calls.Add(frame);
+        check(calls.SequenceEqual(new[]{12,60,109}),"one startup occurrence emits exactly three calls at visible mouth openings");
         check(Enumerable.Range(0,97).All(i=>quiet.Observe("video-92",i,1,true).Start is null),"occluded mouth is explicitly pending, not assigned a guessed onset");
         // The graph may spend seconds waking/turning before the expression starts.
         var p=new SpritePlayback();p.Load(doc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);

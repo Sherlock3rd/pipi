@@ -18,7 +18,7 @@ public sealed partial class PetEngine
     private bool restReady;
     private double nextSeatedCall=120;
     private bool IsRelaxing=>Action.StartsWith("rest-")||Action.StartsWith("expr-");
-    private static bool LyingPose(string p)=>p is "D" or "A" or "B" or "X" or "M";
+    private static bool LyingPose(string p)=>p is "C" or "D" or "A" or "B" or "X" or "M";
     private void RestInPose(string p,bool asleep=true)
     {
         RelaxedPose=p;restReady=false;nextRelaxation=0;
@@ -28,7 +28,7 @@ public sealed partial class PetEngine
     private bool BeginRelaxedSleep()
     {
         if(!ExpressionsEnabled)return false;
-        RestInPose(Settings.Choose(random,"pose.D","pose.A","pose.B","pose.X","pose.M")[5..]);return true;
+        RestInPose((CompletionEnabled?Settings.Choose(random,"pose.C","pose.D","pose.A","pose.B","pose.X","pose.M"):Settings.Choose(random,"pose.D","pose.A","pose.B","pose.X","pose.M"))[5..]);return true;
     }
     private bool UpdateRelaxation()
     {
@@ -38,6 +38,7 @@ public sealed partial class PetEngine
         if(Action.StartsWith("expr-"))
         {
             if(ActionTime<duration)return true;
+            if(Action is "expr-119" or "expr-120"){if(LeaveOccupiedRestSpot())return true;RestInPose("D");return true;}
             if(!LyingPose(RelaxedPose)){SetAction("idle",RestDelay,"伸展后安静休息");return true;}
             RestInPose(RelaxedPose);return true;
         }
@@ -57,6 +58,7 @@ public sealed partial class PetEngine
         if(RelaxedPose is "HR" or "HL"){if(VisualWallRestComplete?.Invoke(RelaxedPose,Now,nextRelaxation)==false)return true;Go(NearestRestSpot(new(State.X,GroundY)),"settle","扶墙结束，落地后到安全空位休息");return true;}
         if(State.RestElapsed>=State.RestDuration)NewRest();
         if(RelaxedPose=="M"){nextRelaxation=Now+120;return true;}
+        if(RelaxedPose=="C"){RestInPose(random.Next(2)==0?"D":"A");return true;}
         // Most idle time remains in breathing poses. Gestures are infrequent,
         // complete once, and return to the same pose without getting up.
         if(random.NextDouble()*100<Settings.Get("relax.gesture"))
@@ -64,7 +66,7 @@ public sealed partial class PetEngine
             int[] ids=RelaxedPose switch {"D"=>new[]{79,89,95},"A"=>new[]{80,90,96},"B"=>new[]{81,91,97},_=>new[]{82,92,98}};
             SetAction("expr-"+Settings.Choose(random,"gesture."+ids[0],"gesture."+ids[1],"gesture."+ids[2])[8..],4,"安静伸展");return true;
         }
-        string next=RelaxedPose switch {"D"=>"A","A"=>Settings.Choose(random,"change.B","change.X","change.M")[7..],"B" or "X"=>"A",_=>"D"};
+        string next=RelaxedPose switch {"D"=>CompletionEnabled&&random.Next(2)==0?"C":"A","A"=>CompletionEnabled?Settings.Choose(random,"change.C","change.B","change.X","change.M")[7..]:Settings.Choose(random,"change.B","change.X","change.M")[7..],"B" or "X"=>"A",_=>"D"};
         RestInPose(next);return true;
     }
     private bool InteractRelaxed()
