@@ -14,8 +14,7 @@ public sealed partial class PetEngine
     private double startupCenter,startupLeft,startupRight;
     private int startupTrips;
     private bool dropIntoNest;
-    public static bool StartupEligible(PetState state,bool firstRun,bool autoStart,string boot)=>
-        firstRun&&!state.StartupSeen||autoStart&&state.StartupBoot!=boot;
+    public static bool StartupEligible(PetState state,bool firstRun,bool autoStart,string boot)=>true;
     public bool BeginStartup(bool firstRun=false,bool autoStart=false,string boot="",bool preview=false)
     {
         if(!CompletionEnabled||StartupActive||!preview&&!StartupEligible(State,firstRun,autoStart,boot))return false;
@@ -25,7 +24,7 @@ public sealed partial class PetEngine
         startupLeft=NearestRestSpot(new(startupCenter-span,GroundY)).X;
         startupRight=NearestRestSpot(new(startupCenter+span,GroundY)).X;
         startupTrips=0;StartupStage=0;StartupActive=true;startupCancel=null;
-        // Persist before playing: cancellation and a process restart cannot replay it.
+        // Keep the last launch marker for compatibility and diagnostics; it is not a replay gate.
         if(!preview){State.StartupSeen=true;State.StartupBoot=boot;Dirty=true;}
         return true;
     }

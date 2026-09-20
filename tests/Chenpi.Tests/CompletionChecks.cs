@@ -42,7 +42,7 @@ public static class CompletionChecks
             check(seen.Contains(right?"video-112":"video-109")&&seen.Contains(right?"video-100":"video-99")&&!seen.Contains("video-18"),"authored run and direct wake route "+right);
             check(step<20&&Math.Abs(e.Support.Height)<.01&&e.IsClearRestSpot(e.State.X),"continuous root and supported departure to clear center "+right);
             check(supplies.SequenceEqual(new[]{e.State.Food,e.State.Water,e.State.Litter,e.State.FoodClock.NextDue}),"greeting preserves care stock and deadlines "+right);
-            check(!e.BeginStartup(firstRun:true,autoStart:true,boot:"boot-A")&&!PetEngine.StartupEligible(e.State,false,false,"boot-B")&&PetEngine.StartupEligible(e.State,false,true,"boot-B"),"persistent greeting dedup distinguishes normal reopen and next boot");
+            check(PetEngine.StartupEligible(e.State,false,false,"boot-A")&&PetEngine.StartupEligible(e.State,false,false,"boot-B")&&PetEngine.StartupEligible(e.State,false,true,"boot-B"),"every new process startup triggers the opening behavior tree");
             Console.WriteLine("Startup "+right+" seconds="+count/24d+" clips="+string.Join(',',seen));
         }
         foreach(string basePose in new[]{"D","A","B","X","M"})
@@ -60,7 +60,7 @@ public static class CompletionChecks
             e.Interact();for(int i=0;i<24*40&&e.StartupActive;i++)Tick(e,p);
             check(!e.StartupActive&&e.Action=="pet","click cancels startup with a legal seated transition at stage "+stage);
         }
-        check(!PetEngine.StartupEligible(new PetState(),false,false,"boot"),"legacy save is never inferred to be first run");
+        check(PetEngine.StartupEligible(new PetState(),false,false,"boot"),"legacy saves also trigger the opening behavior tree on startup");
         {
             var p=Player();var e=Cat(p);e.BeginStartup(preview:true);
             for(int i=0;i<24*60&&e.StartupStage<6;i++)Tick(e,p);

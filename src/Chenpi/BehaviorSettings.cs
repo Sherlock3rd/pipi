@@ -19,7 +19,7 @@ public sealed class BehaviorSettings
     {
         var p=new List<BehaviorParameter>();
         void Add(string key,string group,string label,double value,double min,double max,string unit,string help)=>p.Add(new(key,group,label,value,min,max,unit,help));
-        Add("intro.sleep","startup","开场窝内等待",2,0,60,"秒","首次运行或开机自启的开场；普通重开不重复。");
+        Add("intro.sleep","startup","开场窝内等待",2,0,60,"秒","每次启动进入开场；同一进程内不重复触发。");
         Add("intro.span","startup","中部踱步单侧范围",100,20,400,"逻辑单位","各落点按家具摆放寻找安全空位；窄屏允许缩短。");
         Add("intro.trips","startup","中部往返次数",1,1,3,"次","完整左右行走与转向后回到中点；三连叫保持三次。");
         Add("sleep.delay","rest","安静多久后入睡",30,1,3600,"秒","达到后寻找安全空位，沿已有过渡进入睡姿。");
