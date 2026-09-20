@@ -1,0 +1,20 @@
+{
+  "revision": "r5",
+  "size": [
+    1672,
+    941
+  ],
+  "changedExistingPngs": [
+    "83-侧瘫抬爪掩面入睡/尾帧.png",
+    "84-掩面睡眠呼吸/尾帧.png",
+    "84-掩面睡眠呼吸/首帧.png",
+    "85-掩面醒来放爪/首帧.png",
+    "anchors/M-掩面睡姿.png"
+  ],
+  "otherExistingPngsUnchanged": 102,
+  "endpointHashesVerified": 94,
+  "choreographyAndTimingUnchanged": true,
+  "userAccepted": false,
+  "previousRevisionRejected": true,
+  "runtimeChanged": false
+}

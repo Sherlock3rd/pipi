@@ -104,13 +104,15 @@ def main():
         text=f"{r['folder']}\n接缝：{r['start']} → {r['end']}；类型：{r['type']}\n{timing}\n\n{PREFIX}\n\n动作：{r['motion']}\n\n衔接：{seam}严格抵达上传的尾图姿态，不跳切、溶解、变形补间或突然缩放。全程静音生成；口型表现与后期声音分开，不生成语音、台词、音乐。\n"
         if r['id']==81:
             text+='\n额外中间峰值参考：../peaks/B-仰躺哈欠峰值.png。支持额外参考时上传；仅支持首尾时不替换首尾闭嘴B，按本段描述生成中间哈欠。\n'
+        if r['id'] in [83,84,85]:
+            text+='\n画风一致性：M的r5重绘以同组A为唯一画风图片参考；保持A的柔软毛簇、爪部塑造和胸腹明暗；全程保持同一种毛发笔触密度与灰阶，不得在卷身/解卷时变成浅色斑驳块面、鳞片状或羽毛状粗笔触。姿态与原定时长不变。\n'
         (folder/'提示词.txt').write_text(text,encoding='utf-8')
         (folder/'动作信息.json').write_text(json.dumps(r,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
         (folder/'关键词.txt').write_text(f"{r['name']} / {r['seconds']:g}s / {r['start']}→{r['end']} / {r['type']}\n",encoding='utf-8')
         table.append(f"| [{r['folder']}]({r['folder']}/提示词.txt) | {r['start']} → {r['end']} | {r['type']} | {r['seconds']:g}s |")
         pics=''.join(f'<figure><img loading="lazy" src="{r["folder"]}/{label}.png"><figcaption>{label} · {r[key]}</figcaption></figure>' for label,key in [('首帧','start'),('尾帧','end')])
         cards.append(f'<article data-group="{r["group"]}"><h2>{r["folder"]} <small>{r["seconds"]:g}s · {r["type"]}</small></h2><div class="pair">{pics}</div><p>{r["motion"]}</p><p><a href="{r["folder"]}/提示词.txt">完整提示词</a> · <a href="{r["folder"]}/首帧.png">首帧原图</a> · <a href="{r["folder"]}/尾帧.png">尾帧原图</a></p><details><summary>展开可复制提示词</summary><pre>{html.escape(text)}</pre></details></article>')
-    manifest={'status':'photo-revised-candidates-awaiting-user-review-and-external-video','revision':'2026-09-20-r2','poseReview':'修订静态对照.json','peakReference':'peaks/B-仰躺哈欠峰值.png','runtimeChanged':False,'generator':'builtin image_gen','anchors':anchor_records,'clips':rows,'clickWindow':{'seconds':15,'starts':'first qualifying click','reset':'fixed window expiry or leave flat-rest','counts':{'1':'same-pose mild twitch','2':'same-pose stronger twitch then one look-back meow','3':'stand to SR'}}}
+    manifest={'status':'photo-revised-candidates-awaiting-user-review-and-external-video','revision':'2026-09-20-r5-m-redraw','poseReview':'修订静态对照.json','peakReference':'peaks/B-仰躺哈欠峰值.png','runtimeChanged':False,'generator':'builtin image_gen','anchors':anchor_records,'clips':rows,'clickWindow':{'seconds':15,'starts':'first qualifying click','reset':'fixed window expiry or leave flat-rest','counts':{'1':'same-pose mild twitch','2':'same-pose stronger twitch then one look-back meow','3':'stand to SR'}}}
     (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8')
     s=io.StringIO();w=csv.writer(s,lineterminator="\n");w.writerow(['编号','动作','首帧','尾帧','类型','目标秒数','分组']);w.writerows([r['id'],r['name'],r['start'],r['end'],r['type'],r['seconds'],r['group']] for r in rows);(OUT/'动作表.csv').write_text(s.getvalue(),encoding='utf-8-sig')
     header=(OUT/'制作说明.md').read_text(encoding='utf-8')

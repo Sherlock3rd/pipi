@@ -1,0 +1,9 @@
+# M 画风重绘 r5
+
+上一版被用户指出仍与同组有明显差异，撤销“已统一”的结论。再次携带旧M作姿态图得到的r4仍受旧图影响，未采用。最终仅以A侧躺图为图片参考，文本描述掩面蜷睡，不继承旧M的纹理。
+
+使用内置 image_gen。最终提示词：
+
+Repose the SAME CAT in this illustration into a tightly curled sleeping pose. This one attached image is the SOLE source for the cat's rendering style, coat material, color, anatomy, paws, ears and facial proportions. Match its exact detailed plush rounded fur rendering, dark gray values, soft shading and natural layered short fur. Keep the image's existing art style unchanged; do not invent a new painting technique. The cat now sleeps in a low horizontal oval curl viewed from the side: head at left tucked down inward into forepaws, near forearm curved over eyes and nose so face completely hidden, one ear visible, other paw tucked under head. Spine arcs across back toward round haunch on right. Thick tail lies along bottom front from right haunch toward paws at left. Adult British shorthair gray cat, dense rounded plush cheek fur as source, soft rounded paw toes as source. Anatomy must read as the SAME cat from reference now curled up; no uniform flat strokes, no all-over combed parallel hatching, no flat pale gray fill, no triangular chips or enlarged scale pattern, no new leaf pattern. Modulate local fur length naturally like attached cat. Deep soft separation between elbow/head/belly and tail, beautiful soft gray modeling like source. Do not reveal eyes or nose, do not look at viewer, do not lift chin, do not switch top-down camera. Complete curled cat centered with generous pale ivory empty background. EXACT 1672x941 landscape canvas. Entire curled silhouette about 1040px wide and 550px high; positioned centered around x836 y495. No ground shadow, no objects, no labels, no border. Repose only, strongly preserve SOURCE CHARACTER AND ART STYLE.
+
+助手观察：新版毛簇、软爪和胸腹暗部更接近A，保留低侧视蜷团、埋脸、前臂遮脸及环绕尾。重绘改变了头部/爪部具体轮廓与位置，不宣称逐像素保持，也不以结构检查代替用户画风验收。待用户评审、外部视频及动态接缝检查。

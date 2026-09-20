@@ -94,5 +94,50 @@
     "Earlier wall/face-cover renders superseded by two additional user references during this turn.",
     "All PNGs copied from builtin image_gen; no scripted resizing, mirroring or retouching of generated cat artwork.",
     "历史关键图生成记录.json describes rejected old poses only."
+  ],
+  "styleRevisions": [
+    {
+      "key": "M",
+      "date": "2026-09-20",
+      "mode": "builtin image_gen",
+      "promptFile": "prompts/M-style-unification-20260920.md",
+      "styleReferences": [
+        "anchors/A-侧躺收爪.png",
+        "anchors/D-趴卧.png"
+      ],
+      "previousSha256": "df2b6e651475efefe4e58111b7b339dc9ded62ed5afe148bcbcd2323e62b182b",
+      "finalSha256": "e4228e40c980b3262bd84c56ee0b104857280a1568482deee9311f83995419bb",
+      "firstOutput": "exec-96268432-5ff3-4486-8efc-7d7d40a72a81.png",
+      "firstSize": [
+        1671,
+        941
+      ],
+      "finalOutput": "exec-098c5765-d87c-4ab4-a2ce-4f414f9cdb08.png",
+      "finalSize": [
+        1672,
+        941
+      ],
+      "userAccepted": false,
+      "runtimeChanged": false,
+      "userRejected": true
+    },
+    {
+      "key": "M",
+      "revision": "r5",
+      "mode": "builtin image_gen",
+      "promptFile": "prompts/M-style-redraw-r5.md",
+      "styleReferences": [
+        "anchors/A-侧躺收爪.png"
+      ],
+      "rejectedIntermediate": "exec-83d3bc88-197e-4c48-a3fc-a27501113f25.png",
+      "finalOutput": "exec-33f7e750-7daf-4c99-b1e3-e4667ca618ef.png",
+      "sha256": "db6fb699b156272b98fd32769c6b4f00e8c099efdb48f59a76a2c10176ca0088",
+      "size": [
+        1672,
+        941
+      ],
+      "userAccepted": false,
+      "runtimeChanged": false
+    }
   ]
 }

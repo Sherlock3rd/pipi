@@ -35,9 +35,9 @@
       "file": "anchors/C-侧躺舒展.png"
     },
     "M": {
-      "reference": "新增10捂脸标准图",
-      "observation": "低伏侧面椭圆蜷睡，头在左埋于前爪、近前臂盖脸，圆背在右、尾围前缘。",
-      "sha256": "df2b6e651475efefe4e58111b7b339dc9ded62ed5afe148bcbcd2323e62b182b",
+      "reference": "A为唯一画风/角色图片参考；文字保留用户要求的低侧视掩面蜷睡",
+      "observation": "r5重新绘制：毛簇、软爪和胸腹暗部更接近A；低侧视蜷团、头埋于左侧前爪、前臂遮脸、尾围前缘。具体轮廓与爪位有重绘差异，待用户评审。",
+      "sha256": "db6fb699b156272b98fd32769c6b4f00e8c099efdb48f59a76a2c10176ca0088",
       "file": "anchors/M-掩面睡姿.png"
     },
     "D": {
