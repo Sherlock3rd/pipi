@@ -9753,6 +9753,7 @@
     },
     "video-22": {
       "fps": 24.0,
+      "eatDrinkPlaybackRate": 1.5,
       "loop": false,
       "width": 288,
       "height": 288,

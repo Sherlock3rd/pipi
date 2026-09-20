@@ -444,7 +444,7 @@ if(File.Exists(runtimeManifest))
   var careEngine=new PetEngine(new PetState{X=400,Y=400,Food=100,RestDuration=600},1){FoodSpot=new Spot(400,400),VisualActionDuration=carePlayback.ActionDuration,VisualConsumptionWindow=carePlayback.ConsumptionWindow};
   careEngine.Demo("eat");careEngine.Update(.1,12);
   var window=carePlayback.ConsumptionWindow("eat")!.Value;
-  Check(window.Start>5&&window.Start<5.1&&window.Duration>5&&window.Duration<5.1,"preparation and actual intake both retain their original five-second duration");
+  Check(Math.Abs(window.Start-121/36d)<1e-9&&window.Duration>5&&window.Duration<5.1,"head lowering plays at 1.5x while actual intake retains its original five-second duration");
   Advance(careEngine,window.Start-.2);Check(careEngine.State.Food==100,"lowering head does not consume inventory before the supplied eating loop");
   Advance(careEngine,window.Duration+.4);Check(careEngine.State.Food==80,"one supplied eating loop consumes exactly one of five layers");
   Advance(careEngine,6);Check(careEngine.State.Food==80,"raising head and completing care never consumes a second layer");
@@ -692,9 +692,9 @@ using(var travelDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtime
   for(int tick=0;tick<9000;tick++)
   {
    approachCat.Update(.01,12);var frame=player.Sample(approachCat.AligningForCare?"care-ready":approachCat.Action,approachCat.Now,approachCat.FacingLeft)!.Value;
-   if(approachCat.Action=="eat"){eating=true;endpoint=Math.Abs(approachCat.State.X-goal)<.001;if(approachCat.ActionTime<5)earlyBites|=approachCat.State.Food!=80;if(approachCat.ActionTime>6)break;}
+   if(approachCat.Action=="eat"){eating=true;endpoint=Math.Abs(approachCat.State.X-goal)<.001;if(approachCat.ActionTime<player.ConsumptionWindow("eat")!.Value.Start)earlyBites|=approachCat.State.Food!=80;if(approachCat.ActionTime>6)break;}
   }
-  Check(eating&&endpoint&&!earlyBites,$"native {distance}-unit food approach aligns before care and keeps its five-second preparation");
+  Check(eating&&endpoint&&!earlyBites,$"native {distance}-unit food approach aligns before care and never consumes during preparation");
  }
  var changing=Player();double movingX=800;
  for(double at=0;at<.8;at+=.01)movingX=changing.TravelTo("walk",movingX,805,at,false)!.Value.X;
@@ -804,4 +804,5 @@ using(var widthDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
  Check(SpritePlayback.ReadHorizontalRegistration(invalid.RootElement,1) is null&&player.InspectFrame("video-22",-1) is null,"invalid width corrections and out-of-range audit frames are rejected");
 }
 CareRequestChecks.Run(Check);
+HeadLoweringTempoChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

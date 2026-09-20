@@ -5,10 +5,14 @@ using System.Text.Json.Serialization;
 
 namespace Chenpi;
 
-public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null,double BuryPlaybackRate=1,double? LandingContactY=null,[property:JsonIgnore] double[][]? HorizontalRegistration=null)
+public sealed record SpriteClip(int Count,double Fps,bool Loop,double Width=180,double Height=180,double AnchorX=.5,double AnchorY=.921875,bool MirrorWithFacing=true,double ScaleStart=1,double ScaleEnd=1,double OffsetStartX=0,double OffsetStartY=0,double OffsetEndX=0,double OffsetEndY=0,double PlaybackRate=1,[property:JsonIgnore] double[]? GroundContacts=null,double BuryPlaybackRate=1,double? LandingContactY=null,[property:JsonIgnore] double[][]? HorizontalRegistration=null,double EatDrinkPlaybackRate=1)
 {
     public double Duration=>Count/Fps;
-    public SpriteClip ForAction(string action)=>action=="bury"&&BuryPlaybackRate!=1?this with {Fps=Fps*BuryPlaybackRate,PlaybackRate=PlaybackRate*BuryPlaybackRate}:this;
+    public SpriteClip ForAction(string action)
+    {
+        double rate=action switch {"bury"=>BuryPlaybackRate,"eat" or "drink"=>EatDrinkPlaybackRate,_=>1};
+        return rate!=1?this with {Fps=Fps*rate,PlaybackRate=PlaybackRate*rate}:this;
+    }
     public SpriteClip OnGround(int index)=>GroundContacts is not null&&index>=0&&index<GroundContacts.Length?this with {AnchorY=GroundContacts[index]}:this;
     public SpriteClip AtFrame(int index)
     {
@@ -80,7 +84,7 @@ public sealed partial class SpritePlayback
                     clips[item.Name]=new(count,fps*rate,loop,width,height,ax,ay,
                         !value.TryGetProperty("mirrorWithFacing",out var mirror)||mirror.GetBoolean(),
                         ReadScale(value,"scaleStart"),ReadScale(value,"scaleEnd"),
-                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count),PlaybackSpeed(value,"buryPlaybackRate"),ReadLandingContact(value),ReadHorizontalRegistration(value,count));
+                        ReadOffset(value,"offsetStartX"),ReadOffset(value,"offsetStartY"),ReadOffset(value,"offsetEndX"),ReadOffset(value,"offsetEndY"),rate,ReadGroundContacts(value,count),PlaybackSpeed(value,"buryPlaybackRate"),ReadLandingContact(value),ReadHorizontalRegistration(value,count),PlaybackSpeed(value,"eatDrinkPlaybackRate"));
             }
             catch(Exception ex) when(ex is JsonException or InvalidOperationException or FormatException or KeyNotFoundException){ }
         }
@@ -134,7 +138,7 @@ public sealed partial class SpritePlayback
     public (double Start,double Duration)? ConsumptionWindow(string action)
     {
         if(!careGraph||action is not ("eat" or "drink"))return null;
-        return(clips["video-22"].Duration,clips[action=="eat"?"video-23":"video-25"].Duration);
+        return(clips["video-22"].ForAction(action).Duration,clips[action=="eat"?"video-23":"video-25"].ForAction(action).Duration);
     }
     public (double Start,double Duration)? BurialWindow()=>careGraph?
         (clips["video-29"].ForAction("bury").Duration,clips["video-30"].Duration):null;
