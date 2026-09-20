@@ -42,9 +42,13 @@ public sealed class BehaviorSettings
         Add("relax.min","gesture","睡姿小动作间隔下限",60,1,3600,"秒","呼吸中等待，完整播放短动作后重新计时。");
         Add("relax.max","gesture","睡姿小动作间隔上限",180,1,3600,"秒","掩面会持续睡眠，单击或照料才放爪。");
         Add("relax.gesture","gesture","选择短动作的概率",100d/3,0,100,"%","剩余概率用于换睡姿；短动作内再按权重选择。");
-        Add("wall.enabled","wall","启用屏边扶墙",1,0,1,"开关","只在已靠近实际屏边且无家具阻挡时执行。");
-        Add("wall.chance","wall","符合条件时扶墙概率",100,0,100,"%","每次进入休息时判断，未选中就原地睡。");
-        Add("wall.duration","wall","扶墙循环停留",5,1,60,"秒","达到停留时间后播完当前循环再落地；本次启动最多自主扶墙一次。");
+        Add("wall.enabled","wall","启用屏边扶墙",1,0,1,"开关","加入移动目的地候选；从当前位置走到无家具阻挡的实际屏边。");
+        Add("wall.duration","wall","扶墙循环停留",5,1,60,"秒","达到停留时间后播完当前循环再落地，前往安全空位休息。");
+        Add("move.delay.min","movement","清醒移动判断下限",10,1,3600,"秒","安静等待后判断一次，未选中继续等入睡；睡着时不唤醒。应小于入睡时间才能触发。");
+        Add("move.delay.max","movement","清醒移动判断上限",20,1,3600,"秒","在上下限间抽取；到达目的地或新一轮互动后重新计时。");
+        Add("move.chance","movement","本轮选择移动的概率",35,0,100,"%","选中移动后，普通空位与扶墙在同一个目的地池中按权重抽取；0关闭自主移动。");
+        foreach(var (id,name) in new[]{("left","左部空位"),("center","中部空位"),("right","右部空位"),("wall","屏边扶墙")})
+            Add("move."+id,"destinations",name+"权重",1,0,100,"权重","移动目的地同组比较；无安全位置的候选剔除后重新归一化。扶墙权重由可用左右屏边均分；全0停止自主移动。");
         Add("walk.callEvery","movement","每几次长行程走路叫",3,0,100,"次","0关闭；剩余路程须容纳完整动作，短行程不插入。");
         Add("sit.callCooldown","movement","坐姿叫声冷却",300,1,3600,"秒","仅坐稳后的短窗口执行，不影响睡姿停留。");
         Add("stand.stretchChance","movement","起身伸展概率",100,0,100,"%","躺姿点击起身后判断；关闭后直接安静待机。");
@@ -64,11 +68,14 @@ public sealed class BehaviorSettings
         if(Version!=1||Values is null)throw new InvalidDataException("不支持的行为配置版本。");
         foreach(var (key,value) in Values)
         {
+            // Read old v1 files without discarding unrelated user settings.
+            // This obsolete sleep-branch probability no longer drives wall choice.
+            if(key=="wall.chance"&&double.IsFinite(value)&&value>=0&&value<=100)continue;
             var p=Catalog.FirstOrDefault(x=>x.Key==key)??throw new InvalidDataException("未知参数："+key);
             if(!double.IsFinite(value)||value<p.Min||value>p.Max)throw new InvalidDataException($"{p.Label}应在 {p.Min}～{p.Max} {p.Unit}之间。");
             if(p.Unit is "次" or "时" or "开关" &&value!=Math.Truncate(value))throw new InvalidDataException(p.Label+"必须为整数。");
         }
-        foreach(string prefix in new[]{"rest","food","water","litter","relax"})if(Get(prefix+".min")>Get(prefix+".max"))throw new InvalidDataException(Catalog.First(p=>p.Key==prefix+".min").Label+"不能大于对应上限。");
+        foreach(string prefix in new[]{"rest","food","water","litter","relax","move.delay"})if(Get(prefix+".min")>Get(prefix+".max"))throw new InvalidDataException(Catalog.First(p=>p.Key==prefix+".min").Label+"不能大于对应上限。");
         if(Get("toy.inner")>=Get("toy.outer"))throw new InvalidDataException("抓羽毛距离必须小于追逐距离。");
         foreach(string group in new[]{"poses","changes","gesture-D","gesture-A","gesture-B","gesture-X"})
             if(Catalog.Where(p=>p.Group==group).Sum(p=>Get(p.Key))<=0)throw new InvalidDataException("这组权重至少保留一个大于0的选项："+Catalog.First(p=>p.Group==group).Label+"等。");

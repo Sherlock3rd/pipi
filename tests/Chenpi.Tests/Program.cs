@@ -809,5 +809,6 @@ CareRequestChecks.Run(Check);
 HeadLoweringTempoChecks.Run(Check,runtimeManifest);
 ExpressionChecks.Run(Check,runtimeManifest);
 BehaviorSettingsChecks.Run(Check,runtimeManifest);
+MovementChecks.Run(Check);
 RequestGestureChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

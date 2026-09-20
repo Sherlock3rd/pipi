@@ -21,8 +21,7 @@ public sealed partial class PetEngine
     {
         get
         {
-            bool left=State.X<Width/2;string blocked=WallBlockReason(left);
-            return $"自主扶墙：{(Settings.Get("wall.enabled")==0?"开关已关闭":wallVisited?"本次启动已经触发过":blocked.Length>0?blocked:Math.Abs(WallGoal(left)-State.X)>40?"尚未进入屏边40单位范围":"位置符合，等安静休息时判断概率")}。左侧：{(WallBlockReason(true) is string l&&l.Length>0?l:"可执行")}；右侧：{(WallBlockReason(false) is string r&&r.Length>0?r:"可执行")}。";
+            return $"扶墙与普通移动目的地同级，权重 {Settings.Get("move.wall"):0.##}；{(Settings.Get("wall.enabled")==0?"自主扶墙关闭":"不限制距离与本次启动次数")}。左侧：{(WallBlockReason(true) is string l&&l.Length>0?l:"可执行")}；右侧：{(WallBlockReason(false) is string r&&r.Length>0?r:"可执行")}。";
         }
     }
     public string ExecuteBehavior(string id)
@@ -35,8 +34,18 @@ public sealed partial class PetEngine
             Demo(id switch {"food"=>"eat","water"=>"drink","litter"=>"toilet",_=>"sleep"});return "已执行；照料会实际消耗库存";
         }
         if(id is "click" or "input"){Interact();return "已执行一次点击互动";}
-        if(id=="movement")
-        {BeginManualSequence();Go(NearestRestSpot(new(State.X+(State.X<Width/2?250:-250),GroundY)),"settle","工作台：移动到空位");return "正在沿真实动作移动到空位";}
+        if(id=="movement"||id.StartsWith("move-"))
+        {
+            var choices=MovementChoices();
+            if(!System.Linq.Enumerable.Any(choices,c=>id=="movement"||c.Id==id))return "没有符合权重和空位条件的移动目的地";
+            BeginManualSequence();
+            if(StartMovementChoice(id=="movement"?null:id))
+            {
+                if(arrival is "rest-HL" or "rest-HR"){debugPose=arrival[5..];debugReadyAt=-1;}
+                return "按同级目的地权重选择："+LastMovementChoice+"；沿真实动作移动";
+            }
+            FinishManualSequence();return "没有可用目的地";
+        }
         if(id=="gesture")id="gesture-"+(RelaxedPose is "D" or "A" or "B" or "X"?RelaxedPose:"D");
         if(id=="changes")id="pose-"+(RelaxedPose switch {"D"=>"A","A"=>Settings.Choose(random,"change.B","change.X","change.M")[7..],"B" or "X" or "M"=>"A",_=>"D"});
         string pose="";int expression=0;

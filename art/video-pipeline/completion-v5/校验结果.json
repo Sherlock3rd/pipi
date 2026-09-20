@@ -8,6 +8,9 @@
   "loopEndpointsIdentical": 7,
   "allImages1672x941": true,
   "allLocalHtmlLinksExist": true,
+  "standaloneHtml": true,
+  "embeddedImages": 90,
+  "embeddedOriginalPngs": 18,
   "newAnchorsUserApproved": false,
   "dynamicQA": "pending returned video",
   "runtimeChanged": false

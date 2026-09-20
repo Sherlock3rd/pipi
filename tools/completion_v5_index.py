@@ -1,7 +1,9 @@
 """Offline visual index and independent delivery checks for the v5 video inputs."""
 import hashlib
+import base64
 import html
 import json
+import re
 from pathlib import Path
 from urllib.parse import unquote
 from html.parser import HTMLParser
@@ -33,6 +35,28 @@ function filter(){const group=document.getElementById('group').value,priority=do
 for(const id of ['group','priority','search'])document.getElementById(id).addEventListener('input',filter);
 document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const pre=document.getElementById(button.dataset.target);try{await navigator.clipboard.writeText(pre.textContent);notice.textContent='完整提示词已复制';button.textContent='已复制';setTimeout(()=>button.textContent='复制完整提示词',1800);}catch{pre.closest('details').open=true;const range=document.createRange();range.selectNodeContents(pre);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);notice.textContent='浏览器未允许自动复制，已选中完整提示词，请按 Ctrl+C。';}}));
 </script></body></html>'''.replace('GALLERY', gallery).replace('OPTIONS', options).replace('CARDS', ''.join(cards))
+    # ZIP preview tools extract only index.html into a temporary folder. Embed
+    # each distinct original once, then give every image/link its own Blob URL.
+    assets = {}
+    def embed(match):
+        attr, relative = match.groups()
+        if relative.startswith(('#', 'http', 'data:')):
+            return match.group(0)
+        path = out/unquote(relative)
+        content = path.read_bytes()
+        key = hashlib.sha256(content).hexdigest()
+        mime = 'image/png' if path.suffix == '.png' else 'text/csv;charset=utf-8' if path.suffix == '.csv' else 'text/plain;charset=utf-8'
+        assets[key] = {'mime': mime, 'base64': base64.b64encode(content).decode('ascii')}
+        return f'{attr}="" data-asset="{key}" data-filename="{html.escape(path.name, quote=True)}"'
+    page = re.sub(r'(src|href)="([^"]+)"', embed, page)
+    hydration = '''<script id="embedded-assets" type="application/json">ASSETS</script><script>
+const embeddedAssets=JSON.parse(document.getElementById('embedded-assets').textContent),assetUrls=new Map();
+for(const [key,asset] of Object.entries(embeddedAssets)){const bytes=Uint8Array.from(atob(asset.base64),c=>c.charCodeAt(0));assetUrls.set(key,URL.createObjectURL(new Blob([bytes],{type:asset.mime})));}
+for(const element of document.querySelectorAll('[data-asset]')){const url=assetUrls.get(element.dataset.asset);if(element.tagName==='IMG')element.src=url;else{element.href=url;if(element.hasAttribute('download'))element.download=element.dataset.filename;}}
+document.getElementById('embedded-assets').remove();
+</script>'''.replace('ASSETS', json.dumps(assets, separators=(',', ':')))
+    page = page.replace('打开对应动作，上传首尾原图，再复制完整提示词。', '此页面已内嵌全部图片和提示词，可单独打开；点击原图下载后上传，再复制完整提示词。')
+    page = page.replace('</main><script>', '</main>'+hydration+'<script>')
     (out/'index.html').write_text(page, encoding='utf-8', newline='\n')
 
 
@@ -59,9 +83,15 @@ def verify_pack(out, items, anchors):
     class Links(HTMLParser):
         def handle_starttag(self, tag, attrs):
             for k, v in attrs:
-                if k in ('href', 'src') and not v.startswith(('#', 'http')):
+                if k in ('href', 'src') and v and not v.startswith(('#', 'http')):
                     assert (out/unquote(v)).is_file(), v
-    Links().feed((out/'index.html').read_text(encoding='utf-8'))
+    page = (out/'index.html').read_text(encoding='utf-8')
+    Links().feed(page)
+    embedded = json.loads(re.search(r'<script id="embedded-assets" type="application/json">(.*?)</script>', page, re.S)[1])
+    for key, asset in embedded.items():
+        assert hashlib.sha256(base64.b64decode(asset['base64'])).hexdigest() == key
+    assert all(key in embedded for key in re.findall(r'data-asset="([a-f0-9]+)"', page))
+    assert len(re.findall(r'<img ', page)) == 90
     return dict(clips=41,anchors=18,newCandidateAnchors=8,endpointCopies=82,fullPrompts=41,
                 byteIdenticalSharedEndpoints=True,loopEndpointsIdentical=loops,allImages1672x941=True,
-                allLocalHtmlLinksExist=True,newAnchorsUserApproved=False,dynamicQA='pending returned video',runtimeChanged=False)
+                allLocalHtmlLinksExist=True,standaloneHtml=True,embeddedImages=90,embeddedOriginalPngs=sum(a['mime']=='image/png' for a in embedded.values()),newAnchorsUserApproved=False,dynamicQA='pending returned video',runtimeChanged=False)

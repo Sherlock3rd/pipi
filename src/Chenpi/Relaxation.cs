@@ -15,24 +15,10 @@ public sealed partial class PetEngine
     public int RelaxedClickCount {get;private set;}
     private double clickWindow=-1,nextRelaxation;
     private int pendingReaction;
-    private bool restReady,wallVisited;
+    private bool restReady;
     private double nextSeatedCall=120;
     private bool IsRelaxing=>Action.StartsWith("rest-")||Action.StartsWith("expr-");
     private static bool LyingPose(string p)=>p is "D" or "A" or "B" or "X" or "M";
-    private bool CanRestAtWall()
-    {
-        if(!ExpressionsEnabled||wallVisited||Settings.Get("wall.enabled")==0)return false;
-        double goal=State.X<Width/2?-WallLeftOffset:Width-WallRightOffset;
-        if(Math.Abs(goal-State.X)>40)return false;
-        foreach(var obstacle in RestObstacles())if(Math.Abs(goal-obstacle.X)<obstacle.Radius)return false;
-        return true;
-    }
-    private bool TryWallRest()
-    {
-        if(!CanRestAtWall()||random.NextDouble()*100>=Settings.Get("wall.chance"))return false;
-        wallVisited=true;bool left=State.X<Width/2;
-        Go(new(left?-WallLeftOffset:Width-WallRightOffset,GroundY),left?"rest-HL":"rest-HR","在屏幕边短暂扶墙");return true;
-    }
     private void RestInPose(string p,bool asleep=true)
     {
         RelaxedPose=p;restReady=false;nextRelaxation=0;
@@ -68,7 +54,7 @@ public sealed partial class PetEngine
         if(clickWindow>=0&&Now-clickWindow<Settings.Get("click.window")-1e-8)return true;
         if(clickWindow>=0){clickWindow=-1;RelaxedClickCount=0;}
         if(Now<nextRelaxation)return true;
-        if(RelaxedPose is "HR" or "HL"){if(VisualWallRestComplete?.Invoke(RelaxedPose,Now,nextRelaxation)==false)return true;RestInPose("D");return true;}
+        if(RelaxedPose is "HR" or "HL"){if(VisualWallRestComplete?.Invoke(RelaxedPose,Now,nextRelaxation)==false)return true;Go(NearestRestSpot(new(State.X,GroundY)),"settle","扶墙结束，落地后到安全空位休息");return true;}
         if(State.RestElapsed>=State.RestDuration)NewRest();
         if(RelaxedPose=="M"){nextRelaxation=Now+120;return true;}
         // Most idle time remains in breathing poses. Gestures are infrequent,

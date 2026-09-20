@@ -69,7 +69,7 @@ public sealed partial class PetEngine
         }
         return chosen;
     }
-    private bool CanStartCare()=>Action is "idle" or "sit" or "sleep" || Action.StartsWith("rest-")||Action=="walk"&&arrival is "settle" or "sleep";
+    private bool CanStartCare()=>Action is "idle" or "sit" or "sleep" || Action.StartsWith("rest-")||Action=="walk"&&arrival is "settle" or "sleep" or "rest-HL" or "rest-HR";
     private void StartCare(string kind)=>Go(ObjectPosition(kind),kind switch {"food"=>"eat","water"=>"drink",_=>"toilet"},"随机照料计时到期");
     private void BeginRequest(string kind)
     {

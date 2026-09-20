@@ -181,6 +181,13 @@ public sealed partial class PetEngine
     }
     private void Retarget()
     {
+        if(Action=="walk"&&arrival is "rest-HL" or "rest-HR")
+        {
+            bool left=arrival=="rest-HL";
+            if(WallBlockReason(left).Length>0){CancelDebugBehavior();Go(NearestRestSpot(new(State.X,GroundY)),"settle","屏边被占用，改去安全空位");}
+            else target=new(WallGoal(left),GroundY);
+            return;
+        }
         if(Action=="walk")target=arrival switch {"eat"=>FoodSpot,"drink"=>WaterSpot,"sleep"=>Nest,"toilet" or "bury"=>LitterSpot,_=>new Spot(Math.Clamp(target.X,65,Width-65),Math.Clamp(target.Y,140,Height-60))};
         target=CareDestination(target,arrival);
         if(Action=="walk"&&arrival=="settle")target=NearestRestSpot(target);
@@ -204,7 +211,7 @@ public sealed partial class PetEngine
         toyTree=new Selector(Branch(()=>ToyWithinCatchRange,CatchToy),new BehaviorAction(ChaseToy));
         if(state.Sleeping) {bool inNest=state.SleepingInNest;string savedPose=state.RestPose;CancelCareRequest();sleepGrace=Now+Settings.Get("sleep.grace");SetAction("sleep",double.MaxValue,"继续睡觉");state.SleepingInNest=inNest;state.RestPose=savedPose;}
     }
-    private void NewRest(){State.RestDuration=Settings.Range(random,"rest",60);State.RestElapsed=0;State.StillSeconds=0;Dirty=true;}
+    private void NewRest(){ResetMovementChoice();State.RestDuration=Settings.Range(random,"rest",60);State.RestElapsed=0;State.StillSeconds=0;Dirty=true;}
     public void ObservePointer(double seconds,bool overCat,Spot cursor)
     {
         guidePointer=cursor;pointerKnown=true;
@@ -278,7 +285,7 @@ public sealed partial class PetEngine
         ActionTime+=dt;
         if(Action=="drag") return;
         if(UpdateDebugBehavior())return;
-        if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&!CanRestAtWall()&&LeaveOccupiedRestSpot())return;
+        if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&LeaveOccupiedRestSpot())return;
         if(ToyOverlaps){TickToy(dt);return;}
         if(Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"等主人靠近一点");}
         if(UpdateRequestFinish())return;
@@ -290,6 +297,7 @@ public sealed partial class PetEngine
             string? due=DueCare();if(due is not null)StartCare(due);
         }
         if(UpdateRelaxation()){State.RestElapsed+=dt;State.StillSeconds+=dt;return;}
+        if(TryAutonomousMovement())return;
         if(TrySeatedCall())return;
         // The supplied rub clip already contains the gesture. Do not chase
         // alternating +/-18 mouse offsets underneath a stationary animation.
@@ -401,7 +409,7 @@ public sealed partial class PetEngine
     }
     public void Interact()
     {
-        CancelDebugBehavior();
+        CancelDebugBehavior();ResetMovementChoice();
         if(State.CareRequest is not null){BeginGuide();return;}
         if(InteractRelaxed())return;
         manualSequence=false;
@@ -418,8 +426,8 @@ public sealed partial class PetEngine
     {LastInteraction=Now;if(inNest)Sleep();else SetAction("land",0.7,"稳稳落地");}
     public void Sleep(bool newRest=true)
     {CancelCareRequest();manualSequence=false;Holding=false;ToyHeld=false;State.X=Nest.X;State.Y=Nest.Y;if(newRest)NewRest();sleepGrace=Now+Settings.Get("sleep.grace");SetAction("sleep",double.MaxValue,"猫窝睡眠");State.SleepingInNest=true;}
-    private void SleepHere(){if(TryWallRest()||LeaveOccupiedRestSpot())return;sleepGrace=Now+Settings.Get("sleep.grace");if(BeginRelaxedSleep())return;SetAction("sleep",double.MaxValue,"就在这里打个盹");State.SleepingInNest=false;}
-    public void Wake() {nightRestUntil=Now+Settings.Get("night.grace");State.StillSeconds=0;State.RestElapsed=0;if(ExpressionsEnabled&&IsRelaxing){RestInPose(RelaxedPose=="M"?"A":"SR",false);return;}SetAction("wake",2.0,"唤醒伸展");}
+    private void SleepHere(){if(LeaveOccupiedRestSpot())return;sleepGrace=Now+Settings.Get("sleep.grace");if(BeginRelaxedSleep())return;SetAction("sleep",double.MaxValue,"就在这里打个盹");State.SleepingInNest=false;}
+    public void Wake() {ResetMovementChoice();nightRestUntil=Now+Settings.Get("night.grace");State.StillSeconds=0;State.RestElapsed=0;if(ExpressionsEnabled&&IsRelaxing){RestInPose(RelaxedPose=="M"?"A":"SR",false);return;}SetAction("wake",2.0,"唤醒伸展");}
     public void Refill(string kind)
     {
         LastInteraction=Now;

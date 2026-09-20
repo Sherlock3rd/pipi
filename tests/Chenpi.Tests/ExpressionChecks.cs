@@ -55,9 +55,14 @@ public static class ExpressionChecks
         }
         foreach(bool left in new[]{true,false})
         {
-            var p=Player();var c=Cat(p);c.Layout(3000,800);c.State.X=left?70:2930;c.State.StillSeconds=31;
-            var seen=new HashSet<string>();Tick(c,p,35,seen);
-            check(seen.Contains(left?"video-56":"video-53"),"autonomous wall triggers at eligible clear edge "+left);
+            var p=Player();var c=Cat(p);c.Layout(3000,800);c.State.X=400;
+            var settings=c.Settings.Copy();settings.Values["move.delay.min"]=1;settings.Values["move.delay.max"]=1;settings.Values["move.chance"]=100;
+            foreach(string id in new[]{"left","center","right"})settings.Values["move."+id]=0;
+            c.ApplyBehaviorSettings(settings);c.MoveObject("nest",new(left?2850:170,c.GroundY));
+            var seen=new HashSet<string>();int entries=0;string last="";
+            for(int tick=0;tick<7000;tick++){c.Update(.05,12);string clip=p.Sample(c.Action,c.Now,c.FacingLeft)!.Value.Clip;seen.Add(clip);if(clip!=last&&clip==(left?"video-55":"video-52"))entries++;last=clip;}
+            check(entries>=2,"autonomous wall remains available after first visit "+left);
+            check(seen.Contains(left?"video-56":"video-53"),"autonomous movement selects distant eligible wall "+left);
         }
         foreach(var (pose,loop,first,second,exit) in new[]{("A","67","68","69","70"),("B","71","72","73","74"),("X","75","76","77","78")})
         {

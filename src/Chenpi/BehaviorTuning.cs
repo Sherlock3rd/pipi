@@ -11,7 +11,7 @@ public sealed partial class PetEngine
         settings.Validate();Settings=settings.Copy();
         // Do not interrupt the current animation, consume inventory, cancel an
         // active care request, or mutate any stored furniture position.
-        restReady=false;nextSeatedCall=Now+Settings.Get("sit.callCooldown");
+        ResetMovementChoice();restReady=false;nextSeatedCall=Now+Settings.Get("sit.callCooldown");
         if(restartCareClocks)foreach(string kind in CareKinds)ScheduleNext(kind);
         Dirty=true;
     }

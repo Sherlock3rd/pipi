@@ -25,7 +25,10 @@ internal sealed partial class Scene
         var exported=new List<object>();var routes=new List<object>();int index=0;
         foreach(bool left in new[]{true,false})
         {
-            Engine.ExecuteBehavior(left?"wall-left":"wall-right");
+            var settings=Engine.Settings.Copy();settings.Values["move.delay.min"]=settings.Values["move.delay.max"]=1;
+            settings.Values["move.chance"]=100;settings.Values["move.wall"]=1;settings.Values["wall.enabled"]=1;
+            foreach(string destination in new[]{"left","center","right"})settings.Values["move."+destination]=0;
+            Engine.MoveObject("nest",new(left?2830:170,752));Engine.ApplyBehaviorSettings(settings);
             var transitions=new List<string>();bool entered=false,exited=false;double maxStep=0,prior=Engine.State.X;
             for(int tick=0;tick<15000;tick++)
             {
@@ -45,7 +48,7 @@ internal sealed partial class Scene
                 }
             }
             if(!exited)throw new InvalidDataException("Wall action did not complete");
-            routes.Add(new{Left=left,MaxRootStep=maxStep,Transitions=transitions});
+            routes.Add(new{Left=left,Autonomous=true,Choice=Engine.LastMovementChoice,MaxRootStep=maxStep,Transitions=transitions});
             Engine.BeginDrag();Engine.DragTo(new(400,752));Engine.Drop(false);
         }
         File.WriteAllText(Path.Combine(output,"frames.json"),JsonSerializer.Serialize(new{PixelsPerUnit=2,RootX=192,RootY=256,Frames=exported}));

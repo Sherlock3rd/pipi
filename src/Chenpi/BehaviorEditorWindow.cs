@@ -28,7 +28,7 @@ internal sealed class BehaviorEditorWindow : Window
         new("food","吃饭","到期且有粮：到盆口 → 低头 → 实际吃饭 → 抬头 → 站姿直接离开。仅实际摄入扣粮。",new[]{"food"}),
         new("water","喝水","到期且有水：到杯口 → 低头 → 实际喝水 → 抬头 → 站姿直接离开。仅实际摄入扣水。",new[]{"water"}),
         new("litter","如厕／埋砂","到期且猫砂可用：进入盆面 → 如厕 → 换位转身 → 埋砂 → 离开。埋砂不等于清理。",new[]{"litter"}),
-        new("rest","⑥ 自主休息","安静达到阈值或休息周期到期进入睡姿；到期继续睡，不强制漫游。夜间／低能量规则也可触发休息。",new[]{"rest"}),
+        new("rest","⑦ 自主休息","安静达到阈值或休息周期到期进入睡姿；到期继续睡，不强制漫游。夜间／低能量规则也可触发休息。",new[]{"rest"}),
         new("poses","选择入睡姿态","按同组权重抽取地面睡姿，经真实素材衔接进入；权重0只排除随机选入，不删除必要的过渡姿态。",new[]{"poses"}),
         new("seated","坐姿","趴卧从坐姿进入；当前站立直接趴下、趴卧直接站起素材尚缺。",Array.Empty<string>()),
         new("pose-D","趴卧","经坐姿进入；醒来先坐起。可调整随机入睡权重和趴卧小动作。",new[]{"gesture-D"}),
@@ -43,10 +43,11 @@ internal sealed class BehaviorEditorWindow : Window
         new("gesture-B","露肚 · 小动作","露肚时的哈欠、叫声、伸展概率。",new[]{"gesture-B"}),
         new("gesture-X","舒展 · 小动作","舒展时的哈欠、叫声、伸展概率。",new[]{"gesture-X"}),
         new("click","躺姿点击分级","侧躺／露肚／舒展：第一击轻抖、第二击强反应、第三击直接站起。窗口从第一击起算。掩面单击直接放爪。",new[]{"click"}),
-        new("wall","屏边扶墙","仅在已靠近真实屏幕边缘且没有家具时触发；左右独立动画，完整落地后休息，不跨屏寻找墙面。",new[]{"wall"}),
+        new("wall","屏边扶墙","与左部、中部、右部空位同级抽签。从当前位置走到可用屏边，完整扶墙并落地，再去安全空位休息；无靠边前提和启动次数限制。",new[]{"wall","destinations"}),
         new("night","作息辅助条件","夜间且能量较低时倾向休息；不强制打断互动。起止小时相同表示关闭夜间加成，安静入睡仍有效。",new[]{"night"}),
         new("nest","猫窝／原蜷睡","拖进窝或手动回窝使用原蜷睡，保留坐垫支撑和窝沿遮挡。旧侧坐直接站立素材尚缺，不能通过改概率消除中间姿态。",new[]{"rest"}),
-        new("movement","⑦ 移动与待机收尾","起身 → 真实转向 → 起步 → 移动 → 停步。吃喝收尾先判断避让，直接从站姿离开。固定动画时间不在此批量变速。",new[]{"movement"}),
+        new("movement","⑥ 清醒自主移动","清醒安静等待后按概率决定是否移动；选中后，左／中／右空位和屏边扶墙在同级目的地池按权重抽取。照料与互动优先，睡着时不触发。",new[]{"movement","destinations"}),
+        new("destinations","普通空位","按左部20%、中部50%、右部80%屏宽寻找附近安全空位，过滤当前位置、重复落点及不可用位置；与屏边扶墙共享权重池。",new[]{"destinations"}),
         new("startup","启动开场 · 待素材","独立的一次性连续开场设计。首次有效运行、开机自启各触发一次，普通重开不重复。用户已明确等独立跑步素材补齐后再启用；当前不执行、不改变既有自启设置。108—118共11段专用片与新姿态锚点待制作、接缝验收和运行接入。",Array.Empty<string>()),
         new("intro-sleep","① 窝内睡眠","初始在现有猫窝坐垫上蜷睡，复用20；不改猫窝摆放、不跳到地面。开场期间照料期限继续计时，库存不变。",Array.Empty<string>()),
         new("intro-wake","② 醒来离窝","先醒到侧坐I，再站起，脚掌沿坐垫支撑连续离窝。优先补99/100直接侧坐起身；已有21→18→06/08仍列为过渡路径。",Array.Empty<string>()),
@@ -128,10 +129,10 @@ internal sealed class BehaviorEditorWindow : Window
         "gesture"=>$"间隔 {engine.Settings.Get("relax.min"):0.#}～{engine.Settings.Get("relax.max"):0.#} 秒 · 短动作 {engine.Settings.Get("relax.gesture"):0.#}%",
         "poses"=>"趴卧 / 侧躺 / 露肚 / 舒展 / 掩面",
         "click"=>$"固定 {engine.Settings.Get("click.window"):0.#} 秒窗口 · 三档响应",
-        "wall"=>engine.Settings.Get("wall.enabled")==0?"已关闭自主扶墙":$"屏边触发 · 循环 {engine.Settings.Get("wall.duration"):0.#} 秒",
+        "wall"=>engine.Settings.Get("wall.enabled")==0?"已关闭自主扶墙":$"移动候选 · 循环 {engine.Settings.Get("wall.duration"):0.#} 秒",
         "toy"=>$"追逐 {engine.Settings.Get("toy.outer"):0} / 抓拨 {engine.Settings.Get("toy.inner"):0}",
         "night"=>$"{engine.Settings.Get("night.start"):00}:00—{engine.Settings.Get("night.end"):00}:00",
-        "input"=>"点击 / 长按 / 悬停 / 手动命令", "safety"=>"先寻找可站／可躺的空位", "care"=>"有库存则行动；空盆到期才请求", "guide"=>"跟上就走，离开就回头等", "nest"=>"原蜷睡 · 坐垫支撑 / 窝沿遮挡", "movement"=>"起身 → 转向 → 起步 → 停步", "changes"=>"按当前姿态选择已有过渡", "seated"=>"先坐稳，再趴卧", var pose when pose.StartsWith("pose-")=>$"入睡占比 {engine.Settings.Get("pose."+pose[5..])/BehaviorSettings.Catalog.Where(p=>p.Group=="poses").Sum(p=>engine.Settings.Get(p.Key)):P1}", _=>"哈欠 / 叫声 / 伸展 · 独立权重"};
+        "input"=>"点击 / 长按 / 悬停 / 手动命令", "safety"=>"先寻找可站／可躺的空位", "care"=>"有库存则行动；空盆到期才请求", "guide"=>"跟上就走，离开就回头等", "nest"=>"原蜷睡 · 坐垫支撑 / 窝沿遮挡", "movement"=>$"清醒等待 {engine.Settings.Get("move.delay.min"):0}～{engine.Settings.Get("move.delay.max"):0} 秒 · 移动 {engine.Settings.Get("move.chance"):0}%", "destinations"=>"左 / 中 / 右安全空位 · 同级权重", "changes"=>"按当前姿态选择已有过渡", "seated"=>"先坐稳，再趴卧", var pose when pose.StartsWith("pose-")=>$"入睡占比 {engine.Settings.Get("pose."+pose[5..])/BehaviorSettings.Catalog.Where(p=>p.Group=="poses").Sum(p=>engine.Settings.Get(p.Key)):P1}", _=>"哈欠 / 叫声 / 伸展 · 独立权重"};
     private void Line(double x1,double y1,double x2,double y2)
     {
         Connect(new[]{new Point(x1,y1),new Point(x1,y2),new Point(x2,y2)});
@@ -169,17 +170,18 @@ internal sealed class BehaviorEditorWindow : Window
         if(view=="global")
         {
             var caption=Label("优先级骨架  /  上层命中后先执行；点击节点可查看实际条件",17,"#527166");Canvas.SetLeft(caption,30);Canvas.SetTop(caption,18);canvas.Children.Add(caption);
-            string[] rows={"input","safety","toy","request","care","rest","movement"};
-            double[] rowY={110,247,384,521,658,795,1105};
+            string[] rows={"input","safety","toy","request","care","movement","rest"};
+            double[] rowY={110,247,384,521,658,795,950};
             for(int i=0;i<rows.Length;i++)Line(45,80,100,rowY[i]+40);
             for(int i=0;i<rows.Length;i++)Card(rows[i],100,rowY[i],290);
             Line(390,150,440,150);Card("click",440,110,550);
             Line(390,561,440,561);Card("guide",440,521,550);
             BranchRow(658,("food",440),("water",627),("litter",814));
-            BranchRow(795,("poses",440),("gesture",627),("wall",814));
-            Connect(new[]{new Point(390,835),new Point(410,835),new Point(410,914),new Point(575,914),new Point(575,932)});
-            Connect(new[]{new Point(410,914),new Point(860,914),new Point(860,932)});
-            Card("night",440,932,270);Card("nest",730,932,260);
+            BranchRow(795,("destinations",440),("wall",730));
+            BranchRow(950,("poses",440),("gesture",730));
+            Connect(new[]{new Point(390,990),new Point(410,990),new Point(410,1069),new Point(575,1069),new Point(575,1087)});
+            Connect(new[]{new Point(410,1069),new Point(860,1069),new Point(860,1087)});
+            Card("night",440,1087,270);Card("nest",730,1087,260);
             var hint=Label("物品避让、真实姿态过渡、实际摄入扣库存是固定执行约束。照料不是随机抽奖。",13,"#6F8078");Canvas.SetLeft(hint,440);Canvas.SetTop(hint,320);hint.Width=530;canvas.Children.Add(hint);
         }
         else if(view=="startup")
@@ -199,7 +201,7 @@ internal sealed class BehaviorEditorWindow : Window
             var note=Label("侧躺 / 露肚 / 舒展第三击 → 朝右站起；\n趴卧直接站起、旧侧坐直接站起待补片。",14,"#977045");Canvas.SetLeft(note,45);Canvas.SetTop(note,425);note.Width=340;canvas.Children.Add(note);
             Card("gesture",45,550,950,"呼吸停留 → 等待间隔 → 短动作或换姿态 → 回到呼吸");
             foreach(var (id,x) in new[]{("gesture-D",45d),("gesture-A",290d),("gesture-B",535d),("gesture-X",780d)}){Line(x+35,630,x+35,660);Card(id,x,660,220);}
-            Card("wall",45,820,450);Card("nest",525,820,470);
+            Card("nest",45,820,950);
         }
         PaintNodes();
     }
@@ -245,7 +247,7 @@ internal sealed class BehaviorEditorWindow : Window
     private void UpdateWeights()
     {
         foreach(var (key,label) in weightLabels)
-        {string group=BehaviorSettings.Catalog.First(p=>p.Key==key).Group;double sum=BehaviorSettings.Catalog.Where(p=>p.Group==group).Sum(p=>Math.Max(0,draft.Get(p.Key)));label.Text=sum>0?$"本组占比  {Math.Max(0,draft.Get(key))/sum:P1}":"本组至少保留一个正权重";}
+        {string group=BehaviorSettings.Catalog.First(p=>p.Key==key).Group;double sum=BehaviorSettings.Catalog.Where(p=>p.Group==group).Where(p=>p.Unit=="权重").Sum(p=>Math.Max(0,draft.Get(p.Key)));label.Text=sum>0?$"本组占比  {Math.Max(0,draft.Get(key))/sum:P1}":group=="destinations"?"全部为0：不自主移动":"本组至少保留一个正权重";}
     }
     private bool Apply()
     {

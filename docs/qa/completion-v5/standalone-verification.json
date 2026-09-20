@@ -1,0 +1,26 @@
+{
+  "clips": 41,
+  "anchors": 18,
+  "newCandidateAnchors": 8,
+  "endpointCopies": 82,
+  "fullPrompts": 41,
+  "byteIdenticalSharedEndpoints": true,
+  "loopEndpointsIdentical": 7,
+  "allImages1672x941": true,
+  "allLocalHtmlLinksExist": true,
+  "standaloneHtml": true,
+  "embeddedImages": 90,
+  "embeddedOriginalPngs": 18,
+  "newAnchorsUserApproved": false,
+  "dynamicQA": "pending returned video",
+  "runtimeChanged": false,
+  "browserPreview": "http://127.0.0.1:8768/index.html",
+  "visualCheckedClips": [
+    117,
+    139
+  ],
+  "clipboardLength139": 686,
+  "filterRestored": 41,
+  "fileProtocolBrowserTest": "blocked by browser policy; not attempted via workaround",
+  "temporaryPreviewContainedOnlyIndex": true
+}
