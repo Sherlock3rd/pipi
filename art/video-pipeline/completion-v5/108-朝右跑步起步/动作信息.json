@@ -1,0 +1,20 @@
+{
+  "id": 108,
+  "name": "朝右跑步起步",
+  "start": "SR",
+  "end": "RR",
+  "priority": "P0",
+  "group": "开场跑步",
+  "suggestedSeconds": "0.6—1.0",
+  "motion": "后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。",
+  "reason": "开场快速来到中间；不加速旧走路代替。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "108-朝右跑步起步",
+  "file": "108-朝右跑步起步/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": true,
+  "startFrame": "108-朝右跑步起步/首帧.png",
+  "endFrame": "108-朝右跑步起步/尾帧.png",
+  "promptFile": "108-朝右跑步起步/提示词.txt"
+}

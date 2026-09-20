@@ -1,6 +1,6 @@
 {
-  "version": 1,
-  "status": "production-backlog-not-runtime-assets",
+  "version": 2,
+  "status": "production-input-pack-awaiting-anchor-review-and-returned-video",
   "runtimeChanged": false,
   "clips": [
     {
@@ -15,7 +15,13 @@
       "reason": "蜷睡醒来21→I后可直接起身，消除18→06/08绕路。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "099-侧坐直接朝右站起/制作说明.md"
+      "folder": "099-侧坐直接朝右站起",
+      "file": "099-侧坐直接朝右站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "099-侧坐直接朝右站起/首帧.png",
+      "endFrame": "099-侧坐直接朝右站起/尾帧.png",
+      "promptFile": "099-侧坐直接朝右站起/提示词.txt"
     },
     {
       "id": 100,
@@ -29,7 +35,13 @@
       "reason": "蜷睡醒来21→I后可直接起身，消除18→06/08绕路。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "100-侧坐直接朝左站起/制作说明.md"
+      "folder": "100-侧坐直接朝左站起",
+      "file": "100-侧坐直接朝左站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "100-侧坐直接朝左站起/首帧.png",
+      "endFrame": "100-侧坐直接朝左站起/尾帧.png",
+      "promptFile": "100-侧坐直接朝左站起/提示词.txt"
     },
     {
       "id": 101,
@@ -43,7 +55,13 @@
       "reason": "减少吃喝后到空位又坐下再趴卧。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "101-朝右站姿直接趴卧/制作说明.md"
+      "folder": "101-朝右站姿直接趴卧",
+      "file": "101-朝右站姿直接趴卧/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "101-朝右站姿直接趴卧/首帧.png",
+      "endFrame": "101-朝右站姿直接趴卧/尾帧.png",
+      "promptFile": "101-朝右站姿直接趴卧/提示词.txt"
     },
     {
       "id": 102,
@@ -57,7 +75,13 @@
       "reason": "减少吃喝后到空位又坐下再趴卧。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "102-朝左站姿直接趴卧/制作说明.md"
+      "folder": "102-朝左站姿直接趴卧",
+      "file": "102-朝左站姿直接趴卧/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "102-朝左站姿直接趴卧/首帧.png",
+      "endFrame": "102-朝左站姿直接趴卧/尾帧.png",
+      "promptFile": "102-朝左站姿直接趴卧/提示词.txt"
     },
     {
       "id": 103,
@@ -71,7 +95,13 @@
       "reason": "趴卧醒来可直接移动。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "103-趴卧直接朝右站起/制作说明.md"
+      "folder": "103-趴卧直接朝右站起",
+      "file": "103-趴卧直接朝右站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "103-趴卧直接朝右站起/首帧.png",
+      "endFrame": "103-趴卧直接朝右站起/尾帧.png",
+      "promptFile": "103-趴卧直接朝右站起/提示词.txt"
     },
     {
       "id": 104,
@@ -85,7 +115,13 @@
       "reason": "趴卧醒来可直接移动。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "104-趴卧直接朝左站起/制作说明.md"
+      "folder": "104-趴卧直接朝左站起",
+      "file": "104-趴卧直接朝左站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "104-趴卧直接朝左站起/首帧.png",
+      "endFrame": "104-趴卧直接朝左站起/尾帧.png",
+      "promptFile": "104-趴卧直接朝左站起/提示词.txt"
     },
     {
       "id": 105,
@@ -99,7 +135,13 @@
       "reason": "对应已有70/74/78右起身，减少起身后15转左。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "105-侧躺直接朝左站起/制作说明.md"
+      "folder": "105-侧躺直接朝左站起",
+      "file": "105-侧躺直接朝左站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "105-侧躺直接朝左站起/首帧.png",
+      "endFrame": "105-侧躺直接朝左站起/尾帧.png",
+      "promptFile": "105-侧躺直接朝左站起/提示词.txt"
     },
     {
       "id": 106,
@@ -113,7 +155,13 @@
       "reason": "对应已有70/74/78右起身，减少起身后15转左。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "106-露肚直接朝左站起/制作说明.md"
+      "folder": "106-露肚直接朝左站起",
+      "file": "106-露肚直接朝左站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "106-露肚直接朝左站起/首帧.png",
+      "endFrame": "106-露肚直接朝左站起/尾帧.png",
+      "promptFile": "106-露肚直接朝左站起/提示词.txt"
     },
     {
       "id": 107,
@@ -127,7 +175,13 @@
       "reason": "对应已有70/74/78右起身，减少起身后15转左。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "107-舒展直接朝左站起/制作说明.md"
+      "folder": "107-舒展直接朝左站起",
+      "file": "107-舒展直接朝左站起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "107-舒展直接朝左站起/首帧.png",
+      "endFrame": "107-舒展直接朝左站起/尾帧.png",
+      "promptFile": "107-舒展直接朝左站起/提示词.txt"
     },
     {
       "id": 108,
@@ -141,7 +195,13 @@
       "reason": "开场快速来到中间；不加速旧走路代替。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "108-朝右跑步起步/制作说明.md"
+      "folder": "108-朝右跑步起步",
+      "file": "108-朝右跑步起步/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "108-朝右跑步起步/首帧.png",
+      "endFrame": "108-朝右跑步起步/尾帧.png",
+      "promptFile": "108-朝右跑步起步/提示词.txt"
     },
     {
       "id": 109,
@@ -155,7 +215,13 @@
       "reason": "真实跑步循环需测量脚底位移与世界速度，不能滑步。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "109-朝右跑步循环/制作说明.md"
+      "folder": "109-朝右跑步循环",
+      "file": "109-朝右跑步循环/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "109-朝右跑步循环/首帧.png",
+      "endFrame": "109-朝右跑步循环/尾帧.png",
+      "promptFile": "109-朝右跑步循环/提示词.txt"
     },
     {
       "id": 110,
@@ -169,7 +235,13 @@
       "reason": "跑到中点后衔接踱步。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "110-朝右跑步停稳/制作说明.md"
+      "folder": "110-朝右跑步停稳",
+      "file": "110-朝右跑步停稳/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "110-朝右跑步停稳/首帧.png",
+      "endFrame": "110-朝右跑步停稳/尾帧.png",
+      "promptFile": "110-朝右跑步停稳/提示词.txt"
     },
     {
       "id": 111,
@@ -183,7 +255,13 @@
       "reason": "开场快速来到中间；不加速旧走路代替。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "111-朝左跑步起步/制作说明.md"
+      "folder": "111-朝左跑步起步",
+      "file": "111-朝左跑步起步/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "111-朝左跑步起步/首帧.png",
+      "endFrame": "111-朝左跑步起步/尾帧.png",
+      "promptFile": "111-朝左跑步起步/提示词.txt"
     },
     {
       "id": 112,
@@ -197,7 +275,13 @@
       "reason": "真实跑步循环需测量脚底位移与世界速度，不能滑步。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "112-朝左跑步循环/制作说明.md"
+      "folder": "112-朝左跑步循环",
+      "file": "112-朝左跑步循环/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "112-朝左跑步循环/首帧.png",
+      "endFrame": "112-朝左跑步循环/尾帧.png",
+      "promptFile": "112-朝左跑步循环/提示词.txt"
     },
     {
       "id": 113,
@@ -211,7 +295,13 @@
       "reason": "跑到中点后衔接踱步。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "113-朝左跑步停稳/制作说明.md"
+      "folder": "113-朝左跑步停稳",
+      "file": "113-朝左跑步停稳/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "113-朝左跑步停稳/首帧.png",
+      "endFrame": "113-朝左跑步停稳/尾帧.png",
+      "promptFile": "113-朝左跑步停稳/提示词.txt"
     },
     {
       "id": 114,
@@ -225,7 +315,13 @@
       "reason": "蹭头前必须真正面向前方。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "114-朝右站姿转正面四足/制作说明.md"
+      "folder": "114-朝右站姿转正面四足",
+      "file": "114-朝右站姿转正面四足/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "114-朝右站姿转正面四足/首帧.png",
+      "endFrame": "114-朝右站姿转正面四足/尾帧.png",
+      "promptFile": "114-朝右站姿转正面四足/提示词.txt"
     },
     {
       "id": 115,
@@ -239,7 +335,13 @@
       "reason": "蹭头前必须真正面向前方。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "115-朝左站姿转正面四足/制作说明.md"
+      "folder": "115-朝左站姿转正面四足",
+      "file": "115-朝左站姿转正面四足/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "115-朝左站姿转正面四足/首帧.png",
+      "endFrame": "115-朝左站姿转正面四足/尾帧.png",
+      "promptFile": "115-朝左站姿转正面四足/提示词.txt"
     },
     {
       "id": 116,
@@ -253,7 +355,13 @@
       "reason": "38是坐姿蹭手，不能替代先站着蹭头、最后才坐下的开场顺序。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "116-正面站立向前蹭头/制作说明.md"
+      "folder": "116-正面站立向前蹭头",
+      "file": "116-正面站立向前蹭头/制作说明.md",
+      "type": "单次",
+      "anchorReviewRequired": true,
+      "startFrame": "116-正面站立向前蹭头/首帧.png",
+      "endFrame": "116-正面站立向前蹭头/尾帧.png",
+      "promptFile": "116-正面站立向前蹭头/提示词.txt"
     },
     {
       "id": 117,
@@ -267,7 +375,13 @@
       "reason": "88从坐姿开始，不用于本开场。返片需标出三个张嘴峰值供声音同步。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "117-正面站立连续叫三次/制作说明.md"
+      "folder": "117-正面站立连续叫三次",
+      "file": "117-正面站立连续叫三次/制作说明.md",
+      "type": "单次",
+      "anchorReviewRequired": true,
+      "startFrame": "117-正面站立连续叫三次/首帧.png",
+      "endFrame": "117-正面站立连续叫三次/尾帧.png",
+      "promptFile": "117-正面站立连续叫三次/提示词.txt"
     },
     {
       "id": 118,
@@ -281,7 +395,13 @@
       "reason": "开场最终坐定，随后交回正常行为树。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "118-正面四足平稳坐下/制作说明.md"
+      "folder": "118-正面四足平稳坐下",
+      "file": "118-正面四足平稳坐下/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "118-正面四足平稳坐下/首帧.png",
+      "endFrame": "118-正面四足平稳坐下/尾帧.png",
+      "promptFile": "118-正面四足平稳坐下/提示词.txt"
     },
     {
       "id": 119,
@@ -295,7 +415,13 @@
       "reason": "可替代站姿示意后07→51的坐姿致谢，减少不必要坐下。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "119-朝右站立致谢/制作说明.md"
+      "folder": "119-朝右站立致谢",
+      "file": "119-朝右站立致谢/制作说明.md",
+      "type": "单次",
+      "anchorReviewRequired": false,
+      "startFrame": "119-朝右站立致谢/首帧.png",
+      "endFrame": "119-朝右站立致谢/尾帧.png",
+      "promptFile": "119-朝右站立致谢/提示词.txt"
     },
     {
       "id": 120,
@@ -309,7 +435,13 @@
       "reason": "可替代站姿示意后07→51的坐姿致谢，减少不必要坐下。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "120-朝左站立致谢/制作说明.md"
+      "folder": "120-朝左站立致谢",
+      "file": "120-朝左站立致谢/制作说明.md",
+      "type": "单次",
+      "anchorReviewRequired": false,
+      "startFrame": "120-朝左站立致谢/首帧.png",
+      "endFrame": "120-朝左站立致谢/尾帧.png",
+      "promptFile": "120-朝左站立致谢/提示词.txt"
     },
     {
       "id": 121,
@@ -323,7 +455,13 @@
       "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "121-蜷睡转趴卧/制作说明.md"
+      "folder": "121-蜷睡转趴卧",
+      "file": "121-蜷睡转趴卧/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "121-蜷睡转趴卧/首帧.png",
+      "endFrame": "121-蜷睡转趴卧/尾帧.png",
+      "promptFile": "121-蜷睡转趴卧/提示词.txt"
     },
     {
       "id": 122,
@@ -337,7 +475,13 @@
       "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "122-趴卧卷成蜷睡/制作说明.md"
+      "folder": "122-趴卧卷成蜷睡",
+      "file": "122-趴卧卷成蜷睡/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "122-趴卧卷成蜷睡/首帧.png",
+      "endFrame": "122-趴卧卷成蜷睡/尾帧.png",
+      "promptFile": "122-趴卧卷成蜷睡/提示词.txt"
     },
     {
       "id": 123,
@@ -351,7 +495,13 @@
       "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "123-蜷睡放松侧躺/制作说明.md"
+      "folder": "123-蜷睡放松侧躺",
+      "file": "123-蜷睡放松侧躺/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "123-蜷睡放松侧躺/首帧.png",
+      "endFrame": "123-蜷睡放松侧躺/尾帧.png",
+      "promptFile": "123-蜷睡放松侧躺/提示词.txt"
     },
     {
       "id": 124,
@@ -365,7 +515,13 @@
       "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "124-侧躺卷成蜷睡/制作说明.md"
+      "folder": "124-侧躺卷成蜷睡",
+      "file": "124-侧躺卷成蜷睡/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": false,
+      "startFrame": "124-侧躺卷成蜷睡/首帧.png",
+      "endFrame": "124-侧躺卷成蜷睡/尾帧.png",
+      "promptFile": "124-侧躺卷成蜷睡/提示词.txt"
     },
     {
       "id": 125,
@@ -379,7 +535,13 @@
       "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "125-趴卧被提起/制作说明.md"
+      "folder": "125-趴卧被提起",
+      "file": "125-趴卧被提起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "125-趴卧被提起/首帧.png",
+      "endFrame": "125-趴卧被提起/尾帧.png",
+      "promptFile": "125-趴卧被提起/提示词.txt"
     },
     {
       "id": 126,
@@ -393,7 +555,13 @@
       "reason": "悬空循环需独立匹配本姿态起提。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "126-趴卧对应悬空轻摆/制作说明.md"
+      "folder": "126-趴卧对应悬空轻摆",
+      "file": "126-趴卧对应悬空轻摆/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "126-趴卧对应悬空轻摆/首帧.png",
+      "endFrame": "126-趴卧对应悬空轻摆/尾帧.png",
+      "promptFile": "126-趴卧对应悬空轻摆/提示词.txt"
     },
     {
       "id": 127,
@@ -407,7 +575,13 @@
       "reason": "回到原躺姿的独立落地片。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "127-趴卧对应放回地面/制作说明.md"
+      "folder": "127-趴卧对应放回地面",
+      "file": "127-趴卧对应放回地面/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "127-趴卧对应放回地面/首帧.png",
+      "endFrame": "127-趴卧对应放回地面/尾帧.png",
+      "promptFile": "127-趴卧对应放回地面/提示词.txt"
     },
     {
       "id": 128,
@@ -421,7 +595,13 @@
       "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "128-侧躺被提起/制作说明.md"
+      "folder": "128-侧躺被提起",
+      "file": "128-侧躺被提起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "128-侧躺被提起/首帧.png",
+      "endFrame": "128-侧躺被提起/尾帧.png",
+      "promptFile": "128-侧躺被提起/提示词.txt"
     },
     {
       "id": 129,
@@ -435,7 +615,13 @@
       "reason": "悬空循环需独立匹配本姿态起提。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "129-侧躺对应悬空轻摆/制作说明.md"
+      "folder": "129-侧躺对应悬空轻摆",
+      "file": "129-侧躺对应悬空轻摆/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "129-侧躺对应悬空轻摆/首帧.png",
+      "endFrame": "129-侧躺对应悬空轻摆/尾帧.png",
+      "promptFile": "129-侧躺对应悬空轻摆/提示词.txt"
     },
     {
       "id": 130,
@@ -449,7 +635,13 @@
       "reason": "回到原躺姿的独立落地片。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "130-侧躺对应放回地面/制作说明.md"
+      "folder": "130-侧躺对应放回地面",
+      "file": "130-侧躺对应放回地面/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "130-侧躺对应放回地面/首帧.png",
+      "endFrame": "130-侧躺对应放回地面/尾帧.png",
+      "promptFile": "130-侧躺对应放回地面/提示词.txt"
     },
     {
       "id": 131,
@@ -463,7 +655,13 @@
       "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "131-露肚被提起/制作说明.md"
+      "folder": "131-露肚被提起",
+      "file": "131-露肚被提起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "131-露肚被提起/首帧.png",
+      "endFrame": "131-露肚被提起/尾帧.png",
+      "promptFile": "131-露肚被提起/提示词.txt"
     },
     {
       "id": 132,
@@ -477,7 +675,13 @@
       "reason": "悬空循环需独立匹配本姿态起提。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "132-露肚对应悬空轻摆/制作说明.md"
+      "folder": "132-露肚对应悬空轻摆",
+      "file": "132-露肚对应悬空轻摆/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "132-露肚对应悬空轻摆/首帧.png",
+      "endFrame": "132-露肚对应悬空轻摆/尾帧.png",
+      "promptFile": "132-露肚对应悬空轻摆/提示词.txt"
     },
     {
       "id": 133,
@@ -491,7 +695,13 @@
       "reason": "回到原躺姿的独立落地片。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "133-露肚对应放回地面/制作说明.md"
+      "folder": "133-露肚对应放回地面",
+      "file": "133-露肚对应放回地面/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "133-露肚对应放回地面/首帧.png",
+      "endFrame": "133-露肚对应放回地面/尾帧.png",
+      "promptFile": "133-露肚对应放回地面/提示词.txt"
     },
     {
       "id": 134,
@@ -505,7 +715,13 @@
       "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "134-舒展被提起/制作说明.md"
+      "folder": "134-舒展被提起",
+      "file": "134-舒展被提起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "134-舒展被提起/首帧.png",
+      "endFrame": "134-舒展被提起/尾帧.png",
+      "promptFile": "134-舒展被提起/提示词.txt"
     },
     {
       "id": 135,
@@ -519,7 +735,13 @@
       "reason": "悬空循环需独立匹配本姿态起提。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "135-舒展对应悬空轻摆/制作说明.md"
+      "folder": "135-舒展对应悬空轻摆",
+      "file": "135-舒展对应悬空轻摆/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "135-舒展对应悬空轻摆/首帧.png",
+      "endFrame": "135-舒展对应悬空轻摆/尾帧.png",
+      "promptFile": "135-舒展对应悬空轻摆/提示词.txt"
     },
     {
       "id": 136,
@@ -533,7 +755,13 @@
       "reason": "回到原躺姿的独立落地片。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "136-舒展对应放回地面/制作说明.md"
+      "folder": "136-舒展对应放回地面",
+      "file": "136-舒展对应放回地面/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "136-舒展对应放回地面/首帧.png",
+      "endFrame": "136-舒展对应放回地面/尾帧.png",
+      "promptFile": "136-舒展对应放回地面/提示词.txt"
     },
     {
       "id": 137,
@@ -547,7 +775,13 @@
       "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "137-掩面被提起/制作说明.md"
+      "folder": "137-掩面被提起",
+      "file": "137-掩面被提起/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "137-掩面被提起/首帧.png",
+      "endFrame": "137-掩面被提起/尾帧.png",
+      "promptFile": "137-掩面被提起/提示词.txt"
     },
     {
       "id": 138,
@@ -561,7 +795,13 @@
       "reason": "悬空循环需独立匹配本姿态起提。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "138-掩面对应悬空轻摆/制作说明.md"
+      "folder": "138-掩面对应悬空轻摆",
+      "file": "138-掩面对应悬空轻摆/制作说明.md",
+      "type": "循环",
+      "anchorReviewRequired": true,
+      "startFrame": "138-掩面对应悬空轻摆/首帧.png",
+      "endFrame": "138-掩面对应悬空轻摆/尾帧.png",
+      "promptFile": "138-掩面对应悬空轻摆/提示词.txt"
     },
     {
       "id": 139,
@@ -575,7 +815,13 @@
       "reason": "回到原躺姿的独立落地片。",
       "status": "awaiting-production",
       "runtimeEnabled": false,
-      "file": "139-掩面对应放回地面/制作说明.md"
+      "folder": "139-掩面对应放回地面",
+      "file": "139-掩面对应放回地面/制作说明.md",
+      "type": "过渡",
+      "anchorReviewRequired": true,
+      "startFrame": "139-掩面对应放回地面/首帧.png",
+      "endFrame": "139-掩面对应放回地面/尾帧.png",
+      "promptFile": "139-掩面对应放回地面/提示词.txt"
     }
   ],
   "anchors": {
@@ -583,101 +829,189 @@
       "source": "art/video-pipeline/basic-v2/anchors/F-正面坐姿.png",
       "status": "existing-reference",
       "sha256": "9a2b92eac7d796922f5329e60b1bafa4ed3fc6f07bce497999abff0a5d4a6b3e",
-      "archiveFile": "references/F.png"
+      "file": "anchors/F.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "SR": {
       "source": "art/video-pipeline/basic-v2/anchors/SR-朝右站姿.png",
       "status": "existing-reference",
       "sha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
-      "archiveFile": "references/SR.png"
+      "file": "anchors/SR.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "SL": {
       "source": "art/video-pipeline/basic-v2/anchors/SL-朝左站姿.png",
       "status": "existing-reference",
       "sha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
-      "archiveFile": "references/SL.png"
+      "file": "anchors/SL.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "I": {
       "source": "art/video-pipeline/basic-v2/anchors/I-侧坐.png",
       "status": "existing-reference",
       "sha256": "4433e437d8ab2c0cea483212205332efd8dbaa2b1aa6f8dca17a911c2c672edc",
-      "archiveFile": "references/I.png"
+      "file": "anchors/I.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "C": {
       "source": "art/video-pipeline/basic-v2/anchors/C-蜷睡.png",
       "status": "existing-reference",
       "sha256": "7900eb6c6e685dbf989b3b0f39303976a69df9b2661eded633e41b51845f81b8",
-      "archiveFile": "references/C.png"
+      "file": "anchors/C.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "D": {
       "source": "art/video-pipeline/expressions-v4/anchors/D-趴卧.png",
       "status": "existing-reference",
       "sha256": "45a7962d982fc9bd9d22d096618641502ee76551185a319cccc8e51c59294162",
-      "archiveFile": "references/D.png"
+      "file": "anchors/D.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "A": {
       "source": "art/video-pipeline/expressions-v4/anchors/A-侧躺收爪.png",
       "status": "existing-reference",
       "sha256": "beabaac6e7b9e2811cfb90f1cc70fdbe69da490665ee1457956888712cf5cb63",
-      "archiveFile": "references/A.png"
+      "file": "anchors/A.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "B": {
       "source": "art/video-pipeline/expressions-v4/anchors/B-露肚仰躺.png",
       "status": "existing-reference",
       "sha256": "4d4cc9c4d3b762b071657c3a8dbaf62d07a91b0fe49dabb4b797537fd1fb0e2b",
-      "archiveFile": "references/B.png"
+      "file": "anchors/B.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "X": {
       "source": "art/video-pipeline/expressions-v4/anchors/C-侧躺舒展.png",
       "status": "existing-reference",
       "sha256": "250ea532638ee871982837e3a26dbef5452927b01392e361107e59d303305b6b",
-      "archiveFile": "references/X.png"
+      "file": "anchors/X.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "M": {
       "source": "art/video-pipeline/expressions-v4/anchors/M-掩面睡姿.png",
       "status": "existing-reference",
       "sha256": "db6fb699b156272b98fd32769c6b4f00e8c099efdb48f59a76a2c10176ca0088",
-      "archiveFile": "references/M.png"
+      "file": "anchors/M.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "RR": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/RR.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "275bb2a11bb908e6edd273ac81b47dfc68a81a39c7998bbc435311fb1d00769a",
+      "file": "anchors/RR.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "RL": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/RL.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "147c75b40cbe23f409048f45671b5d13535f5167d94c496da7ede74377b8d9e6",
+      "file": "anchors/RL.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "SF": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/SF.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "a4844d2f9ac24d9c5420a9545d2ebae918ddabaea3486686583f2aecb0027394",
+      "file": "anchors/SF.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "H_D": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/H_D.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "4e51de1402c9d27185efa4e6e8af21516282bcce42ab00dc8b9b2e1fc0411259",
+      "file": "anchors/H_D.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "H_A": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/H_A.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "427db7ebfe38f61f7a78c00caeacb65b7861f2702dba6b3377e221265e03a0ac",
+      "file": "anchors/H_A.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "H_B": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/H_B.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "8e38e4f1fcc0da3b0f2c4638bdae8717c3834c378d37701df48f31ee09433c24",
+      "file": "anchors/H_B.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "H_X": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/H_X.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "3b28e54084da9934e45621b574d161aaae09f207004b3f82641690a6ad176221",
+      "file": "anchors/H_X.png",
+      "size": [
+        1672,
+        941
+      ]
     },
     "H_M": {
-      "status": "new-anchor-required",
-      "source": null,
-      "note": "待新建并审阅，不以旧姿态改名顶替。"
+      "source": "art/video-pipeline/completion-v5/anchors/H_M.png",
+      "status": "candidate-awaiting-user-review",
+      "generator": "builtin image_gen",
+      "sha256": "5f6cb5d6f71e9f307924678bec9c4a1e8379f167b1b1d2c43eb69288ccf213fd",
+      "file": "anchors/H_M.png",
+      "size": [
+        1672,
+        941
+      ]
     }
   },
   "startupPlan": {

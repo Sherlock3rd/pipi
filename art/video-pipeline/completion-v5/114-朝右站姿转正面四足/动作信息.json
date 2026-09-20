@@ -1,0 +1,20 @@
+{
+  "id": 114,
+  "name": "朝右站姿转正面四足",
+  "start": "SR",
+  "end": "SF",
+  "priority": "P0",
+  "group": "开场互动",
+  "suggestedSeconds": "1.0—1.8",
+  "motion": "四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。",
+  "reason": "蹭头前必须真正面向前方。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "114-朝右站姿转正面四足",
+  "file": "114-朝右站姿转正面四足/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": true,
+  "startFrame": "114-朝右站姿转正面四足/首帧.png",
+  "endFrame": "114-朝右站姿转正面四足/尾帧.png",
+  "promptFile": "114-朝右站姿转正面四足/提示词.txt"
+}

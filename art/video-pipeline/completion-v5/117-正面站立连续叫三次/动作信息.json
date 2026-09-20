@@ -1,0 +1,20 @@
+{
+  "id": 117,
+  "name": "正面站立连续叫三次",
+  "start": "SF",
+  "end": "SF",
+  "priority": "P0",
+  "group": "开场互动",
+  "suggestedSeconds": "3—4",
+  "motion": "仅一段连续动作：张嘴叫一次、合嘴短停，再叫第二次、合嘴，再叫第三次、合嘴收回SF；严格三次，不哈欠。",
+  "reason": "88从坐姿开始，不用于本开场。返片需标出三个张嘴峰值供声音同步。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "117-正面站立连续叫三次",
+  "file": "117-正面站立连续叫三次/制作说明.md",
+  "type": "单次",
+  "anchorReviewRequired": true,
+  "startFrame": "117-正面站立连续叫三次/首帧.png",
+  "endFrame": "117-正面站立连续叫三次/尾帧.png",
+  "promptFile": "117-正面站立连续叫三次/提示词.txt"
+}

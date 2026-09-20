@@ -1,0 +1,20 @@
+{
+  "id": 134,
+  "name": "舒展被提起",
+  "start": "X",
+  "end": "H_X",
+  "priority": "P3",
+  "group": "拖拽补齐",
+  "suggestedSeconds": "0.8—1.5",
+  "motion": "由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。",
+  "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "134-舒展被提起",
+  "file": "134-舒展被提起/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": true,
+  "startFrame": "134-舒展被提起/首帧.png",
+  "endFrame": "134-舒展被提起/尾帧.png",
+  "promptFile": "134-舒展被提起/提示词.txt"
+}

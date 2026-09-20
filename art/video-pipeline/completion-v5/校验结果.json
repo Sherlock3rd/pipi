@@ -1,0 +1,14 @@
+{
+  "clips": 41,
+  "anchors": 18,
+  "newCandidateAnchors": 8,
+  "endpointCopies": 82,
+  "fullPrompts": 41,
+  "byteIdenticalSharedEndpoints": true,
+  "loopEndpointsIdentical": 7,
+  "allImages1672x941": true,
+  "allLocalHtmlLinksExist": true,
+  "newAnchorsUserApproved": false,
+  "dynamicQA": "pending returned video",
+  "runtimeChanged": false
+}

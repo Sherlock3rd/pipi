@@ -1,0 +1,20 @@
+{
+  "id": 112,
+  "name": "朝左跑步循环",
+  "start": "RL",
+  "end": "RL",
+  "priority": "P0",
+  "group": "开场跑步",
+  "suggestedSeconds": "0.8—1.2",
+  "motion": "稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。",
+  "reason": "真实跑步循环需测量脚底位移与世界速度，不能滑步。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "112-朝左跑步循环",
+  "file": "112-朝左跑步循环/制作说明.md",
+  "type": "循环",
+  "anchorReviewRequired": true,
+  "startFrame": "112-朝左跑步循环/首帧.png",
+  "endFrame": "112-朝左跑步循环/尾帧.png",
+  "promptFile": "112-朝左跑步循环/提示词.txt"
+}

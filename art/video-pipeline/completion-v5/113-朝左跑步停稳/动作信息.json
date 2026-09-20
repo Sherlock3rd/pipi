@@ -1,0 +1,20 @@
+{
+  "id": 113,
+  "name": "朝左跑步停稳",
+  "start": "RL",
+  "end": "SL",
+  "priority": "P0",
+  "group": "开场跑步",
+  "suggestedSeconds": "0.8—1.2",
+  "motion": "从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。",
+  "reason": "跑到中点后衔接踱步。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "113-朝左跑步停稳",
+  "file": "113-朝左跑步停稳/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": true,
+  "startFrame": "113-朝左跑步停稳/首帧.png",
+  "endFrame": "113-朝左跑步停稳/尾帧.png",
+  "promptFile": "113-朝左跑步停稳/提示词.txt"
+}

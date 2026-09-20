@@ -1,0 +1,20 @@
+{
+  "id": 100,
+  "name": "侧坐直接朝左站起",
+  "start": "I",
+  "end": "SL",
+  "priority": "P1",
+  "group": "基础衔接",
+  "suggestedSeconds": "2—3",
+  "motion": "前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。",
+  "reason": "蜷睡醒来21→I后可直接起身，消除18→06/08绕路。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "100-侧坐直接朝左站起",
+  "file": "100-侧坐直接朝左站起/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": false,
+  "startFrame": "100-侧坐直接朝左站起/首帧.png",
+  "endFrame": "100-侧坐直接朝左站起/尾帧.png",
+  "promptFile": "100-侧坐直接朝左站起/提示词.txt"
+}

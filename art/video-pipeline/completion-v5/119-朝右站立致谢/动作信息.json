@@ -1,0 +1,20 @@
+{
+  "id": 119,
+  "name": "朝右站立致谢",
+  "start": "SR",
+  "end": "SR",
+  "priority": "P2",
+  "group": "照料衔接",
+  "suggestedSeconds": "1.5—2.5",
+  "motion": "保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。",
+  "reason": "可替代站姿示意后07→51的坐姿致谢，减少不必要坐下。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "119-朝右站立致谢",
+  "file": "119-朝右站立致谢/制作说明.md",
+  "type": "单次",
+  "anchorReviewRequired": false,
+  "startFrame": "119-朝右站立致谢/首帧.png",
+  "endFrame": "119-朝右站立致谢/尾帧.png",
+  "promptFile": "119-朝右站立致谢/提示词.txt"
+}

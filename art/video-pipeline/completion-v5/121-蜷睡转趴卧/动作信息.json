@@ -1,0 +1,20 @@
+{
+  "id": 121,
+  "name": "蜷睡转趴卧",
+  "start": "C",
+  "end": "D",
+  "priority": "P3",
+  "group": "低位换姿",
+  "suggestedSeconds": "2—3",
+  "motion": "在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。",
+  "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "121-蜷睡转趴卧",
+  "file": "121-蜷睡转趴卧/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": false,
+  "startFrame": "121-蜷睡转趴卧/首帧.png",
+  "endFrame": "121-蜷睡转趴卧/尾帧.png",
+  "promptFile": "121-蜷睡转趴卧/提示词.txt"
+}

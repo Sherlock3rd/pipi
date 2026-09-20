@@ -1,0 +1,20 @@
+{
+  "id": 122,
+  "name": "趴卧卷成蜷睡",
+  "start": "D",
+  "end": "C",
+  "priority": "P3",
+  "group": "低位换姿",
+  "suggestedSeconds": "2—3",
+  "motion": "在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。",
+  "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "122-趴卧卷成蜷睡",
+  "file": "122-趴卧卷成蜷睡/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": false,
+  "startFrame": "122-趴卧卷成蜷睡/首帧.png",
+  "endFrame": "122-趴卧卷成蜷睡/尾帧.png",
+  "promptFile": "122-趴卧卷成蜷睡/提示词.txt"
+}

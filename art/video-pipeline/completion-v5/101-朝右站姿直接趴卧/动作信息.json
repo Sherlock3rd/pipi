@@ -1,0 +1,20 @@
+{
+  "id": 101,
+  "name": "朝右站姿直接趴卧",
+  "start": "SR",
+  "end": "D",
+  "priority": "P1",
+  "group": "基础衔接",
+  "suggestedSeconds": "2—3",
+  "motion": "四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。",
+  "reason": "减少吃喝后到空位又坐下再趴卧。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "101-朝右站姿直接趴卧",
+  "file": "101-朝右站姿直接趴卧/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": false,
+  "startFrame": "101-朝右站姿直接趴卧/首帧.png",
+  "endFrame": "101-朝右站姿直接趴卧/尾帧.png",
+  "promptFile": "101-朝右站姿直接趴卧/提示词.txt"
+}

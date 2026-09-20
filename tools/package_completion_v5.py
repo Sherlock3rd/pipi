@@ -1,7 +1,11 @@
 """Package the agreed missing-animation backlog and dormant startup choreography.
-No images are generated, changed or installed by this script.
+Generated anchors are created by image_gen, then byte-copied and validated here.
+No runtime assets are installed by this script.
 """
 import csv
+import html
+import shutil
+from PIL import Image
 import hashlib
 import io
 import json
@@ -55,10 +59,17 @@ for pose, file in {'F':'F-正面坐姿.png','SR':'SR-朝右站姿.png','SL':'SL-
     anchors[pose]={'source':str((basic/file).relative_to(ROOT)).replace('\\','/')}
 for pose,file in {'D':'D-趴卧.png','A':'A-侧躺收爪.png','B':'B-露肚仰躺.png','X':'C-侧躺舒展.png','M':'M-掩面睡姿.png'}.items():
     anchors[pose]={'source':str((expressions/file).relative_to(ROOT)).replace('\\','/')}
+generation=json.loads((OUT/'anchor-generation.json').read_text(encoding='utf-8'))
+for record in generation['records']:
+    pose=record['id'];path=OUT/record['file']
+    assert path.is_file(),path
+    anchors[pose]={'source':str(path.relative_to(ROOT)).replace('\\','/'),'status':'candidate-awaiting-user-review','generator':'builtin image_gen'}
 for pose,entry in anchors.items():
-    entry.update(status='existing-reference',sha256=hashlib.sha256((ROOT/entry['source']).read_bytes()).hexdigest(),archiveFile='references/'+pose+'.png')
-for pose in ['RR','RL','SF','H_D','H_A','H_B','H_X','H_M']:
-    anchors[pose]={'status':'new-anchor-required','source':None,'note':'待新建并审阅，不以旧姿态改名顶替。'}
+    entry.setdefault('status','existing-reference')
+    src=ROOT/entry['source'];dest=OUT/'anchors'/f'{pose}.png';dest.parent.mkdir(exist_ok=True)
+    if src.resolve()!=dest.resolve():shutil.copyfile(src,dest)
+    with Image.open(dest) as im:assert im.size==(1672,941),(pose,im.size)
+    entry.update(sha256=hashlib.sha256(dest.read_bytes()).hexdigest(),file='anchors/'+pose+'.png',size=[1672,941])
 
 plan={
  'id':'startup-greeting','status':'awaiting-independent-running-and-front-standing-assets','enabled':False,
@@ -79,15 +90,35 @@ plan={
  'constraints':['中点被家具占用时找最近可坐空位，不搬物品','世界位移与脚底速度同步，左右不用镜像','离窝持续计算坐垫支撑与低窝沿遮挡','照料期限继续计时，表演不扣库存、不重抽期限','拖拽/手动命令可取消，取消后不自动重播','全屏/主动隐藏期间暂停演出进度，恢复后接续','三次叫声动作始终保留，声音遵从静音设置'],
  'activationGate':['全部必需返片及新RR/RL/SF锚点通过审阅','透明提取、跑步根位移和姿态图接入完成','片内相邻帧/循环/接缝/承重脚/窝沿场景审计通过','首启、自启去重、输入取消、全屏暂停和普通行为恢复测试通过']}
 
-identity='全程2D蓝猫，保持现有B绘本厚涂、轻嘴线、自然灰色嘴垫和身份。自身左眼略小，正面时为画面右眼，不镜像调换；固定机位和比例，不变焦、不改毛色、不生成背景物品、台词、文字或气泡。脚底/胸腹支撑连续，四肢数量正确，不逐帧归一化外框。'
+identity='固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。'
+pose_notes={'F':'正面坐姿','I':'朝右侧坐','SR':'朝右四足站姿','SL':'朝左四足站姿','C':'头在右的旧蜷睡','D':'朝右胸腹贴地趴卧','A':'头在左、侧脸贴地、后腿一伸一屈的侧瘫','B':'头在右后仰、背部承重、前腿朝头顶伸展的露肚','X':'背朝观察者、近臀远头、不见正脸的舒展','M':'低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡','RR':'朝右跑步共用落脚相位','RL':'朝左跑步共用落脚相位','SF':'正面四脚站立、臀部抬离地面'}
+for pose in ['D','A','B','X','M']:pose_notes['H_'+pose]='对应'+pose_notes[pose]+'的受托悬空姿态，四肢失去地面支撑后自然松垂'
+extra={100:'先由右向侧坐抬臀成为四足，随后前后掌交替换位真实转左；全程不落成正面坐姿。',102:'先通过前后掌小步换位从左向转成右向，转肩转胯，再降低胸腹到D；不能头尾瞬换。',104:'D先前掌承重撑起胸腹，后腿伸直站起，再真实转向左侧。',106:'先从头在右的露肚滚到胸腹向下，收回头顶两前腿到肩下，撑起站稳，再真实转左。',107:'背向舒展先收腿低位承重，再真实换爪转肩转胯朝左，侧脸随转身显露；镜头不绕拍。',123:'旧蜷睡头在右，展开后需低位换爪与转肩胯，最终头在左的侧脸贴地；不是直接翻转整张猫图。',124:'头在左的侧瘫先低位换爪与转肩胯，再朝右收紧蜷卧；不站起，不镜像。'}
 for item in items:
     folder=OUT/f"{item['id']:03}-{item['name']}";folder.mkdir(exist_ok=True)
-    item['file']=str((folder/'制作说明.md').relative_to(OUT)).replace('\\','/')
-    def ref(p):
-        return '已有参考：'+anchors[p]['source'] if anchors[p]['source'] else '缺少新锚点：'+p+'，先画标准姿态并审阅，不能直接投视频。'
-    text=f"# {item['id']} · {item['name']}\n\n状态：待制作，未启用。优先级：{item['priority']}。分组：{item['group']}。\n\n- 首姿态：{item['start']}。{ref(item['start'])}\n- 尾姿态：{item['end']}。{ref(item['end'])}\n- 建议时长：{item['suggestedSeconds']}秒；按真实动作完成时长返片，不凑固定帧数。\n- 用途：{item['reason']}\n\n## 动作提示词\n\n{identity}\n\n{item['motion']}\n\n严格从共享首锚点开始，收回共享尾锚点。循环需首尾相位和速度连续；过渡末端完整接住下一姿态。\n\n## 返片验收\n\n源视频保留原字节及帧率；核对所有相邻帧、循环和行为接缝，宽高分开测量，承重脚/胸腹支撑单独检查。大透视形变不得当作已通过。跑步增加脚底位移与真实速度标定；开场增加左右离窝与家具避让场景检查。\n"
-    (folder/'制作说明.md').write_text(text,encoding='utf-8',newline='\n')
-manifest={'version':1,'status':'production-backlog-not-runtime-assets','runtimeChanged':False,'clips':items,'anchors':anchors,'startupPlan':plan,
+    item['folder']=folder.name;item['file']=folder.name+'/制作说明.md'
+    item['type']='循环' if item['id'] in [109,112,126,129,132,135,138] else '单次' if item['start']==item['end'] else '过渡'
+    item['anchorReviewRequired']=any(anchors[k]['status']=='candidate-awaiting-user-review' for k in [item['start'],item['end']])
+    item['startFrame']=folder.name+'/首帧.png';item['endFrame']=folder.name+'/尾帧.png';item['promptFile']=folder.name+'/提示词.txt'
+    for label,key in [('首帧','start'),('尾帧','end')]:
+        src=OUT/anchors[item[key]]['file'];dest=folder/(label+'.png');shutil.copyfile(src,dest)
+        assert hashlib.sha256(dest.read_bytes()).hexdigest()==anchors[item[key]]['sha256']
+    if item['type']=='循环':
+        seam='完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。'
+    else:seam='只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。'
+    timing=f"建议有效动作时长 {item['suggestedSeconds']} 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。"
+    sound='全程静音生成，口型与后期音效分开；无语音、台词、音乐。'
+    if item['id']==117:sound+=' 严格三次张嘴—合嘴，第三次后闭嘴；另记录三处张嘴峰值时间供后期配自然猫叫。'
+    if item['group']=='开场跑步':seam+=' 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。'
+    if item['group']=='拖拽补齐':seam+=' 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。'
+    text=f"{folder.name}\n接缝：{item['start']} → {item['end']}；类型：{item['type']}\n{timing}\n\n{identity}\n\n首图：{pose_notes[item['start']]}。尾图：{pose_notes[item['end']]}。\n\n动作：{item['motion']} {extra.get(item['id'],'')}\n\n衔接：{seam}\n\n{sound}\n"
+    text='\n'.join(line.rstrip() for line in text.split('\n'))
+    (folder/'提示词.txt').write_text(text,encoding='utf-8',newline='\n')
+    review='包含新候选锚点，请先评审姿态、身份及接触高度，再投视频。' if item['anchorReviewRequired'] else '使用已有共享锚点原字节。'
+    desc=f"# {item['id']} · {item['name']}\n\n优先级：{item['priority']}。分组：{item['group']}。状态：待视频制作，未启用。{review}\n\n| 首帧 · {item['start']} | 尾帧 · {item['end']} |\n|---|---|\n| ![首帧](首帧.png) | ![尾帧](尾帧.png) |\n\n上传本目录两张原图，复制[提示词.txt](提示词.txt)全文。\n\n- 建议时长：{item['suggestedSeconds']}秒。\n- 用途：{item['reason']}\n\n## 完整提示词\n\n{text}\n## 返片验收\n\n原视频保留字节及帧率；扫描全部相邻帧、循环和行为接缝，宽高分别测量，承重脚/胸腹单独检查。不能把总外框或尾尖当高度基准。跑步检查脚底位移与速度；左右离窝检查坐垫支撑和家具层级。相同画布及首尾文件哈希不等于动画或几何已通过。\n"
+    (folder/'制作说明.md').write_text(desc,encoding='utf-8',newline='\n')
+    (folder/'动作信息.json').write_text(json.dumps(item,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+manifest={'version':2,'status':'production-input-pack-awaiting-anchor-review-and-returned-video','runtimeChanged':False,'clips':items,'anchors':anchors,'startupPlan':plan,
           'audio':[{'id':'A01','name':'正面三连叫同步音频','status':'missing','note':'需合法来源的自然猫叫，按117的三个张嘴峰值同步；当前合成提示音不是最终猫叫素材。'}],
           'refinementNotMissing':[{'clips':[86],'issue':'与旧右行的步态相位统一'},{'clips':[62,63,74],'issue':'翻身/起身透视与躯干形体精修'}]}
 (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
@@ -98,16 +129,18 @@ for c in items:writer.writerow([c['id'],c['name'],c['priority'],c['group'],c['st
 rows='\n'.join(f"| {c['id']} | [{c['name']}]({c['file']}) | {c['start']}→{c['end']} | {c['priority']} | {c['group']} |" for c in items)
 readme=f'''# 陈皮待补动画合集 v5
 
-共 **41条待制作动画（99—139）**、**8个待建立姿态锚点**、**1项三连叫同步音频**。不是41条都必须先做：P0的11条用于新开场，P1的6条优先消除日常绕路；其他按需补齐。当前没有制作新图片或视频，也没有启用开场。
+共 **41条待制作动画（99—139）**、**8个新增候选姿态锚点**、**1项三连叫同步音频**。不是41条都必须先做：P0的11条用于新开场，P1的6条优先消除日常绕路；其他按需补齐。已补齐82张逐动作首尾副本、41份独立提示词和图文索引；8张新锚点待用户评审，尚无新视频，未启用开场。
+
+入口：[图文索引](index.html)。打开动作目录直接上传首帧.png和尾帧.png，复制提示词.txt全文。
 
 用户明确：**等独立跑步素材补齐后再启用开场**。现有走路不能加速冒充跑步。开场另需正面四足站姿及蹭头/三连叫/坐下素材，不能先坐下再拿坐姿动画替代。
 
 ## 制作顺序
 
-1. 先准备RR右跑相位、RL左跑相位、SF正面四足站姿三个新标准图；逐图审阅身份、眼睛、脚底和体型。
+1. 先审阅已补齐的RR右跑相位、RL左跑相位、SF正面四足站姿三个候选图，确认身份、眼睛、脚底和体型。
 2. 制作108—118共11条开场必需片，优先一起补99/100侧坐直接起身。
 3. 补101—104站立与趴卧直连、105—107左向起身、119/120站姿致谢。
-4. 121—139为可选低位换姿及五种躺姿的起提/悬空/落地；H_D/H_A/H_B/H_X/H_M五个悬空锚点在这阶段再做。
+4. 121—139为可选低位换姿及五种躺姿的起提/悬空/落地；H_D/H_A/H_B/H_X/H_M五个悬空锚点也已提供，投片前先评审托举和重力表现。
 
 ## 独立启动开场
 
@@ -144,19 +177,24 @@ flowchart TD
 - 119/120站姿致谢可减少补给后为了51坐姿致谢而坐下；当前49→07→51是有效现有路径。
 - 86右走叫步态相位、62/63翻身和74起身形体属于返片精修，不是没有动作。
 - C表示旧蜷睡；X表示新舒展（v4原图文件名C-侧躺舒展），不能把两个C混为同姿态。
-- H_*为待设计的对应悬空姿态；没有借用旧H改名冒充匹配。
+- H_*为各原姿态独立生成的对应悬空候选；没有借用旧H改名冒充匹配。
 - 当前静音规则不变；自然猫叫音频待补，合成提示音不是最终音效。
 
-manifest.json记录每个已有参考的项目路径及SHA256；制作压缩包的references目录包含这10张原字节参考图。每条文件夹内都有动作要求、首尾姿态、建议时长、用途和检测要求。
+manifest.json记录18张共享锚点的路径及SHA256。anchors目录包含10张已有原字节图及8张新候选；每条动作目录均有首帧.png、尾帧.png、提示词.txt、动作信息.json和制作说明.md。首尾共用锚点保证文件完全一致，不表示几何或动态验收完成。新增锚点的生成提示词见anchor-generation.json，限制见静态审核.md。
 '''
 (OUT/'README.md').write_text(readme,encoding='utf-8',newline='\n')
-archive=ROOT/'artifacts/completion-v5/陈皮-待补动画合集-v5.zip';archive.parent.mkdir(parents=True,exist_ok=True)
+from completion_v5_index import build_index, verify_pack
+build_index(OUT,items,anchors)
+verification=verify_pack(OUT,items,anchors)
+(OUT/'校验结果.json').write_text(json.dumps(verification,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
+archive=ROOT/'artifacts/completion-v5/陈皮-待补动画合集-v5-首尾帧与提示词.zip';archive.parent.mkdir(parents=True,exist_ok=True)
 with zipfile.ZipFile(archive,'w',zipfile.ZIP_DEFLATED) as z:
     for file in sorted(OUT.rglob('*')):
         if file.is_file():z.write(file,str(file.relative_to(OUT)))
-    for pose, entry in anchors.items():
-        if entry['source']:z.write(ROOT/entry['source'],entry['archiveFile'])
-with zipfile.ZipFile(archive) as z:assert z.testzip() is None
+with zipfile.ZipFile(archive) as z:
+    assert z.testzip() is None
+    assert sum(n.endswith('/首帧.png') or n.endswith('/尾帧.png') for n in z.namelist())==82
 assert [c['id'] for c in items if c['priority']=='P0']==list(range(108,119))
 assert all(p in anchors for c in items for p in [c['start'],c['end']])
-print(f'{len(items)} missing clips, {sum(a["source"] is None for a in anchors.values())} new anchors; archive CRC passed: {archive}')
+print(json.dumps(verification,ensure_ascii=False))
+print('Archive CRC passed:',archive)

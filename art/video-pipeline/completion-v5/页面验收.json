@@ -1,0 +1,10 @@
+{
+  "source": "live in-app browser localhost",
+  "pageRendered": true,
+  "priorityAndSearchFilter": "P0 + 117 displays 1/41; cleared displays 41/41",
+  "clipboardReadBack": true,
+  "copiedPrompt117Characters": 614,
+  "imagesVisible": "117 SF start/end displayed side by side",
+  "scope": "desktop viewport; no dynamic animation QA",
+  "clipboardEqualsFullPagePrompt": true
+}

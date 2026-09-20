@@ -1,0 +1,20 @@
+{
+  "id": 139,
+  "name": "掩面对应放回地面",
+  "start": "H_M",
+  "end": "M",
+  "priority": "P3",
+  "group": "拖拽补齐",
+  "suggestedSeconds": "1—2",
+  "motion": "下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。",
+  "reason": "回到原躺姿的独立落地片。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "139-掩面对应放回地面",
+  "file": "139-掩面对应放回地面/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": true,
+  "startFrame": "139-掩面对应放回地面/首帧.png",
+  "endFrame": "139-掩面对应放回地面/尾帧.png",
+  "promptFile": "139-掩面对应放回地面/提示词.txt"
+}

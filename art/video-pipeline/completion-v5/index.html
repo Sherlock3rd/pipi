@@ -1,0 +1,748 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>陈皮 · 待补动画制作包 v5</title><style>
+*{box-sizing:border-box}body{font:16px/1.7 system-ui,"Microsoft YaHei",sans-serif;color:#35463e;background:#f4f1e9;margin:0}main{max-width:1180px;margin:auto;padding:32px 24px}h1{font-size:34px;line-height:1.3;margin:10px 0}h2{font-size:22px;margin:0}.eyebrow,.meta{color:#728176}.stats{display:flex;gap:12px;flex-wrap:wrap}.stats span{background:#e5eadf;border-radius:8px;padding:8px 14px}a{color:#286c58}header{padding:12px 0 22px}article,.intro{background:#fff;border:1px solid #dedfd3;border-radius:15px;padding:22px;margin:24px 0}.cardtitle{display:flex;justify-content:space-between;align-items:center;gap:14px;flex-wrap:wrap}.review,.existing{font-size:12px;border-radius:20px;padding:3px 12px;white-space:nowrap}.review{background:#f7ebd4;color:#896131}.existing{background:#eaf1e5;color:#47744b}.pair,.gallery{display:grid;grid-template-columns:1fr 1fr;gap:14px}figure{margin:0}img{width:100%;height:auto;display:block;border-radius:8px;background:#faf9f4}figcaption{font-size:13px;color:#728176;margin-top:6px}.actions,.filters{display:flex;align-items:center;gap:14px;flex-wrap:wrap}.actions{margin:18px 0}.actions a{font-size:14px}button,select,input{font:inherit;border:1px solid #b6c8b9;border-radius:7px;padding:8px 12px;background:white;color:#35463e}button{background:#286c58;color:white;cursor:pointer}input{min-width:0;flex:1}details{margin-top:16px}summary{cursor:pointer;color:#286c58}pre{font:14px/1.8 system-ui;white-space:pre-wrap;overflow-wrap:anywhere;background:#f7f8f2;padding:18px;border-radius:8px}.filters{padding:18px;background:#e8eadd;border-radius:10px}.filters label{display:flex;align-items:center;gap:8px}#notice{min-height:28px;margin:8px 0;color:#286c58}.gallery{margin-top:16px}#empty{padding:24px;text-align:center}footer{color:#728176;font-size:13px}@media(max-width:650px){main{padding:18px 12px}h1{font-size:27px}.pair,.gallery{grid-template-columns:1fr}article{padding:15px}.filters{align-items:stretch}.filters label{width:100%}.filters select{flex:1}.filters input{width:100%;flex:auto}.actions{gap:10px}.cardtitle h2{font-size:20px}}[hidden]{display:none!important}
+</style></head><body><main><header><div class="eyebrow">CHENPI / VIDEO INPUTS / V5</div><h1>陈皮 · 待补动画制作包</h1><p>打开对应动作，上传首尾原图，再复制完整提示词。</p><div class="stats"><span>41 条动作</span><span>82 张首尾图</span><span>41 份提示词</span><span>8 张新候选锚点</span></div></header>
+<section class="intro"><strong>与之前相同的交付方式</strong><p>每条目录均包含「首帧.png」「尾帧.png」「提示词.txt」「动作信息.json」「制作说明.md」。循环或单次回原姿态动作的首尾相同是有意设计，中间仍须完成动作。</p><p>新锚点先评审，再制作视频。开场继续等待独立跑步等返片，不启用替代版。相同画布不代表身体尺度或接触高度已通过。</p><p><a href="README.md">总览与开场流程</a> · <a href="制作清单.csv">下载制作清单</a> · <a href="静态审核.md">静态审核与待复核项</a></p><details><summary>查看 8 张新增候选锚点</summary><div class="gallery"><figure><a href="anchors/RR.png" target="_blank"><img loading="lazy" src="anchors/RR.png" alt="RR 候选锚点" width="1672" height="941"></a><figcaption>RR · 待用户评审</figcaption></figure><figure><a href="anchors/RL.png" target="_blank"><img loading="lazy" src="anchors/RL.png" alt="RL 候选锚点" width="1672" height="941"></a><figcaption>RL · 待用户评审</figcaption></figure><figure><a href="anchors/SF.png" target="_blank"><img loading="lazy" src="anchors/SF.png" alt="SF 候选锚点" width="1672" height="941"></a><figcaption>SF · 待用户评审</figcaption></figure><figure><a href="anchors/H_D.png" target="_blank"><img loading="lazy" src="anchors/H_D.png" alt="H_D 候选锚点" width="1672" height="941"></a><figcaption>H_D · 待用户评审</figcaption></figure><figure><a href="anchors/H_A.png" target="_blank"><img loading="lazy" src="anchors/H_A.png" alt="H_A 候选锚点" width="1672" height="941"></a><figcaption>H_A · 待用户评审</figcaption></figure><figure><a href="anchors/H_B.png" target="_blank"><img loading="lazy" src="anchors/H_B.png" alt="H_B 候选锚点" width="1672" height="941"></a><figcaption>H_B · 待用户评审</figcaption></figure><figure><a href="anchors/H_X.png" target="_blank"><img loading="lazy" src="anchors/H_X.png" alt="H_X 候选锚点" width="1672" height="941"></a><figcaption>H_X · 待用户评审</figcaption></figure><figure><a href="anchors/H_M.png" target="_blank"><img loading="lazy" src="anchors/H_M.png" alt="H_M 候选锚点" width="1672" height="941"></a><figcaption>H_M · 待用户评审</figcaption></figure></div></details></section>
+<div class="filters"><label>分组 <select id="group"><option value="">全部</option><option>基础衔接</option><option>左向起身</option><option>开场跑步</option><option>开场互动</option><option>照料衔接</option><option>低位换姿</option><option>拖拽补齐</option></select></label><label>优先级 <select id="priority"><option value="">全部</option><option>P0</option><option>P1</option><option>P2</option><option>P3</option></select></label><input id="search" type="search" aria-label="搜索动作编号或名称" placeholder="搜索编号或动作名"></div><p id="notice" role="status" aria-live="polite">显示 41 / 41 条动作</p><p id="empty" hidden>没有匹配的动作，请清除筛选。</p><article data-group="基础衔接" data-priority="P1" id="clip-99">
+<div class="cardtitle"><h2>99 · 侧坐直接朝右站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P1 · 基础衔接 · 过渡 · 2—3 秒 · I → SR</p>
+<div class="pair"><figure><a href="099-侧坐直接朝右站起/首帧.png" target="_blank"><img loading="lazy" src="099-侧坐直接朝右站起/首帧.png" alt="I 首帧" width="1672" height="941"></a><figcaption>首帧 · I</figcaption></figure><figure><a href="099-侧坐直接朝右站起/尾帧.png" target="_blank"><img loading="lazy" src="099-侧坐直接朝右站起/尾帧.png" alt="SR 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SR</figcaption></figure></div><p>前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。</p>
+<div class="actions"><button class="copy" data-target="prompt-99">复制完整提示词</button><a href="099-侧坐直接朝右站起/提示词.txt" download>下载提示词</a><a href="099-侧坐直接朝右站起/首帧.png" download>首帧原图</a><a href="099-侧坐直接朝右站起/尾帧.png" download>尾帧原图</a><a href="099-侧坐直接朝右站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-99">099-侧坐直接朝右站起
+接缝：I → SR；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右侧坐。尾图：朝右四足站姿。
+
+动作：前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="基础衔接" data-priority="P1" id="clip-100">
+<div class="cardtitle"><h2>100 · 侧坐直接朝左站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P1 · 基础衔接 · 过渡 · 2—3 秒 · I → SL</p>
+<div class="pair"><figure><a href="100-侧坐直接朝左站起/首帧.png" target="_blank"><img loading="lazy" src="100-侧坐直接朝左站起/首帧.png" alt="I 首帧" width="1672" height="941"></a><figcaption>首帧 · I</figcaption></figure><figure><a href="100-侧坐直接朝左站起/尾帧.png" target="_blank"><img loading="lazy" src="100-侧坐直接朝左站起/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。</p>
+<div class="actions"><button class="copy" data-target="prompt-100">复制完整提示词</button><a href="100-侧坐直接朝左站起/提示词.txt" download>下载提示词</a><a href="100-侧坐直接朝左站起/首帧.png" download>首帧原图</a><a href="100-侧坐直接朝左站起/尾帧.png" download>尾帧原图</a><a href="100-侧坐直接朝左站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-100">100-侧坐直接朝左站起
+接缝：I → SL；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右侧坐。尾图：朝左四足站姿。
+
+动作：前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。 先由右向侧坐抬臀成为四足，随后前后掌交替换位真实转左；全程不落成正面坐姿。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="基础衔接" data-priority="P1" id="clip-101">
+<div class="cardtitle"><h2>101 · 朝右站姿直接趴卧</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P1 · 基础衔接 · 过渡 · 2—3 秒 · SR → D</p>
+<div class="pair"><figure><a href="101-朝右站姿直接趴卧/首帧.png" target="_blank"><img loading="lazy" src="101-朝右站姿直接趴卧/首帧.png" alt="SR 首帧" width="1672" height="941"></a><figcaption>首帧 · SR</figcaption></figure><figure><a href="101-朝右站姿直接趴卧/尾帧.png" target="_blank"><img loading="lazy" src="101-朝右站姿直接趴卧/尾帧.png" alt="D 尾帧" width="1672" height="941"></a><figcaption>尾帧 · D</figcaption></figure></div><p>四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。</p>
+<div class="actions"><button class="copy" data-target="prompt-101">复制完整提示词</button><a href="101-朝右站姿直接趴卧/提示词.txt" download>下载提示词</a><a href="101-朝右站姿直接趴卧/首帧.png" download>首帧原图</a><a href="101-朝右站姿直接趴卧/尾帧.png" download>尾帧原图</a><a href="101-朝右站姿直接趴卧/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-101">101-朝右站姿直接趴卧
+接缝：SR → D；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右四足站姿。尾图：朝右胸腹贴地趴卧。
+
+动作：四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="基础衔接" data-priority="P1" id="clip-102">
+<div class="cardtitle"><h2>102 · 朝左站姿直接趴卧</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P1 · 基础衔接 · 过渡 · 2—3 秒 · SL → D</p>
+<div class="pair"><figure><a href="102-朝左站姿直接趴卧/首帧.png" target="_blank"><img loading="lazy" src="102-朝左站姿直接趴卧/首帧.png" alt="SL 首帧" width="1672" height="941"></a><figcaption>首帧 · SL</figcaption></figure><figure><a href="102-朝左站姿直接趴卧/尾帧.png" target="_blank"><img loading="lazy" src="102-朝左站姿直接趴卧/尾帧.png" alt="D 尾帧" width="1672" height="941"></a><figcaption>尾帧 · D</figcaption></figure></div><p>四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。</p>
+<div class="actions"><button class="copy" data-target="prompt-102">复制完整提示词</button><a href="102-朝左站姿直接趴卧/提示词.txt" download>下载提示词</a><a href="102-朝左站姿直接趴卧/首帧.png" download>首帧原图</a><a href="102-朝左站姿直接趴卧/尾帧.png" download>尾帧原图</a><a href="102-朝左站姿直接趴卧/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-102">102-朝左站姿直接趴卧
+接缝：SL → D；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝左四足站姿。尾图：朝右胸腹贴地趴卧。
+
+动作：四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。 先通过前后掌小步换位从左向转成右向，转肩转胯，再降低胸腹到D；不能头尾瞬换。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="基础衔接" data-priority="P1" id="clip-103">
+<div class="cardtitle"><h2>103 · 趴卧直接朝右站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P1 · 基础衔接 · 过渡 · 2—3 秒 · D → SR</p>
+<div class="pair"><figure><a href="103-趴卧直接朝右站起/首帧.png" target="_blank"><img loading="lazy" src="103-趴卧直接朝右站起/首帧.png" alt="D 首帧" width="1672" height="941"></a><figcaption>首帧 · D</figcaption></figure><figure><a href="103-趴卧直接朝右站起/尾帧.png" target="_blank"><img loading="lazy" src="103-趴卧直接朝右站起/尾帧.png" alt="SR 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SR</figcaption></figure></div><p>前掌移到肩下支撑，胸腹抬起，再伸直后腿成为四足站姿，不先坐起。</p>
+<div class="actions"><button class="copy" data-target="prompt-103">复制完整提示词</button><a href="103-趴卧直接朝右站起/提示词.txt" download>下载提示词</a><a href="103-趴卧直接朝右站起/首帧.png" download>首帧原图</a><a href="103-趴卧直接朝右站起/尾帧.png" download>尾帧原图</a><a href="103-趴卧直接朝右站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-103">103-趴卧直接朝右站起
+接缝：D → SR；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右胸腹贴地趴卧。尾图：朝右四足站姿。
+
+动作：前掌移到肩下支撑，胸腹抬起，再伸直后腿成为四足站姿，不先坐起。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="基础衔接" data-priority="P1" id="clip-104">
+<div class="cardtitle"><h2>104 · 趴卧直接朝左站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P1 · 基础衔接 · 过渡 · 2—3 秒 · D → SL</p>
+<div class="pair"><figure><a href="104-趴卧直接朝左站起/首帧.png" target="_blank"><img loading="lazy" src="104-趴卧直接朝左站起/首帧.png" alt="D 首帧" width="1672" height="941"></a><figcaption>首帧 · D</figcaption></figure><figure><a href="104-趴卧直接朝左站起/尾帧.png" target="_blank"><img loading="lazy" src="104-趴卧直接朝左站起/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>前掌移到肩下支撑，胸腹抬起，再伸直后腿成为四足站姿，不先坐起。</p>
+<div class="actions"><button class="copy" data-target="prompt-104">复制完整提示词</button><a href="104-趴卧直接朝左站起/提示词.txt" download>下载提示词</a><a href="104-趴卧直接朝左站起/首帧.png" download>首帧原图</a><a href="104-趴卧直接朝左站起/尾帧.png" download>尾帧原图</a><a href="104-趴卧直接朝左站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-104">104-趴卧直接朝左站起
+接缝：D → SL；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右胸腹贴地趴卧。尾图：朝左四足站姿。
+
+动作：前掌移到肩下支撑，胸腹抬起，再伸直后腿成为四足站姿，不先坐起。 D先前掌承重撑起胸腹，后腿伸直站起，再真实转向左侧。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="左向起身" data-priority="P2" id="clip-105">
+<div class="cardtitle"><h2>105 · 侧躺直接朝左站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P2 · 左向起身 · 过渡 · 2—3 秒 · A → SL</p>
+<div class="pair"><figure><a href="105-侧躺直接朝左站起/首帧.png" target="_blank"><img loading="lazy" src="105-侧躺直接朝左站起/首帧.png" alt="A 首帧" width="1672" height="941"></a><figcaption>首帧 · A</figcaption></figure><figure><a href="105-侧躺直接朝左站起/尾帧.png" target="_blank"><img loading="lazy" src="105-侧躺直接朝左站起/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。</p>
+<div class="actions"><button class="copy" data-target="prompt-105">复制完整提示词</button><a href="105-侧躺直接朝左站起/提示词.txt" download>下载提示词</a><a href="105-侧躺直接朝左站起/首帧.png" download>首帧原图</a><a href="105-侧躺直接朝左站起/尾帧.png" download>尾帧原图</a><a href="105-侧躺直接朝左站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-105">105-侧躺直接朝左站起
+接缝：A → SL；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在左、侧脸贴地、后腿一伸一屈的侧瘫。尾图：朝左四足站姿。
+
+动作：先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="左向起身" data-priority="P2" id="clip-106">
+<div class="cardtitle"><h2>106 · 露肚直接朝左站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P2 · 左向起身 · 过渡 · 2—3 秒 · B → SL</p>
+<div class="pair"><figure><a href="106-露肚直接朝左站起/首帧.png" target="_blank"><img loading="lazy" src="106-露肚直接朝左站起/首帧.png" alt="B 首帧" width="1672" height="941"></a><figcaption>首帧 · B</figcaption></figure><figure><a href="106-露肚直接朝左站起/尾帧.png" target="_blank"><img loading="lazy" src="106-露肚直接朝左站起/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。</p>
+<div class="actions"><button class="copy" data-target="prompt-106">复制完整提示词</button><a href="106-露肚直接朝左站起/提示词.txt" download>下载提示词</a><a href="106-露肚直接朝左站起/首帧.png" download>首帧原图</a><a href="106-露肚直接朝左站起/尾帧.png" download>尾帧原图</a><a href="106-露肚直接朝左站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-106">106-露肚直接朝左站起
+接缝：B → SL；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在右后仰、背部承重、前腿朝头顶伸展的露肚。尾图：朝左四足站姿。
+
+动作：先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。 先从头在右的露肚滚到胸腹向下，收回头顶两前腿到肩下，撑起站稳，再真实转左。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="左向起身" data-priority="P2" id="clip-107">
+<div class="cardtitle"><h2>107 · 舒展直接朝左站起</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P2 · 左向起身 · 过渡 · 2—3 秒 · X → SL</p>
+<div class="pair"><figure><a href="107-舒展直接朝左站起/首帧.png" target="_blank"><img loading="lazy" src="107-舒展直接朝左站起/首帧.png" alt="X 首帧" width="1672" height="941"></a><figcaption>首帧 · X</figcaption></figure><figure><a href="107-舒展直接朝左站起/尾帧.png" target="_blank"><img loading="lazy" src="107-舒展直接朝左站起/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。</p>
+<div class="actions"><button class="copy" data-target="prompt-107">复制完整提示词</button><a href="107-舒展直接朝左站起/提示词.txt" download>下载提示词</a><a href="107-舒展直接朝左站起/首帧.png" download>首帧原图</a><a href="107-舒展直接朝左站起/尾帧.png" download>尾帧原图</a><a href="107-舒展直接朝左站起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-107">107-舒展直接朝左站起
+接缝：X → SL；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：背朝观察者、近臀远头、不见正脸的舒展。尾图：朝左四足站姿。
+
+动作：先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。 背向舒展先收腿低位承重，再真实换爪转肩转胯朝左，侧脸随转身显露；镜头不绕拍。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场跑步" data-priority="P0" id="clip-108">
+<div class="cardtitle"><h2>108 · 朝右跑步起步</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场跑步 · 过渡 · 0.6—1.0 秒 · SR → RR</p>
+<div class="pair"><figure><a href="108-朝右跑步起步/首帧.png" target="_blank"><img loading="lazy" src="108-朝右跑步起步/首帧.png" alt="SR 首帧" width="1672" height="941"></a><figcaption>首帧 · SR</figcaption></figure><figure><a href="108-朝右跑步起步/尾帧.png" target="_blank"><img loading="lazy" src="108-朝右跑步起步/尾帧.png" alt="RR 尾帧" width="1672" height="941"></a><figcaption>尾帧 · RR</figcaption></figure></div><p>后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。</p>
+<div class="actions"><button class="copy" data-target="prompt-108">复制完整提示词</button><a href="108-朝右跑步起步/提示词.txt" download>下载提示词</a><a href="108-朝右跑步起步/首帧.png" download>首帧原图</a><a href="108-朝右跑步起步/尾帧.png" download>尾帧原图</a><a href="108-朝右跑步起步/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-108">108-朝右跑步起步
+接缝：SR → RR；类型：过渡
+建议有效动作时长 0.6—1.0 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右四足站姿。尾图：朝右跑步共用落脚相位。
+
+动作：后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场跑步" data-priority="P0" id="clip-109">
+<div class="cardtitle"><h2>109 · 朝右跑步循环</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场跑步 · 循环 · 0.8—1.2 秒 · RR → RR</p>
+<div class="pair"><figure><a href="109-朝右跑步循环/首帧.png" target="_blank"><img loading="lazy" src="109-朝右跑步循环/首帧.png" alt="RR 首帧" width="1672" height="941"></a><figcaption>首帧 · RR</figcaption></figure><figure><a href="109-朝右跑步循环/尾帧.png" target="_blank"><img loading="lazy" src="109-朝右跑步循环/尾帧.png" alt="RR 尾帧" width="1672" height="941"></a><figcaption>尾帧 · RR</figcaption></figure></div><p>稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。</p>
+<div class="actions"><button class="copy" data-target="prompt-109">复制完整提示词</button><a href="109-朝右跑步循环/提示词.txt" download>下载提示词</a><a href="109-朝右跑步循环/首帧.png" download>首帧原图</a><a href="109-朝右跑步循环/尾帧.png" download>尾帧原图</a><a href="109-朝右跑步循环/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-109">109-朝右跑步循环
+接缝：RR → RR；类型：循环
+建议有效动作时长 0.8—1.2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右跑步共用落脚相位。尾图：朝右跑步共用落脚相位。
+
+动作：稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场跑步" data-priority="P0" id="clip-110">
+<div class="cardtitle"><h2>110 · 朝右跑步停稳</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场跑步 · 过渡 · 0.8—1.2 秒 · RR → SR</p>
+<div class="pair"><figure><a href="110-朝右跑步停稳/首帧.png" target="_blank"><img loading="lazy" src="110-朝右跑步停稳/首帧.png" alt="RR 首帧" width="1672" height="941"></a><figcaption>首帧 · RR</figcaption></figure><figure><a href="110-朝右跑步停稳/尾帧.png" target="_blank"><img loading="lazy" src="110-朝右跑步停稳/尾帧.png" alt="SR 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SR</figcaption></figure></div><p>从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。</p>
+<div class="actions"><button class="copy" data-target="prompt-110">复制完整提示词</button><a href="110-朝右跑步停稳/提示词.txt" download>下载提示词</a><a href="110-朝右跑步停稳/首帧.png" download>首帧原图</a><a href="110-朝右跑步停稳/尾帧.png" download>尾帧原图</a><a href="110-朝右跑步停稳/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-110">110-朝右跑步停稳
+接缝：RR → SR；类型：过渡
+建议有效动作时长 0.8—1.2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右跑步共用落脚相位。尾图：朝右四足站姿。
+
+动作：从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场跑步" data-priority="P0" id="clip-111">
+<div class="cardtitle"><h2>111 · 朝左跑步起步</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场跑步 · 过渡 · 0.6—1.0 秒 · SL → RL</p>
+<div class="pair"><figure><a href="111-朝左跑步起步/首帧.png" target="_blank"><img loading="lazy" src="111-朝左跑步起步/首帧.png" alt="SL 首帧" width="1672" height="941"></a><figcaption>首帧 · SL</figcaption></figure><figure><a href="111-朝左跑步起步/尾帧.png" target="_blank"><img loading="lazy" src="111-朝左跑步起步/尾帧.png" alt="RL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · RL</figcaption></figure></div><p>后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。</p>
+<div class="actions"><button class="copy" data-target="prompt-111">复制完整提示词</button><a href="111-朝左跑步起步/提示词.txt" download>下载提示词</a><a href="111-朝左跑步起步/首帧.png" download>首帧原图</a><a href="111-朝左跑步起步/尾帧.png" download>尾帧原图</a><a href="111-朝左跑步起步/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-111">111-朝左跑步起步
+接缝：SL → RL；类型：过渡
+建议有效动作时长 0.6—1.0 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝左四足站姿。尾图：朝左跑步共用落脚相位。
+
+动作：后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场跑步" data-priority="P0" id="clip-112">
+<div class="cardtitle"><h2>112 · 朝左跑步循环</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场跑步 · 循环 · 0.8—1.2 秒 · RL → RL</p>
+<div class="pair"><figure><a href="112-朝左跑步循环/首帧.png" target="_blank"><img loading="lazy" src="112-朝左跑步循环/首帧.png" alt="RL 首帧" width="1672" height="941"></a><figcaption>首帧 · RL</figcaption></figure><figure><a href="112-朝左跑步循环/尾帧.png" target="_blank"><img loading="lazy" src="112-朝左跑步循环/尾帧.png" alt="RL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · RL</figcaption></figure></div><p>稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。</p>
+<div class="actions"><button class="copy" data-target="prompt-112">复制完整提示词</button><a href="112-朝左跑步循环/提示词.txt" download>下载提示词</a><a href="112-朝左跑步循环/首帧.png" download>首帧原图</a><a href="112-朝左跑步循环/尾帧.png" download>尾帧原图</a><a href="112-朝左跑步循环/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-112">112-朝左跑步循环
+接缝：RL → RL；类型：循环
+建议有效动作时长 0.8—1.2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝左跑步共用落脚相位。尾图：朝左跑步共用落脚相位。
+
+动作：稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场跑步" data-priority="P0" id="clip-113">
+<div class="cardtitle"><h2>113 · 朝左跑步停稳</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场跑步 · 过渡 · 0.8—1.2 秒 · RL → SL</p>
+<div class="pair"><figure><a href="113-朝左跑步停稳/首帧.png" target="_blank"><img loading="lazy" src="113-朝左跑步停稳/首帧.png" alt="RL 首帧" width="1672" height="941"></a><figcaption>首帧 · RL</figcaption></figure><figure><a href="113-朝左跑步停稳/尾帧.png" target="_blank"><img loading="lazy" src="113-朝左跑步停稳/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。</p>
+<div class="actions"><button class="copy" data-target="prompt-113">复制完整提示词</button><a href="113-朝左跑步停稳/提示词.txt" download>下载提示词</a><a href="113-朝左跑步停稳/首帧.png" download>首帧原图</a><a href="113-朝左跑步停稳/尾帧.png" download>尾帧原图</a><a href="113-朝左跑步停稳/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-113">113-朝左跑步停稳
+接缝：RL → SL；类型：过渡
+建议有效动作时长 0.8—1.2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝左跑步共用落脚相位。尾图：朝左四足站姿。
+
+动作：从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 固定跑步机式机位，身体中心保持在固定画幅内，四肢真实跑动；桌面世界位移后续由程序与脚底速度配准，不让猫跑出画面。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场互动" data-priority="P0" id="clip-114">
+<div class="cardtitle"><h2>114 · 朝右站姿转正面四足</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场互动 · 过渡 · 1.0—1.8 秒 · SR → SF</p>
+<div class="pair"><figure><a href="114-朝右站姿转正面四足/首帧.png" target="_blank"><img loading="lazy" src="114-朝右站姿转正面四足/首帧.png" alt="SR 首帧" width="1672" height="941"></a><figcaption>首帧 · SR</figcaption></figure><figure><a href="114-朝右站姿转正面四足/尾帧.png" target="_blank"><img loading="lazy" src="114-朝右站姿转正面四足/尾帧.png" alt="SF 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SF</figcaption></figure></div><p>四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。</p>
+<div class="actions"><button class="copy" data-target="prompt-114">复制完整提示词</button><a href="114-朝右站姿转正面四足/提示词.txt" download>下载提示词</a><a href="114-朝右站姿转正面四足/首帧.png" download>首帧原图</a><a href="114-朝右站姿转正面四足/尾帧.png" download>尾帧原图</a><a href="114-朝右站姿转正面四足/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-114">114-朝右站姿转正面四足
+接缝：SR → SF；类型：过渡
+建议有效动作时长 1.0—1.8 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右四足站姿。尾图：正面四脚站立、臀部抬离地面。
+
+动作：四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场互动" data-priority="P0" id="clip-115">
+<div class="cardtitle"><h2>115 · 朝左站姿转正面四足</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场互动 · 过渡 · 1.0—1.8 秒 · SL → SF</p>
+<div class="pair"><figure><a href="115-朝左站姿转正面四足/首帧.png" target="_blank"><img loading="lazy" src="115-朝左站姿转正面四足/首帧.png" alt="SL 首帧" width="1672" height="941"></a><figcaption>首帧 · SL</figcaption></figure><figure><a href="115-朝左站姿转正面四足/尾帧.png" target="_blank"><img loading="lazy" src="115-朝左站姿转正面四足/尾帧.png" alt="SF 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SF</figcaption></figure></div><p>四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。</p>
+<div class="actions"><button class="copy" data-target="prompt-115">复制完整提示词</button><a href="115-朝左站姿转正面四足/提示词.txt" download>下载提示词</a><a href="115-朝左站姿转正面四足/首帧.png" download>首帧原图</a><a href="115-朝左站姿转正面四足/尾帧.png" download>尾帧原图</a><a href="115-朝左站姿转正面四足/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-115">115-朝左站姿转正面四足
+接缝：SL → SF；类型：过渡
+建议有效动作时长 1.0—1.8 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝左四足站姿。尾图：正面四脚站立、臀部抬离地面。
+
+动作：四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场互动" data-priority="P0" id="clip-116">
+<div class="cardtitle"><h2>116 · 正面站立向前蹭头</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场互动 · 单次 · 2—3 秒 · SF → SF</p>
+<div class="pair"><figure><a href="116-正面站立向前蹭头/首帧.png" target="_blank"><img loading="lazy" src="116-正面站立向前蹭头/首帧.png" alt="SF 首帧" width="1672" height="941"></a><figcaption>首帧 · SF</figcaption></figure><figure><a href="116-正面站立向前蹭头/尾帧.png" target="_blank"><img loading="lazy" src="116-正面站立向前蹭头/尾帧.png" alt="SF 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SF</figcaption></figure></div><p>四脚连续承重，头颈温柔前探，额头向前轻蹭两下，轻闭眼后收回SF；不生成手或物品，不放大整猫冒充贴近。</p>
+<div class="actions"><button class="copy" data-target="prompt-116">复制完整提示词</button><a href="116-正面站立向前蹭头/提示词.txt" download>下载提示词</a><a href="116-正面站立向前蹭头/首帧.png" download>首帧原图</a><a href="116-正面站立向前蹭头/尾帧.png" download>尾帧原图</a><a href="116-正面站立向前蹭头/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-116">116-正面站立向前蹭头
+接缝：SF → SF；类型：单次
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：正面四脚站立、臀部抬离地面。尾图：正面四脚站立、臀部抬离地面。
+
+动作：四脚连续承重，头颈温柔前探，额头向前轻蹭两下，轻闭眼后收回SF；不生成手或物品，不放大整猫冒充贴近。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="开场互动" data-priority="P0" id="clip-117">
+<div class="cardtitle"><h2>117 · 正面站立连续叫三次</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场互动 · 单次 · 3—4 秒 · SF → SF</p>
+<div class="pair"><figure><a href="117-正面站立连续叫三次/首帧.png" target="_blank"><img loading="lazy" src="117-正面站立连续叫三次/首帧.png" alt="SF 首帧" width="1672" height="941"></a><figcaption>首帧 · SF</figcaption></figure><figure><a href="117-正面站立连续叫三次/尾帧.png" target="_blank"><img loading="lazy" src="117-正面站立连续叫三次/尾帧.png" alt="SF 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SF</figcaption></figure></div><p>仅一段连续动作：张嘴叫一次、合嘴短停，再叫第二次、合嘴，再叫第三次、合嘴收回SF；严格三次，不哈欠。</p>
+<div class="actions"><button class="copy" data-target="prompt-117">复制完整提示词</button><a href="117-正面站立连续叫三次/提示词.txt" download>下载提示词</a><a href="117-正面站立连续叫三次/首帧.png" download>首帧原图</a><a href="117-正面站立连续叫三次/尾帧.png" download>尾帧原图</a><a href="117-正面站立连续叫三次/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-117">117-正面站立连续叫三次
+接缝：SF → SF；类型：单次
+建议有效动作时长 3—4 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：正面四脚站立、臀部抬离地面。尾图：正面四脚站立、臀部抬离地面。
+
+动作：仅一段连续动作：张嘴叫一次、合嘴短停，再叫第二次、合嘴，再叫第三次、合嘴收回SF；严格三次，不哈欠。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。 严格三次张嘴—合嘴，第三次后闭嘴；另记录三处张嘴峰值时间供后期配自然猫叫。
+</pre></details></article><article data-group="开场互动" data-priority="P0" id="clip-118">
+<div class="cardtitle"><h2>118 · 正面四足平稳坐下</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P0 · 开场互动 · 过渡 · 1.2—2 秒 · SF → F</p>
+<div class="pair"><figure><a href="118-正面四足平稳坐下/首帧.png" target="_blank"><img loading="lazy" src="118-正面四足平稳坐下/首帧.png" alt="SF 首帧" width="1672" height="941"></a><figcaption>首帧 · SF</figcaption></figure><figure><a href="118-正面四足平稳坐下/尾帧.png" target="_blank"><img loading="lazy" src="118-正面四足平稳坐下/尾帧.png" alt="F 尾帧" width="1672" height="941"></a><figcaption>尾帧 · F</figcaption></figure></div><p>后腿自然收拢，臀部降低，前掌稳定承重，尾巴顺势收好，落到已确认F坐姿，结束时不再次起身。</p>
+<div class="actions"><button class="copy" data-target="prompt-118">复制完整提示词</button><a href="118-正面四足平稳坐下/提示词.txt" download>下载提示词</a><a href="118-正面四足平稳坐下/首帧.png" download>首帧原图</a><a href="118-正面四足平稳坐下/尾帧.png" download>尾帧原图</a><a href="118-正面四足平稳坐下/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-118">118-正面四足平稳坐下
+接缝：SF → F；类型：过渡
+建议有效动作时长 1.2—2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：正面四脚站立、臀部抬离地面。尾图：正面坐姿。
+
+动作：后腿自然收拢，臀部降低，前掌稳定承重，尾巴顺势收好，落到已确认F坐姿，结束时不再次起身。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="照料衔接" data-priority="P2" id="clip-119">
+<div class="cardtitle"><h2>119 · 朝右站立致谢</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P2 · 照料衔接 · 单次 · 1.5—2.5 秒 · SR → SR</p>
+<div class="pair"><figure><a href="119-朝右站立致谢/首帧.png" target="_blank"><img loading="lazy" src="119-朝右站立致谢/首帧.png" alt="SR 首帧" width="1672" height="941"></a><figcaption>首帧 · SR</figcaption></figure><figure><a href="119-朝右站立致谢/尾帧.png" target="_blank"><img loading="lazy" src="119-朝右站立致谢/尾帧.png" alt="SR 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SR</figcaption></figure></div><p>保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。</p>
+<div class="actions"><button class="copy" data-target="prompt-119">复制完整提示词</button><a href="119-朝右站立致谢/提示词.txt" download>下载提示词</a><a href="119-朝右站立致谢/首帧.png" download>首帧原图</a><a href="119-朝右站立致谢/尾帧.png" download>尾帧原图</a><a href="119-朝右站立致谢/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-119">119-朝右站立致谢
+接缝：SR → SR；类型：单次
+建议有效动作时长 1.5—2.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右四足站姿。尾图：朝右四足站姿。
+
+动作：保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="照料衔接" data-priority="P2" id="clip-120">
+<div class="cardtitle"><h2>120 · 朝左站立致谢</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P2 · 照料衔接 · 单次 · 1.5—2.5 秒 · SL → SL</p>
+<div class="pair"><figure><a href="120-朝左站立致谢/首帧.png" target="_blank"><img loading="lazy" src="120-朝左站立致谢/首帧.png" alt="SL 首帧" width="1672" height="941"></a><figcaption>首帧 · SL</figcaption></figure><figure><a href="120-朝左站立致谢/尾帧.png" target="_blank"><img loading="lazy" src="120-朝左站立致谢/尾帧.png" alt="SL 尾帧" width="1672" height="941"></a><figcaption>尾帧 · SL</figcaption></figure></div><p>保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。</p>
+<div class="actions"><button class="copy" data-target="prompt-120">复制完整提示词</button><a href="120-朝左站立致谢/提示词.txt" download>下载提示词</a><a href="120-朝左站立致谢/首帧.png" download>首帧原图</a><a href="120-朝左站立致谢/尾帧.png" download>尾帧原图</a><a href="120-朝左站立致谢/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-120">120-朝左站立致谢
+接缝：SL → SL；类型：单次
+建议有效动作时长 1.5—2.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝左四足站姿。尾图：朝左四足站姿。
+
+动作：保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="低位换姿" data-priority="P3" id="clip-121">
+<div class="cardtitle"><h2>121 · 蜷睡转趴卧</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P3 · 低位换姿 · 过渡 · 2—3 秒 · C → D</p>
+<div class="pair"><figure><a href="121-蜷睡转趴卧/首帧.png" target="_blank"><img loading="lazy" src="121-蜷睡转趴卧/首帧.png" alt="C 首帧" width="1672" height="941"></a><figcaption>首帧 · C</figcaption></figure><figure><a href="121-蜷睡转趴卧/尾帧.png" target="_blank"><img loading="lazy" src="121-蜷睡转趴卧/尾帧.png" alt="D 尾帧" width="1672" height="941"></a><figcaption>尾帧 · D</figcaption></figure></div><p>在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。</p>
+<div class="actions"><button class="copy" data-target="prompt-121">复制完整提示词</button><a href="121-蜷睡转趴卧/提示词.txt" download>下载提示词</a><a href="121-蜷睡转趴卧/首帧.png" download>首帧原图</a><a href="121-蜷睡转趴卧/尾帧.png" download>尾帧原图</a><a href="121-蜷睡转趴卧/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-121">121-蜷睡转趴卧
+接缝：C → D；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在右的旧蜷睡。尾图：朝右胸腹贴地趴卧。
+
+动作：在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="低位换姿" data-priority="P3" id="clip-122">
+<div class="cardtitle"><h2>122 · 趴卧卷成蜷睡</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P3 · 低位换姿 · 过渡 · 2—3 秒 · D → C</p>
+<div class="pair"><figure><a href="122-趴卧卷成蜷睡/首帧.png" target="_blank"><img loading="lazy" src="122-趴卧卷成蜷睡/首帧.png" alt="D 首帧" width="1672" height="941"></a><figcaption>首帧 · D</figcaption></figure><figure><a href="122-趴卧卷成蜷睡/尾帧.png" target="_blank"><img loading="lazy" src="122-趴卧卷成蜷睡/尾帧.png" alt="C 尾帧" width="1672" height="941"></a><figcaption>尾帧 · C</figcaption></figure></div><p>在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。</p>
+<div class="actions"><button class="copy" data-target="prompt-122">复制完整提示词</button><a href="122-趴卧卷成蜷睡/提示词.txt" download>下载提示词</a><a href="122-趴卧卷成蜷睡/首帧.png" download>首帧原图</a><a href="122-趴卧卷成蜷睡/尾帧.png" download>尾帧原图</a><a href="122-趴卧卷成蜷睡/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-122">122-趴卧卷成蜷睡
+接缝：D → C；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右胸腹贴地趴卧。尾图：头在右的旧蜷睡。
+
+动作：在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="低位换姿" data-priority="P3" id="clip-123">
+<div class="cardtitle"><h2>123 · 蜷睡放松侧躺</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P3 · 低位换姿 · 过渡 · 2—3 秒 · C → A</p>
+<div class="pair"><figure><a href="123-蜷睡放松侧躺/首帧.png" target="_blank"><img loading="lazy" src="123-蜷睡放松侧躺/首帧.png" alt="C 首帧" width="1672" height="941"></a><figcaption>首帧 · C</figcaption></figure><figure><a href="123-蜷睡放松侧躺/尾帧.png" target="_blank"><img loading="lazy" src="123-蜷睡放松侧躺/尾帧.png" alt="A 尾帧" width="1672" height="941"></a><figcaption>尾帧 · A</figcaption></figure></div><p>在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。</p>
+<div class="actions"><button class="copy" data-target="prompt-123">复制完整提示词</button><a href="123-蜷睡放松侧躺/提示词.txt" download>下载提示词</a><a href="123-蜷睡放松侧躺/首帧.png" download>首帧原图</a><a href="123-蜷睡放松侧躺/尾帧.png" download>尾帧原图</a><a href="123-蜷睡放松侧躺/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-123">123-蜷睡放松侧躺
+接缝：C → A；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在右的旧蜷睡。尾图：头在左、侧脸贴地、后腿一伸一屈的侧瘫。
+
+动作：在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。 旧蜷睡头在右，展开后需低位换爪与转肩胯，最终头在左的侧脸贴地；不是直接翻转整张猫图。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="低位换姿" data-priority="P3" id="clip-124">
+<div class="cardtitle"><h2>124 · 侧躺卷成蜷睡</h2><span class="existing">沿用已有锚点</span></div>
+<p class="meta">P3 · 低位换姿 · 过渡 · 2—3 秒 · A → C</p>
+<div class="pair"><figure><a href="124-侧躺卷成蜷睡/首帧.png" target="_blank"><img loading="lazy" src="124-侧躺卷成蜷睡/首帧.png" alt="A 首帧" width="1672" height="941"></a><figcaption>首帧 · A</figcaption></figure><figure><a href="124-侧躺卷成蜷睡/尾帧.png" target="_blank"><img loading="lazy" src="124-侧躺卷成蜷睡/尾帧.png" alt="C 尾帧" width="1672" height="941"></a><figcaption>尾帧 · C</figcaption></figure></div><p>在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。</p>
+<div class="actions"><button class="copy" data-target="prompt-124">复制完整提示词</button><a href="124-侧躺卷成蜷睡/提示词.txt" download>下载提示词</a><a href="124-侧躺卷成蜷睡/首帧.png" download>首帧原图</a><a href="124-侧躺卷成蜷睡/尾帧.png" download>尾帧原图</a><a href="124-侧躺卷成蜷睡/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-124">124-侧躺卷成蜷睡
+接缝：A → C；类型：过渡
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在左、侧脸贴地、后腿一伸一屈的侧瘫。尾图：头在右的旧蜷睡。
+
+动作：在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。 头在左的侧瘫先低位换爪与转肩胯，再朝右收紧蜷卧；不站起，不镜像。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-125">
+<div class="cardtitle"><h2>125 · 趴卧被提起</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 0.8—1.5 秒 · D → H_D</p>
+<div class="pair"><figure><a href="125-趴卧被提起/首帧.png" target="_blank"><img loading="lazy" src="125-趴卧被提起/首帧.png" alt="D 首帧" width="1672" height="941"></a><figcaption>首帧 · D</figcaption></figure><figure><a href="125-趴卧被提起/尾帧.png" target="_blank"><img loading="lazy" src="125-趴卧被提起/尾帧.png" alt="H_D 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_D</figcaption></figure></div><p>由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。</p>
+<div class="actions"><button class="copy" data-target="prompt-125">复制完整提示词</button><a href="125-趴卧被提起/提示词.txt" download>下载提示词</a><a href="125-趴卧被提起/首帧.png" download>首帧原图</a><a href="125-趴卧被提起/尾帧.png" download>尾帧原图</a><a href="125-趴卧被提起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-125">125-趴卧被提起
+接缝：D → H_D；类型：过渡
+建议有效动作时长 0.8—1.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：朝右胸腹贴地趴卧。尾图：对应朝右胸腹贴地趴卧的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-126">
+<div class="cardtitle"><h2>126 · 趴卧对应悬空轻摆</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 循环 · 2—3 秒 · H_D → H_D</p>
+<div class="pair"><figure><a href="126-趴卧对应悬空轻摆/首帧.png" target="_blank"><img loading="lazy" src="126-趴卧对应悬空轻摆/首帧.png" alt="H_D 首帧" width="1672" height="941"></a><figcaption>首帧 · H_D</figcaption></figure><figure><a href="126-趴卧对应悬空轻摆/尾帧.png" target="_blank"><img loading="lazy" src="126-趴卧对应悬空轻摆/尾帧.png" alt="H_D 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_D</figcaption></figure></div><p>保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。</p>
+<div class="actions"><button class="copy" data-target="prompt-126">复制完整提示词</button><a href="126-趴卧对应悬空轻摆/提示词.txt" download>下载提示词</a><a href="126-趴卧对应悬空轻摆/首帧.png" download>首帧原图</a><a href="126-趴卧对应悬空轻摆/尾帧.png" download>尾帧原图</a><a href="126-趴卧对应悬空轻摆/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-126">126-趴卧对应悬空轻摆
+接缝：H_D → H_D；类型：循环
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应朝右胸腹贴地趴卧的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：对应朝右胸腹贴地趴卧的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-127">
+<div class="cardtitle"><h2>127 · 趴卧对应放回地面</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 1—2 秒 · H_D → D</p>
+<div class="pair"><figure><a href="127-趴卧对应放回地面/首帧.png" target="_blank"><img loading="lazy" src="127-趴卧对应放回地面/首帧.png" alt="H_D 首帧" width="1672" height="941"></a><figcaption>首帧 · H_D</figcaption></figure><figure><a href="127-趴卧对应放回地面/尾帧.png" target="_blank"><img loading="lazy" src="127-趴卧对应放回地面/尾帧.png" alt="D 尾帧" width="1672" height="941"></a><figcaption>尾帧 · D</figcaption></figure></div><p>下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。</p>
+<div class="actions"><button class="copy" data-target="prompt-127">复制完整提示词</button><a href="127-趴卧对应放回地面/提示词.txt" download>下载提示词</a><a href="127-趴卧对应放回地面/首帧.png" download>首帧原图</a><a href="127-趴卧对应放回地面/尾帧.png" download>尾帧原图</a><a href="127-趴卧对应放回地面/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-127">127-趴卧对应放回地面
+接缝：H_D → D；类型：过渡
+建议有效动作时长 1—2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应朝右胸腹贴地趴卧的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：朝右胸腹贴地趴卧。
+
+动作：下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-128">
+<div class="cardtitle"><h2>128 · 侧躺被提起</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 0.8—1.5 秒 · A → H_A</p>
+<div class="pair"><figure><a href="128-侧躺被提起/首帧.png" target="_blank"><img loading="lazy" src="128-侧躺被提起/首帧.png" alt="A 首帧" width="1672" height="941"></a><figcaption>首帧 · A</figcaption></figure><figure><a href="128-侧躺被提起/尾帧.png" target="_blank"><img loading="lazy" src="128-侧躺被提起/尾帧.png" alt="H_A 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_A</figcaption></figure></div><p>由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。</p>
+<div class="actions"><button class="copy" data-target="prompt-128">复制完整提示词</button><a href="128-侧躺被提起/提示词.txt" download>下载提示词</a><a href="128-侧躺被提起/首帧.png" download>首帧原图</a><a href="128-侧躺被提起/尾帧.png" download>尾帧原图</a><a href="128-侧躺被提起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-128">128-侧躺被提起
+接缝：A → H_A；类型：过渡
+建议有效动作时长 0.8—1.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在左、侧脸贴地、后腿一伸一屈的侧瘫。尾图：对应头在左、侧脸贴地、后腿一伸一屈的侧瘫的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-129">
+<div class="cardtitle"><h2>129 · 侧躺对应悬空轻摆</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 循环 · 2—3 秒 · H_A → H_A</p>
+<div class="pair"><figure><a href="129-侧躺对应悬空轻摆/首帧.png" target="_blank"><img loading="lazy" src="129-侧躺对应悬空轻摆/首帧.png" alt="H_A 首帧" width="1672" height="941"></a><figcaption>首帧 · H_A</figcaption></figure><figure><a href="129-侧躺对应悬空轻摆/尾帧.png" target="_blank"><img loading="lazy" src="129-侧躺对应悬空轻摆/尾帧.png" alt="H_A 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_A</figcaption></figure></div><p>保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。</p>
+<div class="actions"><button class="copy" data-target="prompt-129">复制完整提示词</button><a href="129-侧躺对应悬空轻摆/提示词.txt" download>下载提示词</a><a href="129-侧躺对应悬空轻摆/首帧.png" download>首帧原图</a><a href="129-侧躺对应悬空轻摆/尾帧.png" download>尾帧原图</a><a href="129-侧躺对应悬空轻摆/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-129">129-侧躺对应悬空轻摆
+接缝：H_A → H_A；类型：循环
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应头在左、侧脸贴地、后腿一伸一屈的侧瘫的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：对应头在左、侧脸贴地、后腿一伸一屈的侧瘫的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-130">
+<div class="cardtitle"><h2>130 · 侧躺对应放回地面</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 1—2 秒 · H_A → A</p>
+<div class="pair"><figure><a href="130-侧躺对应放回地面/首帧.png" target="_blank"><img loading="lazy" src="130-侧躺对应放回地面/首帧.png" alt="H_A 首帧" width="1672" height="941"></a><figcaption>首帧 · H_A</figcaption></figure><figure><a href="130-侧躺对应放回地面/尾帧.png" target="_blank"><img loading="lazy" src="130-侧躺对应放回地面/尾帧.png" alt="A 尾帧" width="1672" height="941"></a><figcaption>尾帧 · A</figcaption></figure></div><p>下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。</p>
+<div class="actions"><button class="copy" data-target="prompt-130">复制完整提示词</button><a href="130-侧躺对应放回地面/提示词.txt" download>下载提示词</a><a href="130-侧躺对应放回地面/首帧.png" download>首帧原图</a><a href="130-侧躺对应放回地面/尾帧.png" download>尾帧原图</a><a href="130-侧躺对应放回地面/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-130">130-侧躺对应放回地面
+接缝：H_A → A；类型：过渡
+建议有效动作时长 1—2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应头在左、侧脸贴地、后腿一伸一屈的侧瘫的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：头在左、侧脸贴地、后腿一伸一屈的侧瘫。
+
+动作：下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-131">
+<div class="cardtitle"><h2>131 · 露肚被提起</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 0.8—1.5 秒 · B → H_B</p>
+<div class="pair"><figure><a href="131-露肚被提起/首帧.png" target="_blank"><img loading="lazy" src="131-露肚被提起/首帧.png" alt="B 首帧" width="1672" height="941"></a><figcaption>首帧 · B</figcaption></figure><figure><a href="131-露肚被提起/尾帧.png" target="_blank"><img loading="lazy" src="131-露肚被提起/尾帧.png" alt="H_B 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_B</figcaption></figure></div><p>由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。</p>
+<div class="actions"><button class="copy" data-target="prompt-131">复制完整提示词</button><a href="131-露肚被提起/提示词.txt" download>下载提示词</a><a href="131-露肚被提起/首帧.png" download>首帧原图</a><a href="131-露肚被提起/尾帧.png" download>尾帧原图</a><a href="131-露肚被提起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-131">131-露肚被提起
+接缝：B → H_B；类型：过渡
+建议有效动作时长 0.8—1.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：头在右后仰、背部承重、前腿朝头顶伸展的露肚。尾图：对应头在右后仰、背部承重、前腿朝头顶伸展的露肚的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-132">
+<div class="cardtitle"><h2>132 · 露肚对应悬空轻摆</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 循环 · 2—3 秒 · H_B → H_B</p>
+<div class="pair"><figure><a href="132-露肚对应悬空轻摆/首帧.png" target="_blank"><img loading="lazy" src="132-露肚对应悬空轻摆/首帧.png" alt="H_B 首帧" width="1672" height="941"></a><figcaption>首帧 · H_B</figcaption></figure><figure><a href="132-露肚对应悬空轻摆/尾帧.png" target="_blank"><img loading="lazy" src="132-露肚对应悬空轻摆/尾帧.png" alt="H_B 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_B</figcaption></figure></div><p>保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。</p>
+<div class="actions"><button class="copy" data-target="prompt-132">复制完整提示词</button><a href="132-露肚对应悬空轻摆/提示词.txt" download>下载提示词</a><a href="132-露肚对应悬空轻摆/首帧.png" download>首帧原图</a><a href="132-露肚对应悬空轻摆/尾帧.png" download>尾帧原图</a><a href="132-露肚对应悬空轻摆/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-132">132-露肚对应悬空轻摆
+接缝：H_B → H_B；类型：循环
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应头在右后仰、背部承重、前腿朝头顶伸展的露肚的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：对应头在右后仰、背部承重、前腿朝头顶伸展的露肚的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-133">
+<div class="cardtitle"><h2>133 · 露肚对应放回地面</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 1—2 秒 · H_B → B</p>
+<div class="pair"><figure><a href="133-露肚对应放回地面/首帧.png" target="_blank"><img loading="lazy" src="133-露肚对应放回地面/首帧.png" alt="H_B 首帧" width="1672" height="941"></a><figcaption>首帧 · H_B</figcaption></figure><figure><a href="133-露肚对应放回地面/尾帧.png" target="_blank"><img loading="lazy" src="133-露肚对应放回地面/尾帧.png" alt="B 尾帧" width="1672" height="941"></a><figcaption>尾帧 · B</figcaption></figure></div><p>下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。</p>
+<div class="actions"><button class="copy" data-target="prompt-133">复制完整提示词</button><a href="133-露肚对应放回地面/提示词.txt" download>下载提示词</a><a href="133-露肚对应放回地面/首帧.png" download>首帧原图</a><a href="133-露肚对应放回地面/尾帧.png" download>尾帧原图</a><a href="133-露肚对应放回地面/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-133">133-露肚对应放回地面
+接缝：H_B → B；类型：过渡
+建议有效动作时长 1—2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应头在右后仰、背部承重、前腿朝头顶伸展的露肚的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：头在右后仰、背部承重、前腿朝头顶伸展的露肚。
+
+动作：下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-134">
+<div class="cardtitle"><h2>134 · 舒展被提起</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 0.8—1.5 秒 · X → H_X</p>
+<div class="pair"><figure><a href="134-舒展被提起/首帧.png" target="_blank"><img loading="lazy" src="134-舒展被提起/首帧.png" alt="X 首帧" width="1672" height="941"></a><figcaption>首帧 · X</figcaption></figure><figure><a href="134-舒展被提起/尾帧.png" target="_blank"><img loading="lazy" src="134-舒展被提起/尾帧.png" alt="H_X 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_X</figcaption></figure></div><p>由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。</p>
+<div class="actions"><button class="copy" data-target="prompt-134">复制完整提示词</button><a href="134-舒展被提起/提示词.txt" download>下载提示词</a><a href="134-舒展被提起/首帧.png" download>首帧原图</a><a href="134-舒展被提起/尾帧.png" download>尾帧原图</a><a href="134-舒展被提起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-134">134-舒展被提起
+接缝：X → H_X；类型：过渡
+建议有效动作时长 0.8—1.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：背朝观察者、近臀远头、不见正脸的舒展。尾图：对应背朝观察者、近臀远头、不见正脸的舒展的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-135">
+<div class="cardtitle"><h2>135 · 舒展对应悬空轻摆</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 循环 · 2—3 秒 · H_X → H_X</p>
+<div class="pair"><figure><a href="135-舒展对应悬空轻摆/首帧.png" target="_blank"><img loading="lazy" src="135-舒展对应悬空轻摆/首帧.png" alt="H_X 首帧" width="1672" height="941"></a><figcaption>首帧 · H_X</figcaption></figure><figure><a href="135-舒展对应悬空轻摆/尾帧.png" target="_blank"><img loading="lazy" src="135-舒展对应悬空轻摆/尾帧.png" alt="H_X 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_X</figcaption></figure></div><p>保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。</p>
+<div class="actions"><button class="copy" data-target="prompt-135">复制完整提示词</button><a href="135-舒展对应悬空轻摆/提示词.txt" download>下载提示词</a><a href="135-舒展对应悬空轻摆/首帧.png" download>首帧原图</a><a href="135-舒展对应悬空轻摆/尾帧.png" download>尾帧原图</a><a href="135-舒展对应悬空轻摆/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-135">135-舒展对应悬空轻摆
+接缝：H_X → H_X；类型：循环
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应背朝观察者、近臀远头、不见正脸的舒展的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：对应背朝观察者、近臀远头、不见正脸的舒展的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-136">
+<div class="cardtitle"><h2>136 · 舒展对应放回地面</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 1—2 秒 · H_X → X</p>
+<div class="pair"><figure><a href="136-舒展对应放回地面/首帧.png" target="_blank"><img loading="lazy" src="136-舒展对应放回地面/首帧.png" alt="H_X 首帧" width="1672" height="941"></a><figcaption>首帧 · H_X</figcaption></figure><figure><a href="136-舒展对应放回地面/尾帧.png" target="_blank"><img loading="lazy" src="136-舒展对应放回地面/尾帧.png" alt="X 尾帧" width="1672" height="941"></a><figcaption>尾帧 · X</figcaption></figure></div><p>下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。</p>
+<div class="actions"><button class="copy" data-target="prompt-136">复制完整提示词</button><a href="136-舒展对应放回地面/提示词.txt" download>下载提示词</a><a href="136-舒展对应放回地面/首帧.png" download>首帧原图</a><a href="136-舒展对应放回地面/尾帧.png" download>尾帧原图</a><a href="136-舒展对应放回地面/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-136">136-舒展对应放回地面
+接缝：H_X → X；类型：过渡
+建议有效动作时长 1—2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应背朝观察者、近臀远头、不见正脸的舒展的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：背朝观察者、近臀远头、不见正脸的舒展。
+
+动作：下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-137">
+<div class="cardtitle"><h2>137 · 掩面被提起</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 0.8—1.5 秒 · M → H_M</p>
+<div class="pair"><figure><a href="137-掩面被提起/首帧.png" target="_blank"><img loading="lazy" src="137-掩面被提起/首帧.png" alt="M 首帧" width="1672" height="941"></a><figcaption>首帧 · M</figcaption></figure><figure><a href="137-掩面被提起/尾帧.png" target="_blank"><img loading="lazy" src="137-掩面被提起/尾帧.png" alt="H_M 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_M</figcaption></figure></div><p>由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。</p>
+<div class="actions"><button class="copy" data-target="prompt-137">复制完整提示词</button><a href="137-掩面被提起/提示词.txt" download>下载提示词</a><a href="137-掩面被提起/首帧.png" download>首帧原图</a><a href="137-掩面被提起/尾帧.png" download>尾帧原图</a><a href="137-掩面被提起/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-137">137-掩面被提起
+接缝：M → H_M；类型：过渡
+建议有效动作时长 0.8—1.5 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡。尾图：对应低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-138">
+<div class="cardtitle"><h2>138 · 掩面对应悬空轻摆</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 循环 · 2—3 秒 · H_M → H_M</p>
+<div class="pair"><figure><a href="138-掩面对应悬空轻摆/首帧.png" target="_blank"><img loading="lazy" src="138-掩面对应悬空轻摆/首帧.png" alt="H_M 首帧" width="1672" height="941"></a><figcaption>首帧 · H_M</figcaption></figure><figure><a href="138-掩面对应悬空轻摆/尾帧.png" target="_blank"><img loading="lazy" src="138-掩面对应悬空轻摆/尾帧.png" alt="H_M 尾帧" width="1672" height="941"></a><figcaption>尾帧 · H_M</figcaption></figure></div><p>保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。</p>
+<div class="actions"><button class="copy" data-target="prompt-138">复制完整提示词</button><a href="138-掩面对应悬空轻摆/提示词.txt" download>下载提示词</a><a href="138-掩面对应悬空轻摆/首帧.png" download>首帧原图</a><a href="138-掩面对应悬空轻摆/尾帧.png" download>尾帧原图</a><a href="138-掩面对应悬空轻摆/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-138">138-掩面对应悬空轻摆
+接缝：H_M → H_M；类型：循环
+建议有效动作时长 2—3 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：对应低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡的受托悬空姿态，四肢失去地面支撑后自然松垂。
+
+动作：保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。
+
+衔接：完成自然运动的完整周期。上传首尾为同一文件，必须有中间动作，起止相位和速度连续，不在尾部减速或定格，不倒放凑循环。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><article data-group="拖拽补齐" data-priority="P3" id="clip-139">
+<div class="cardtitle"><h2>139 · 掩面对应放回地面</h2><span class="review">新锚点待评审</span></div>
+<p class="meta">P3 · 拖拽补齐 · 过渡 · 1—2 秒 · H_M → M</p>
+<div class="pair"><figure><a href="139-掩面对应放回地面/首帧.png" target="_blank"><img loading="lazy" src="139-掩面对应放回地面/首帧.png" alt="H_M 首帧" width="1672" height="941"></a><figcaption>首帧 · H_M</figcaption></figure><figure><a href="139-掩面对应放回地面/尾帧.png" target="_blank"><img loading="lazy" src="139-掩面对应放回地面/尾帧.png" alt="M 尾帧" width="1672" height="941"></a><figcaption>尾帧 · M</figcaption></figure></div><p>下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。</p>
+<div class="actions"><button class="copy" data-target="prompt-139">复制完整提示词</button><a href="139-掩面对应放回地面/提示词.txt" download>下载提示词</a><a href="139-掩面对应放回地面/首帧.png" download>首帧原图</a><a href="139-掩面对应放回地面/尾帧.png" download>尾帧原图</a><a href="139-掩面对应放回地面/制作说明.md">制作说明</a></div>
+<details><summary>查看完整提示词</summary><pre id="prompt-139">139-掩面对应放回地面
+接缝：H_M → M；类型：过渡
+建议有效动作时长 1—2 秒，不统一做5秒。平台只有固定时长时，选不短于上限的最近时长；单次动作完成后仅保持尾姿态，循环则增加完整周期。不加速、倒放或插帧凑时长；返还原始视频及实际帧率。
+
+固定机位与镜头，1672×941横画幅、浅暖灰干净背景。全程同一只2D成年蓝灰短毛陈皮，保持输入图头骨、胸廓、圆颊、短深鼻、轻嘴线、自然灰色嘴垫、金色眼睛及粗尾；精细绘本笔触，不改成照片、3D或幼猫。自身左眼略小，正面时为画面右眼，不镜像调换；侧面只见一眼时不强行扭脸，闭眼时不画眼球。四肢和尾数量正确，不变焦、不拉伸、不逐帧归一化外框。脚底或胸腹实际承重连续，尾尖不决定整猫高度。画面只有一只完整猫，不能生成墙、猫窝、盆、人手、绳索、衣服、地面线、台词、文字、气泡、特效或烘焙阴影。
+
+首图：对应低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡的受托悬空姿态，四肢失去地面支撑后自然松垂。尾图：低侧视头在左埋入前爪、前臂遮眼、尾围前缘的掩面蜷睡。
+
+动作：下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。
+
+衔接：只执行一次指定动作，首尾严格抵达上传图的真实姿态；进入退出自然，末端最多轻稳约0.2秒，不跳切、溶解、交叉淡化或突然缩放。首尾相同也必须完成中间动作，不能生成静帧。 起提/下降必须有真实关节与重力变化，不用整图平移替代；不增加可见手或绳索。悬空无地面承重，落地按脚掌或胸腹接触面先后受力，禁止尾尖触底带着整猫抬高。
+
+全程静音生成，口型与后期音效分开；无语音、台词、音乐。
+</pre></details></article><footer>制作输入包 · 10张原图字节复用 / 8张 image_gen 候选 · 新视频及动态检测待返片</footer></main><script>
+const cards=[...document.querySelectorAll('article')],notice=document.getElementById('notice');
+function filter(){const group=document.getElementById('group').value,priority=document.getElementById('priority').value,query=document.getElementById('search').value.trim().toLowerCase();let count=0;for(const card of cards){card.hidden=!!((group&&card.dataset.group!==group)||(priority&&card.dataset.priority!==priority)||(query&&!card.querySelector('h2').textContent.toLowerCase().includes(query)));if(!card.hidden)count++;}notice.textContent=`显示 ${count} / 41 条动作`;document.getElementById('empty').hidden=count>0;}
+for(const id of ['group','priority','search'])document.getElementById(id).addEventListener('input',filter);
+document.querySelectorAll('.copy').forEach(button=>button.addEventListener('click',async()=>{const pre=document.getElementById(button.dataset.target);try{await navigator.clipboard.writeText(pre.textContent);notice.textContent='完整提示词已复制';button.textContent='已复制';setTimeout(()=>button.textContent='复制完整提示词',1800);}catch{pre.closest('details').open=true;const range=document.createRange();range.selectNodeContents(pre);const selection=window.getSelection();selection.removeAllRanges();selection.addRange(range);notice.textContent='浏览器未允许自动复制，已选中完整提示词，请按 Ctrl+C。';}}));
+</script></body></html>

@@ -1,0 +1,20 @@
+{
+  "id": 105,
+  "name": "侧躺直接朝左站起",
+  "start": "A",
+  "end": "SL",
+  "priority": "P2",
+  "group": "左向起身",
+  "suggestedSeconds": "2—3",
+  "motion": "先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。",
+  "reason": "对应已有70/74/78右起身，减少起身后15转左。",
+  "status": "awaiting-production",
+  "runtimeEnabled": false,
+  "folder": "105-侧躺直接朝左站起",
+  "file": "105-侧躺直接朝左站起/制作说明.md",
+  "type": "过渡",
+  "anchorReviewRequired": false,
+  "startFrame": "105-侧躺直接朝左站起/首帧.png",
+  "endFrame": "105-侧躺直接朝左站起/尾帧.png",
+  "promptFile": "105-侧躺直接朝左站起/提示词.txt"
+}
