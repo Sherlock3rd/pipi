@@ -132,13 +132,14 @@ Check(offlineState.Food==80&&offlineState.Water==80&&offlineState.Litter==0,"off
 Advance(offline,30);
 Check(offlineState.Food==60&&offlineState.Water==60&&offlineState.Litter==20,"long overdue gap leads to one real visit of each type, not a backlog");
 Check(offlineState.LitterClock.NextDue-86400 is >=3600 and <=7200,"completed toilet resamples sixty to one hundred twenty minutes");
-var requestState=new PetState{X=300,Y=300,Water=0,RestDuration=600,LitterPosition=new Spot(1100,852)};var requester=new PetEngine(requestState,9);requester.Layout(1400,900);
+var requestState=new PetState{X=300,Y=300,Water=0,RestDuration=600,WaterClock=new(){NextDue=1},WaterPosition=new(500,852),FoodPosition=new(1000,852),NestPosition=new(1550,852),LitterPosition=new Spot(1200,852)};var requester=new PetEngine(requestState,9);requester.Layout(1800,900);
 requester.AdvanceNeeds(299);requester.Update(.1,12);
 Check(requestState.CareRequest is null,"empty resource waits a full five awake minutes before requesting");
 requester.AdvanceNeeds(1);requester.Update(.1,12);
-Check(requestState.CareRequest=="water"&&requester.Action=="request-walk","five-minute empty resource initiates bottom-center request walk");
+Check(requestState.CareRequest=="water"&&requester.Action=="request-walk","due demand plus five-minute empty resource initiates walk to its bowl");
 Advance(requester,new Spot(requestState.X,requestState.Y).Distance(requester.RequestSpot)/PetEngine.WalkSpeed+1);
-Check(requester.Action=="request-water"&&new Spot(requestState.X,requestState.Y)==requester.RequestSpot,"requesting cat stands at screen bottom center");
+Check(requester.Action=="request-water"&&new Spot(requestState.X,requestState.Y)==requester.CareDestination(requester.WaterSpot,"drink"),"requesting cat stands at the actual bowl usage position");
+requester.MoveObject("water",new Spot(800,requester.GroundY));
 requester.ObservePointer(.01,true,requester.CatPlayCenter);
 Check(requestState.Guiding&&requester.Action=="guide-walk","hover immediately overrides request with guidance, without five-second rub delay");
 requester.ObservePointer(.1,false,new Spot(-1000,-1000));var waitingAt=new Spot(requestState.X,requestState.Y);Advance(requester,1);
@@ -157,7 +158,7 @@ Check(partialLitter.State.CareRequest is null,"litter requests only when full, n
 partialLitter.State.Litter=100;partialLitter.AdvanceNeeds(300);partialLitter.Update(.1,12);
 Check(partialLitter.State.CareRequest=="litter","full litter after five minutes requests cleaning");
 partialLitter.Refill("litter");Check(partialLitter.State.CareRequest is null&&partialLitter.State.LitterClock.UnavailableSince is null,"early remote cleaning cancels request before arrival");
-var multi=new PetEngine(new PetState{X=350,Y=400,Food=0,Water=0,Litter=100},4);multi.Layout(1400,900);multi.AdvanceNeeds(300);multi.Update(.1,12);
+var multi=new PetEngine(new PetState{X=350,Y=400,Food=0,Water=0,Litter=100,FoodClock=new(){NextDue=1},WaterClock=new(){NextDue=1}},4);multi.Layout(1400,900);multi.AdvanceNeeds(300);multi.Update(.1,12);
 Check(multi.State.CareRequest=="water","multiple shortages select one request at a time");
 multi.Refill("water");Advance(multi,1.2);Check(multi.State.CareRequest=="food","resolving one shortage advances to the next unmet request");
 string careFolder=Path.Combine(Path.GetTempPath(),"Chenpi-care-"+Guid.NewGuid());
@@ -215,7 +216,7 @@ sameClick.Update(.1,12);Check(sameClick.ActionRevision==firstRevision,"render up
 sameClick.Interact();Check(sameClick.ActionRevision>firstRevision,"each new action exposes one selection boundary");
 PetEngine RequestingCat(bool guiding=true)
 {
- var pet=new PetEngine(new PetState{X=400,Y=400,Food=0,Water=75,Litter=20,TotalSeconds=301,FoodClock=new(){NextDue=99999,UnavailableSince=0},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}},17);
+ var pet=new PetEngine(new PetState{X=400,Y=400,Food=0,Water=75,Litter=20,TotalSeconds=301,FoodClock=new(){NextDue=1,UnavailableSince=0},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}},17);
  pet.Layout(1200,800);pet.Update(.1,12);if(guiding)pet.ObservePointer(.1,true,pet.CatPlayCenter);return pet;
 }
 var debugCat=RequestingCat();debugCat.Demo("drink");Advance(debugCat,.5);
@@ -480,7 +481,7 @@ Advance(placement,20);Check(placement.IsClearRestSpot(placement.State.X),"awake 
 placement=RestFixture();placement.State.X=600;placement.SetToy(true,new(600,687));Advance(placement,8);
 Check(placement.IsClearRestSpot(placement.State.X),"toy over a bowl cannot keep cat stopped inside furniture");
 placement=RestFixture();placement.Recall();Check(placement.IsClearRestSpot(placement.State.X),"recall chooses a clear point near the nest");
-Check(placement.IsClearRestSpot(placement.RequestSpot.X)&&placement.IsClearRestSpot(placement.GuideDestination("food").X),"requests and guidance wait outside all furniture footprints");
+Check(placement.IsClearRestSpot(placement.RequestSpot.X)&&placement.GuideDestination("food")==placement.CareDestination(placement.FoodSpot,"eat"),"idle placement stays clear while food requests use the bowl position");
 var crowded=new PetEngine(new PetState{X=200,RestDuration=3600},3);crowded.Layout(420,400);
 var fallback=crowded.NearestRestSpot(new(200,352));Check(double.IsFinite(fallback.X)&&fallback.X>=85&&fallback.X<=335&&crowded.NearestRestSpot(fallback)==fallback,"overfilled desktop uses stable bounded fallback instead of oscillating");
 placement=RestFixture();placement.State.X=700;placement.Update(.1,12);Advance(placement,1);
@@ -634,7 +635,7 @@ using(var guideDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
  Check(lower.Clip=="video-31"&&lower.Definition.Duration>5&&lower.Definition.Duration<5.1,"burial paw lowering also keeps its original five seconds");
  foreach(bool follow in new[]{false,true})
  {
-  pb.Reset();var cat=new PetEngine(new PetState{X=1200,Food=100,Water=0,Litter=0,NestPosition=new(2237,1242),FoodPosition=new(1989,1242),WaterPosition=new(2064,1242),LitterPosition=new(412,1242)},5);
+  pb.Reset();var cat=new PetEngine(new PetState{X=1200,Food=100,Water=0,WaterClock=new(){NextDue=1},Litter=0,NestPosition=new(2237,1242),FoodPosition=new(1989,1242),WaterPosition=new(2064,1242),LitterPosition=new(412,1242)},5);
   cat.Layout(2400,1290);cat.State.X=cat.RequestSpot.X;cat.AdvanceNeeds(301);cat.Update(.02,12);
   cat.VisualActionDuration=pb.ActionDuration;cat.VisualVelocity=pb.HorizontalVelocity;cat.VisualStandReady=pb.PrepareStand;cat.VisualCareReady=pb.PrepareCare;cat.VisualTravel=pb.TravelTo;
   Spot pointer=new(cat.State.X-30,cat.State.Y-65);string previous=cat.Action;double lookStart=0,lastX=cat.State.X;int waits=0;bool faces=true,still=true,whole=true,monotone=true;var route=new List<string>();
@@ -802,4 +803,5 @@ using(var widthDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
  using var invalid=System.Text.Json.JsonDocument.Parse("{\"horizontalRegistration\":[[1.2,0]]}");
  Check(SpritePlayback.ReadHorizontalRegistration(invalid.RootElement,1) is null&&player.InspectFrame("video-22",-1) is null,"invalid width corrections and out-of-range audit frames are rejected");
 }
+CareRequestChecks.Run(Check);
 Console.WriteLine($"{checks} checks passed.");

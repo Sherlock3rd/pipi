@@ -18,14 +18,18 @@ public sealed partial class PetEngine
     private bool pointerKnown;
     private double guideTravelled;
     private bool guideFollowing;
-    public Spot RequestSpot=>NearestRestSpot(new(Width/2,Grounded?GroundY:Height-65));
+    public Spot RequestSpot=>State.CareRequest is string kind?RequestDestination(kind):NearestRestSpot(new(State.X,State.Y));
     private CareClock ClockFor(string kind)=>kind switch {"food"=>State.FoodClock,"water"=>State.WaterClock,_=>State.LitterClock};
     private bool Available(string kind)=>kind switch {"food"=>State.Food>0,"water"=>State.Water>0,_=>State.Litter<100};
+    // Eating/drinking demand uses the same persisted schedule as actual visits.
+    // A full tray still asks for cleaning independently of the next toilet visit.
+    private bool HasCareDemand(string kind)=>kind=="litter"||ClockFor(kind).NextDue<=State.TotalSeconds;
     private void InitializeCare()
     {
         foreach(var kind in CareKinds)if(ClockFor(kind).NextDue<=0)ScheduleNext(kind);
         if(State.CareRequest is not null&&Array.IndexOf(CareKinds,State.CareRequest)<0){State.CareRequest=null;State.Guiding=false;}
         RefreshAvailability();
+        if(State.CareRequest is string pending&&!HasCareDemand(pending))CancelCareRequest();
     }
     private void ScheduleNext(string kind)
     {
@@ -60,7 +64,7 @@ public sealed partial class PetEngine
         foreach(var kind in CareKinds)
         {
             var clock=ClockFor(kind);
-            if(kind!=except&&!Available(kind)&&clock.UnavailableSince is double start&&State.TotalSeconds-start>=RequestDelay&&clock.LastRequested<oldest)
+            if(kind!=except&&HasCareDemand(kind)&&!Available(kind)&&clock.UnavailableSince is double start&&State.TotalSeconds-start>=RequestDelay&&clock.LastRequested<oldest)
             {chosen=kind;oldest=clock.LastRequested;}
         }
         return chosen;
@@ -70,7 +74,7 @@ public sealed partial class PetEngine
     private void BeginRequest(string kind)
     {
         State.CareRequest=kind;State.Guiding=false;ClockFor(kind).LastRequested=State.TotalSeconds;
-        SetAction("request-walk",double.MaxValue,"前往屏幕下方请求照料");
+        SetAction("request-walk",double.MaxValue,"前往对应物品请求照料");
     }
     private void CancelCareRequest()
     {State.CareRequest=null;State.Guiding=false;guideTravelled=0;pointerKnown=false;Dirty=true;}
@@ -86,25 +90,26 @@ public sealed partial class PetEngine
         bool guided=State.Guiding;State.CareRequest=null;State.Guiding=false;guideTravelled=0;NewRest();
         SetAction(guided?"care-thanks":"sit",guided?2:1,"照料已完成");
     }
-    public Spot GuideDestination(string kind)
-    {
-        var item=ObjectPosition(kind);double gap=kind=="litter"?135:120;
-        double x=item.X-gap>=65?item.X-gap:item.X+gap;
-        return NearestRestSpot(OnGround(new Spot(Math.Clamp(x,65,Width-65),Math.Clamp(item.Y,140,Height-60))));
-    }
+    public Spot RequestDestination(string kind)=>kind switch {
+        "food"=>CareDestination(FoodSpot,"eat"),
+        "water"=>CareDestination(WaterSpot,"drink"),
+        _=>NearestRestSpot(OnGround(LitterSpot))};
+    public Spot GuideDestination(string kind)=>RequestDestination(kind);
     private bool UpdateCareFlow(double dt)
     {
         string? kind=State.CareRequest;if(kind is null)return false;
+        if(!HasCareDemand(kind)){CancelCareRequest();NewRest();SetAction("sit",1,"当前没有吃喝需求");return true;}
         if(Available(kind)){FinishRequest();return true;}
         if(!State.Guiding)
         {
-            double distance=new Spot(State.X,State.Y).Distance(RequestSpot);
+            var requestGoal=RequestDestination(kind);
+            double distance=new Spot(State.X,State.Y).Distance(requestGoal);
             if(distance>2||!MovementComplete)
             {
                 if(Action!="request-walk")SetAction("request-walk",double.MaxValue,"前往请求位置");
-                FacingLeft=RequestSpot.X<State.X;MoveTowards(RequestSpot,WalkSpeed*dt);return true;
+                FacingLeft=requestGoal.X<State.X;MoveTowards(requestGoal,WalkSpeed*dt);return true;
             }
-            State.X=RequestSpot.X;State.Y=RequestSpot.Y;
+            State.X=requestGoal.X;State.Y=requestGoal.Y;
             if(Action!="request-"+kind)
             {
                 SetAction("request-"+kind,double.MaxValue,"等待主人注意");

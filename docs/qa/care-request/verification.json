@@ -1,0 +1,66 @@
+{
+  "logicalChecks": 362,
+  "previewType": "four isolated actual WPF runs; not desktop mouse end-to-end",
+  "previews": [
+    {
+      "scenario": "food",
+      "durationSeconds": 34.91,
+      "samples": 125,
+      "finalAction": "request-food",
+      "finalClip": "video-45",
+      "x": 300.1961174713788,
+      "y": 524.8571428571429,
+      "clips": [
+        "video-08",
+        "video-16",
+        "video-10",
+        "video-11",
+        "video-45"
+      ],
+      "errors": false
+    },
+    {
+      "scenario": "water",
+      "durationSeconds": 34.88,
+      "samples": 126,
+      "finalAction": "request-water",
+      "finalClip": "video-46",
+      "x": 406.24888003982085,
+      "y": 524.8571428571429,
+      "clips": [
+        "video-46"
+      ],
+      "errors": false
+    },
+    {
+      "scenario": "litter",
+      "durationSeconds": 34.89,
+      "samples": 124,
+      "finalAction": "request-litter",
+      "finalClip": "video-47",
+      "x": 583.1742160278745,
+      "y": 524.8571428571429,
+      "clips": [
+        "video-06",
+        "video-10",
+        "video-right",
+        "video-11",
+        "video-47"
+      ],
+      "errors": false
+    },
+    {
+      "scenario": "not-due",
+      "durationSeconds": 34.99,
+      "samples": 124,
+      "finalAction": "idle",
+      "finalClip": "video-01",
+      "x": 100.04977600796417,
+      "y": 524.8571428571429,
+      "clips": [
+        "video-01"
+      ],
+      "errors": false
+    }
+  ]
+}

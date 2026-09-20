@@ -27,3 +27,5 @@
 API 样式顺序依据：[Microsoft SetParent](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setparent)、[SetWindowPos](https://learn.microsoft.com/en-us/windows/win32/api/winuser/nf-winuser-setwindowpos)。WPF 本机显示故障结论来自上述复现，不将其泛化为所有平台的 API 行为。
 
 2026-09-19 发布补记：Stop-Process 返回后立即覆盖仍遇到DLL占用，导致首轮复制失败；确认旧进程退出后完整重复制并核对DLL/manifest哈希恢复。今后停止精确路径的本项目进程后必须Wait-Process，复制遇错即停止，哈希一致才启动，不能把发出停止请求等同于锁已释放。
+
+2026-09-20 补记：精确路径停止并等待后，首次全量复制仍遇到Accessibility.dll残留锁，已中止。复核进程完全退出后按SHA256跳过未改变运行库，仅复制实际变更DLL/exe/pdb，核验全部根文件和manifest再启动。后续默认先判定内容差异，避免无意义覆盖仍被系统引用的共享运行库。
