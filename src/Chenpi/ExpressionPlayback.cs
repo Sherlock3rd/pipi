@@ -18,6 +18,13 @@ public sealed partial class SpritePlayback
         71 or 72 or 73 or 81 or 91 or 97=>"B",
         75 or 76 or 77 or 82 or 92 or 98=>"X",84=>"M",86=>"WR",87=>"WL",88=>"F",93=>"SR",94=>"SL",_=>""};
     private static string PoseLoop(string p)=>p switch {"D"=>"66","A"=>"67","B"=>"71","X"=>"75","M"=>"84","HR"=>"53","HL"=>"56",_=>""};
+    public bool WallRestComplete(string target,double now,double notBefore)
+    {
+        string loop="video-"+PoseLoop(target);
+        if(current!=loop||!clips.TryGetValue(loop,out var clip))return false;
+        double end=started+Math.Max(1,Math.Ceiling((notBefore-started)/clip.Duration))*clip.Duration;
+        return now+1e-8>=end;
+    }
     public void RestorePose(string p){Reset();pose=destination=p;group=p;}
     private IEnumerable<(string From,string To,string Clip)> GraphEdges()
     {foreach(var e in edges)yield return e;if(HasExpressions)foreach(var e in expressionEdges)yield return e;}

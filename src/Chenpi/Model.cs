@@ -215,10 +215,11 @@ public sealed partial class PetEngine
         if(Action=="rub")return;
         if(hoverTriggered)return;
         hoverSeconds+=Math.Max(0,seconds);
-        if(hoverSeconds>=Settings.Get("hover.delay")){hoverTriggered=true;LastInteraction=Now;State.StillSeconds=0;SetAction("rub",4,"悬停蹭鼠标");}
+        if(hoverSeconds>=Settings.Get("hover.delay")){CancelDebugBehavior();hoverTriggered=true;LastInteraction=Now;State.StillSeconds=0;SetAction("rub",4,"悬停蹭鼠标");}
     }
     public void SetToy(bool held,Spot tip)
     {
+        if(held)CancelDebugBehavior();
         ToyHeld=held;ToyTip=tip;
         if(!held&&Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"玩够啦，歇一会儿");}
     }
@@ -276,6 +277,7 @@ public sealed partial class PetEngine
         if(Holding) return;
         ActionTime+=dt;
         if(Action=="drag") return;
+        if(UpdateDebugBehavior())return;
         if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&!CanRestAtWall()&&LeaveOccupiedRestSpot())return;
         if(ToyOverlaps){TickToy(dt);return;}
         if(Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"等主人靠近一点");}
@@ -399,6 +401,7 @@ public sealed partial class PetEngine
     }
     public void Interact()
     {
+        CancelDebugBehavior();
         if(State.CareRequest is not null){BeginGuide();return;}
         if(InteractRelaxed())return;
         manualSequence=false;
@@ -407,7 +410,7 @@ public sealed partial class PetEngine
         else {if(State.RestElapsed>=State.RestDuration)NewRest();SetAction(clickStreak%3==0?"roll":clickStreak%3==2?"paw":"pet",3,"点击互动");}
     }
     private void BeginManualSequence()
-    {CancelCareRequest();Holding=false;ToyHeld=false;manualSequence=true;careResumeAfter=0;hoverSeconds=0;hoverTriggered=false;LastInteraction=Now;State.StillSeconds=0;}
+    {debugPose=null;debugExpression=0;CancelCareRequest();Holding=false;ToyHeld=false;manualSequence=true;careResumeAfter=0;hoverSeconds=0;hoverTriggered=false;LastInteraction=Now;State.StillSeconds=0;}
     private void FinishManualSequence()
     {manualSequence=false;careResumeAfter=Now+3;NewRest();if(LeaveOccupiedRestSpot())return;SetAction("sit",1,"手动动作完成，稍作停留");}
     public void BeginDrag() {BeginManualSequence();manualSequence=false;SetAction("drag",double.MaxValue,"被主人拎起来啦");}

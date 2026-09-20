@@ -44,7 +44,7 @@ public sealed class BehaviorSettings
         Add("relax.gesture","gesture","选择短动作的概率",100d/3,0,100,"%","剩余概率用于换睡姿；短动作内再按权重选择。");
         Add("wall.enabled","wall","启用屏边扶墙",1,0,1,"开关","只在已靠近实际屏边且无家具阻挡时执行。");
         Add("wall.chance","wall","符合条件时扶墙概率",100,0,100,"%","每次进入休息时判断，未选中就原地睡。");
-        Add("wall.duration","wall","扶墙循环停留",5,1,60,"秒","循环后完整落地；本次启动最多自主扶墙一次。");
+        Add("wall.duration","wall","扶墙循环停留",5,1,60,"秒","达到停留时间后播完当前循环再落地；本次启动最多自主扶墙一次。");
         Add("walk.callEvery","movement","每几次长行程走路叫",3,0,100,"次","0关闭；剩余路程须容纳完整动作，短行程不插入。");
         Add("sit.callCooldown","movement","坐姿叫声冷却",300,1,3600,"秒","仅坐稳后的短窗口执行，不影响睡姿停留。");
         Add("stand.stretchChance","movement","起身伸展概率",100,0,100,"%","躺姿点击起身后判断；关闭后直接安静待机。");

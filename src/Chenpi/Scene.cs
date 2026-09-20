@@ -143,6 +143,7 @@ internal sealed partial class Scene : FrameworkElement
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         Engine.ExpressionsEnabled=playback.HasExpressions;
         Engine.VisualPoseReady=playback.PreparePose;
+        Engine.VisualWallRestComplete=playback.WallRestComplete;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
         playback.Reset();poseLift=0;
@@ -246,20 +247,18 @@ internal sealed partial class Scene : FrameworkElement
     private Rect LitterRect=>new(Engine.LitterSpot.X-InteractionGeometry.LitterHalfWidth,Engine.LitterSpot.Y-InteractionGeometry.LitterHeight,InteractionGeometry.LitterHalfWidth*2,InteractionGeometry.LitterHeight);
     private Rect ObjectRect(Spot p,double w=92)=>p==Engine.FoodSpot||p==Engine.WaterSpot
         ?new(p.X-36,p.Y+InteractionGeometry.BowlBaseOffset(p==Engine.WaterSpot)-70,72,70):new(p.X-w/2,p.Y-62,w,62);
-    private Rect SettingsRect=>new(Engine.Nest.X+InteractionGeometry.NestHalfWidth-28,Engine.Nest.Y-InteractionGeometry.NestHeight-4,30,30);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new Spot(pointer.X,pointer.Y));
     protected override HitTestResult? HitTestCore(PointHitTestParameters p)
     {
         var at=World(p.HitPoint);
-        return pressed||wandHeld||WandRect.Contains(at)||CatRect.Contains(at)||NestRect.Contains(at)||SettingsRect.Contains(at)||ObjectRect(Engine.FoodSpot).Contains(at)||ObjectRect(Engine.WaterSpot).Contains(at)||LitterRect.Contains(at)
+        return pressed||wandHeld||WandRect.Contains(at)||CatRect.Contains(at)||NestRect.Contains(at)||ObjectRect(Engine.FoodSpot).Contains(at)||ObjectRect(Engine.WaterSpot).Contains(at)||LitterRect.Contains(at)
             ?new PointHitTestResult(this,p.HitPoint):null;
     }
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
     {
         var p=World(e.GetPosition(this));
         if(wandHeld){ReturnWand();e.Handled=true;return;}
-        if(SettingsRect.Contains(p)){OpenSettings?.Invoke();e.Handled=true;return;}
         if(WandRect.Contains(p))
         {wandHeld=true;Engine.SetToy(true,new Spot(p.X,p.Y));CaptureMouse();Cursor=Cursors.Cross;InvalidateVisual();e.Handled=true;return;}
         string? hit=FrontBowlContains(p,true)?"water":FrontBowlContains(p,false)?"food":CatRect.Contains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
@@ -300,7 +299,9 @@ internal sealed partial class Scene : FrameworkElement
         SaveNow?.Invoke();e.Handled=true;
     }
     private void ReturnWand(){wandHeld=false;Engine.SetToy(false,new Spot());Cursor=Cursors.Arrow;if(IsMouseCaptured)ReleaseMouseCapture();SaveNow?.Invoke();InvalidateVisual();}
-    protected override void OnMouseRightButtonUp(MouseButtonEventArgs e){if(wandHeld)ReturnWand();else OpenSettings?.Invoke();e.Handled=true;}
+    internal bool OpensSettingsAt(Point p)=>!wandHeld&&!pressed&&!CatRect.Contains(p)&&!WandRect.Contains(p)&&!LitterRect.Contains(p)&&!ObjectRect(Engine.FoodSpot).Contains(p)&&!ObjectRect(Engine.WaterSpot).Contains(p)&&NestRect.Contains(p);
+    protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
+    {if(OpensSettingsAt(World(e.GetPosition(this))))OpenSettings?.Invoke();e.Handled=true;}
     protected override void OnRender(DrawingContext context)
     {
         long started=System.Diagnostics.Stopwatch.GetTimestamp();
@@ -357,8 +358,6 @@ internal sealed partial class Scene : FrameworkElement
         var age=DateTimeOffset.UtcNow-Engine.State.AdoptedAt;
         string span=age.TotalDays>=1?$"相伴 {Math.Max(0,(int)age.TotalDays)} 天":$"相伴 {Math.Max(0,(int)age.TotalHours):00}:{Math.Max(0,age.Minutes):00}";
         LabelPill(dc,span,Engine.Nest.X,Engine.Nest.Y+12,102);
-        dc.DrawEllipse(Brush("#F4EEE4"),new Pen(Brush("#CABDAC"),1),new Point(SettingsRect.X+15,SettingsRect.Y+15),14,14);
-        Label(dc,"···",SettingsRect.X+15,SettingsRect.Y+1,19,"#746658",true);
         dc.Pop();
         RenderMilliseconds+=System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds;RenderCount++;
     }

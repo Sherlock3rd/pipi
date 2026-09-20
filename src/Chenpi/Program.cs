@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-behavior-debug") is string debugAudit)
+        {
+            Directory.CreateDirectory(debugAudit);
+            try{var app=new System.Windows.Application();new Scene(new PetEngine(new PetState(),7)).ExportBehaviorDebugAudit(debugAudit);}
+            catch(Exception e){File.WriteAllText(Path.Combine(debugAudit,"error.txt"),e.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--audit-care-request") is string requestAudit)
         {
             Directory.CreateDirectory(requestAudit);
@@ -131,12 +138,10 @@ internal sealed class PetWindow : Window
         SystemEvents.DisplaySettingsChanged+=OnDisplays;
         tray=new Forms.NotifyIcon{Icon=MakeIcon(),Text="陈皮 · 桌面小猫",Visible=true};
         var menu=new Forms.ContextMenuStrip();
-        menu.Items.Add("陈皮的小日子 · 设置",null,(_,_)=>Dispatcher.Invoke(ShowSettings));
-        menu.Items.Add("行为工作台 · 流程与参数",null,(_,_)=>Dispatcher.Invoke(ShowBehaviorEditor));
         menu.Items.Add("召回猫猫",null,(_,_)=>Dispatcher.Invoke(()=>RunCommand(engine.Recall)));
         menu.Items.Add("显示 / 隐藏",null,(_,_)=>Dispatcher.Invoke(()=>hiddenByUser=!hiddenByUser));
         menu.Items.Add("退出陈皮",null,(_,_)=>Dispatcher.Invoke(Quit));tray.ContextMenuStrip=menu;
-        tray.DoubleClick+=(_,_)=>Dispatcher.Invoke(ShowSettings);
+        tray.DoubleClick+=(_,_)=>Dispatcher.Invoke(()=>hiddenByUser=false);
         engine.RequestedAttention+=OnRequestedAttention;
         Closing+=(_,e)=>{if(!quitting){e.Cancel=true;if(Preview&&args.Contains("--preview-walk"))Dispatcher.BeginInvoke(new Action(Quit));else hiddenByUser=true;}};
     }
@@ -343,7 +348,7 @@ internal sealed class PetWindow : Window
     private void ShowBehaviorEditor()
     {
         if(behaviorEditor is not null){behaviorEditor.Activate();return;}
-        var editor=new BehaviorEditorWindow(engine,behaviorSettingsStore,Save);behaviorEditor=editor;
+        var editor=new BehaviorEditorWindow(engine,behaviorSettingsStore,Save,RunCommand);behaviorEditor=editor;
         editor.Closed+=(_,_)=>behaviorEditor=null;editor.Show();editor.Activate();
     }
     private void ShowSettings()

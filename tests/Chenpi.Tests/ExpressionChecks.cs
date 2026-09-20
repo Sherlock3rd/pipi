@@ -13,11 +13,52 @@ public static class ExpressionChecks
             var e=new PetEngine(new PetState{X=300,Y=752,Food=100,Water=100,Litter=0,RestDuration=3600,
                 NestPosition=new(1800,752),FoodPosition=new(1100,752),WaterPosition=new(1350,752),LitterPosition=new(1550,752),
                 FoodClock=new(){NextDue=99999},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}},seed);
-            e.Layout(2200,800);e.ExpressionsEnabled=true;e.VisualPoseReady=p.PreparePose;e.VisualTravel=p.TravelTo;e.VisualVelocity=p.HorizontalVelocity;
+            e.Layout(2200,800);e.ExpressionsEnabled=true;e.VisualPoseReady=p.PreparePose;e.VisualWallRestComplete=p.WallRestComplete;e.VisualTravel=p.TravelTo;e.VisualVelocity=p.HorizontalVelocity;
             e.VisualCareReady=p.PrepareCare;e.VisualActionDuration=p.ActionDuration;e.VisualConsumptionWindow=p.ConsumptionWindow;return e;
         }
         void Tick(PetEngine c,SpritePlayback p,double seconds,HashSet<string>? seen=null)
         {for(int i=0;i<(int)Math.Ceiling(seconds/.05);i++){c.Update(.05,12);var f=p.Sample(c.AligningForCare?"care-ready":c.Action,c.Now,c.FacingLeft);if(f is {} frame)seen?.Add(frame.Clip);}}
+        foreach(var (pose,clip) in new[]{("HL","video-56"),("HR","video-53")})
+        {
+            var p=Player();p.RestorePose(pose);p.Sample("rest-"+pose,0);double cycle=p.InspectFrame(clip,0)!.Value.Definition.Duration;
+            check(!p.WallRestComplete(pose,cycle*3.2,cycle*3.1)&&p.WallRestComplete(pose,cycle*4,cycle*3.1),"repeated wall command waits for next complete loop "+pose);
+        }
+        foreach(bool left in new[]{true,false})
+        {
+            var p=Player();var c=Cat(p);c.Layout(3000,800);c.State.X=400;
+            c.WallRightOffset=doc.RootElement.GetProperty("wallContactOffsets").GetProperty("right").GetDouble();
+            c.WallLeftOffset=doc.RootElement.GetProperty("wallContactOffsets").GetProperty("left").GetDouble();
+            var before=c.State.X;var seen=new HashSet<string>();c.ExecuteBehavior(left?"wall-left":"wall-right");
+            check(c.State.X==before&&c.Action=="walk","workbench wall command travels without teleport "+left);
+            bool completed=false;double maxStep=0,priorX=c.State.X;
+            for(int i=0;i<8000;i++)
+            {
+                Tick(c,p,.05,seen);maxStep=Math.Max(maxStep,Math.Abs(c.State.X-priorX));priorX=c.State.X;
+                if(seen.Contains(left?"video-57":"video-54")&&!c.DebugBehaviorActive&&c.Action!="walk"){completed=true;break;}
+            }
+            check(completed&&seen.Contains(left?"video-55":"video-52")&&seen.Contains(left?"video-56":"video-53"),"workbench wall includes enter, loop, land and returns to tree "+left);
+            check(maxStep<20&&Math.Abs(c.State.Y-c.GroundY)<.001,"wall route keeps root continuous and ground support "+left);
+            Console.WriteLine("Wall preview "+left+": max root step "+maxStep.ToString("F4")+"; clips "+string.Join(",",seen));
+        }
+        {
+            var p=Player();var c=Cat(p);c.MoveObject("nest",new(70,c.GroundY));long revision=c.ActionRevision;
+            check(c.ExecuteBehavior("wall-left").Contains("家具")&&c.ActionRevision==revision,"blocked wall is rejected before changing current action");
+            check(c.ExecuteBehavior("intro-run").Contains("等待")&&c.ActionRevision==revision,"missing startup never uses walking substitute");
+            c.State.Food=0;check(c.ExecuteBehavior("food").Contains("为空")&&c.State.Food==0&&c.ActionRevision==revision,"debug eating does not create stock");
+        }
+        {
+            var p=Player();var c=Cat(p);var seen=new HashSet<string>();c.ExecuteBehavior("expr-80");Tick(c,p,45,seen);
+            check(seen.Contains("video-58")&&seen.Contains("video-60")&&seen.Contains("video-80")&&c.State.Sleeping&&!c.DebugBehaviorActive,"selected gesture prepares its pose, completes and resumes sleep");
+            c.ExecuteBehavior("wall-left");c.BeginDrag();Tick(c,p,1);check(!c.DebugBehaviorActive&&c.Action=="drag","drag cancels workbench action immediately");
+            c.Drop(false);c.ExecuteBehavior("pose-A");c.SetToy(true,new(c.State.X,c.State.Y));check(!c.DebugBehaviorActive,"toy pickup cancels workbench pose priority");
+            c.SetToy(false,new());c.ExecuteBehavior("pose-B");c.Interact();check(!c.DebugBehaviorActive,"click cancels workbench priority");
+        }
+        foreach(bool left in new[]{true,false})
+        {
+            var p=Player();var c=Cat(p);c.Layout(3000,800);c.State.X=left?70:2930;c.State.StillSeconds=31;
+            var seen=new HashSet<string>();Tick(c,p,35,seen);
+            check(seen.Contains(left?"video-56":"video-53"),"autonomous wall triggers at eligible clear edge "+left);
+        }
         foreach(var (pose,loop,first,second,exit) in new[]{("A","67","68","69","70"),("B","71","72","73","74"),("X","75","76","77","78")})
         {
             var p=Player();var c=Cat(p);var seen=new HashSet<string>();c.PreviewRest(pose);Tick(c,p,30,seen);

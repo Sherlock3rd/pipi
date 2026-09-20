@@ -1,0 +1,192 @@
+{
+  "ModelChecks": 524,
+  "Wpf": {
+    "SettingsHitChecks": {
+      "nest": true,
+      "cat": true,
+      "food": true,
+      "water": true,
+      "litter": true,
+      "wand": true,
+      "background": true
+    },
+    "Routes": [
+      {
+        "Left": true,
+        "MaxRootStep": 1.658543021038895,
+        "Transitions": [
+          "video-55",
+          "video-56",
+          "video-57",
+          "video-16"
+        ]
+      },
+      {
+        "Left": false,
+        "MaxRootStep": 2.3180914929444043,
+        "Transitions": [
+          "video-52",
+          "video-53",
+          "video-54",
+          "video-15"
+        ]
+      }
+    ],
+    "FrameCount": 778
+  },
+  "Editor": {
+    "DoubleClickExecutes": true,
+    "SingleClickSelects": true,
+    "DormantStartupRejected": true,
+    "SavedAndReadBack": true,
+    "InvalidRejected": true,
+    "CareRescheduled": true,
+    "ParameterCount": 53,
+    "Food": 80,
+    "Water": 80
+  },
+  "Scan": {
+    "frameCount": 778,
+    "pairCount": 776,
+    "failureCount": 91,
+    "reviewCount": 110
+  },
+  "Seams": [
+    {
+      "From": "video-55",
+      "To": "video-56",
+      "SourceFrame": 96,
+      "TargetFrame": 1,
+      "source": "sequence/0097.png",
+      "target": "sequence/0098.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": 0.0,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 101,
+      "reliable": true,
+      "failures": [],
+      "review": [],
+      "bodyWidthPercent": 0.040367910973238,
+      "bodyHeightPercent": -0.012486186842830538,
+      "bodyDeltaX": 0.004574917256832123,
+      "bodyDeltaY": -0.08979804813861847,
+      "residual": 0.13673540398885564,
+      "horizontalCoverage": 0.9093688130378723
+    },
+    {
+      "From": "video-56",
+      "To": "video-57",
+      "SourceFrame": 96,
+      "TargetFrame": 0,
+      "source": "sequence/0290.png",
+      "target": "sequence/0291.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": 0.0,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 100,
+      "reliable": true,
+      "failures": [],
+      "review": [],
+      "bodyWidthPercent": 0.09802061058821199,
+      "bodyHeightPercent": 0.039602081248912846,
+      "bodyDeltaX": -0.018650971353054047,
+      "bodyDeltaY": -0.01680038496851921,
+      "residual": 0.11637272899787102,
+      "horizontalCoverage": 0.9353499412536621
+    },
+    {
+      "From": "video-57",
+      "To": "video-16",
+      "SourceFrame": 96,
+      "TargetFrame": 0,
+      "source": "sequence/0387.png",
+      "target": "sequence/0388.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": 0.5,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 119,
+      "reliable": true,
+      "failures": [],
+      "review": [],
+      "bodyWidthPercent": 0.21474887367505247,
+      "bodyHeightPercent": 0.06132414904838068,
+      "bodyDeltaX": -0.04543144255876541,
+      "bodyDeltaY": -0.06772684305906296,
+      "residual": 0.26410404117549957,
+      "horizontalCoverage": 0.975744903087616
+    },
+    {
+      "From": "video-52",
+      "To": "video-53",
+      "SourceFrame": 96,
+      "TargetFrame": 0,
+      "source": "sequence/0485.png",
+      "target": "sequence/0486.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": 0.0,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 135,
+      "reliable": true,
+      "failures": [],
+      "review": [],
+      "bodyWidthPercent": 0.0698992651522845,
+      "bodyHeightPercent": 0.020598852457864858,
+      "bodyDeltaX": -0.04086032509803772,
+      "bodyDeltaY": -0.041003983467817307,
+      "residual": 0.1268421930776561,
+      "horizontalCoverage": 0.94123774766922
+    },
+    {
+      "From": "video-53",
+      "To": "video-54",
+      "SourceFrame": 96,
+      "TargetFrame": 0,
+      "source": "sequence/0679.png",
+      "target": "sequence/0680.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": 0.0,
+      "outlineHeightDelta": 0.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 129,
+      "reliable": true,
+      "failures": [],
+      "review": [],
+      "bodyWidthPercent": 0.06239002287462547,
+      "bodyHeightPercent": 0.07328195818800953,
+      "bodyDeltaX": 0.0158843994140625,
+      "bodyDeltaY": -0.008119864389300346,
+      "residual": 0.12625658530928566,
+      "horizontalCoverage": 0.9704961180686951
+    },
+    {
+      "From": "video-54",
+      "To": "video-15",
+      "SourceFrame": 96,
+      "TargetFrame": 0,
+      "source": "sequence/0776.png",
+      "target": "sequence/0777.png",
+      "kind": "within-clip",
+      "outlineWidthDelta": -1.0,
+      "outlineHeightDelta": -1.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 84,
+      "reliable": true,
+      "failures": [
+        "body-height"
+      ],
+      "review": [],
+      "bodyWidthPercent": 0.2435985409099839,
+      "bodyHeightPercent": -1.0748540712598453,
+      "bodyDeltaX": -0.6662889122962952,
+      "bodyDeltaY": 0.3509788513183594,
+      "residual": 0.5449057751757775,
+      "horizontalCoverage": 0.9015769958496094
+    }
+  ],
+  "AssetsChanged": false,
+  "ManualDesktopMouseTest": false
+}

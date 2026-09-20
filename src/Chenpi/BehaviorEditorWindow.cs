@@ -60,6 +60,7 @@ internal sealed class BehaviorEditorWindow : Window
     private readonly PetEngine engine;
     private readonly BehaviorSettingsStore store;
     private readonly Action saveState;
+    private readonly Action<Action> runCommand;
     private BehaviorSettings draft;
     private readonly Dictionary<string,string> invalid=new();
     private readonly Dictionary<string,TextBox> fields=new();
@@ -68,7 +69,8 @@ internal sealed class BehaviorEditorWindow : Window
     private readonly Canvas canvas=new(){Width=1040,Height=1120};
     private readonly StackPanel inspector=new(){Margin=new Thickness(22)};
     private readonly ScrollViewer graphScroll=new(){HorizontalScrollBarVisibility=ScrollBarVisibility.Auto,VerticalScrollBarVisibility=ScrollBarVisibility.Auto};
-    private readonly TextBlock status=Label("点选流程节点，查看条件和参数。",12);
+    private readonly TextBlock status=Label("单击查看参数；双击具体动作让陈皮立即执行。",12);
+    private TextBlock? wallDiagnostic;
     private readonly TextBlock live=Label("",13);
     private readonly TextBlock history=Label("",11);
     private readonly CheckBox restartCare=new(){Content="将吃饭、喝水、如厕从现在重新计时",Margin=new Thickness(0,7,0,8),FontSize=12};
@@ -85,15 +87,15 @@ internal sealed class BehaviorEditorWindow : Window
         var b=new Button{Content=text,Padding=new Thickness(14,8,14,8),Margin=new Thickness(0,0,8,0),Background=Brush(primary?"#246A60":"#F2F5F0"),Foreground=Brush(primary?"#FFFFFF":"#304B47"),BorderBrush=Brush("#C9D8D0"),Cursor=System.Windows.Input.Cursors.Hand};
         b.Click+=(_,_)=>action();return b;
     }
-    public BehaviorEditorWindow(PetEngine engine,BehaviorSettingsStore store,Action saveState)
+    public BehaviorEditorWindow(PetEngine engine,BehaviorSettingsStore store,Action saveState,Action<Action>? runCommand=null)
     {
-        this.engine=engine;this.store=store;this.saveState=saveState;draft=engine.Settings.Copy();
+        this.engine=engine;this.store=store;this.saveState=saveState;this.runCommand=runCommand??(command=>command());draft=engine.Settings.Copy();
         Title="陈皮 · 行为工作台";Width=1320;Height=900;MinWidth=980;MinHeight=680;WindowStartupLocation=WindowStartupLocation.CenterScreen;
         FontFamily=new FontFamily("Microsoft YaHei UI");Background=Brush("#F5F6F1");
         var shell=new DockPanel{Background=Brush("#F5F6F1")};Content=shell;
         var header=new StackPanel{Margin=new Thickness(25,20,25,15)};DockPanel.SetDock(header,Dock.Top);shell.Children.Add(header);
         header.Children.Add(Label("CHENPI  /  BEHAVIOR STUDIO",10,"#648A7F"));header.Children.Add(Label("陈皮的行为工作台",27));
-        header.Children.Add(Label("看清决策顺序，调整节奏与概率。连线表示决策关系；编辑为草稿，保存后才影响猫猫。",12,"#697B75"));
+        header.Children.Add(Label("看清决策顺序，调整节奏与概率。连线表示决策关系；参数保存后生效；双击动作会立即在桌面执行。",12,"#697B75"));
         var bar=new StackPanel{Orientation=Orientation.Horizontal,Margin=new Thickness(0,14,0,0)};header.Children.Add(bar);
         bar.Children.Add(Button("全局流程",()=>{view="global";BuildGraph();Fit();}));bar.Children.Add(Button("睡姿与反应",()=>{view="sleep";BuildGraph();Fit();}));
         bar.Children.Add(Button("启动开场 · 待素材",ShowStartupPlan));
@@ -152,8 +154,15 @@ internal sealed class BehaviorEditorWindow : Window
         var node=Nodes.First(n=>n.Id==id);var panel=new StackPanel{Margin=new Thickness(15,12,15,10)};
         panel.Children.Add(Label(title??node.Title,18));panel.Children.Add(Label(Summary(id),12,"#677E75"));
         var border=new Border{Width=width,MinHeight=80,Background=Brush("#FFFFFF"),CornerRadius=new CornerRadius(12),BorderBrush=Brush("#D6E1D9"),BorderThickness=new Thickness(1.5),Child=panel,Cursor=System.Windows.Input.Cursors.Hand};
-        border.MouseLeftButtonDown+=(_,_)=>{selected=id;BuildInspector();PaintNodes();};Canvas.SetLeft(border,x);Canvas.SetTop(border,y);canvas.Children.Add(border);nodeBorders[id]=border;
+        border.ToolTip="单击查看参数；双击执行动作";border.MouseLeftButtonDown+=(_,e)=>{NodeClick(id,e.ClickCount);e.Handled=true;};Canvas.SetLeft(border,x);Canvas.SetTop(border,y);canvas.Children.Add(border);nodeBorders[id]=border;
     }
+    internal void NodeClick(string id,int count)
+    {
+        selected=id;BuildInspector();PaintNodes();
+        if(count==2)ExecuteNode(id);
+    }
+    private void ExecuteNode(string id)
+    {runCommand(()=>status.Text=engine.ExecuteBehavior(id));RefreshLive();}
     private void BuildGraph()
     {
         canvas.Children.Clear();nodeBorders.Clear();canvas.Width=1040;canvas.Height=view=="global"?1220:view=="startup"?1120:950;
@@ -201,14 +210,26 @@ internal sealed class BehaviorEditorWindow : Window
     }
     private void BuildInspector()
     {
-        inspector.Children.Clear();fields.Clear();weightLabels.Clear();
+        wallDiagnostic=null;inspector.Children.Clear();fields.Clear();weightLabels.Clear();
         var node=Nodes.FirstOrDefault(n=>n.Id==selected);inspector.Children.Add(Label(node?.Title??"全部可调参数",22));
         var description=Label(node?.Detail??"所有参数按分组列出。时间单位写在输入框右侧；权重在同组内归一化。",12,"#718179");description.Margin=new Thickness(0,10,0,17);inspector.Children.Add(description);
+        if(selected=="wall")
+        {
+            wallDiagnostic=Label(engine.WallStatus,12,"#9A7852");inspector.Children.Add(wallDiagnostic);
+            var sides=new WrapPanel{Margin=new Thickness(0,10,0,15)};
+            sides.Children.Add(Button("左侧扶墙",()=>ExecuteNode("wall-left")));sides.Children.Add(Button("右侧扶墙",()=>ExecuteNode("wall-right")));inspector.Children.Add(sides);
+        }
+        else if(selected is "food" or "water" or "litter" or "nest" or "rest" or "poses" or "seated" or "movement" or "click" or "input" or "gesture" or "changes"||selected.StartsWith("pose-")||selected.StartsWith("gesture-"))
+        {
+            var execute=Button("执行此动作",()=>ExecuteNode(selected));execute.Margin=new Thickness(0,0,0,15);inspector.Children.Add(execute);
+            if(selected is "food" or "water" or "litter")inspector.Children.Add(Label("在桌面真实执行，会消耗库存或使用猫砂。",11,"#9A7852"));
+        }
         var parameters=BehaviorSettings.Catalog.Where(p=>selected=="all"||node!.Groups.Contains(p.Group)||selected.StartsWith("pose-")&&p.Key=="pose."+selected[5..]).ToList();
         if(parameters.Count==0)inspector.Children.Add(Label(selected=="startup"||selected.StartsWith("intro-")?"待素材的独立流程设计，尚未接入自动触发；当前没有生效参数。返片通过验收后再启用。":"此节点是固定条件／顺序。请点击下级节点调整对应参数。",13,"#9A7852"));
         foreach(var p in parameters)
         {
             var box=new StackPanel{Margin=new Thickness(0,0,0,18)};inspector.Children.Add(box);box.Children.Add(Label(p.Label,14));
+            if(p.Key.StartsWith("gesture.")){string clip=p.Key[8..];box.Children.Add(Button("执行："+p.Label,()=>ExecuteNode("expr-"+clip)));}
             if(p.Unit=="开关")
             {var toggle=new CheckBox{Content="允许此行为",IsChecked=draft.Get(p.Key)==1,Margin=new Thickness(0,7,0,5)};toggle.Checked+=(_,_)=>{draft.Values[p.Key]=1;dirty=true;status.Text="有未保存的草稿";};toggle.Unchecked+=(_,_)=>{draft.Values[p.Key]=0;dirty=true;status.Text="有未保存的草稿";};box.Children.Add(toggle);box.Children.Add(Label(p.Help,11,"#829087"));continue;}
             var line=new DockPanel{Margin=new Thickness(0,6,0,5)};box.Children.Add(line);var unit=Label(p.Unit,12,"#6E857A");unit.Width=70;unit.Margin=new Thickness(12,6,0,0);DockPanel.SetDock(unit,Dock.Right);line.Children.Add(unit);
@@ -247,6 +268,7 @@ internal sealed class BehaviorEditorWindow : Window
     }
     private void RefreshLive()
     {
+        if(wallDiagnostic is not null)wallDiagnostic.Text=engine.WallStatus;
         string active=engine.ActiveBehaviorNode,name=Nodes.First(n=>n.Id==active).Title.TrimStart('①','②','③','④','⑤','⑥','⑦',' ');
         if(active=="poses")name+=" · "+(engine.RelaxedPose switch{"D"=>"趴卧","A"=>"侧躺","B"=>"露肚","X"=>"舒展","M"=>"掩面",_=>"蜷睡"});
         if(engine.Action.StartsWith("expr-"))name+=" · "+(BehaviorSettings.Catalog.FirstOrDefault(p=>p.Key=="gesture."+engine.Action[5..])?.Label.Replace("权重","")??"互动回应");
@@ -262,10 +284,14 @@ internal sealed class BehaviorEditorWindow : Window
         fields["sleep.delay"].Text="-1";if(Apply()||engine.Settings.Get("sleep.delay")!=12)throw new Exception("Invalid editor value applied");
         ResetDraft(false);selected="food";BuildInspector();fields["food.min"].Text="2";fields["food.max"].Text="2";restartCare.IsChecked=true;if(!Apply())throw new Exception(status.Text);
         if(Math.Abs(engine.CareSecondsRemaining["food"]-120)>.001)throw new Exception("Care reschedule mismatch");
+        long revision=engine.ActionRevision;NodeClick("pose-A",1);if(engine.ActionRevision!=revision)throw new Exception("Single click executed action");
+        NodeClick("pose-A",2);if(!engine.DebugBehaviorActive)throw new Exception("Double click did not execute action");
+        revision=engine.ActionRevision;NodeClick("intro-run",2);if(engine.ActionRevision!=revision||!status.Text.Contains("等待"))throw new Exception("Dormant startup was executed");
+        selected="wall";BuildInspector();Capture(System.IO.Path.Combine(output,"wall-debug.png"));
         selected="rest";BuildInspector();Capture(System.IO.Path.Combine(output,"overview.png"));view="sleep";BuildGraph();Fit();selected="gesture-A";BuildInspector();Capture(System.IO.Path.Combine(output,"sleep.png"));
         Width=1000;Height=700;UpdateLayout();Fit();Capture(System.IO.Path.Combine(output,"compact.png"));
         Width=1320;Height=900;UpdateLayout();view="startup";selected="startup";BuildGraph();BuildInspector();Fit();Capture(System.IO.Path.Combine(output,"startup-plan.png"));
-        File.WriteAllText(System.IO.Path.Combine(output,"ui-verification.json"),JsonSerializer.Serialize(new{SavedAndReadBack=true,InvalidRejected=true,CareRescheduled=true,ParameterCount=BehaviorSettings.Catalog.Count,Food=engine.State.Food,Water=engine.State.Water,ConfigurationPath=store.PathName}));AppliedInFixture=true;dirty=false;discardOnClose=true;Close();
+        File.WriteAllText(System.IO.Path.Combine(output,"ui-verification.json"),JsonSerializer.Serialize(new{DoubleClickExecutes=true,SingleClickSelects=true,DormantStartupRejected=true,SavedAndReadBack=true,InvalidRejected=true,CareRescheduled=true,ParameterCount=BehaviorSettings.Catalog.Count,Food=engine.State.Food,Water=engine.State.Water,ConfigurationPath=store.PathName}));AppliedInFixture=true;dirty=false;discardOnClose=true;Close();
     }
     private void Capture(string path)
     {

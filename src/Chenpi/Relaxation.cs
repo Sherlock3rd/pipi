@@ -5,6 +5,7 @@ namespace Chenpi;
 public sealed partial class PetEngine
 {
     public bool ExpressionsEnabled {get;set;}
+    public Func<string,double,double,bool>? VisualWallRestComplete {get;set;}
     public Func<string,double,bool>? VisualPoseReady {get;set;}
     public double WallRightOffset {get;set;}=70;
     public double WallLeftOffset {get;set;}=-70;
@@ -67,7 +68,7 @@ public sealed partial class PetEngine
         if(clickWindow>=0&&Now-clickWindow<Settings.Get("click.window")-1e-8)return true;
         if(clickWindow>=0){clickWindow=-1;RelaxedClickCount=0;}
         if(Now<nextRelaxation)return true;
-        if(RelaxedPose is "HR" or "HL"){RestInPose("D");return true;}
+        if(RelaxedPose is "HR" or "HL"){if(VisualWallRestComplete?.Invoke(RelaxedPose,Now,nextRelaxation)==false)return true;RestInPose("D");return true;}
         if(State.RestElapsed>=State.RestDuration)NewRest();
         if(RelaxedPose=="M"){nextRelaxation=Now+120;return true;}
         // Most idle time remains in breathing poses. Gestures are infrequent,
