@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-voice") is string voiceAudit)
+        {
+            Directory.CreateDirectory(voiceAudit);
+            try{var app=new System.Windows.Application();new Scene(new PetEngine(new PetState(),7)).ExportVoiceAudit(voiceAudit);}
+            catch(Exception e){File.WriteAllText(Path.Combine(voiceAudit,"error.txt"),e.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--audit-behavior-debug") is string debugAudit)
         {
             Directory.CreateDirectory(debugAudit);
@@ -86,6 +93,7 @@ internal sealed class PetWindow : Window
     private readonly BehaviorSettingsStore behaviorSettingsStore;
     private readonly PetEngine engine;
     private readonly Scene scene;
+    private readonly CatVoicePlayer voice;
     private readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(250)};
     private readonly Stopwatch animationClock=Stopwatch.StartNew();
     private readonly Forms.NotifyIcon tray;
@@ -123,6 +131,9 @@ internal sealed class PetWindow : Window
         if(Preview){Title="陈皮 · 交互预览";AllowsTransparency=false;WindowStyle=WindowStyle.SingleBorderWindow;Background=Color("#E6E8DF");ShowInTaskbar=true;ShowActivated=true;Width=820;Height=440;WindowStartupLocation=WindowStartupLocation.CenterScreen;}
         else FitScreen();
         scene=new Scene(engine){OpenSettings=ShowSettings,SaveNow=Save};Content=scene;
+        voice=new CatVoicePlayer(Path.Combine(AppContext.BaseDirectory,"assets","audio","cat"));
+        voice.SetVolume(engine.State.Volume);scene.FramePresented+=OnFramePresented;
+        if(voice.Warning is string warning)store.Log("voice",new IOException(warning));
         scene.PreviewSupplies=Preview&&args.Contains("--preview-supplies");
         scene.DarkPreview=Preview&&args.Contains("--preview-dark");
         if(Preview&&args.Contains("--preview-no-shadow"))scene.SoftShadowsEnabled=false;
@@ -142,10 +153,10 @@ internal sealed class PetWindow : Window
         menu.Items.Add("显示 / 隐藏",null,(_,_)=>Dispatcher.Invoke(()=>hiddenByUser=!hiddenByUser));
         menu.Items.Add("退出陈皮",null,(_,_)=>Dispatcher.Invoke(Quit));tray.ContextMenuStrip=menu;
         tray.DoubleClick+=(_,_)=>Dispatcher.Invoke(()=>hiddenByUser=false);
-        engine.RequestedAttention+=OnRequestedAttention;
         Closing+=(_,e)=>{if(!quitting){e.Cancel=true;if(Preview&&args.Contains("--preview-walk"))Dispatcher.BeginInvoke(new Action(Quit));else hiddenByUser=true;}};
     }
-    private void OnRequestedAttention(){if(!engine.State.Muted&&!fullScreen&&!hiddenByUser)PlayMeow(engine.State.Volume);}
+    private bool VoiceAllowed=>!quitting&&!engine.State.Muted&&!fullScreen&&!hiddenByUser&&scene.Visibility==Visibility.Visible&&engine.Action is not ("drag" or "land")&&!engine.Holding;
+    private void OnFramePresented(SpriteFrame? frame)=>voice.Present(frame,engine.ActionRevision,VoiceAllowed);
     private static System.Drawing.Icon MakeIcon()
     {
         using var bmp=new System.Drawing.Bitmap(32,32);using(var g=System.Drawing.Graphics.FromImage(bmp))
@@ -300,6 +311,7 @@ internal sealed class PetWindow : Window
         // Isolated regression fixture feeds the same input entry point as hover.
         if(Preview&&args.Contains("--preview-guide-test"))engine.ObservePointer(Math.Min(.12,dt),true,new Spot(engine.State.X-30,engine.State.Y-65));
         engine.Update(Math.Min(.12,dt),DateTime.Now.Hour);
+        voice.SetVolume(engine.State.Volume);if(!VoiceAllowed)voice.Silence();
     }
     private void Tick(object? sender,EventArgs e)
     {
@@ -334,7 +346,7 @@ internal sealed class PetWindow : Window
         scene.CancelDrag();StopHost();Save();store.Flush();settings?.Close();Close();System.Windows.Application.Current.Shutdown();
     }
     private void StopHost()
-    {quitting=true;timer.Stop();CompositionTarget.Rendering-=RenderFrame;engine.RequestedAttention-=OnRequestedAttention;SystemEvents.DisplaySettingsChanged-=OnDisplays;tray.Visible=false;tray.Dispose();}
+    {quitting=true;timer.Stop();CompositionTarget.Rendering-=RenderFrame;scene.FramePresented-=OnFramePresented;voice.Dispose();SystemEvents.DisplaySettingsChanged-=OnDisplays;tray.Visible=false;tray.Dispose();}
     private static Brush Color(string value)=>new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(value));
     private static TextBlock Text(string value,double size=14,string color="#685C51")=>new(){Text=value,FontSize=size,Foreground=Color(color),TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,0,0,12)};
     private static Button Button(string text,Action click)
@@ -364,12 +376,12 @@ internal sealed class PetWindow : Window
         body.Children.Add(Button("行为工作台 · 流程图与参数",ShowBehaviorEditor));
         body.Children.Add(Toggle("悬浮在普通窗口上（全屏时隐藏）",engine.State.Floating,SwitchLayer));
         body.Children.Add(Toggle("开机显示小猫",AutoStartEnabled(),on=>{try{SetAutoStart(on);}catch(Exception e){System.Windows.MessageBox.Show(e.Message,"自启设置未保存");}}));
-        body.Children.Add(Toggle("静音（保留动作提醒）",engine.State.Muted,on=>{engine.State.Muted=on;Save();}));
+        body.Children.Add(Toggle("静音（保留动作提醒）",engine.State.Muted,on=>{engine.State.Muted=on;if(on)voice.Silence();Save();}));
         body.Children.Add(Text("小猫与物件大小",12));
         var size=new Slider{Minimum=.7,Maximum=1.4,Value=engine.State.Scale,TickFrequency=.1,IsSnapToTickEnabled=true,Margin=new Thickness(0,0,0,15)};
         size.ValueChanged+=(_,_)=>{engine.State.Scale=size.Value;scene.LayoutWorld();Save();};body.Children.Add(size);
         body.Children.Add(Text("叫声音量",12));
-        var volume=new Slider{Minimum=0,Maximum=1,Value=engine.State.Volume,Margin=new Thickness(0,0,0,18)};volume.ValueChanged+=(_,_)=>{engine.State.Volume=volume.Value;Save();};body.Children.Add(volume);
+        var volume=new Slider{Minimum=0,Maximum=1,Value=engine.State.Volume,Margin=new Thickness(0,0,0,18)};volume.ValueChanged+=(_,_)=>{engine.State.Volume=volume.Value;voice.SetVolume(volume.Value);Save();};body.Children.Add(volume);
         var controls=new WrapPanel();controls.Children.Add(Button("召回猫猫",()=>RunCommand(engine.Recall)));controls.Children.Add(Button("恢复摆放",()=>RunCommand(()=>{engine.Layout(scene.WorldWidth,scene.WorldHeight,true);engine.Recall();})));controls.Children.Add(Button("显示 / 隐藏",()=>hiddenByUser=!hiddenByUser));body.Children.Add(controls);
         body.Children.Add(Text("体验动作",14,"#394D47"));
         body.Children.Add(Text("按钮会优先执行对应动作。吃喝真实消耗库存，空盆请先补给，猫砂满时请先清理。",11));
@@ -393,19 +405,5 @@ internal sealed class PetWindow : Window
             key.SetValue("Chenpi",command);
         }
         else key.DeleteValue("Chenpi",false);
-    }
-    private static void PlayMeow(double volume)
-    {
-        // A quiet synthesized placeholder chirp; replace with licensed cat audio later.
-        System.Threading.Tasks.Task.Run(()=>
-        {
-            try
-            {
-                const int rate=22050;int samples=(int)(rate*.19);
-                using var stream=new MemoryStream();using(var writer=new BinaryWriter(stream,System.Text.Encoding.ASCII,true))
-                {writer.Write(System.Text.Encoding.ASCII.GetBytes("RIFF"));writer.Write(36+samples*2);writer.Write(System.Text.Encoding.ASCII.GetBytes("WAVEfmt "));writer.Write(16);writer.Write((short)1);writer.Write((short)1);writer.Write(rate);writer.Write(rate*2);writer.Write((short)2);writer.Write((short)16);writer.Write(System.Text.Encoding.ASCII.GetBytes("data"));writer.Write(samples*2);for(int i=0;i<samples;i++){double t=(double)i/rate;writer.Write((short)(Math.Sin(2*Math.PI*(650*t+500*t*t))*Math.Sin(Math.PI*i/samples)*3000*volume));}}
-                stream.Position=0;using var player=new System.Media.SoundPlayer(stream);player.PlaySync();
-            }catch(Exception e){Trace.WriteLine(e);}
-        });
     }
 }

@@ -1,0 +1,169 @@
+{
+  "SourceCount": 7,
+  "OriginalHashesVerified": true,
+  "BindingCount": 9,
+  "PcmVariants": 11,
+  "ModelChecks": 638,
+  "OnsetWithinOneFrame": true,
+  "Rows": [
+    {
+      "Clip": "video-69",
+      "File": "69-annoyed1.wav",
+      "OpenFrame": 43,
+      "ClosedFrame": 57,
+      "AudioOnsetMs": 4.988662131519274,
+      "Seconds": 0.5633333333333334,
+      "Tempo": 2.112989574528036
+    },
+    {
+      "Clip": "video-73",
+      "File": "73-lying2.wav",
+      "OpenFrame": 31,
+      "ClosedFrame": 42,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.43165532879818597,
+      "Tempo": 1.6229792297146997
+    },
+    {
+      "Clip": "video-77",
+      "File": "77-meow3.wav",
+      "OpenFrame": 50,
+      "ClosedFrame": 59,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.35498866213151925,
+      "Tempo": 1.7229088818626044
+    },
+    {
+      "Clip": "video-86",
+      "File": "86-meow2.wav",
+      "OpenFrame": 49,
+      "ClosedFrame": 61,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.48,
+      "Tempo": 1.3885582010582012
+    },
+    {
+      "Clip": "video-87",
+      "File": "87-meow3.wav",
+      "OpenFrame": 65,
+      "ClosedFrame": 84,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.6116326530612245,
+      "Tempo": 1
+    },
+    {
+      "Clip": "video-88",
+      "File": "88-meow1.wav",
+      "OpenFrame": 35,
+      "ClosedFrame": 71,
+      "AudioOnsetMs": 4.988662131519274,
+      "Seconds": 0.8150793650793651,
+      "Tempo": 1
+    },
+    {
+      "Clip": "video-88",
+      "File": "88-meow4.wav",
+      "OpenFrame": 35,
+      "ClosedFrame": 71,
+      "AudioOnsetMs": 4.988662131519274,
+      "Seconds": 0.6665079365079365,
+      "Tempo": 1
+    },
+    {
+      "Clip": "video-89",
+      "File": "89-lying1.wav",
+      "OpenFrame": 32,
+      "ClosedFrame": 67,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.9758049886621315,
+      "Tempo": 1
+    },
+    {
+      "Clip": "video-90",
+      "File": "90-lying1.wav",
+      "OpenFrame": 43,
+      "ClosedFrame": 75,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.9758049886621315,
+      "Tempo": 1
+    },
+    {
+      "Clip": "video-90",
+      "File": "90-lying2.wav",
+      "OpenFrame": 43,
+      "ClosedFrame": 75,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.71140589569161,
+      "Tempo": 1
+    },
+    {
+      "Clip": "video-91",
+      "File": "91-lying2.wav",
+      "OpenFrame": 39,
+      "ClosedFrame": 72,
+      "AudioOnsetMs": 0.0,
+      "Seconds": 0.71140589569161,
+      "Tempo": 1
+    }
+  ],
+  "Pending": [
+    {
+      "Clip": "video-92",
+      "Reason": "背向镜头，嘴部被头部遮挡；未确认可见张嘴帧，暂不配音。"
+    }
+  ],
+  "GeometryOrAnimationSpeedChanged": false,
+  "AudibleHardwareLatencyTested": false,
+  "Native": {
+    "NativePcmPreload": true,
+    "AudibleHardwarePlaybackTested": false,
+    "UserSaveUntouched": true,
+    "Traces": [
+      {
+        "Clip": "video-88",
+        "CommandAt": 0,
+        "Events": [
+          {
+            "Clip": "video-88",
+            "Frame": 35
+          }
+        ],
+        "UsesActualSceneDraw": true
+      },
+      {
+        "Clip": "video-90",
+        "CommandAt": 5.116666666666654,
+        "Events": [
+          {
+            "Clip": "video-90",
+            "Frame": 43
+          }
+        ],
+        "UsesActualSceneDraw": true
+      },
+      {
+        "Clip": "video-69",
+        "CommandAt": 19.300000000000185,
+        "Events": [
+          {
+            "Clip": "video-69",
+            "Frame": 43
+          }
+        ],
+        "UsesActualSceneDraw": true
+      }
+    ]
+  },
+  "Installation": {
+    "RootHashesMatch": true,
+    "AudioFiles": 20,
+    "Changed": [
+      "Chenpi.dll",
+      "Chenpi.exe",
+      "Chenpi.pdb"
+    ],
+    "ConfigPreserved": true,
+    "InstallStamp": "20260920-194236",
+    "UserFurnitureMuteAndVolumePreserved": true
+  }
+}

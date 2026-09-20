@@ -810,5 +810,6 @@ HeadLoweringTempoChecks.Run(Check,runtimeManifest);
 ExpressionChecks.Run(Check,runtimeManifest);
 BehaviorSettingsChecks.Run(Check,runtimeManifest);
 MovementChecks.Run(Check);
+VoiceChecks.Run(Check,runtimeManifest);
 RequestGestureChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

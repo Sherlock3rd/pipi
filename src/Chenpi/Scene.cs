@@ -29,6 +29,7 @@ internal sealed partial class Scene : FrameworkElement
     public PetEngine Engine {get;}
     public Action? OpenSettings;
     public Action? SaveNow;
+    internal event Action<SpriteFrame?>? FramePresented;
     public bool IsDragging {get;private set;}
     private bool pressed;
     private double pressedAt;
@@ -636,10 +637,11 @@ internal sealed partial class Scene : FrameworkElement
             // One supplied frame per instant. Layering the opaque previous pose
             // underneath a fading new pose created double outlines and bright flashes.
             DrawVideoFrame(dc,generated[sprite.Index],definition);
-            if(mirror)dc.Pop();dc.Pop();return;
+            if(mirror)dc.Pop();dc.Pop();if(action==Engine.Action)FramePresented?.Invoke(sprite);return;
         }
         poseLift=0;lastSpriteClip="";currentCatBounds=null;
         DisplayedClip=variant?.Id??action;DisplayedFrame=0;
+        if(action==Engine.Action)FramePresented?.Invoke(null);
         if(GetFrames(variant?.Id??action) is {} set&&set.Count>0)
         {
             dc.PushTransform(new TranslateTransform(x,y));if(left)dc.PushTransform(new ScaleTransform(-1,1));

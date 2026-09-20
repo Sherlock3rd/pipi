@@ -1,0 +1,218 @@
+{
+  "Version": 1,
+  "Sources": {
+    "meow1": {
+      "File": "source/小皮叫声1.MP3",
+      "Sha256": "be1d89ab08274aa0e5028bef0d97538eb4fb3c26e7032edee6e4f91dca60b663",
+      "OriginalSeconds": 0.8620408163265306,
+      "TrimStartSeconds": 0.044875283446712017,
+      "TrimEndSeconds": 0.8620408163265306,
+      "Gain": 1.048867497758752
+    },
+    "meow2": {
+      "File": "source/小皮叫声2.MP3",
+      "Sha256": "6b1ebe24d0218ef554c541be43209ab152fb80a3d8a5af729eca1e1bd19076e1",
+      "OriginalSeconds": 1.933061224489796,
+      "TrimStartSeconds": 1.0426077097505668,
+      "TrimEndSeconds": 1.7091156462585033,
+      "Gain": 3.439993951331284
+    },
+    "meow3": {
+      "File": "source/小皮叫声3.MP3",
+      "Sha256": "86361f8f26f29e459c0eb9e263755b8f9b275b4a8f17d35447518a73521cc0ea",
+      "OriginalSeconds": 0.8620408163265306,
+      "TrimStartSeconds": 0.05485260770975057,
+      "TrimEndSeconds": 0.666485260770975,
+      "Gain": 5.695542913981645
+    },
+    "meow4": {
+      "File": "source/小皮叫声4.MP3",
+      "Sha256": "85eee2828d0e465a7414602b506351546c6a9e9d10cd1df594eba6456f54c7f1",
+      "OriginalSeconds": 1.0971428571428572,
+      "TrimStartSeconds": 0.12968253968253968,
+      "TrimEndSeconds": 0.7961904761904762,
+      "Gain": 2.438308727592595
+    },
+    "lying1": {
+      "File": "source/小皮躺着1.MP3",
+      "Sha256": "0b8dfc7a7a609f700efc8a60f39abc6290e51a366516da68ea171b01e0460436",
+      "OriginalSeconds": 1.0710204081632653,
+      "TrimStartSeconds": 0.044875283446712017,
+      "TrimEndSeconds": 1.0206802721088435,
+      "Gain": 8
+    },
+    "lying2": {
+      "File": "source/小皮躺着2.MP3",
+      "Sha256": "74e77f2245b59342b25a8270fbe6ad2f650470eb09a1b0dee34c5f19b12a1ae4",
+      "OriginalSeconds": 0.7836734693877551,
+      "TrimStartSeconds": 0.049863945578231296,
+      "TrimEndSeconds": 0.7612698412698413,
+      "Gain": 7.360510992557012
+    },
+    "annoyed1": {
+      "File": "source/小皮不高兴1.MP3",
+      "Sha256": "09a0cdd7baebea84a989846a6d77ab15ab4e22e44b838f98105fe86e90c76307",
+      "OriginalSeconds": 1.5151020408163265,
+      "TrimStartSeconds": 0.2843310657596372,
+      "TrimEndSeconds": 1.4746485260770974,
+      "Gain": 0.858791489762493
+    }
+  },
+  "Bindings": [
+    {
+      "Clip": "video-69",
+      "OpenFrame": 43,
+      "ClosedFrame": 57,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "69-annoyed1.wav",
+          "Source": "annoyed1",
+          "Seconds": 0.5633333333333334,
+          "Tempo": 2.112989574528036,
+          "Sha256": "b78df741f2bda706ccb5886bb5101a729f12264b5432d56dce0dccdc4bd26ea9"
+        }
+      ]
+    },
+    {
+      "Clip": "video-73",
+      "OpenFrame": 31,
+      "ClosedFrame": 42,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "73-lying2.wav",
+          "Source": "lying2",
+          "Seconds": 0.43165532879818597,
+          "Tempo": 1.6229792297146997,
+          "Sha256": "b3aed4ad004900f2f5b5d33d864f2871d3c7cb8e7d6dd361091e9bbe1f929156"
+        }
+      ]
+    },
+    {
+      "Clip": "video-77",
+      "OpenFrame": 50,
+      "ClosedFrame": 59,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "77-meow3.wav",
+          "Source": "meow3",
+          "Seconds": 0.35498866213151925,
+          "Tempo": 1.7229088818626044,
+          "Sha256": "e8303966f120b8338c43105e5bfadeaa482469ccbd4eb1c796eda6da55f1de08"
+        }
+      ]
+    },
+    {
+      "Clip": "video-86",
+      "OpenFrame": 49,
+      "ClosedFrame": 61,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "86-meow2.wav",
+          "Source": "meow2",
+          "Seconds": 0.48,
+          "Tempo": 1.3885582010582012,
+          "Sha256": "7bab65f13a8b014c0bafb84d5be99ea2ffd8b5fb1f93a5d198500d771e271534"
+        }
+      ]
+    },
+    {
+      "Clip": "video-87",
+      "OpenFrame": 65,
+      "ClosedFrame": 84,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "87-meow3.wav",
+          "Source": "meow3",
+          "Seconds": 0.6116326530612245,
+          "Tempo": 1,
+          "Sha256": "54caaeef6c2be917af00e11d9a84333121c2ac3aa009c2124addc4f4c14a0281"
+        }
+      ]
+    },
+    {
+      "Clip": "video-88",
+      "OpenFrame": 35,
+      "ClosedFrame": 71,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "88-meow1.wav",
+          "Source": "meow1",
+          "Seconds": 0.8150793650793651,
+          "Tempo": 1,
+          "Sha256": "fb4e452765c2973eb79bd2eebb5a0ac2a7ac9ea3cbe6263dd777ca7fe850f92b"
+        },
+        {
+          "File": "88-meow4.wav",
+          "Source": "meow4",
+          "Seconds": 0.6665079365079365,
+          "Tempo": 1,
+          "Sha256": "a0925533bde7d1b4dbea534410826294fdddf8992c9533c6c3839ff24ae3e7f8"
+        }
+      ]
+    },
+    {
+      "Clip": "video-89",
+      "OpenFrame": 32,
+      "ClosedFrame": 67,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "89-lying1.wav",
+          "Source": "lying1",
+          "Seconds": 0.9758049886621315,
+          "Tempo": 1,
+          "Sha256": "4d9e06e31ab8211ef3694bcbaccda525a29dbacb8a7fd072e4be16e342fcfb86"
+        }
+      ]
+    },
+    {
+      "Clip": "video-90",
+      "OpenFrame": 43,
+      "ClosedFrame": 75,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "90-lying1.wav",
+          "Source": "lying1",
+          "Seconds": 0.9758049886621315,
+          "Tempo": 1,
+          "Sha256": "4d9e06e31ab8211ef3694bcbaccda525a29dbacb8a7fd072e4be16e342fcfb86"
+        },
+        {
+          "File": "90-lying2.wav",
+          "Source": "lying2",
+          "Seconds": 0.71140589569161,
+          "Tempo": 1,
+          "Sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+        }
+      ]
+    },
+    {
+      "Clip": "video-91",
+      "OpenFrame": 39,
+      "ClosedFrame": 72,
+      "Fps": 24,
+      "Sounds": [
+        {
+          "File": "91-lying2.wav",
+          "Source": "lying2",
+          "Seconds": 0.71140589569161,
+          "Tempo": 1,
+          "Sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+        }
+      ]
+    }
+  ],
+  "Pending": [
+    {
+      "Clip": "video-92",
+      "Reason": "背向镜头，嘴部被头部遮挡；未确认可见张嘴帧，暂不配音。"
+    }
+  ]
+}

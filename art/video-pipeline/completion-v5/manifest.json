@@ -1161,8 +1161,8 @@
     {
       "id": "A01",
       "name": "正面三连叫同步音频",
-      "status": "missing",
-      "note": "需合法来源的自然猫叫，按117的三个张嘴峰值同步；当前合成提示音不是最终猫叫素材。"
+      "status": "source-audio-available-awaiting-video-sync",
+      "note": "7段用户原声已到并接入现有叫声动作；待117返片标注三次首次张嘴与闭嘴帧后同步，开场仍未启用。"
     }
   ],
   "refinementNotMissing": [

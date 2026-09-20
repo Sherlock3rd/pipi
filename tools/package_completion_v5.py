@@ -119,7 +119,7 @@ for item in items:
     (folder/'制作说明.md').write_text(desc,encoding='utf-8',newline='\n')
     (folder/'动作信息.json').write_text(json.dumps(item,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 manifest={'version':2,'status':'production-input-pack-awaiting-anchor-review-and-returned-video','runtimeChanged':False,'clips':items,'anchors':anchors,'startupPlan':plan,
-          'audio':[{'id':'A01','name':'正面三连叫同步音频','status':'missing','note':'需合法来源的自然猫叫，按117的三个张嘴峰值同步；当前合成提示音不是最终猫叫素材。'}],
+          'audio':[{'id':'A01','name':'正面三连叫同步音频','status':'source-audio-available-awaiting-video-sync','note':'7段用户原声已到并接入现有叫声动作；待117返片标注三次首次张嘴与闭嘴帧后同步，开场仍未启用。'}],
           'refinementNotMissing':[{'clips':[86],'issue':'与旧右行的步态相位统一'},{'clips':[62,63,74],'issue':'翻身/起身透视与躯干形体精修'}]}
 (OUT/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
 (OUT/'startup-greeting.json').write_text(json.dumps(plan,ensure_ascii=False,indent=2)+'\n',encoding='utf-8',newline='\n')
@@ -178,7 +178,7 @@ flowchart TD
 - 86右走叫步态相位、62/63翻身和74起身形体属于返片精修，不是没有动作。
 - C表示旧蜷睡；X表示新舒展（v4原图文件名C-侧躺舒展），不能把两个C混为同姿态。
 - H_*为各原姿态独立生成的对应悬空候选；没有借用旧H改名冒充匹配。
-- 当前静音规则不变；自然猫叫音频待补，合成提示音不是最终音效。
+- 当前静音规则不变；7段用户原声已到并接入现有叫声动作；117返片后的三次嘴型同步仍待完成，开场未启用。
 
 manifest.json记录18张共享锚点的路径及SHA256。anchors目录包含10张已有原字节图及8张新候选；每条动作目录均有首帧.png、尾帧.png、提示词.txt、动作信息.json和制作说明.md。首尾共用锚点保证文件完全一致，不表示几何或动态验收完成。新增锚点的生成提示词见anchor-generation.json，限制见静态审核.md。
 '''

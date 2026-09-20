@@ -232,6 +232,7 @@ internal sealed class BehaviorEditorWindow : Window
         {
             var box=new StackPanel{Margin=new Thickness(0,0,0,18)};inspector.Children.Add(box);box.Children.Add(Label(p.Label,14));
             if(p.Key.StartsWith("gesture.")){string clip=p.Key[8..];box.Children.Add(Button("执行："+p.Label,()=>ExecuteNode("expr-"+clip)));}
+            if(p.Key=="sit.callCooldown")box.Children.Add(Button("执行坐姿叫声",()=>ExecuteNode("expr-88")));
             if(p.Unit=="开关")
             {var toggle=new CheckBox{Content="允许此行为",IsChecked=draft.Get(p.Key)==1,Margin=new Thickness(0,7,0,5)};toggle.Checked+=(_,_)=>{draft.Values[p.Key]=1;dirty=true;status.Text="有未保存的草稿";};toggle.Unchecked+=(_,_)=>{draft.Values[p.Key]=0;dirty=true;status.Text="有未保存的草稿";};box.Children.Add(toggle);box.Children.Add(Label(p.Help,11,"#829087"));continue;}
             var line=new DockPanel{Margin=new Thickness(0,6,0,5)};box.Children.Add(line);var unit=Label(p.Unit,12,"#6E857A");unit.Width=70;unit.Margin=new Thickness(12,6,0,0);DockPanel.SetDock(unit,Dock.Right);line.Children.Add(unit);

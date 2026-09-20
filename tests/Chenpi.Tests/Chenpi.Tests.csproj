@@ -12,4 +12,5 @@
   <ItemGroup><Compile Include="../../src/Chenpi/BehaviorSettings.cs" Link="BehaviorSettings.cs" /><Compile Include="../../src/Chenpi/BehaviorTuning.cs" Link="BehaviorTuning.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/BehaviorPreview.cs" Link="BehaviorPreview.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/MovementChoices.cs" Link="MovementChoices.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../../src/Chenpi/VoiceCues.cs" Link="VoiceCues.cs" /></ItemGroup>
 </Project>
