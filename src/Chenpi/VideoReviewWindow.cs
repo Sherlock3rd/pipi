@@ -42,6 +42,12 @@ internal sealed class VideoReviewWindow : Window
         ,["提起 → 悬空 → 放下"]=new[]{"32","33","34"}
         ,["右抬爪 → 抓拨 → 收爪"]=new[]{"29","35","31"}
         ,["侧躺 → 轻滚 → 坐起"]=new[]{"40","41","42"}
+        ,["地面趴卧 → 侧躺 → 掩面 → 起身"]=new[]{"58","66","60","67","83","84","85","70","10"}
+        ,["侧躺 → 露肚 → 三档点击 → 起身"]=new[]{"67","62","71","72","73","74"}
+        ,["侧躺 → 舒展 → 三档点击 → 起身"]=new[]{"67","64","75","76","77","78"}
+        ,["右扶墙 → 呼吸 → 落地 → 转身"]=new[]{"52","53","54","15"}
+        ,["左扶墙 → 呼吸 → 落地 → 转身"]=new[]{"55","56","57","16"}
+        ,["吃完 → 直接转身左行"]=new[]{"22","23","24","15","12","14","13"}
     };
     private ReviewClip? current;
     private double elapsed,previous;
@@ -61,7 +67,7 @@ internal sealed class VideoReviewWindow : Window
         closeAfterSnapshot=args.Contains("--exit-after-snapshot");
         snapshot=Program.Option(args,"--snapshot");
         snapshotAfter=double.TryParse(Program.Option(args,"--snapshot-delay"),out var seconds)?seconds:3;
-        Title="陈皮 · 基础动作视频评审";Width=1060;Height=720;MinWidth=850;MinHeight=620;
+        Title="陈皮 · 动作视频评审";Width=1060;Height=720;MinWidth=850;MinHeight=620;
         WindowStartupLocation=WindowStartupLocation.CenterScreen;Background=Brushes.WhiteSmoke;
         using var doc=JsonDocument.Parse(File.ReadAllText(Path.Combine(root,"manifest.json")));
         var manifest=doc.RootElement;
@@ -72,7 +78,7 @@ internal sealed class VideoReviewWindow : Window
             var def=manifest.GetProperty("clips").GetProperty(id);double fps=def.GetProperty("fps").GetDouble()*SpritePlayback.PlaybackSpeed(def);
             double Read(string key,double fallback)=>def.TryGetProperty(key,out var v)?v.GetDouble():fallback;
             clips.Add(new(id,item.GetProperty("label").GetString()!,files,fps,
-                new SpriteClip(files.Length,fps,true,288,288,Read("anchorX",.5),Read("anchorY",.921875),false,Read("scaleStart",1),Read("scaleEnd",1),Read("offsetStartX",0),Read("offsetStartY",0),Read("offsetEndX",0),Read("offsetEndY",0),GroundContacts:SpritePlayback.ReadGroundContacts(def,files.Length))));
+                new SpriteClip(files.Length,fps,true,Read("width",288),Read("height",288),Read("anchorX",.5),Read("anchorY",.921875),false,Read("scaleStart",1),Read("scaleEnd",1),Read("offsetStartX",0),Read("offsetStartY",0),Read("offsetEndX",0),Read("offsetEndY",0),GroundContacts:SpritePlayback.ReadGroundContacts(def,files.Length))));
         }
         var panel=new DockPanel();Content=panel;
         var heading=new StackPanel{Margin=new Thickness(16,12,16,0)};

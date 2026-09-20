@@ -26,8 +26,14 @@ public sealed partial class SpritePlayback
             double distance=Math.Abs(to-from),baseDistance=minimum[^1].Distance;
             string loop=left?"video-14":"video-right";
             double cycleDistance=Math.Abs(FrameVelocity(loop,0))*clips[loop].Duration;
-            int loops=(int)Math.Ceiling(Math.Max(0,distance-baseDistance)/Math.Max(1,cycleDistance));
-            travel=new(action,from,to,now,loops==0?minimum:PredictTravel(now,left,loops));
+            string? vocal=null;double vocalDistance=0;
+            if(HasExpressions&&++travelLegs%3==0&&current is not ("video-right" or "video-14"))
+            {
+                string id=left?"video-87":"video-86";double required=Math.Abs(FrameVelocity(id,0))*clips[id].Duration;
+                if(distance>=baseDistance+required){vocal=id;vocalDistance=required;}
+            }
+            int loops=(int)Math.Ceiling(Math.Max(0,distance-baseDistance-vocalDistance)/Math.Max(1,cycleDistance));
+            travel=new(action,from,to,now,loops==0&&vocal is null?minimum:PredictTravel(now,left,loops,vocal));
         }
         var point=TravelFrame(now);double total=travel.Points[^1].Distance;
         bool complete=now-travel.Began>=(travel.Points.Count-1)*TravelTick;
@@ -35,11 +41,11 @@ public sealed partial class SpritePlayback
         return(travel.From+(travel.To-travel.From)*ratio,complete);
     }
 
-    private List<TravelPoint> PredictTravel(double now,bool left,int loops)
+    private List<TravelPoint> PredictTravel(double now,bool left,int loops,string? vocal=null)
     {
         // SampleVideo mutates only these value fields. It never writes shared
         // clips/pending queues, so prediction cannot advance the live renderer.
-        var preview=(SpritePlayback)MemberwiseClone();preview.travel=null;
+        var preview=(SpritePlayback)MemberwiseClone();preview.travel=null;preview.walkVocalClip=vocal;
         var result=new List<TravelPoint>();double distance=0,loopAt=-1;
         string gait=left?"video-14":"video-right",stand=left?"SL":"SR";
         double stopAt=double.PositiveInfinity;
@@ -47,10 +53,10 @@ public sealed partial class SpritePlayback
         {
             double at=now+i*TravelTick;
             var frame=preview.SampleVideo(at>=stopAt?"guide-stop":"walk",at,left)!.Value;
-            if(loopAt<0&&frame.Clip==gait)
+            if(loopAt<0&&(frame.Clip==gait||frame.Clip==vocal))
             {
-                loopAt=at;stopAt=at+loops*clips[gait].Duration;
-                if(loops==0)frame=preview.SampleVideo("guide-stop",at,left)!.Value;
+                loopAt=at;stopAt=at+loops*clips[gait].Duration+(vocal is null?0:clips[vocal].Duration);
+                if(loops==0&&vocal is null)frame=preview.SampleVideo("guide-stop",at,left)!.Value;
             }
             // Turning changes orientation in place; only authored steps spend distance.
             double velocity=preview.FrameVelocity(frame.Clip,Math.Clamp((at-preview.started)/frame.Definition.Duration,0,1));

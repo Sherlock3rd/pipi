@@ -120,7 +120,7 @@ public sealed partial class SpritePlayback
     }
     public static double PlaybackSpeed(JsonElement value,string key="playbackRate")=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&n>=.5&&n<=4?n:1;
     private static double ReadOffset(JsonElement value,string key)=>value.TryGetProperty(key,out var number)&&number.TryGetDouble(out double n)&&double.IsFinite(n)&&Math.Abs(n)<=20?n:0;
-    public void Reset(){travel=null;group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;}
+    public void Reset(){travel=null;group="";current="";careAction=careExit="";pending.Clear();started=0;reverse=false;pose=destination="F";lastSample=null;wakeContinuationAt=-1;carriedExpression=null;}
     private static string[] CareSequence(string action,bool left)=>action switch {
         "eat"=>new[]{"22","23","24"},"drink"=>new[]{"22","25","24"},
         "toilet"=>new[]{"26","27","28"},"bury"=>new[]{"29","30","31"},
@@ -132,6 +132,8 @@ public sealed partial class SpritePlayback
         "guide-food"=>new[]{"48"},"guide-water"=>new[]{"49"},"guide-litter"=>new[]{"50"},"care-thanks"=>new[]{"51"},_=>Array.Empty<string>()};
     public double? ActionDuration(string action,bool left=false)
     {
+        if(carriedExpression is not null&&action=="land")return .7;
+        if(HasExpressions&&action.StartsWith("expr-")&&clips.TryGetValue("video-"+action[5..],out var expression))return expression.Duration;
         if(!careGraph)return null;var seq=CareSequence(action,left);if(seq.Length==0)return null;
         double sum=0;foreach(var id in seq){if(!clips.TryGetValue("video-"+id,out var clip))return null;sum+=clip.ForAction(action).Duration;}return sum;
     }
@@ -144,7 +146,7 @@ public sealed partial class SpritePlayback
         (clips["video-29"].ForAction("bury").Duration,clips["video-30"].Duration):null;
     private SpriteFrame? SampleCare(string action,double now,bool left)
     {
-        var sequence=CareSequence(action,left);
+        var sequence=HasExpressions&&action.StartsWith("expr-")&&clips.ContainsKey("video-"+action[5..])?new[]{action[5..]}:CareSequence(action,left);
         if(sequence.Length>0)
         {
             string key=action+(action is "toy-bat" or "guide-look"?(left?"-L":"-R"):"");
@@ -165,7 +167,7 @@ public sealed partial class SpritePlayback
         if(careAction.Length>0)
         {
             string before=careAction;careAction="";current="";group="care-return";
-            pose=destination=before is "eat" or "drink" or "toilet" or "bury" or "guide-food" or "guide-water" or "guide-litter"||before.EndsWith("-R")?"SR":before.EndsWith("-L")?"SL":"F";
+            pose=destination=before.StartsWith("expr-")&&int.TryParse(before[5..],out int expressionId)?ExpressionPose(expressionId):before is "eat" or "drink" or "toilet" or "bury" or "guide-food" or "guide-water" or "guide-litter"||before.EndsWith("-R")?"SR":before.EndsWith("-L")?"SL":"F";
             if(before=="drag"){careExit="video-34";exitStarted=now;pose=destination="F";}
             else if(before=="toy-bat-R"){careExit="video-31";exitStarted=now;pose=destination="SR";}
         }
@@ -206,6 +208,7 @@ public sealed partial class SpritePlayback
     private SpriteFrame? SampleCore(string action,double now,bool facingLeft=false)
     {
         if(!double.IsFinite(now)||now<0)return null;
+        if(SampleCarriedExpression(action,now) is SpriteFrame carried)return carried;
         if(travel is not null)
         {
             if(action==travel.Action)return TravelFrame(now).Frame;
@@ -253,9 +256,10 @@ public sealed partial class SpritePlayback
         string target=action switch {
             "idle" or "sit" or "wake"=>"F",
             "walk" or "toy-run" or "request-walk" or "guide-walk"=>left?"WL":"WR",
-            "guide-stop" or "guide-arrive"=>left?"SL":"SR",
+            "guide-stop" or "guide-arrive" or "toy-ready"=>left?"SL":"SR",
             "sleep"=>"C",_=>""};
         if(action=="care-ready")target="SR";
+        if(HasExpressions&&action.StartsWith("rest-"))target=action[5..];
         // Interaction wins immediately. Never queue a care/drag action behind a video.
         if(target.Length==0){Reset();return null;}
         if(group.Length==0){pose=destination=target=="C"?"C":"F";group=target;}
@@ -286,11 +290,11 @@ public sealed partial class SpritePlayback
                 {
                     var route=search.Dequeue();
                     if(route.Node==target){current="video-"+route.First;destination=route.End;break;}
-                    foreach(var e in edges)if(e.From==route.Node&&clips.ContainsKey("video-"+e.Clip)&&seen.Add(e.To))
+                    foreach(var e in GraphEdges())if(e.From==route.Node&&clips.ContainsKey("video-"+e.Clip)&&seen.Add(e.To))
                         search.Enqueue((e.To,route.First.Length==0?e.Clip:route.First,route.First.Length==0?e.To:route.End));
                 }
             }
-            else current=pose switch {"WR"=>"video-right","WL"=>"video-14","C"=>"video-20",_=>"video-01"};
+            else current=PoseLoop(pose) is string loop&&loop.Length>0?"video-"+loop:pose switch {"WR" or "WL"=>WalkingLoop(pose),"C"=>"video-20",_=>"video-01"};
             started=nextStarted;
         }
         if(!clips.TryGetValue(current,out var clip))return null;
@@ -323,12 +327,12 @@ public sealed partial class SpritePlayback
     {
         static double Ease(double x){x=Math.Clamp(x,0,1);return x*x*(3-2*x);}
         double velocity=id switch {
-            "video-right"=>36,"video-14"=>-38,
+            "video-right" or "video-86"=>36,"video-14" or "video-87"=>-38,
             "video-06"=>12*Ease((t-.18)/.55),"video-08"=>-12*Ease((t-.18)/.55),
             "video-10"=>12+24*Ease(t/.5),"video-12"=>-12-26*Ease(t/.5),
             "video-11"=>36*(1-Ease(t/.85)),"video-13"=>-38*(1-Ease(t/.85)),
             "video-15"=>5*(1-2*Ease(t)),"video-16"=>-5*(1-2*Ease(t)),
             _=>0};
-        return velocity*clips[id].Width/180*clips[id].PlaybackRate;
+        return velocity*clips[id].Width/(id is "video-86" or "video-87"?225:180)*clips[id].PlaybackRate;
     }
 }

@@ -1,0 +1,1449 @@
+{
+  "method": "shared-pose SIFT isotropic fit; planted paw or body ROI; fixed breathing contact",
+  "wallContactOffsets": {
+    "right": 43.312500000000014,
+    "left": -66.93749999999999
+  },
+  "clips": [
+    {
+      "id": "52",
+      "poses": [
+        "SR",
+        "HR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000247955322266,
+          "offsetX": -0.00995635986328125,
+          "inliers": 146,
+          "residual": 0.1904613971710205
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999449849128723,
+          "offsetX": -0.0056304931640625,
+          "inliers": 129,
+          "residual": 0.22445805370807648
+        }
+      ],
+      "supportRange": [
+        0.75625,
+        0.834375
+      ],
+      "maxAdjacentContactDelta": 1.588251650096173
+    },
+    {
+      "id": "53",
+      "poses": [
+        "HR",
+        "HR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 185,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000121593475342,
+          "offsetX": -0.01572418212890625,
+          "inliers": 122,
+          "residual": 0.1716962307691574
+        }
+      ],
+      "supportRange": [
+        0.834375,
+        0.8359375
+      ],
+      "maxAdjacentContactDelta": 0.0
+    },
+    {
+      "id": "54",
+      "poses": [
+        "HR",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0004266500473022,
+          "offsetX": -0.0017337799072265625,
+          "inliers": 124,
+          "residual": 0.2166438102722168
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999492764472961,
+          "offsetX": -0.025577545166015625,
+          "inliers": 148,
+          "residual": 0.2588716149330139
+        }
+      ],
+      "supportRange": [
+        0.75625,
+        0.840625
+      ],
+      "maxAdjacentContactDelta": 1.2556730514396497
+    },
+    {
+      "id": "55",
+      "poses": [
+        "SL",
+        "HL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0001318454742432,
+          "offsetX": 0.00933837890625,
+          "inliers": 153,
+          "residual": 0.22018054127693176
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999405741691589,
+          "offsetX": -0.016462326049804688,
+          "inliers": 79,
+          "residual": 0.16526710987091064
+        }
+      ],
+      "supportRange": [
+        0.7578125,
+        0.809375
+      ],
+      "maxAdjacentContactDelta": 0.8282020178382865
+    },
+    {
+      "id": "56",
+      "poses": [
+        "HL",
+        "HL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 111,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998409748077393,
+          "offsetX": 0.0009441375732421875,
+          "inliers": 83,
+          "residual": 0.16767890751361847
+        }
+      ],
+      "supportRange": [
+        0.809375,
+        0.809375
+      ],
+      "maxAdjacentContactDelta": 0.0
+    },
+    {
+      "id": "57",
+      "poses": [
+        "HL",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.999907910823822,
+          "offsetX": -0.016496658325195312,
+          "inliers": 85,
+          "residual": 0.14637041091918945
+        },
+        {
+          "accepted": true,
+          "scale": 1.0003620386123657,
+          "offsetX": 0.0056133270263671875,
+          "inliers": 148,
+          "residual": 0.2547524571418762
+        }
+      ],
+      "supportRange": [
+        0.7546875,
+        0.809375
+      ],
+      "maxAdjacentContactDelta": 1.5812060307787235
+    },
+    {
+      "id": "58",
+      "poses": [
+        "F",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.00029456615448,
+          "offsetX": -0.0037679672241210938,
+          "inliers": 192,
+          "residual": 0.17705802619457245
+        },
+        {
+          "accepted": true,
+          "scale": 0.999971866607666,
+          "offsetX": -0.012239456176757812,
+          "inliers": 174,
+          "residual": 0.21074621379375458
+        }
+      ],
+      "supportRange": [
+        0.8286504039057979,
+        0.853125
+      ],
+      "maxAdjacentContactDelta": 0.7282778166367088
+    },
+    {
+      "id": "59",
+      "poses": [
+        "D",
+        "F"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.00009286403656,
+          "offsetX": 0.0054073333740234375,
+          "inliers": 203,
+          "residual": 0.1617438644170761
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998397827148438,
+          "offsetX": -0.004291534423828125,
+          "inliers": 168,
+          "residual": 0.2192486822605133
+        }
+      ],
+      "supportRange": [
+        0.8271243095397949,
+        0.853125
+      ],
+      "maxAdjacentContactDelta": 1.023370686059275
+    },
+    {
+      "id": "60",
+      "poses": [
+        "D",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999110102653503,
+          "offsetX": -0.0031757354736328125,
+          "inliers": 204,
+          "residual": 0.1471617966890335
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999299049377441,
+          "offsetX": -0.009355545043945312,
+          "inliers": 431,
+          "residual": 0.2269822061061859
+        }
+      ],
+      "supportRange": [
+        0.8083909722222222,
+        0.8610546766493056
+      ],
+      "maxAdjacentContactDelta": 1.1758906250000134,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "61",
+      "poses": [
+        "A",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999009370803833,
+          "offsetX": -0.008256912231445312,
+          "inliers": 419,
+          "residual": 0.20970213413238525
+        },
+        {
+          "accepted": true,
+          "scale": 0.9996970891952515,
+          "offsetX": -0.0029010772705078125,
+          "inliers": 182,
+          "residual": 0.23357509076595306
+        }
+      ],
+      "supportRange": [
+        0.809375,
+        0.853125
+      ],
+      "maxAdjacentContactDelta": 0.6140772501627723,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "62",
+      "poses": [
+        "A",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999316930770874,
+          "offsetX": 0.010145187377929688,
+          "inliers": 463,
+          "residual": 0.16188058257102966
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000916719436646,
+          "offsetX": -0.0057849884033203125,
+          "inliers": 425,
+          "residual": 0.1623283475637436
+        }
+      ],
+      "supportRange": [
+        0.7958220340587474,
+        0.841572380065918
+      ],
+      "maxAdjacentContactDelta": 1.0430234273274364,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "63",
+      "poses": [
+        "B",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999894499778748,
+          "offsetX": -0.00157928466796875,
+          "inliers": 400,
+          "residual": 0.20763562619686127
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000602006912231,
+          "offsetX": -0.0063343048095703125,
+          "inliers": 437,
+          "residual": 0.23338249325752258
+        }
+      ],
+      "supportRange": [
+        0.7953125,
+        0.8427248001098633
+      ],
+      "maxAdjacentContactDelta": 0.7976061503092513,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "64",
+      "poses": [
+        "A",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999836087226868,
+          "offsetX": -0.0039653778076171875,
+          "inliers": 455,
+          "residual": 0.15557564795017242
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000187158584595,
+          "offsetX": 0.00274658203125,
+          "inliers": 205,
+          "residual": 0.19374392926692963
+        }
+      ],
+      "supportRange": [
+        0.7732678413391113,
+        0.8900390625
+      ],
+      "maxAdjacentContactDelta": 2.5768814086914027,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "65",
+      "poses": [
+        "C",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000271797180176,
+          "offsetX": 0.008600234985351562,
+          "inliers": 204,
+          "residual": 0.14718841016292572
+        },
+        {
+          "accepted": true,
+          "scale": 0.999682605266571,
+          "offsetX": 0.011775970458984375,
+          "inliers": 418,
+          "residual": 0.22133828699588776
+        }
+      ],
+      "supportRange": [
+        0.8050537109375,
+        0.8875020203766999
+      ],
+      "maxAdjacentContactDelta": 1.5362230873268423,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "66",
+      "poses": [
+        "D",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 280,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.0001953840255737,
+          "offsetX": 0.0015964508056640625,
+          "inliers": 179,
+          "residual": 0.21808402240276337
+        }
+      ],
+      "supportRange": [
+        0.8531249999999999,
+        0.8531250000000001
+      ],
+      "maxAdjacentContactDelta": 0.0
+    },
+    {
+      "id": "67",
+      "poses": [
+        "A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 597,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999000430107117,
+          "offsetX": 0.012119293212890625,
+          "inliers": 400,
+          "residual": 0.20709118247032166
+        }
+      ],
+      "supportRange": [
+        0.8093749999999998,
+        0.8093750000000001
+      ],
+      "maxAdjacentContactDelta": 0.0
+    },
+    {
+      "id": "68",
+      "poses": [
+        "A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.999976634979248,
+          "offsetX": 0.000446319580078125,
+          "inliers": 433,
+          "residual": 0.14578190445899963
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999049305915833,
+          "offsetX": -0.0061969757080078125,
+          "inliers": 434,
+          "residual": 0.216244637966156
+        }
+      ],
+      "supportRange": [
+        0.8062499999999999,
+        0.8109375000000001
+      ],
+      "maxAdjacentContactDelta": 0.26487005454598034
+    },
+    {
+      "id": "69",
+      "poses": [
+        "A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998422265052795,
+          "offsetX": 0.0072612762451171875,
+          "inliers": 456,
+          "residual": 0.16808460652828217
+        },
+        {
+          "accepted": true,
+          "scale": 0.9996201395988464,
+          "offsetX": 0.0011501312255859375,
+          "inliers": 433,
+          "residual": 0.24077700078487396
+        }
+      ],
+      "supportRange": [
+        0.8093749999999998,
+        0.8093750000000001
+      ],
+      "maxAdjacentContactDelta": 0.0016885374688069277
+    },
+    {
+      "id": "70",
+      "poses": [
+        "A",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999078512191772,
+          "offsetX": 0.008617401123046875,
+          "inliers": 445,
+          "residual": 0.16797736287117004
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998862743377686,
+          "offsetX": 0.00858306884765625,
+          "inliers": 136,
+          "residual": 0.23870313167572021
+        }
+      ],
+      "supportRange": [
+        0.8359375,
+        0.88125
+      ],
+      "maxAdjacentContactDelta": 1.1043777465820126,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "71",
+      "poses": [
+        "B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 612,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000026226043701,
+          "offsetX": -0.0035190582275390625,
+          "inliers": 428,
+          "residual": 0.16950750350952148
+        }
+      ],
+      "supportRange": [
+        0.840625,
+        0.8421875000000001
+      ],
+      "maxAdjacentContactDelta": 0.0
+    },
+    {
+      "id": "72",
+      "poses": [
+        "B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000017762184143,
+          "offsetX": 0.0001373291015625,
+          "inliers": 468,
+          "residual": 0.1386198252439499
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999668002128601,
+          "offsetX": -0.00308990478515625,
+          "inliers": 417,
+          "residual": 0.18467111885547638
+        }
+      ],
+      "supportRange": [
+        0.8406249999999998,
+        0.8421875000000001
+      ],
+      "maxAdjacentContactDelta": 0.20363604881199038
+    },
+    {
+      "id": "73",
+      "poses": [
+        "B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998878836631775,
+          "offsetX": 0.003192901611328125,
+          "inliers": 426,
+          "residual": 0.16915744543075562
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999448657035828,
+          "offsetX": 0.0058536529541015625,
+          "inliers": 431,
+          "residual": 0.1697883903980255
+        }
+      ],
+      "supportRange": [
+        0.840625,
+        0.8421875000000001
+      ],
+      "maxAdjacentContactDelta": 0.20566141218400613
+    },
+    {
+      "id": "74",
+      "poses": [
+        "B",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000208616256714,
+          "offsetX": -0.0009098052978515625,
+          "inliers": 457,
+          "residual": 0.13583551347255707
+        },
+        {
+          "accepted": true,
+          "scale": 0.999922513961792,
+          "offsetX": -0.0009098052978515625,
+          "inliers": 144,
+          "residual": 0.22694751620292664
+        }
+      ],
+      "supportRange": [
+        0.8328125,
+        0.8578125
+      ],
+      "maxAdjacentContactDelta": 0.30703862508138613,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "75",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 289,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000925064086914,
+          "offsetX": 0.0047550201416015625,
+          "inliers": 189,
+          "residual": 0.19886021316051483
+        }
+      ],
+      "supportRange": [
+        0.8874999999999998,
+        0.8875000000000001
+      ],
+      "maxAdjacentContactDelta": 0.1402994791666634
+    },
+    {
+      "id": "76",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999351501464844,
+          "offsetX": 0.00926971435546875,
+          "inliers": 205,
+          "residual": 0.18917261064052582
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000888109207153,
+          "offsetX": 0.0111236572265625,
+          "inliers": 192,
+          "residual": 0.23892395198345184
+        }
+      ],
+      "supportRange": [
+        0.8859375,
+        0.8875000000000001
+      ],
+      "maxAdjacentContactDelta": 0.20420864185345167
+    },
+    {
+      "id": "77",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999241828918457,
+          "offsetX": 0.0035877227783203125,
+          "inliers": 208,
+          "residual": 0.16030427813529968
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999837875366211,
+          "offsetX": 0.002162933349609375,
+          "inliers": 179,
+          "residual": 0.2031390219926834
+        }
+      ],
+      "supportRange": [
+        0.8874999999999998,
+        0.8875000000000001
+      ],
+      "maxAdjacentContactDelta": 0.18019545418401783
+    },
+    {
+      "id": "78",
+      "poses": [
+        "C",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.99996018409729,
+          "offsetX": 0.011140823364257812,
+          "inliers": 194,
+          "residual": 0.16021117568016052
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000784397125244,
+          "offsetX": -0.017955780029296875,
+          "inliers": 142,
+          "residual": 0.26211145520210266
+        }
+      ],
+      "supportRange": [
+        0.740625,
+        0.8875
+      ],
+      "maxAdjacentContactDelta": 1.903639475504546,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "79",
+      "poses": [
+        "D",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999638795852661,
+          "offsetX": -0.0003948211669921875,
+          "inliers": 209,
+          "residual": 0.1535775512456894
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999639987945557,
+          "offsetX": 0.007415771484375,
+          "inliers": 180,
+          "residual": 0.21417829394340515
+        }
+      ],
+      "supportRange": [
+        0.8515624999999999,
+        0.853125
+      ],
+      "maxAdjacentContactDelta": 0.20328827070375866
+    },
+    {
+      "id": "80",
+      "poses": [
+        "A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999132752418518,
+          "offsetX": 0.004634857177734375,
+          "inliers": 428,
+          "residual": 0.19518467783927917
+        },
+        {
+          "accepted": true,
+          "scale": 0.9997451305389404,
+          "offsetX": 0.006557464599609375,
+          "inliers": 418,
+          "residual": 0.23873022198677063
+        }
+      ],
+      "supportRange": [
+        0.8093749999999998,
+        0.8093750000000001
+      ],
+      "maxAdjacentContactDelta": 0.0031708674858599295
+    },
+    {
+      "id": "81",
+      "poses": [
+        "B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000821352005005,
+          "offsetX": -0.0098876953125,
+          "inliers": 439,
+          "residual": 0.16427038609981537
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998891949653625,
+          "offsetX": -0.0054759979248046875,
+          "inliers": 404,
+          "residual": 0.1804545819759369
+        }
+      ],
+      "supportRange": [
+        0.8406249999999998,
+        0.8421875
+      ],
+      "maxAdjacentContactDelta": 0.20460312237310152
+    },
+    {
+      "id": "82",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0001542568206787,
+          "offsetX": 0.003192901611328125,
+          "inliers": 214,
+          "residual": 0.16939736902713776
+        },
+        {
+          "accepted": true,
+          "scale": 0.999730110168457,
+          "offsetX": 0.0014934539794921875,
+          "inliers": 195,
+          "residual": 0.2301246076822281
+        }
+      ],
+      "supportRange": [
+        0.8874999999999998,
+        0.8875000000000001
+      ],
+      "maxAdjacentContactDelta": 0.181898098526454
+    },
+    {
+      "id": "83",
+      "poses": [
+        "A",
+        "M"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000678300857544,
+          "offsetX": -0.001338958740234375,
+          "inliers": 444,
+          "residual": 0.166268453001976
+        },
+        {
+          "accepted": true,
+          "scale": 1.000009298324585,
+          "offsetX": 0.0018024444580078125,
+          "inliers": 418,
+          "residual": 0.2261517196893692
+        }
+      ],
+      "supportRange": [
+        0.8093749999999998,
+        0.8946044815911187
+      ],
+      "maxAdjacentContactDelta": 0.49083455403649,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "84",
+      "poses": [
+        "M",
+        "M"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0,
+          "offsetX": 0.0,
+          "inliers": 646,
+          "residual": 0.0
+        },
+        {
+          "accepted": true,
+          "scale": 0.9999842643737793,
+          "offsetX": -0.002471923828125,
+          "inliers": 434,
+          "residual": 0.1784846931695938
+        }
+      ],
+      "supportRange": [
+        0.8390624999999999,
+        0.840625
+      ],
+      "maxAdjacentContactDelta": 0.0
+    },
+    {
+      "id": "85",
+      "poses": [
+        "M",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0001249313354492,
+          "offsetX": -0.00460052490234375,
+          "inliers": 488,
+          "residual": 0.16086120903491974
+        },
+        {
+          "accepted": true,
+          "scale": 0.9997244477272034,
+          "offsetX": -0.0021457672119140625,
+          "inliers": 423,
+          "residual": 0.21225427091121674
+        }
+      ],
+      "supportRange": [
+        0.80625,
+        0.8601851851851852
+      ],
+      "maxAdjacentContactDelta": 0.6135431925455626,
+      "supportMethod": "reviewed planted paw/chest/flank keyframes; registered endpoints"
+    },
+    {
+      "id": "86",
+      "poses": [
+        "WR",
+        "WR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0053372383117676,
+          "offsetX": 0.9827098846435547,
+          "inliers": 34,
+          "residual": 0.566863477230072
+        },
+        {
+          "accepted": true,
+          "scale": 1.0068238973617554,
+          "offsetX": 0.9309711456298828,
+          "inliers": 32,
+          "residual": 0.400173544883728
+        }
+      ],
+      "supportRange": [
+        0.8359375,
+        0.8390625000000002
+      ],
+      "maxAdjacentContactDelta": 0.40841728370690333
+    },
+    {
+      "id": "87",
+      "poses": [
+        "WL",
+        "WL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000224113464355,
+          "offsetX": -0.004566192626953125,
+          "inliers": 176,
+          "residual": 0.20574942231178284
+        },
+        {
+          "accepted": true,
+          "scale": 0.9996687173843384,
+          "offsetX": 0.024530410766601562,
+          "inliers": 138,
+          "residual": 0.29310092329978943
+        }
+      ],
+      "supportRange": [
+        0.8359375,
+        0.840625
+      ],
+      "maxAdjacentContactDelta": 0.5023651988953359
+    },
+    {
+      "id": "88",
+      "poses": [
+        "F",
+        "F"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000101327896118,
+          "offsetX": 0.012531280517578125,
+          "inliers": 185,
+          "residual": 0.17862552404403687
+        },
+        {
+          "accepted": true,
+          "scale": 0.9996058344841003,
+          "offsetX": -0.006257057189941406,
+          "inliers": 172,
+          "residual": 0.21305891871452332
+        }
+      ],
+      "supportRange": [
+        0.8296874999999999,
+        0.8296875000000001
+      ],
+      "maxAdjacentContactDelta": 0.0012467801384508093
+    },
+    {
+      "id": "89",
+      "poses": [
+        "D",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9998555779457092,
+          "offsetX": -0.00817108154296875,
+          "inliers": 180,
+          "residual": 0.20836813747882843
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000370740890503,
+          "offsetX": -0.0032787322998046875,
+          "inliers": 202,
+          "residual": 0.2077144980430603
+        }
+      ],
+      "supportRange": [
+        0.8515624999999999,
+        0.8531250000000001
+      ],
+      "maxAdjacentContactDelta": 0.2050638020273654
+    },
+    {
+      "id": "90",
+      "poses": [
+        "A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9997903108596802,
+          "offsetX": -0.004291534423828125,
+          "inliers": 431,
+          "residual": 0.14859510958194733
+        },
+        {
+          "accepted": true,
+          "scale": 0.9997538924217224,
+          "offsetX": 0.0012874603271484375,
+          "inliers": 436,
+          "residual": 0.21645401418209076
+        }
+      ],
+      "supportRange": [
+        0.8093749999999998,
+        0.8093750000000001
+      ],
+      "maxAdjacentContactDelta": 0.0020559587813817615
+    },
+    {
+      "id": "91",
+      "poses": [
+        "B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999018907546997,
+          "offsetX": -0.0003604888916015625,
+          "inliers": 480,
+          "residual": 0.14128407835960388
+        },
+        {
+          "accepted": true,
+          "scale": 1.000002384185791,
+          "offsetX": 0.0003604888916015625,
+          "inliers": 428,
+          "residual": 0.18258032202720642
+        }
+      ],
+      "supportRange": [
+        0.8421874999999999,
+        0.8421875000000001
+      ],
+      "maxAdjacentContactDelta": 0.0006117891952639454
+    },
+    {
+      "id": "92",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9993895292282104,
+          "offsetX": 0.009492874145507812,
+          "inliers": 195,
+          "residual": 0.20920829474925995
+        },
+        {
+          "accepted": true,
+          "scale": 0.9996612668037415,
+          "offsetX": 0.008565902709960938,
+          "inliers": 199,
+          "residual": 0.17756594717502594
+        }
+      ],
+      "supportRange": [
+        0.8874999999999998,
+        0.8875000000000001
+      ],
+      "maxAdjacentContactDelta": 0.18568161045265263
+    },
+    {
+      "id": "93",
+      "poses": [
+        "SR",
+        "SR"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999215602874756,
+          "offsetX": -0.0046520233154296875,
+          "inliers": 148,
+          "residual": 0.20581316947937012
+        },
+        {
+          "accepted": true,
+          "scale": 0.9998747110366821,
+          "offsetX": 0.021457672119140625,
+          "inliers": 139,
+          "residual": 0.26335829496383667
+        }
+      ],
+      "supportRange": [
+        0.8328125,
+        0.8421875000000001
+      ],
+      "maxAdjacentContactDelta": 1.016223970613197
+    },
+    {
+      "id": "94",
+      "poses": [
+        "SL",
+        "SL"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000463843345642,
+          "offsetX": 0.008823394775390625,
+          "inliers": 149,
+          "residual": 0.17823342978954315
+        },
+        {
+          "accepted": true,
+          "scale": 1.000473141670227,
+          "offsetX": -0.0043773651123046875,
+          "inliers": 134,
+          "residual": 0.26537105441093445
+        }
+      ],
+      "supportRange": [
+        0.81875,
+        0.8390625000000002
+      ],
+      "maxAdjacentContactDelta": 2.1045230512592994
+    },
+    {
+      "id": "95",
+      "poses": [
+        "D",
+        "D"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999556541442871,
+          "offsetX": 0.0075531005859375,
+          "inliers": 209,
+          "residual": 0.16578200459480286
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000226497650146,
+          "offsetX": -0.00707244873046875,
+          "inliers": 184,
+          "residual": 0.21227629482746124
+        }
+      ],
+      "supportRange": [
+        0.853125,
+        0.8828125
+      ],
+      "maxAdjacentContactDelta": 0.6835670442801689
+    },
+    {
+      "id": "96",
+      "poses": [
+        "A",
+        "A"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9999799132347107,
+          "offsetX": 0.0041713714599609375,
+          "inliers": 450,
+          "residual": 0.17513610422611237
+        },
+        {
+          "accepted": true,
+          "scale": 0.9997279644012451,
+          "offsetX": -0.008703231811523438,
+          "inliers": 401,
+          "residual": 0.2214346081018448
+        }
+      ],
+      "supportRange": [
+        0.809375,
+        0.84375
+      ],
+      "maxAdjacentContactDelta": 0.8423020717512131
+    },
+    {
+      "id": "97",
+      "poses": [
+        "B",
+        "B"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.0000067949295044,
+          "offsetX": -0.00240325927734375,
+          "inliers": 452,
+          "residual": 0.13319031894207
+        },
+        {
+          "accepted": true,
+          "scale": 1.0000495910644531,
+          "offsetX": -0.011089324951171875,
+          "inliers": 435,
+          "residual": 0.17620407044887543
+        }
+      ],
+      "supportRange": [
+        0.8390624999999999,
+        0.8421875
+      ],
+      "maxAdjacentContactDelta": 0.20422176755233945
+    },
+    {
+      "id": "98",
+      "poses": [
+        "C",
+        "C"
+      ],
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 1.000085473060608,
+          "offsetX": 0.000995635986328125,
+          "inliers": 219,
+          "residual": 0.15670233964920044
+        },
+        {
+          "accepted": true,
+          "scale": 1.0001015663146973,
+          "offsetX": 0.007724761962890625,
+          "inliers": 197,
+          "residual": 0.20581848919391632
+        }
+      ],
+      "supportRange": [
+        0.8875,
+        0.934375
+      ],
+      "maxAdjacentContactDelta": 1.1608789733526281
+    }
+  ],
+  "clippedFrames": [],
+  "reviewedSupportKeys640": {
+    "60": [
+      546,
+      542,
+      538,
+      532,
+      508,
+      518,
+      518,
+      518
+    ],
+    "61": [
+      518,
+      518,
+      528,
+      530,
+      533,
+      542,
+      546,
+      546
+    ],
+    "62": [
+      518,
+      512,
+      517,
+      534,
+      532,
+      539,
+      539,
+      539
+    ],
+    "63": [
+      539,
+      539,
+      528,
+      515,
+      518,
+      518,
+      518,
+      518
+    ],
+    "64": [
+      518,
+      518,
+      517,
+      512,
+      524,
+      566,
+      572,
+      572
+    ],
+    "65": [
+      572,
+      547,
+      542,
+      539,
+      526,
+      518,
+      518,
+      518
+    ],
+    "70": [
+      518,
+      518,
+      526,
+      544,
+      539,
+      537,
+      537,
+      537
+    ],
+    "74": [
+      539,
+      539,
+      534,
+      533,
+      537,
+      537,
+      537,
+      537
+    ],
+    "78": [
+      572,
+      545,
+      514,
+      526,
+      533,
+      537,
+      537,
+      537
+    ],
+    "83": [
+      518,
+      518,
+      518,
+      520,
+      526,
+      534,
+      537,
+      537
+    ],
+    "85": [
+      537,
+      537,
+      537,
+      537,
+      530,
+      520,
+      518,
+      518
+    ]
+  }
+}

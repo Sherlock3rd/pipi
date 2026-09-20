@@ -41,6 +41,7 @@ def extract(clip,sample=False,run=RUN,cache=CACHE,out=OUT):
     report=json.loads((RUN/'extraction.json').read_text(encoding='utf-8'))
     start,end=clip['sourceFrames'];offset=62 if number=='00' else 0
     indices=list(range(start+offset,end+offset+1))
+    if 'indices' in clip:indices=clip['indices']
     if sample:indices=sorted(set([indices[0],indices[len(indices)//2],indices[-1]]))
     dest=out/clip['clip'];dest.mkdir(parents=True,exist_ok=True)
     files=[];diagnostics=[]
@@ -85,10 +86,12 @@ def extract(clip,sample=False,run=RUN,cache=CACHE,out=OUT):
         scale=report['globalScale']*2/factor
         rx,ry=np.array(report['sourceRoot'])*factor
         ox,oy=np.array(report['outputRoot'])*2
+        canvas=clip.get('canvasSize',512)
+        ox+=(canvas-512)/2;oy+=(canvas-512)/2
         oy+=clip.get('canvasOffsetY',0)
         matrix=np.array([[scale,0,ox-rx*scale],[0,scale,oy-ry*scale]],np.float32)
         pm=np.dstack([corrected*alpha[:,:,None]/255,alpha])
-        scaled=cv2.warpAffine(pm,matrix,(512,512),flags=cv2.INTER_AREA,borderMode=cv2.BORDER_CONSTANT)
+        scaled=cv2.warpAffine(pm,matrix,(canvas,canvas),flags=cv2.INTER_AREA,borderMode=cv2.BORDER_CONSTANT)
         a=np.clip(scaled[:,:,3],0,1)
         color=np.clip(scaled[:,:,:3]/np.maximum(a[:,:,None],1/255)*255,0,255)
         a[~largest(a>.015)]=0

@@ -618,10 +618,12 @@ using(var groundedDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runti
  {
   if(!item.Value.TryGetProperty("groundContacts",out var contacts))continue;
   var profile=SpritePlayback.ReadGroundContacts(item.Value,contacts.GetArrayLength())!;
-  var clip=new SpriteClip(profile.Length,24,true,288,288,.5,.921875,false,GroundContacts:profile);
-  for(int i=0;i<profile.Length;i++){var frame=clip.AtFrame(i);correct&=Math.Abs((profile[i]-frame.AnchorY)*frame.Height)<.001&&frame.Width==288;measured++;}
+  double width=item.Value.GetProperty("width").GetDouble(),height=item.Value.GetProperty("height").GetDouble();
+  var clip=new SpriteClip(profile.Length,24,true,width,height,.5,.921875,false,GroundContacts:profile);
+  for(int i=0;i<profile.Length;i++){var frame=clip.AtFrame(i);correct&=Math.Abs((profile[i]-frame.AnchorY)*frame.Height)<.001&&frame.Width==width;measured++;}
  }
- Check(correct&&measured==4673,"all 4673 grounded poses place their measured contact on the support plane without rescaling");
+ int newGrounded=Enumerable.Range(52,47).Sum(n=>groundedDoc.RootElement.GetProperty("animations").GetProperty("video-"+n).GetArrayLength());
+ Check(correct&&measured==4673+newGrounded,"all original and new grounded poses place their measured contact on the support plane without rescaling");
  Check(!entries.GetProperty("video-32").TryGetProperty("groundContacts",out _)&&!entries.GetProperty("video-33").TryGetProperty("groundContacts",out _),"pickup and suspended motion retain their authored vertical trajectory");
 }
 using(var guideDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeManifest)))
@@ -805,4 +807,5 @@ using(var widthDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
 }
 CareRequestChecks.Run(Check);
 HeadLoweringTempoChecks.Run(Check,runtimeManifest);
+ExpressionChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

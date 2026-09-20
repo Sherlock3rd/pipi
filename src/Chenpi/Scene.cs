@@ -139,9 +139,13 @@ internal sealed class Scene : FrameworkElement
         Engine.VisualTravel=playback.TravelTo;
         Engine.VisualBurialWindow=playback.BurialWindow;
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
+        Engine.ExpressionsEnabled=playback.HasExpressions;
+        Engine.VisualPoseReady=playback.PreparePose;
         // Prepare the first pickup pose before input, including decoded sprites and drawing caches.
         var warm=new DrawingGroup();using(var drawing=warm.Open())DrawCat(drawing,0,0,"drag",0,false);
         playback.Reset();poseLift=0;
+        Engine.RestoreRelaxedSleep();
+        if(Engine.Action.StartsWith("rest-"))playback.RestorePose(Engine.RelaxedPose);
         SizeChanged+=(_,_)=>LayoutWorld();
         LostMouseCapture+=(_,_)=>{if(pressed||IsDragging||wandHeld)CancelDrag();};
     }
@@ -171,6 +175,9 @@ internal sealed class Scene : FrameworkElement
             }
             variants.Load(doc.RootElement,id=>framePaths.ContainsKey(id));
             playback.Load(doc.RootElement,id=>framePaths.TryGetValue(id,out var set)?set.Count:0);
+            if(doc.RootElement.TryGetProperty("wallContactOffsets",out var wall))
+            {Engine.WallRightOffset=wall.GetProperty("right").GetDouble();Engine.WallLeftOffset=wall.GetProperty("left").GetDouble();}
+            if(doc.RootElement.TryGetProperty("relaxedHalfWidth",out var footprint))Engine.RelaxedHalfWidth=footprint.GetDouble();
             bool prepared=doc.RootElement.TryGetProperty("videoMattePrepared",out var readyMatte)&&readyMatte.GetBoolean();
             // Decode before showing the window. Switching a clip does zero disk IO/decode.
             Parallel.ForEach(framePaths.Where(p=>p.Key.StartsWith("video-",StringComparison.Ordinal)),
@@ -550,7 +557,7 @@ internal sealed class Scene : FrameworkElement
                 var frame=playback.InspectFrame(id,index)??throw new InvalidDataException("Missing clip "+id);
                 var visual=new DrawingVisual();using(var dc=visual.RenderOpen())
                 {
-                    dc.PushTransform(new ScaleTransform(2,2));dc.PushTransform(new TranslateTransform(192,288));
+                    dc.PushTransform(new ScaleTransform(2,2));dc.PushTransform(new TranslateTransform(192,256));
                     DrawVideoFrame(dc,images[index],frame.Definition);dc.Pop();dc.Pop();
                 }
                 var bitmap=new RenderTargetBitmap(768,640,96,96,PixelFormats.Pbgra32);bitmap.Render(visual);
@@ -561,7 +568,7 @@ internal sealed class Scene : FrameworkElement
             }
         }
         if(records.Count==0)throw new InvalidDataException("No selected animation frames");
-        File.WriteAllText(Path.Combine(directory,"frames.json"),JsonSerializer.Serialize(new {PixelsPerUnit=2,RootX=192,RootY=288,Frames=records}));
+        File.WriteAllText(Path.Combine(directory,"frames.json"),JsonSerializer.Serialize(new {PixelsPerUnit=2,RootX=192,RootY=256,Frames=records}));
     }
     internal void ExportNestOcclusionAudit(string directory)
     {
@@ -610,6 +617,7 @@ internal sealed class Scene : FrameworkElement
         if(variant is null&&sample is SpriteFrame sprite&&GetFrames(sprite.Clip) is {} generated)
         {
             poseLift=Engine.Grounded?Engine.Support.Height+InteractionGeometry.SurfaceLift(sprite.Clip,sprite.Index/(double)Math.Max(1,sprite.Definition.Count-1),false,action=="drag"?"drag":""):0;
+            if(Engine.Grounded&&action=="land"&&playback.CarriesExpression)poseLift+=InteractionGeometry.PickupLift*(1-Math.Clamp(Engine.ActionTime/.7,0,1));
             y-=poseLift;
             DisplayedClip=sprite.Clip;DisplayedFrame=sprite.Index;
             var definition=sprite.Definition;

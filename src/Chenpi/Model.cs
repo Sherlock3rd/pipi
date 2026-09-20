@@ -18,6 +18,7 @@ public sealed class PetState
     public double X { get; set; } = -1;
     public double Y { get; set; } = -1;
     public bool Sleeping { get; set; }
+    public string RestPose {get;set;}="";
     public bool SleepingInNest { get; set; } = true;
     public double RestDuration { get; set; }
     public double RestElapsed { get; set; }
@@ -105,7 +106,7 @@ public sealed partial class PetEngine
     public const double NestSleepGrace=15;
     private bool manualSequence;
     private double careResumeAfter;
-    private bool AutomaticCareBlocked=>manualSequence||Now<careResumeAfter||(Action=="sleep"&&Now<sleepGrace);
+    private bool AutomaticCareBlocked=>manualSequence||Now<careResumeAfter||(State.Sleeping&&Now<sleepGrace);
     private double nightRestUntil;
     private int localHour;
     public const double QuietSleepDelay=60;
@@ -157,6 +158,7 @@ public sealed partial class PetEngine
         RememberLayout();
         if(State.X<0||reset){State.X=Nest.X-115;State.Y=Nest.Y-70;}
         State.X=Math.Clamp(State.X,65,width-65);State.Y=GroundY;
+        if(ExpressionsEnabled&&Action is "rest-HR" or "rest-HL")State.X=Action=="rest-HR"?Width-WallRightOffset:-WallLeftOffset;
         if(State.Sleeping&&State.SleepingInNest){State.X=Nest.X;State.Y=Nest.Y;}
         Retarget();
     }
@@ -192,13 +194,13 @@ public sealed partial class PetEngine
         tree = new Selector(
             Branch(()=>ReadyRequest() is not null, ()=>BeginRequest(ReadyRequest()!)),
             Branch(()=>DueCare() is not null, ()=>StartCare(DueCare()!)),
-            Branch(()=>State.StillSeconds>=QuietSleepDelay, SleepHere),
+            Branch(()=>State.StillSeconds>=RestDelay, SleepHere),
             Branch(()=>State.RestElapsed>=State.RestDuration, SleepHere),
             Branch(()=>State.Energy<24 || ((localHour>=23 || localHour<6) && Now>nightRestUntil && State.Energy<90), SleepHere),
-            new BehaviorAction(()=>SetAction("idle",QuietSleepDelay,"安静休息，困了就睡"))
+            new BehaviorAction(()=>SetAction("idle",RestDelay,"安静休息，困了就睡"))
         );
         toyTree=new Selector(Branch(()=>ToyWithinCatchRange,CatchToy),new BehaviorAction(ChaseToy));
-        if(state.Sleeping) {bool inNest=state.SleepingInNest;CancelCareRequest();sleepGrace=Now+NestSleepGrace;SetAction("sleep",double.MaxValue,"继续睡觉");state.SleepingInNest=inNest;}
+        if(state.Sleeping) {bool inNest=state.SleepingInNest;string savedPose=state.RestPose;CancelCareRequest();sleepGrace=Now+NestSleepGrace;SetAction("sleep",double.MaxValue,"继续睡觉");state.SleepingInNest=inNest;state.RestPose=savedPose;}
     }
     private void NewRest(){State.RestDuration=random.Next(1200,3601);State.RestElapsed=0;State.StillSeconds=0;Dirty=true;}
     public void ObservePointer(double seconds,bool overCat,Spot cursor)
@@ -206,7 +208,7 @@ public sealed partial class PetEngine
         guidePointer=cursor;pointerKnown=true;
         if(!Holding&&!ToyHeld&&State.CareRequest is not null)
         {if(overCat&&!State.Guiding&&Action.StartsWith("request-"))BeginGuide();hoverSeconds=0;hoverTriggered=false;return;}
-        if(!overCat||Holding||ToyHeld||manualSequence||Action is "drag" or "walk" or "eat" or "drink" or "toilet" or "bury" or "sleep")
+        if(!overCat||Holding||ToyHeld||manualSequence||IsRelaxing||Action is "drag" or "walk" or "eat" or "drink" or "toilet" or "bury" or "sleep")
         {hoverSeconds=0;hoverTriggered=false;return;}
         if(Action=="rub")return;
         if(hoverTriggered)return;
@@ -235,6 +237,8 @@ public sealed partial class PetEngine
     private void CatchToy()
     {
         if(!IsClearRestSpot(State.X)){ChaseToy();return;}
+        if(ExpressionsEnabled&&VisualStandReady?.Invoke(Now,FacingLeft)==false)
+        {if(Action!="toy-ready")SetAction("toy-ready",double.MaxValue,"起身准备玩耍");return;}
         if(Action!="toy-bat")SetAction("toy-bat",double.MaxValue,"贴近抓逗猫棒");
     }
     private void MoveTowards(Spot destination,double step)
@@ -270,7 +274,7 @@ public sealed partial class PetEngine
         if(Holding) return;
         ActionTime+=dt;
         if(Action=="drag") return;
-        if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest)&&LeaveOccupiedRestSpot())return;
+        if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&!CanRestAtWall()&&LeaveOccupiedRestSpot())return;
         if(ToyOverlaps){TickToy(dt);return;}
         if(Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"等主人靠近一点");}
         if(UpdateCareFlow(dt))return;
@@ -280,6 +284,8 @@ public sealed partial class PetEngine
             if(request is not null){BeginRequest(request);UpdateCareFlow(dt);return;}
             string? due=DueCare();if(due is not null)StartCare(due);
         }
+        if(UpdateRelaxation()){State.RestElapsed+=dt;State.StillSeconds+=dt;return;}
+        if(TrySeatedCall())return;
         // The supplied rub clip already contains the gesture. Do not chase
         // alternating +/-18 mouse offsets underneath a stationary animation.
         if(Action=="walk")
@@ -302,10 +308,11 @@ public sealed partial class PetEngine
         if(Action is "idle" or "sit"&&VisualVelocity?.Invoke(Action,Now,FacingLeft) is double drift)
             State.X=Math.Clamp(State.X+drift*dt,65,Width-65);
         State.RestElapsed+=dt;State.StillSeconds+=dt;
-        if(State.StillSeconds>=QuietSleepDelay&&Action is "idle" or "sit")SleepHere();
+        if(State.StillSeconds>=RestDelay&&Action is "idle" or "sit")SleepHere();
         if(Action=="sleep")
         {
             State.Sleeping=true;
+            if(ExpressionsEnabled&&!State.SleepingInNest&&ActionTime>=RestDelay&&BeginRelaxedSleep())return;
             // A rest deadline renews sleep; it is not a reason to pace the desktop.
             if(State.RestElapsed>=State.RestDuration)NewRest();
             return;
@@ -370,8 +377,9 @@ public sealed partial class PetEngine
         if((arrival=="eat"&&State.Food<=0)||(arrival=="drink"&&State.Water<=0)||(arrival=="toilet"&&State.Litter>=100)||(arrival=="bury"&&State.Litter<=0))
         {if(manualSequence)FinishManualSequence();else SetAction("sit",1,"目标物品不可用");return;}
         if(arrival=="sleep")Sleep(false);
+        else if(arrival.StartsWith("rest-"))RestInPose(arrival[5..]);
         else if(arrival=="settle")
-        {if(manualSequence){FinishManualSequence();return;}SetAction("idle",QuietSleepDelay,"找到舒服的地方，安静歇一会儿");}
+        {if(manualSequence){FinishManualSequence();return;}SetAction("idle",RestDelay,"找到舒服的地方，安静歇一会儿");}
         else SetAction(arrival,arrival is "eat" or "drink" ? 4.7 : arrival=="toilet" ? 4 : arrival=="bury" ? 3 : 2,Reason);
     }
     // One shared draw/hit-test anchor. On leaving the nest keep this world point;
@@ -383,11 +391,13 @@ public sealed partial class PetEngine
         MovementComplete=true;
         if(action!="sleep"&&State.Sleeping&&State.SleepingInNest)
         {var position=VisualPosition;State.X=position.X;State.Y=position.Y;}
+        if(!action.StartsWith("rest-")&&!action.StartsWith("expr-")){pendingReaction=0;RelaxedClickCount=0;clickWindow=-1;State.RestPose="";}
         Action=action;ActionTime=0;ActionRevision++;duration=seconds<double.MaxValue?VisualActionDuration?.Invoke(action,FacingLeft)??seconds:seconds;bites=0;Reason=reason;State.Sleeping=action=="sleep";if(!State.Sleeping)State.SleepingInNest=false;Dirty=true;
     }
     public void Interact()
     {
         if(State.CareRequest is not null){BeginGuide();return;}
+        if(InteractRelaxed())return;
         manualSequence=false;
         clickStreak=Now-LastInteraction<6?clickStreak+1:1;LastInteraction=Now;State.StillSeconds=0;
         if(Action=="sleep")Wake();
@@ -396,14 +406,14 @@ public sealed partial class PetEngine
     private void BeginManualSequence()
     {CancelCareRequest();Holding=false;ToyHeld=false;manualSequence=true;careResumeAfter=0;hoverSeconds=0;hoverTriggered=false;LastInteraction=Now;State.StillSeconds=0;}
     private void FinishManualSequence()
-    {manualSequence=false;careResumeAfter=Now+3;NewRest();SetAction("sit",1,"手动动作完成，稍作停留");}
+    {manualSequence=false;careResumeAfter=Now+3;NewRest();if(LeaveOccupiedRestSpot())return;SetAction("sit",1,"手动动作完成，稍作停留");}
     public void BeginDrag() {BeginManualSequence();manualSequence=false;SetAction("drag",double.MaxValue,"被主人拎起来啦");}
     public void Drop(bool inNest)
     {LastInteraction=Now;if(inNest)Sleep();else SetAction("land",0.7,"稳稳落地");}
     public void Sleep(bool newRest=true)
     {CancelCareRequest();manualSequence=false;Holding=false;ToyHeld=false;State.X=Nest.X;State.Y=Nest.Y;if(newRest)NewRest();sleepGrace=Now+NestSleepGrace;SetAction("sleep",double.MaxValue,"猫窝睡眠");State.SleepingInNest=true;}
-    private void SleepHere(){if(LeaveOccupiedRestSpot())return;sleepGrace=Now+NestSleepGrace;SetAction("sleep",double.MaxValue,"就在这里打个盹");State.SleepingInNest=false;}
-    public void Wake() {nightRestUntil=Now+300;State.StillSeconds=0;State.RestElapsed=0;SetAction("wake",2.0,"唤醒伸展");}
+    private void SleepHere(){if(TryWallRest()||LeaveOccupiedRestSpot())return;sleepGrace=Now+NestSleepGrace;if(BeginRelaxedSleep())return;SetAction("sleep",double.MaxValue,"就在这里打个盹");State.SleepingInNest=false;}
+    public void Wake() {nightRestUntil=Now+300;State.StillSeconds=0;State.RestElapsed=0;if(ExpressionsEnabled&&IsRelaxing){RestInPose(RelaxedPose=="M"?"A":"SR",false);return;}SetAction("wake",2.0,"唤醒伸展");}
     public void Refill(string kind)
     {
         LastInteraction=Now;

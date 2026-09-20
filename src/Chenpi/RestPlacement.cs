@@ -7,7 +7,8 @@ public sealed partial class PetEngine
 {
     // Same logical coordinates as the 170px cat hit bounds and rendered props.
     // Expand each object by the resting cat footprint plus a small visible gap.
-    private const double RestHalfWidth=85,RestGap=8;
+    private double RestHalfWidth=>ExpressionsEnabled?RelaxedHalfWidth:85;
+    private const double RestGap=8;
     private (double X,double Radius)[] RestObstacles()=>new[]{
         (Nest.X,InteractionGeometry.NestHalfWidth+RestHalfWidth+RestGap),(FoodSpot.X,36+RestHalfWidth+RestGap),
         (WaterSpot.X,36+RestHalfWidth+RestGap),(LitterSpot.X,InteractionGeometry.LitterHalfWidth+RestHalfWidth+RestGap)};

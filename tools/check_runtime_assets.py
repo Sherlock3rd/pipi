@@ -9,7 +9,7 @@ for clip,files in m['animations'].items():
         p=(base/f).resolve();assert p.is_relative_to(base) and p.exists(),p
         if not clip.startswith('video-'):continue
         with Image.open(p) as im:
-            size=m.get('videoFrameSize',256)
+            size=m['clips'].get(clip,{}).get('frameSize',m.get('videoFrameSize',256))
             assert im.mode=='RGBA' and im.size==(size,size),(clip,p,im.mode,im.size)
             a=im.getchannel('A');box=a.getbbox()
             assert box and min(box[:2])>0 and max(box[2:])<size,(clip,p,box)

@@ -1,0 +1,611 @@
+{
+  "automatedBehaviorChecks": 420,
+  "windowsChecks": 13,
+  "oneHourCareSimulation": {
+    "breathingPercent": 88.1,
+    "meals": 1,
+    "drinks": 3
+  },
+  "sources": {
+    "clips": 47,
+    "nativeFrames": 4823,
+    "sha256Verified": true,
+    "fpsPreserved": true
+  },
+  "runtimeFrames": 10706,
+  "tour": {
+    "samples": 1117,
+    "lastSimulationSecond": 307.2868361999999,
+    "maxSampleGap": 0.3696171999999933,
+    "requiredClipsSeen": true,
+    "transitions": [
+      {
+        "time": 0.334,
+        "clip": "video-01",
+        "action": "idle",
+        "x": 220.11
+      },
+      {
+        "time": 1.197,
+        "clip": "video-58",
+        "action": "rest-D",
+        "x": 220
+      },
+      {
+        "time": 5.083,
+        "clip": "video-66",
+        "action": "rest-D",
+        "x": 220
+      },
+      {
+        "time": 16.283,
+        "clip": "video-60",
+        "action": "rest-A",
+        "x": 220
+      },
+      {
+        "time": 21.254,
+        "clip": "video-67",
+        "action": "rest-A",
+        "x": 220
+      },
+      {
+        "time": 30.244,
+        "clip": "video-68",
+        "action": "expr-68",
+        "x": 220
+      },
+      {
+        "time": 34.315,
+        "clip": "video-67",
+        "action": "rest-A",
+        "x": 220
+      },
+      {
+        "time": 35.149,
+        "clip": "video-69",
+        "action": "expr-69",
+        "x": 220
+      },
+      {
+        "time": 39.302,
+        "clip": "video-67",
+        "action": "rest-A",
+        "x": 220
+      },
+      {
+        "time": 40.119,
+        "clip": "video-70",
+        "action": "rest-SR",
+        "x": 220
+      },
+      {
+        "time": 44.19,
+        "clip": "video-93",
+        "action": "expr-93",
+        "x": 220
+      },
+      {
+        "time": 48.243,
+        "clip": "video-07",
+        "action": "idle",
+        "x": 220
+      },
+      {
+        "time": 51.779,
+        "clip": "video-01",
+        "action": "idle",
+        "x": 220
+      },
+      {
+        "time": 60.253,
+        "clip": "video-58",
+        "action": "rest-B",
+        "x": 220
+      },
+      {
+        "time": 64.306,
+        "clip": "video-60",
+        "action": "rest-B",
+        "x": 220
+      },
+      {
+        "time": 69.26,
+        "clip": "video-62",
+        "action": "rest-B",
+        "x": 220
+      },
+      {
+        "time": 73.347,
+        "clip": "video-71",
+        "action": "rest-B",
+        "x": 220
+      },
+      {
+        "time": 80.202,
+        "clip": "video-72",
+        "action": "expr-72",
+        "x": 220
+      },
+      {
+        "time": 84.373,
+        "clip": "video-71",
+        "action": "rest-B",
+        "x": 220
+      },
+      {
+        "time": 85.224,
+        "clip": "video-73",
+        "action": "expr-73",
+        "x": 220
+      },
+      {
+        "time": 89.093,
+        "clip": "video-71",
+        "action": "rest-B",
+        "x": 220
+      },
+      {
+        "time": 90.177,
+        "clip": "video-74",
+        "action": "rest-SR",
+        "x": 220
+      },
+      {
+        "time": 94.248,
+        "clip": "video-93",
+        "action": "expr-93",
+        "x": 220
+      },
+      {
+        "time": 98.368,
+        "clip": "video-07",
+        "action": "idle",
+        "x": 220
+      },
+      {
+        "time": 101.654,
+        "clip": "video-01",
+        "action": "idle",
+        "x": 220
+      },
+      {
+        "time": 110.201,
+        "clip": "video-58",
+        "action": "rest-X",
+        "x": 220
+      },
+      {
+        "time": 114.286,
+        "clip": "video-60",
+        "action": "rest-X",
+        "x": 220
+      },
+      {
+        "time": 119.473,
+        "clip": "video-64",
+        "action": "rest-X",
+        "x": 220
+      },
+      {
+        "time": 123.277,
+        "clip": "video-75",
+        "action": "rest-X",
+        "x": 220
+      },
+      {
+        "time": 130.098,
+        "clip": "video-76",
+        "action": "expr-76",
+        "x": 220
+      },
+      {
+        "time": 134.234,
+        "clip": "video-75",
+        "action": "rest-X",
+        "x": 220
+      },
+      {
+        "time": 135.335,
+        "clip": "video-77",
+        "action": "expr-77",
+        "x": 220
+      },
+      {
+        "time": 139.389,
+        "clip": "video-75",
+        "action": "rest-X",
+        "x": 220
+      },
+      {
+        "time": 140.223,
+        "clip": "video-78",
+        "action": "rest-SR",
+        "x": 220
+      },
+      {
+        "time": 144.311,
+        "clip": "video-93",
+        "action": "expr-93",
+        "x": 220
+      },
+      {
+        "time": 148.197,
+        "clip": "video-07",
+        "action": "idle",
+        "x": 220
+      },
+      {
+        "time": 151.733,
+        "clip": "video-88",
+        "action": "expr-88",
+        "x": 220
+      },
+      {
+        "time": 155.852,
+        "clip": "video-01",
+        "action": "idle",
+        "x": 220
+      },
+      {
+        "time": 160.189,
+        "clip": "video-58",
+        "action": "rest-M",
+        "x": 220
+      },
+      {
+        "time": 164.326,
+        "clip": "video-60",
+        "action": "rest-M",
+        "x": 220
+      },
+      {
+        "time": 169.247,
+        "clip": "video-83",
+        "action": "rest-M",
+        "x": 220
+      },
+      {
+        "time": 173.368,
+        "clip": "video-84",
+        "action": "rest-M",
+        "x": 220
+      },
+      {
+        "time": 182.142,
+        "clip": "video-85",
+        "action": "rest-A",
+        "x": 220
+      },
+      {
+        "time": 186.294,
+        "clip": "video-67",
+        "action": "rest-A",
+        "x": 220
+      },
+      {
+        "time": 200.306,
+        "clip": "video-70",
+        "action": "rest-HR",
+        "x": 1105.259
+      },
+      {
+        "time": 204.393,
+        "clip": "video-52",
+        "action": "rest-HR",
+        "x": 1105.259
+      },
+      {
+        "time": 208.246,
+        "clip": "video-53",
+        "action": "rest-HR",
+        "x": 1105.259
+      },
+      {
+        "time": 213.416,
+        "clip": "video-54",
+        "action": "rest-D",
+        "x": 1105.259
+      },
+      {
+        "time": 217.22,
+        "clip": "video-07",
+        "action": "rest-D",
+        "x": 1105.259
+      },
+      {
+        "time": 220.756,
+        "clip": "video-58",
+        "action": "rest-D",
+        "x": 1105.259
+      },
+      {
+        "time": 224.843,
+        "clip": "video-66",
+        "action": "rest-D",
+        "x": 1105.259
+      },
+      {
+        "time": 230.331,
+        "clip": "video-59",
+        "action": "rest-HL",
+        "x": 66.937
+      },
+      {
+        "time": 234.217,
+        "clip": "video-08",
+        "action": "rest-HL",
+        "x": 66.937
+      },
+      {
+        "time": 236.953,
+        "clip": "video-55",
+        "action": "rest-HL",
+        "x": 66.937
+      },
+      {
+        "time": 240.974,
+        "clip": "video-56",
+        "action": "rest-HL",
+        "x": 66.937
+      },
+      {
+        "time": 246.011,
+        "clip": "video-57",
+        "action": "rest-D",
+        "x": 66.937
+      },
+      {
+        "time": 250.164,
+        "clip": "video-09",
+        "action": "rest-D",
+        "x": 66.937
+      },
+      {
+        "time": 253.467,
+        "clip": "video-58",
+        "action": "rest-D",
+        "x": 66.937
+      },
+      {
+        "time": 257.605,
+        "clip": "video-66",
+        "action": "rest-D",
+        "x": 66.937
+      },
+      {
+        "time": 260.139,
+        "clip": "video-59",
+        "action": "walk",
+        "x": 521.306
+      },
+      {
+        "time": 264.195,
+        "clip": "video-06",
+        "action": "walk",
+        "x": 521.306
+      },
+      {
+        "time": 266.733,
+        "clip": "video-22",
+        "action": "eat",
+        "x": 521.306
+      },
+      {
+        "time": 268.994,
+        "clip": "video-23",
+        "action": "eat",
+        "x": 521.306
+      },
+      {
+        "time": 273.981,
+        "clip": "video-24",
+        "action": "eat",
+        "x": 521.306
+      },
+      {
+        "time": 276.2,
+        "clip": "video-15",
+        "action": "walk",
+        "x": 521.306
+      },
+      {
+        "time": 278.953,
+        "clip": "video-12",
+        "action": "walk",
+        "x": 521.072
+      },
+      {
+        "time": 281.498,
+        "clip": "video-14",
+        "action": "walk",
+        "x": 462.004
+      },
+      {
+        "time": 286.538,
+        "clip": "video-13",
+        "action": "walk",
+        "x": 324.373
+      },
+      {
+        "time": 288.723,
+        "clip": "video-09",
+        "action": "idle",
+        "x": 305.519
+      },
+      {
+        "time": 292.108,
+        "clip": "video-01",
+        "action": "idle",
+        "x": 305.519
+      }
+    ],
+    "mealExit": [
+      "video-24",
+      "video-15",
+      "video-12",
+      "video-14",
+      "video-13"
+    ],
+    "finalFood": 60,
+    "isolatedSave": true
+  },
+  "nest": {
+    "samples": 82,
+    "oldErrorControlCoveredPixels": 3140,
+    "currentCoveredPixels": 0
+  },
+  "limitations": [
+    "No authored side-seat-to-stand or standing-to-prone direct clips",
+    "New lying drag preserves current pose; authored airborne transitions still missing",
+    "Whole-frame affine detector flags require anatomical review; full artistic approval is not inferred"
+  ],
+  "continuity": {
+    "frameCount": 10706,
+    "pairCount": 10980,
+    "failureCount": 1357,
+    "reviewCount": 1545,
+    "note": "Independent width/height affine fit on actual WPF pixels. Outline-only changes and low-confidence poses require review; opaque bottom can be tail, not foot.",
+    "newPairs": 5066,
+    "newWithinClipFlags": 638,
+    "newSharedPoseSeams": 260,
+    "newSharedPoseSeamFlags": 0,
+    "newLoops": 7,
+    "newLoopFlags": 0,
+    "reviewedNewOldSeams": [
+      {
+        "source": "video-54/0096.png",
+        "target": "video-15/0000.png",
+        "kind": "care-seam",
+        "outlineWidthDelta": -1.0,
+        "outlineHeightDelta": -1.0,
+        "opaqueBottomDelta": 0.0,
+        "inliers": 84,
+        "reliable": true,
+        "failures": [
+          "body-height"
+        ],
+        "review": [],
+        "bodyWidthPercent": 0.2435985409099839,
+        "bodyHeightPercent": -1.0748540712598453,
+        "bodyDeltaX": -0.6662889122962952,
+        "bodyDeltaY": 0.3509788513183594,
+        "residual": 0.5449057751757775,
+        "horizontalCoverage": 0.9015769958496094
+      },
+      {
+        "source": "video-74/0096.png",
+        "target": "video-15/0000.png",
+        "kind": "care-seam",
+        "outlineWidthDelta": -1.0,
+        "outlineHeightDelta": -1.0,
+        "opaqueBottomDelta": 0.0,
+        "inliers": 82,
+        "reliable": true,
+        "failures": [
+          "body-height"
+        ],
+        "review": [],
+        "bodyWidthPercent": -0.6839921146701733,
+        "bodyHeightPercent": -1.1099607766417607,
+        "bodyDeltaX": -0.7473837733268738,
+        "bodyDeltaY": 0.4005800485610962,
+        "residual": 0.5420822979239964,
+        "horizontalCoverage": 0.9078342914581299
+      },
+      {
+        "source": "video-78/0096.png",
+        "target": "video-15/0000.png",
+        "kind": "care-seam",
+        "outlineWidthDelta": -1.0,
+        "outlineHeightDelta": -1.0,
+        "opaqueBottomDelta": 0.0,
+        "inliers": 72,
+        "reliable": true,
+        "failures": [
+          "body-width",
+          "body-height"
+        ],
+        "review": [],
+        "bodyWidthPercent": -1.8260413974484413,
+        "bodyHeightPercent": -1.076672120272948,
+        "bodyDeltaX": -0.9072827100753784,
+        "bodyDeltaY": 0.4081933796405792,
+        "residual": 0.5365433184541906,
+        "horizontalCoverage": 0.6777268052101135
+      },
+      {
+        "source": "video-right/0038.png",
+        "target": "video-86/0000.png",
+        "kind": "care-seam",
+        "outlineWidthDelta": -1.5,
+        "outlineHeightDelta": 1.5,
+        "opaqueBottomDelta": 0.5,
+        "inliers": 33,
+        "reliable": true,
+        "failures": [
+          "body-height"
+        ],
+        "review": [],
+        "bodyWidthPercent": -0.5641982938097478,
+        "bodyHeightPercent": 3.27075237099852,
+        "bodyDeltaX": 0.13781507313251495,
+        "bodyDeltaY": -0.5361980199813843,
+        "residual": 0.5079974594339339,
+        "horizontalCoverage": 0.9153057336807251
+      },
+      {
+        "source": "video-86/0096.png",
+        "target": "video-right/0000.png",
+        "kind": "care-seam",
+        "outlineWidthDelta": 0.0,
+        "outlineHeightDelta": -1.5,
+        "opaqueBottomDelta": 0.0,
+        "inliers": 42,
+        "reliable": true,
+        "failures": [
+          "body-width"
+        ],
+        "review": [],
+        "bodyWidthPercent": 1.6016181020438003,
+        "bodyHeightPercent": -0.5926652347265304,
+        "bodyDeltaX": -0.2449042946100235,
+        "bodyDeltaY": 1.2839930057525635,
+        "residual": 0.34759840988871404,
+        "horizontalCoverage": 0.7042872905731201
+      },
+      {
+        "source": "video-94/0096.png",
+        "target": "video-12/0000.png",
+        "kind": "care-seam",
+        "outlineWidthDelta": 1.0,
+        "outlineHeightDelta": -1.0,
+        "opaqueBottomDelta": 0.0,
+        "inliers": 108,
+        "reliable": true,
+        "failures": [
+          "body-width",
+          "body-height"
+        ],
+        "review": [],
+        "bodyWidthPercent": 2.202268762480375,
+        "bodyHeightPercent": -1.1104041533895437,
+        "bodyDeltaX": 0.4116903245449066,
+        "bodyDeltaY": 0.4124908447265625,
+        "residual": 0.4657638776602092,
+        "horizontalCoverage": 0.7177652716636658
+      }
+    ],
+    "reviewVerdict": "No clean automatic pass. Reviewed six new/old seam overlays: small head/leg/tail pose differences; walking-call phase differs from old gait. No vertical or silhouette normalization applied. Reviewed largest 62/63 flags are turn deformation, not uniform scale. Remaining internal flags remain source-art review candidates; do not claim all manually cleared.",
+    "artAcceptance": "integrated functional version, source-art continuity not fully approved"
+  },
+  "installation": {
+    "processId": 250528,
+    "responding": true,
+    "saveRefreshedAfterStart": true,
+    "newPngHashesMatch": 4823,
+    "rootFilesAndManifestMatch": true,
+    "observedWorkingSetMiB": 3077,
+    "memoryLimitation": "Existing eager decoder now loads 10706 frames; cache optimization remains open, no low-memory claim."
+  }
+}

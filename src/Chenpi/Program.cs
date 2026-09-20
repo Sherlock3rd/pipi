@@ -163,6 +163,22 @@ internal sealed class PetWindow : Window
         }
         if(Preview&&args.Contains("--preview-rest-clearance"))
         {engine.State.X=engine.FoodSpot.X;engine.State.Y=engine.GroundY;}
+        if(Preview&&Program.Option(args,"--preview-rest-pose") is string restPose)engine.PreviewRest(restPose);
+        if(Preview&&args.Contains("--preview-expression-tour"))
+        {
+            var steps=new (double At,string Command)[]{(1,"D"),(16,"A"),(30,"click"),(35,"click"),(40,"click"),
+                (60,"B"),(80,"click"),(85,"click"),(90,"click"),(110,"X"),(130,"click"),(135,"click"),(140,"click"),
+                (160,"M"),(182,"click"),(200,"HR"),(230,"HL"),(260,"eat")};
+            int index=0;var tour=new DispatcherTimer{Interval=TimeSpan.FromMilliseconds(50)};
+            tour.Tick+=(_,_)=>{
+                if(quitting||index>=steps.Length){tour.Stop();return;}
+                if(engine.Now<steps[index].At)return;
+                string command=steps[index++].Command;
+                if(command=="click")engine.Interact();
+                else if(command=="eat"){engine.State.X=engine.FoodSpot.X-InteractionGeometry.MouthOffsetX;engine.Demo("eat");}
+                else {if(command is not ("HR" or "HL")){engine.State.X=220;engine.State.Y=engine.GroundY;}engine.PreviewRest(command);}
+            };tour.Start();
+        }
         if(Preview&&Program.Option(args,"--preview-care") is string careAction)
         {
             if(careAction=="drag")engine.BeginDrag();
@@ -195,7 +211,7 @@ internal sealed class PetWindow : Window
         string? snapshot=Program.Option(args,"--snapshot");
         if(snapshot is not null)
         {
-            double seconds=double.TryParse(Program.Option(args,"--snapshot-delay"),out var requested)?Math.Clamp(requested,1,60):2;
+            double seconds=double.TryParse(Program.Option(args,"--snapshot-delay"),out var requested)?Math.Clamp(requested,1,Preview&&args.Contains("--preview-expression-tour")?600:60):2;
             var shot=new DispatcherTimer{Interval=TimeSpan.FromSeconds(seconds)};shot.Tick+=(_,_)=>{shot.Stop();if(quitting)return;scene.SavePreview(snapshot);File.WriteAllText(snapshot+".json",System.Text.Json.JsonSerializer.Serialize(new{attached,parent=Native.GetParent(new WindowInteropHelper(this).Handle).ToInt64(),windowStatus,boot,awake=Native.AwakeSeconds,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.ClipTransitions,engine.State.X,engine.State.Y,engine.State.NestPosition,engine.State.FoodPosition,engine.State.WaterPosition,engine.State.LitterPosition,engine.State.RestDuration,engine.State.RestElapsed,engine.State.StillSeconds,engine.ToyHeld,engine.ToyOverlaps,scene.LiftTransitions,scene.MaxLiftTransitionMs,renderedFrames,averageFrameMs=renderedFrames>1?frameIntervals/(renderedFrames-1)*1000:0,maxFrameMs=maxFrameInterval*1000,averageDrawMs=scene.RenderMilliseconds/Math.Max(1,scene.RenderCount)}));if(args.Contains("--exit-after-snapshot"))Quit();};shot.Start();
         }
         if(args.Contains("--settings"))ShowSettings();

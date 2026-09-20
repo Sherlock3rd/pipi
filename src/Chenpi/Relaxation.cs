@@ -1,0 +1,111 @@
+using System;
+
+namespace Chenpi;
+
+public sealed partial class PetEngine
+{
+    public bool ExpressionsEnabled {get;set;}
+    public Func<string,double,bool>? VisualPoseReady {get;set;}
+    public double WallRightOffset {get;set;}=70;
+    public double WallLeftOffset {get;set;}=-70;
+    public double RelaxedHalfWidth {get;set;}=170;
+    public double RestDelay=>ExpressionsEnabled?30:QuietSleepDelay;
+    public string RelaxedPose {get;private set;}="";
+    public int RelaxedClickCount {get;private set;}
+    private double clickWindow=-1,nextRelaxation;
+    private int pendingReaction;
+    private bool restReady,wallVisited;
+    private double nextSeatedCall=120;
+    private bool IsRelaxing=>Action.StartsWith("rest-")||Action.StartsWith("expr-");
+    private static bool LyingPose(string p)=>p is "D" or "A" or "B" or "X" or "M";
+    private bool CanRestAtWall()
+    {
+        if(!ExpressionsEnabled||wallVisited)return false;
+        double goal=State.X<Width/2?-WallLeftOffset:Width-WallRightOffset;
+        if(Math.Abs(goal-State.X)>40)return false;
+        foreach(var obstacle in RestObstacles())if(Math.Abs(goal-obstacle.X)<obstacle.Radius)return false;
+        return true;
+    }
+    private bool TryWallRest()
+    {
+        if(!CanRestAtWall())return false;
+        wallVisited=true;bool left=State.X<Width/2;
+        Go(new(left?-WallLeftOffset:Width-WallRightOffset,GroundY),left?"rest-HL":"rest-HR","在屏幕边短暂扶墙");return true;
+    }
+    private void RestInPose(string p,bool asleep=true)
+    {
+        RelaxedPose=p;restReady=false;nextRelaxation=0;
+        SetAction("rest-"+p,double.MaxValue,"放松休息");State.Sleeping=asleep&&LyingPose(p);
+        State.SleepingInNest=false;State.RestPose=p;
+    }
+    private bool BeginRelaxedSleep()
+    {
+        if(!ExpressionsEnabled)return false;
+        string[] choices={"D","A","A","B","X","M","M"};
+        RestInPose(choices[random.Next(choices.Length)]);return true;
+    }
+    private bool UpdateRelaxation()
+    {
+        if(!ExpressionsEnabled||!IsRelaxing)return false;
+        if(RelaxedPose is "HR" or "HL"&&Math.Abs(State.X-(RelaxedPose=="HR"?Width-WallRightOffset:-WallLeftOffset))>2)
+        {RestInPose("D");return true;}
+        if(Action.StartsWith("expr-"))
+        {
+            if(ActionTime<duration)return true;
+            if(!LyingPose(RelaxedPose)){SetAction("idle",RestDelay,"伸展后安静休息");return true;}
+            RestInPose(RelaxedPose);return true;
+        }
+        if(VisualPoseReady?.Invoke(RelaxedPose,Now)==false)return true;
+        if(!restReady){restReady=true;nextRelaxation=Now+(RelaxedPose is "HR" or "HL"?5:random.Next(60,181));}
+        if(pendingReaction>0)
+        {
+            int level=pendingReaction;pendingReaction=0;
+            if(level==3){RelaxedClickCount=0;clickWindow=-1;RestInPose("SR",false);nextRelaxation=Now+2;return true;}
+            int id=RelaxedPose switch {"A"=>level==1?68:69,"B"=>level==1?72:73,"X"=>level==1?76:77,_=>0};
+            if(id>0){SetAction("expr-"+id,4,"躺着回应点击");return true;}
+        }
+        if(RelaxedPose is "SR" or "SL"){NewRest();SetAction(RelaxedPose=="SR"?"expr-93":"expr-94",4,"起身伸展");return true;}
+        if(clickWindow>=0&&Now-clickWindow<15-1e-8)return true;
+        if(clickWindow>=0){clickWindow=-1;RelaxedClickCount=0;}
+        if(Now<nextRelaxation)return true;
+        if(RelaxedPose is "HR" or "HL"){RestInPose("D");return true;}
+        if(State.RestElapsed>=State.RestDuration)NewRest();
+        if(RelaxedPose=="M"){nextRelaxation=Now+120;return true;}
+        // Most idle time remains in breathing poses. Gestures are infrequent,
+        // complete once, and return to the same pose without getting up.
+        if(random.Next(3)==0)
+        {
+            int[] ids=RelaxedPose switch {"D"=>new[]{79,89,95},"A"=>new[]{80,90,96},"B"=>new[]{81,91,97},_=>new[]{82,92,98}};
+            SetAction("expr-"+ids[random.Next(ids.Length)],4,"安静伸展");return true;
+        }
+        string next=RelaxedPose switch {"D"=>"A","A"=>new[]{"B","X","M"}[random.Next(3)],"B" or "X"=>"A",_=>"D"};
+        RestInPose(next);return true;
+    }
+    private bool InteractRelaxed()
+    {
+        if(!ExpressionsEnabled||!IsRelaxing)return false;
+        LastInteraction=Now;State.StillSeconds=0;
+        if(RelaxedPose=="M"){pendingReaction=0;RelaxedClickCount=0;clickWindow=-1;RestInPose("A",false);return true;}
+        if(RelaxedPose is not ("A" or "B" or "X")){RestInPose(RelaxedPose=="HL"?"SL":"SR",false);return true;}
+        if(clickWindow<0||Now-clickWindow>=15-1e-8){clickWindow=Now;RelaxedClickCount=0;}
+        RelaxedClickCount=Math.Min(3,RelaxedClickCount+1);
+        pendingReaction=Math.Max(pendingReaction,RelaxedClickCount);
+        return true;
+    }
+    public void PreviewRest(string pose)
+    {
+        if(!ExpressionsEnabled||!LyingPose(pose)&&pose is not ("HR" or "HL"))return;
+        if(pose is "HR" or "HL")State.X=pose=="HR"?Width-WallRightOffset:-WallLeftOffset;
+        CancelCareRequest();NewRest();sleepGrace=Now+NestSleepGrace;RestInPose(pose);
+    }
+    public void RestoreRelaxedSleep()
+    {
+        if(ExpressionsEnabled&&State.Sleeping&&!State.SleepingInNest&&LyingPose(State.RestPose))RestInPose(State.RestPose);
+    }
+    private bool TrySeatedCall()
+    {
+        if(!ExpressionsEnabled||Action is not ("idle" or "sit")||Now<nextSeatedCall||State.StillSeconds<5||State.StillSeconds>12)return false;
+        if(VisualPoseReady?.Invoke("F",Now)==false)return false;
+        nextSeatedCall=Now+300;RelaxedPose="F";SetAction("expr-88",4,"轻声回应");return true;
+    }
+}

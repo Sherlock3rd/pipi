@@ -1,9 +1,9 @@
 {
-  "status": "photo-revised-candidates-awaiting-user-review-and-external-video",
+  "status": "runtime-integrated-source-art-continuity-review-open",
   "revision": "2026-09-20-r5-m-redraw",
   "poseReview": "修订静态对照.json",
   "peakReference": "peaks/B-仰躺哈欠峰值.png",
-  "runtimeChanged": false,
+  "runtimeChanged": true,
   "generator": "builtin image_gen",
   "anchors": {
     "F": {
@@ -643,5 +643,7 @@
       "2": "same-pose stronger twitch then one look-back meow",
       "3": "stand to SR"
     }
-  }
+  },
+  "returnedSources": "returned/sources.json",
+  "runtimeVerification": "../../../docs/qa/expressions-v4/verification.json"
 }

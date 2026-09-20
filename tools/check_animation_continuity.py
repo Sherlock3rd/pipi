@@ -10,6 +10,7 @@ import json
 from pathlib import Path
 import cv2
 import numpy as np
+cv2.setNumThreads(2)
 from PIL import Image, ImageDraw
 
 DETECTOR = cv2.SIFT_create()
@@ -21,6 +22,14 @@ COMMON_EDGES = [('01','06'),('06','10'),('10','right'),('right','11'),('11','07'
                 ('26','27'),('27','28'),('29','30'),('30','31'),('32','33'),('33','34'),('34','01'),
                 ('01','40'),('40','41'),('41','42'),('42','01')]
 COMMON_EDGES += [(a,b) for gesture in ['37','38','39','45','46','47','51'] for a,b in [('01',gesture),(gesture,'01')]]
+# The returned expression pack shares declared pose endpoints. Include every
+# legal pair, not just a hand-picked happy path through the new sleep graph.
+expression_manifest=Path(__file__).resolve().parents[1]/'art/video-pipeline/expressions-v4/manifest.json'
+if expression_manifest.exists():
+    expressions=json.loads(expression_manifest.read_text(encoding='utf-8'))['clips']
+    COMMON_EDGES += [(str(a['id']),str(b['id'])) for a in expressions for b in expressions if a['end']==b['start'] and a['id']!=b['id']]
+    COMMON_EDGES += [('01','58'),('59','01'),('24','52'),('11','52'),('13','55'),('54','15'),('57','16'),('70','10'),('74','10'),('78','10'),('70','15'),('74','15'),('78','15')]
+    COMMON_EDGES += [('right','86'),('86','right'),('14','87'),('87','14'),('01','88'),('88','01'),('11','93'),('93','10'),('13','94'),('94','12'),('24','15')]
 
 def features(path, frame=None, export=None):
     rgba = np.asarray(Image.open(path).convert('RGBA'))

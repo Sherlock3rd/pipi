@@ -12,7 +12,8 @@ for clip,paths in m['animations'].items():
     if not clip.startswith('video-'):continue
     for path in paths:
         p=base/path;arr=np.array(Image.open(p));a=arr[:,:,3]
-        assert arr.shape==(512,512,4),(clip,p)
+        size=m['clips'].get(clip,{}).get('frameSize',m['videoFrameSize'])
+        assert arr.shape==(size,size,4),(clip,p)
         n,labels,stats,_=cv2.connectedComponentsWithStats((a>4).astype(np.uint8),8)
         assert n==2,(clip,p,'disconnected islands',n)
         distance=cv2.distanceTransform((a>127).astype(np.uint8),cv2.DIST_L2,5)
@@ -21,7 +22,7 @@ for clip,paths in m['animations'].items():
         assert bright==0,(clip,p,'white matte pixels',bright)
         ys,xs=np.where(a>1);crop_bytes+=(xs.max()-xs.min()+1)*(ys.max()-ys.min()+1)*4
         source_bytes+=p.stat().st_size;count+=1
-data={'frames':count,'canvas':512,'whiteEdgePixels':white,'maxWhiteEdgePixelsPerFrame':max_white,'detachedAlphaComponents':0,'estimatedCroppedPixelCacheMiB':round(float(crop_bytes)/1024**2,1),'pngMiB':round(source_bytes/1024**2,1)}
+data={'frames':count,'canvasSizes':sorted({d.get('frameSize',512) for d in m['clips'].values()}),'whiteEdgePixels':white,'maxWhiteEdgePixelsPerFrame':max_white,'detachedAlphaComponents':0,'estimatedCroppedPixelCacheMiB':round(float(crop_bytes)/1024**2,1),'pngMiB':round(source_bytes/1024**2,1)}
 out=ROOT/'artifacts/hd-qa';out.mkdir(exist_ok=True,parents=True)
 (out/'audit.json').write_text(json.dumps(data,indent=2)+'\n',encoding='utf-8')
 print(json.dumps(data),flush=True)

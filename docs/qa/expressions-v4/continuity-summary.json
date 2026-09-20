@@ -1,0 +1,139 @@
+{
+  "frameCount": 10706,
+  "pairCount": 10980,
+  "failureCount": 1357,
+  "reviewCount": 1545,
+  "note": "Independent width/height affine fit on actual WPF pixels. Outline-only changes and low-confidence poses require review; opaque bottom can be tail, not foot.",
+  "newPairs": 5066,
+  "newWithinClipFlags": 638,
+  "newSharedPoseSeams": 260,
+  "newSharedPoseSeamFlags": 0,
+  "newLoops": 7,
+  "newLoopFlags": 0,
+  "reviewedNewOldSeams": [
+    {
+      "source": "video-54/0096.png",
+      "target": "video-15/0000.png",
+      "kind": "care-seam",
+      "outlineWidthDelta": -1.0,
+      "outlineHeightDelta": -1.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 84,
+      "reliable": true,
+      "failures": [
+        "body-height"
+      ],
+      "review": [],
+      "bodyWidthPercent": 0.2435985409099839,
+      "bodyHeightPercent": -1.0748540712598453,
+      "bodyDeltaX": -0.6662889122962952,
+      "bodyDeltaY": 0.3509788513183594,
+      "residual": 0.5449057751757775,
+      "horizontalCoverage": 0.9015769958496094
+    },
+    {
+      "source": "video-74/0096.png",
+      "target": "video-15/0000.png",
+      "kind": "care-seam",
+      "outlineWidthDelta": -1.0,
+      "outlineHeightDelta": -1.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 82,
+      "reliable": true,
+      "failures": [
+        "body-height"
+      ],
+      "review": [],
+      "bodyWidthPercent": -0.6839921146701733,
+      "bodyHeightPercent": -1.1099607766417607,
+      "bodyDeltaX": -0.7473837733268738,
+      "bodyDeltaY": 0.4005800485610962,
+      "residual": 0.5420822979239964,
+      "horizontalCoverage": 0.9078342914581299
+    },
+    {
+      "source": "video-78/0096.png",
+      "target": "video-15/0000.png",
+      "kind": "care-seam",
+      "outlineWidthDelta": -1.0,
+      "outlineHeightDelta": -1.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 72,
+      "reliable": true,
+      "failures": [
+        "body-width",
+        "body-height"
+      ],
+      "review": [],
+      "bodyWidthPercent": -1.8260413974484413,
+      "bodyHeightPercent": -1.076672120272948,
+      "bodyDeltaX": -0.9072827100753784,
+      "bodyDeltaY": 0.4081933796405792,
+      "residual": 0.5365433184541906,
+      "horizontalCoverage": 0.6777268052101135
+    },
+    {
+      "source": "video-right/0038.png",
+      "target": "video-86/0000.png",
+      "kind": "care-seam",
+      "outlineWidthDelta": -1.5,
+      "outlineHeightDelta": 1.5,
+      "opaqueBottomDelta": 0.5,
+      "inliers": 33,
+      "reliable": true,
+      "failures": [
+        "body-height"
+      ],
+      "review": [],
+      "bodyWidthPercent": -0.5641982938097478,
+      "bodyHeightPercent": 3.27075237099852,
+      "bodyDeltaX": 0.13781507313251495,
+      "bodyDeltaY": -0.5361980199813843,
+      "residual": 0.5079974594339339,
+      "horizontalCoverage": 0.9153057336807251
+    },
+    {
+      "source": "video-86/0096.png",
+      "target": "video-right/0000.png",
+      "kind": "care-seam",
+      "outlineWidthDelta": 0.0,
+      "outlineHeightDelta": -1.5,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 42,
+      "reliable": true,
+      "failures": [
+        "body-width"
+      ],
+      "review": [],
+      "bodyWidthPercent": 1.6016181020438003,
+      "bodyHeightPercent": -0.5926652347265304,
+      "bodyDeltaX": -0.2449042946100235,
+      "bodyDeltaY": 1.2839930057525635,
+      "residual": 0.34759840988871404,
+      "horizontalCoverage": 0.7042872905731201
+    },
+    {
+      "source": "video-94/0096.png",
+      "target": "video-12/0000.png",
+      "kind": "care-seam",
+      "outlineWidthDelta": 1.0,
+      "outlineHeightDelta": -1.0,
+      "opaqueBottomDelta": 0.0,
+      "inliers": 108,
+      "reliable": true,
+      "failures": [
+        "body-width",
+        "body-height"
+      ],
+      "review": [],
+      "bodyWidthPercent": 2.202268762480375,
+      "bodyHeightPercent": -1.1104041533895437,
+      "bodyDeltaX": 0.4116903245449066,
+      "bodyDeltaY": 0.4124908447265625,
+      "residual": 0.4657638776602092,
+      "horizontalCoverage": 0.7177652716636658
+    }
+  ],
+  "reviewVerdict": "No clean automatic pass. Reviewed six new/old seam overlays: small head/leg/tail pose differences; walking-call phase differs from old gait. No vertical or silhouette normalization applied. Reviewed largest 62/63 flags are turn deformation, not uniform scale. Remaining internal flags remain source-art review candidates; do not claim all manually cleared.",
+  "artAcceptance": "integrated functional version, source-art continuity not fully approved"
+}

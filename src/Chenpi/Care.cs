@@ -69,7 +69,7 @@ public sealed partial class PetEngine
         }
         return chosen;
     }
-    private bool CanStartCare()=>Action is "idle" or "sit" or "sleep" || Action=="walk"&&arrival is "settle" or "sleep";
+    private bool CanStartCare()=>Action is "idle" or "sit" or "sleep" || Action.StartsWith("rest-")||Action=="walk"&&arrival is "settle" or "sleep";
     private void StartCare(string kind)=>Go(ObjectPosition(kind),kind switch {"food"=>"eat","water"=>"drink",_=>"toilet"},"随机照料计时到期");
     private void BeginRequest(string kind)
     {
@@ -112,6 +112,7 @@ public sealed partial class PetEngine
             State.X=requestGoal.X;State.Y=requestGoal.Y;
             if(Action!="request-"+kind)
             {
+                if(ExpressionsEnabled&&VisualPoseReady?.Invoke("F",Now)==false)return true;
                 SetAction("request-"+kind,double.MaxValue,"等待主人注意");
                 if(Now-LastBeg>=35){LastBeg=Now;RequestedAttention?.Invoke();}
             }
