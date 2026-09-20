@@ -113,6 +113,7 @@ internal sealed class PetWindow : Window
     private bool hiddenByUser;
     private bool fullScreen;
     private bool attached;
+    private bool appliedFloating;
     private bool quitting;
     private bool initialized;
     private Window? settings;
@@ -184,6 +185,11 @@ internal sealed class PetWindow : Window
         if(!Preview)FitScreen();UpdateLayout();
         if(args.Contains("--floating"))engine.State.Floating=true;
         ApplyLayer();scene.LayoutWorld();previousAnimation=animationClock.Elapsed.TotalSeconds;
+        // Reassert visibility after WPF has created the transparent HWND and the
+        // desktop host has accepted it. This removes an intermittent first-frame
+        // race where the pet is running behind the desktop on some machines.
+        Native.EnsureVisible(this);
+        Dispatcher.BeginInvoke(DispatcherPriority.ApplicationIdle,new Action(()=>{if(!quitting){ApplyLayer();Native.EnsureVisible(this);scene.InvalidateVisual();}}));
         if(Preview&&(args.Contains("--preview-motion")||args.Contains("--preview-motion-left")))
         {engine.MoveObject("food",new Spot(engine.State.X+(args.Contains("--preview-motion-left")?-140:140),engine.State.Y));engine.Demo("eat");}
         CompositionTarget.Rendering+=RenderFrame;timer.Start();Save();
@@ -277,11 +283,13 @@ internal sealed class PetWindow : Window
     private void ApplyLayer()
     {
         if(Preview){windowStatus="交互预览";return;}
-        attached=Native.Attach(this,engine.State.Floating);
-        windowStatus=engine.State.Floating?"悬浮模式 · 全屏自动避让":attached?"桌面模式 · 普通窗口可覆盖":"桌面挂接未成功，请切换悬浮模式";
+        appliedFloating=EffectiveFloating;
+        attached=Native.Attach(this,appliedFloating);
+        windowStatus=engine.State.Floating?"悬浮模式 · 全屏自动避让":appliedFloating?"壁纸兼容悬浮 · 全屏自动避让":attached?"桌面模式 · 普通窗口可覆盖":"桌面挂接未成功，请切换悬浮模式";
         if(layerStatus is not null)layerStatus.Text=LayerDescription;
         scene.InvalidateVisual();
     }
+    private bool EffectiveFloating=>engine.State.Floating||(!Preview&&Native.WallpaperEngineRunning());
     private void SwitchLayer(bool floating)
     {
         if(quitting||engine.State.Floating==floating)return;
@@ -311,7 +319,7 @@ internal sealed class PetWindow : Window
             {panel.Left=bounds.Left;panel.Top=bounds.Top;panel.Width=bounds.Width;panel.Height=bounds.Height;}
         }
     }
-    private string LayerDescription=>windowStatus+"\n"+(engine.State.Floating?"小猫显示在普通窗口上；退出全屏后自动恢复。":"小猫留在桌面上，普通窗口会遮住它；重新打开悬浮可立即显示。");
+    private string LayerDescription=>windowStatus+"\n"+(EffectiveFloating?"小猫显示在普通窗口上；退出全屏后自动恢复。":"小猫留在桌面上，普通窗口会遮住它；重新打开悬浮可立即显示。");
     private void RenderFrame(object? sender,EventArgs e)
     {
         if(quitting)return;
@@ -345,8 +353,9 @@ internal sealed class PetWindow : Window
             bool nextFull=fullscreenDecision.Hide;
             if((nextFull||hiddenByUser)&&scene.IsInteracting){scene.CancelDrag();}fullScreen=nextFull;
             scene.Visibility=fullScreen||hiddenByUser?Visibility.Hidden:Visibility.Visible;
-            if(!Preview)Topmost=engine.State.Floating&&!fullScreen&&!hiddenByUser;
-            if(!Preview&&!engine.State.Floating && (Native.GetParent(new WindowInteropHelper(this).Handle)!=Native.DesktopHost()||!Native.IsWindow(Native.GetParent(new WindowInteropHelper(this).Handle))))
+            if(!Preview&&EffectiveFloating!=appliedFloating){ReplaceDisplayWindow();return;}
+            if(!Preview)Topmost=EffectiveFloating&&!fullScreen&&!hiddenByUser;
+            if(!Preview&&!EffectiveFloating && (Native.GetParent(new WindowInteropHelper(this).Handle)!=Native.DesktopHost()||!Native.IsWindow(Native.GetParent(new WindowInteropHelper(this).Handle))))
             {if(Native.DesktopHost()!=IntPtr.Zero){ReplaceDisplayWindow();return;}}
             if(args.Contains("--layer-diagnostics"))File.WriteAllText(Path.Combine(store.DirectoryPath,"window-diagnostics.json"),System.Text.Json.JsonSerializer.Serialize(new {native=Native.WindowDiagnostics(this),engine.State.Floating,fullScreen,fullscreenReason=fullscreenDecision.Reason,foreground=foreground.ToInt64(),hiddenByUser,sceneVisibility=scene.Visibility.ToString(),renderedFrames,engine.Action,engine.ActionTime,engine.FacingLeft,scene.DisplayedClip,scene.DisplayedFrame,engine.State.Sleeping,engine.State.SleepingInNest,engine.State.CareRequest,engine.State.Guiding,engine.State.X,engine.State.Y}));
         }

@@ -31,11 +31,14 @@ internal static class Native
     [DllImport("dwmapi.dll",EntryPoint="DwmGetWindowAttribute")] private static extern int DwmFlags(IntPtr window,int attribute,out int value,int size);
     [DllImport("user32.dll")] internal static extern bool IsWindow(IntPtr window);
     [DllImport("user32.dll")] private static extern bool IsWindowVisible(IntPtr window);
+    [DllImport("user32.dll")] private static extern bool ShowWindow(IntPtr window,int command);
+    [DllImport("user32.dll")] private static extern bool UpdateWindow(IntPtr window);
     [DllImport("user32.dll")] internal static extern bool GetCursorPos(out POINT point);
     [DllImport("user32.dll")] private static extern bool ScreenToClient(IntPtr window,ref POINT point);
     [DllImport("user32.dll",CharSet=CharSet.Unicode)] private static extern int GetClassName(IntPtr window,StringBuilder text,int max);
     [DllImport("user32.dll")] private static extern uint GetWindowThreadProcessId(IntPtr window,out uint pid);
     public static double AwakeSeconds {get {if(!QueryUnbiasedInterruptTime(out var n))throw new InvalidOperationException("读取系统有效运行时间失败");return n/1e7;}}
+    public static bool WallpaperEngineRunning()=>Process.GetProcessesByName("wallpaper32").Length>0||Process.GetProcessesByName("wallpaper64").Length>0||Process.GetProcessesByName("wallpaperservice32").Length>0||Process.GetProcessesByName("wallpaperservice64").Length>0;
     public static string BootIdentifier()
     {
         var memory=Marshal.AllocHGlobal(64);
@@ -81,6 +84,14 @@ internal static class Native
         bool placed=SetWindowPos(h,floating?new IntPtr(-1):IntPtr.Zero,position.X,position.Y,(int)(window.Width*window.Dpi()),(int)(window.Height*window.Dpi()),0x0010|0x0020|0x0040);
         window.InvalidateVisual();
         return placed&&(floating?(GetWindowLong(h,-16)&0x40000000)==0:GetParent(h)==parent);
+    }
+    public static void EnsureVisible(Window window)
+    {
+        var h=new WindowInteropHelper(window).Handle;
+        if(h==IntPtr.Zero||!IsWindow(h))return;
+        ShowWindow(h,4); // SW_SHOWNOACTIVATE
+        SetWindowPos(h,IntPtr.Zero,0,0,0,0,0x0002|0x0001|0x0010|0x0040); // NOMOVE|NOSIZE|NOACTIVATE|SHOWWINDOW
+        UpdateWindow(h);
     }
     private static double Dpi(this Window w)=>System.Windows.Media.VisualTreeHelper.GetDpi(w).DpiScaleX;
     internal static FullscreenCandidate? ReadFullscreenCandidate(IntPtr window)
