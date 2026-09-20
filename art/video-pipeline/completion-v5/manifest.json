@@ -1,0 +1,850 @@
+{
+  "version": 1,
+  "status": "production-backlog-not-runtime-assets",
+  "runtimeChanged": false,
+  "clips": [
+    {
+      "id": 99,
+      "name": "侧坐直接朝右站起",
+      "start": "I",
+      "end": "SR",
+      "priority": "P1",
+      "group": "基础衔接",
+      "suggestedSeconds": "2—3",
+      "motion": "前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。",
+      "reason": "蜷睡醒来21→I后可直接起身，消除18→06/08绕路。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "099-侧坐直接朝右站起/制作说明.md"
+    },
+    {
+      "id": 100,
+      "name": "侧坐直接朝左站起",
+      "start": "I",
+      "end": "SL",
+      "priority": "P1",
+      "group": "基础衔接",
+      "suggestedSeconds": "2—3",
+      "motion": "前掌承重，后腿从侧坐收拢并推起，直接恢复四足站立，不先转正面坐姿。",
+      "reason": "蜷睡醒来21→I后可直接起身，消除18→06/08绕路。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "100-侧坐直接朝左站起/制作说明.md"
+    },
+    {
+      "id": 101,
+      "name": "朝右站姿直接趴卧",
+      "start": "SR",
+      "end": "D",
+      "priority": "P1",
+      "group": "基础衔接",
+      "suggestedSeconds": "2—3",
+      "motion": "四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。",
+      "reason": "减少吃喝后到空位又坐下再趴卧。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "101-朝右站姿直接趴卧/制作说明.md"
+    },
+    {
+      "id": 102,
+      "name": "朝左站姿直接趴卧",
+      "start": "SL",
+      "end": "D",
+      "priority": "P1",
+      "group": "基础衔接",
+      "suggestedSeconds": "2—3",
+      "motion": "四足站立逐渐屈肘降胸，胸腹接地并收拢四爪进入D，不经过正面坐下。",
+      "reason": "减少吃喝后到空位又坐下再趴卧。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "102-朝左站姿直接趴卧/制作说明.md"
+    },
+    {
+      "id": 103,
+      "name": "趴卧直接朝右站起",
+      "start": "D",
+      "end": "SR",
+      "priority": "P1",
+      "group": "基础衔接",
+      "suggestedSeconds": "2—3",
+      "motion": "前掌移到肩下支撑，胸腹抬起，再伸直后腿成为四足站姿，不先坐起。",
+      "reason": "趴卧醒来可直接移动。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "103-趴卧直接朝右站起/制作说明.md"
+    },
+    {
+      "id": 104,
+      "name": "趴卧直接朝左站起",
+      "start": "D",
+      "end": "SL",
+      "priority": "P1",
+      "group": "基础衔接",
+      "suggestedSeconds": "2—3",
+      "motion": "前掌移到肩下支撑，胸腹抬起，再伸直后腿成为四足站姿，不先坐起。",
+      "reason": "趴卧醒来可直接移动。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "104-趴卧直接朝左站起/制作说明.md"
+    },
+    {
+      "id": 105,
+      "name": "侧躺直接朝左站起",
+      "start": "A",
+      "end": "SL",
+      "priority": "P2",
+      "group": "左向起身",
+      "suggestedSeconds": "2—3",
+      "motion": "先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。",
+      "reason": "对应已有70/74/78右起身，减少起身后15转左。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "105-侧躺直接朝左站起/制作说明.md"
+    },
+    {
+      "id": 106,
+      "name": "露肚直接朝左站起",
+      "start": "B",
+      "end": "SL",
+      "priority": "P2",
+      "group": "左向起身",
+      "suggestedSeconds": "2—3",
+      "motion": "先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。",
+      "reason": "对应已有70/74/78右起身，减少起身后15转左。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "106-露肚直接朝左站起/制作说明.md"
+    },
+    {
+      "id": 107,
+      "name": "舒展直接朝左站起",
+      "start": "X",
+      "end": "SL",
+      "priority": "P2",
+      "group": "左向起身",
+      "suggestedSeconds": "2—3",
+      "motion": "先回胸腹朝下，四爪真实承重后直接朝左站起；不能左右镜像或倒放已有右起身。",
+      "reason": "对应已有70/74/78右起身，减少起身后15转左。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "107-舒展直接朝左站起/制作说明.md"
+    },
+    {
+      "id": 108,
+      "name": "朝右跑步起步",
+      "start": "SR",
+      "end": "RR",
+      "priority": "P0",
+      "group": "开场跑步",
+      "suggestedSeconds": "0.6—1.0",
+      "motion": "后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。",
+      "reason": "开场快速来到中间；不加速旧走路代替。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "108-朝右跑步起步/制作说明.md"
+    },
+    {
+      "id": 109,
+      "name": "朝右跑步循环",
+      "start": "RR",
+      "end": "RR",
+      "priority": "P0",
+      "group": "开场跑步",
+      "suggestedSeconds": "0.8—1.2",
+      "motion": "稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。",
+      "reason": "真实跑步循环需测量脚底位移与世界速度，不能滑步。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "109-朝右跑步循环/制作说明.md"
+    },
+    {
+      "id": 110,
+      "name": "朝右跑步停稳",
+      "start": "RR",
+      "end": "SR",
+      "priority": "P0",
+      "group": "开场跑步",
+      "suggestedSeconds": "0.8—1.2",
+      "motion": "从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。",
+      "reason": "跑到中点后衔接踱步。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "110-朝右跑步停稳/制作说明.md"
+    },
+    {
+      "id": 111,
+      "name": "朝左跑步起步",
+      "start": "SL",
+      "end": "RL",
+      "priority": "P0",
+      "group": "开场跑步",
+      "suggestedSeconds": "0.6—1.0",
+      "motion": "后腿蹬地，前腿前探，身体自然前倾，进入真实猫小跑步态；镜头固定，根节点位移由程序控制。",
+      "reason": "开场快速来到中间；不加速旧走路代替。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "111-朝左跑步起步/制作说明.md"
+    },
+    {
+      "id": 112,
+      "name": "朝左跑步循环",
+      "start": "RL",
+      "end": "RL",
+      "priority": "P0",
+      "group": "开场跑步",
+      "suggestedSeconds": "0.8—1.2",
+      "motion": "稳定轻快小跑，四肢接地顺序正确，首尾为同一落脚相位，躯干轻微自然起伏；尾巴平衡。",
+      "reason": "真实跑步循环需测量脚底位移与世界速度，不能滑步。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "112-朝左跑步循环/制作说明.md"
+    },
+    {
+      "id": 113,
+      "name": "朝左跑步停稳",
+      "start": "RL",
+      "end": "SL",
+      "priority": "P0",
+      "group": "开场跑步",
+      "suggestedSeconds": "0.8—1.2",
+      "motion": "从共用跑步相位逐步减速，前后脚真实落地承重，收稳为四足站姿；不急停冻结或突然坐下。",
+      "reason": "跑到中点后衔接踱步。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "113-朝左跑步停稳/制作说明.md"
+    },
+    {
+      "id": 114,
+      "name": "朝右站姿转正面四足",
+      "start": "SR",
+      "end": "SF",
+      "priority": "P0",
+      "group": "开场互动",
+      "suggestedSeconds": "1.0—1.8",
+      "motion": "四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。",
+      "reason": "蹭头前必须真正面向前方。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "114-朝右站姿转正面四足/制作说明.md"
+    },
+    {
+      "id": 115,
+      "name": "朝左站姿转正面四足",
+      "start": "SL",
+      "end": "SF",
+      "priority": "P0",
+      "group": "开场互动",
+      "suggestedSeconds": "1.0—1.8",
+      "motion": "四足保持站立，依次换爪小步转向镜头，身体透视连续，最后正面四足站稳；不坐下。",
+      "reason": "蹭头前必须真正面向前方。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "115-朝左站姿转正面四足/制作说明.md"
+    },
+    {
+      "id": 116,
+      "name": "正面站立向前蹭头",
+      "start": "SF",
+      "end": "SF",
+      "priority": "P0",
+      "group": "开场互动",
+      "suggestedSeconds": "2—3",
+      "motion": "四脚连续承重，头颈温柔前探，额头向前轻蹭两下，轻闭眼后收回SF；不生成手或物品，不放大整猫冒充贴近。",
+      "reason": "38是坐姿蹭手，不能替代先站着蹭头、最后才坐下的开场顺序。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "116-正面站立向前蹭头/制作说明.md"
+    },
+    {
+      "id": 117,
+      "name": "正面站立连续叫三次",
+      "start": "SF",
+      "end": "SF",
+      "priority": "P0",
+      "group": "开场互动",
+      "suggestedSeconds": "3—4",
+      "motion": "仅一段连续动作：张嘴叫一次、合嘴短停，再叫第二次、合嘴，再叫第三次、合嘴收回SF；严格三次，不哈欠。",
+      "reason": "88从坐姿开始，不用于本开场。返片需标出三个张嘴峰值供声音同步。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "117-正面站立连续叫三次/制作说明.md"
+    },
+    {
+      "id": 118,
+      "name": "正面四足平稳坐下",
+      "start": "SF",
+      "end": "F",
+      "priority": "P0",
+      "group": "开场互动",
+      "suggestedSeconds": "1.2—2",
+      "motion": "后腿自然收拢，臀部降低，前掌稳定承重，尾巴顺势收好，落到已确认F坐姿，结束时不再次起身。",
+      "reason": "开场最终坐定，随后交回正常行为树。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "118-正面四足平稳坐下/制作说明.md"
+    },
+    {
+      "id": 119,
+      "name": "朝右站立致谢",
+      "start": "SR",
+      "end": "SR",
+      "priority": "P2",
+      "group": "照料衔接",
+      "suggestedSeconds": "1.5—2.5",
+      "motion": "保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。",
+      "reason": "可替代站姿示意后07→51的坐姿致谢，减少不必要坐下。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "119-朝右站立致谢/制作说明.md"
+    },
+    {
+      "id": 120,
+      "name": "朝左站立致谢",
+      "start": "SL",
+      "end": "SL",
+      "priority": "P2",
+      "group": "照料衔接",
+      "suggestedSeconds": "1.5—2.5",
+      "motion": "保持四足站姿，轻眯眼并微微点头或轻摆尾一次，再回原站姿；不坐下、不跨姿态硬切。",
+      "reason": "可替代站姿示意后07→51的坐姿致谢，减少不必要坐下。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "120-朝左站立致谢/制作说明.md"
+    },
+    {
+      "id": 121,
+      "name": "蜷睡转趴卧",
+      "start": "C",
+      "end": "D",
+      "priority": "P3",
+      "group": "低位换姿",
+      "suggestedSeconds": "2—3",
+      "motion": "在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。",
+      "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "121-蜷睡转趴卧/制作说明.md"
+    },
+    {
+      "id": 122,
+      "name": "趴卧卷成蜷睡",
+      "start": "D",
+      "end": "C",
+      "priority": "P3",
+      "group": "低位换姿",
+      "suggestedSeconds": "2—3",
+      "motion": "在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。",
+      "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "122-趴卧卷成蜷睡/制作说明.md"
+    },
+    {
+      "id": 123,
+      "name": "蜷睡放松侧躺",
+      "start": "C",
+      "end": "A",
+      "priority": "P3",
+      "group": "低位换姿",
+      "suggestedSeconds": "2—3",
+      "motion": "在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。",
+      "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "123-蜷睡放松侧躺/制作说明.md"
+    },
+    {
+      "id": 124,
+      "name": "侧躺卷成蜷睡",
+      "start": "A",
+      "end": "C",
+      "priority": "P3",
+      "group": "低位换姿",
+      "suggestedSeconds": "2—3",
+      "motion": "在地面接触面上缓慢展开或收拢身体，肩胯顺序变换、头爪自然归位，全程不站起；首尾严格匹配姿态图。",
+      "reason": "可选低位换姿，减少旧睡姿切新睡姿时起身。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "124-侧躺卷成蜷睡/制作说明.md"
+    },
+    {
+      "id": 125,
+      "name": "趴卧被提起",
+      "start": "D",
+      "end": "H_D",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "0.8—1.5",
+      "motion": "由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。",
+      "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "125-趴卧被提起/制作说明.md"
+    },
+    {
+      "id": 126,
+      "name": "趴卧对应悬空轻摆",
+      "start": "H_D",
+      "end": "H_D",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "2—3",
+      "motion": "保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。",
+      "reason": "悬空循环需独立匹配本姿态起提。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "126-趴卧对应悬空轻摆/制作说明.md"
+    },
+    {
+      "id": 127,
+      "name": "趴卧对应放回地面",
+      "start": "H_D",
+      "end": "D",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "1—2",
+      "motion": "下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。",
+      "reason": "回到原躺姿的独立落地片。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "127-趴卧对应放回地面/制作说明.md"
+    },
+    {
+      "id": 128,
+      "name": "侧躺被提起",
+      "start": "A",
+      "end": "H_A",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "0.8—1.5",
+      "motion": "由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。",
+      "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "128-侧躺被提起/制作说明.md"
+    },
+    {
+      "id": 129,
+      "name": "侧躺对应悬空轻摆",
+      "start": "H_A",
+      "end": "H_A",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "2—3",
+      "motion": "保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。",
+      "reason": "悬空循环需独立匹配本姿态起提。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "129-侧躺对应悬空轻摆/制作说明.md"
+    },
+    {
+      "id": 130,
+      "name": "侧躺对应放回地面",
+      "start": "H_A",
+      "end": "A",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "1—2",
+      "motion": "下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。",
+      "reason": "回到原躺姿的独立落地片。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "130-侧躺对应放回地面/制作说明.md"
+    },
+    {
+      "id": 131,
+      "name": "露肚被提起",
+      "start": "B",
+      "end": "H_B",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "0.8—1.5",
+      "motion": "由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。",
+      "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "131-露肚被提起/制作说明.md"
+    },
+    {
+      "id": 132,
+      "name": "露肚对应悬空轻摆",
+      "start": "H_B",
+      "end": "H_B",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "2—3",
+      "motion": "保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。",
+      "reason": "悬空循环需独立匹配本姿态起提。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "132-露肚对应悬空轻摆/制作说明.md"
+    },
+    {
+      "id": 133,
+      "name": "露肚对应放回地面",
+      "start": "H_B",
+      "end": "B",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "1—2",
+      "motion": "下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。",
+      "reason": "回到原躺姿的独立落地片。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "133-露肚对应放回地面/制作说明.md"
+    },
+    {
+      "id": 134,
+      "name": "舒展被提起",
+      "start": "X",
+      "end": "H_X",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "0.8—1.5",
+      "motion": "由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。",
+      "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "134-舒展被提起/制作说明.md"
+    },
+    {
+      "id": 135,
+      "name": "舒展对应悬空轻摆",
+      "start": "H_X",
+      "end": "H_X",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "2—3",
+      "motion": "保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。",
+      "reason": "悬空循环需独立匹配本姿态起提。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "135-舒展对应悬空轻摆/制作说明.md"
+    },
+    {
+      "id": 136,
+      "name": "舒展对应放回地面",
+      "start": "H_X",
+      "end": "X",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "1—2",
+      "motion": "下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。",
+      "reason": "回到原躺姿的独立落地片。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "136-舒展对应放回地面/制作说明.md"
+    },
+    {
+      "id": 137,
+      "name": "掩面被提起",
+      "start": "M",
+      "end": "H_M",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "0.8—1.5",
+      "motion": "由当前真实躺姿被轻轻托提，身体重力下垂、四肢自然收拢，进入专属悬空姿态；不硬切正面坐姿，不生成手。",
+      "reason": "当前拖拽保留原姿态；本段用于补齐真实起提过渡。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "137-掩面被提起/制作说明.md"
+    },
+    {
+      "id": 138,
+      "name": "掩面对应悬空轻摆",
+      "start": "H_M",
+      "end": "H_M",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "2—3",
+      "motion": "保持对应悬空姿态，轻微重力摆动，四肢和尾巴自然活动后回同相位；无激烈挣扎。",
+      "reason": "悬空循环需独立匹配本姿态起提。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "138-掩面对应悬空轻摆/制作说明.md"
+    },
+    {
+      "id": 139,
+      "name": "掩面对应放回地面",
+      "start": "H_M",
+      "end": "M",
+      "priority": "P3",
+      "group": "拖拽补齐",
+      "suggestedSeconds": "1—2",
+      "motion": "下降时脚掌或胸腹先接触地面，身体重量自然落稳，回到原地面姿态；不是把起提倒放。",
+      "reason": "回到原躺姿的独立落地片。",
+      "status": "awaiting-production",
+      "runtimeEnabled": false,
+      "file": "139-掩面对应放回地面/制作说明.md"
+    }
+  ],
+  "anchors": {
+    "F": {
+      "source": "art/video-pipeline/basic-v2/anchors/F-正面坐姿.png",
+      "status": "existing-reference",
+      "sha256": "9a2b92eac7d796922f5329e60b1bafa4ed3fc6f07bce497999abff0a5d4a6b3e",
+      "archiveFile": "references/F.png"
+    },
+    "SR": {
+      "source": "art/video-pipeline/basic-v2/anchors/SR-朝右站姿.png",
+      "status": "existing-reference",
+      "sha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
+      "archiveFile": "references/SR.png"
+    },
+    "SL": {
+      "source": "art/video-pipeline/basic-v2/anchors/SL-朝左站姿.png",
+      "status": "existing-reference",
+      "sha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+      "archiveFile": "references/SL.png"
+    },
+    "I": {
+      "source": "art/video-pipeline/basic-v2/anchors/I-侧坐.png",
+      "status": "existing-reference",
+      "sha256": "4433e437d8ab2c0cea483212205332efd8dbaa2b1aa6f8dca17a911c2c672edc",
+      "archiveFile": "references/I.png"
+    },
+    "C": {
+      "source": "art/video-pipeline/basic-v2/anchors/C-蜷睡.png",
+      "status": "existing-reference",
+      "sha256": "7900eb6c6e685dbf989b3b0f39303976a69df9b2661eded633e41b51845f81b8",
+      "archiveFile": "references/C.png"
+    },
+    "D": {
+      "source": "art/video-pipeline/expressions-v4/anchors/D-趴卧.png",
+      "status": "existing-reference",
+      "sha256": "45a7962d982fc9bd9d22d096618641502ee76551185a319cccc8e51c59294162",
+      "archiveFile": "references/D.png"
+    },
+    "A": {
+      "source": "art/video-pipeline/expressions-v4/anchors/A-侧躺收爪.png",
+      "status": "existing-reference",
+      "sha256": "beabaac6e7b9e2811cfb90f1cc70fdbe69da490665ee1457956888712cf5cb63",
+      "archiveFile": "references/A.png"
+    },
+    "B": {
+      "source": "art/video-pipeline/expressions-v4/anchors/B-露肚仰躺.png",
+      "status": "existing-reference",
+      "sha256": "4d4cc9c4d3b762b071657c3a8dbaf62d07a91b0fe49dabb4b797537fd1fb0e2b",
+      "archiveFile": "references/B.png"
+    },
+    "X": {
+      "source": "art/video-pipeline/expressions-v4/anchors/C-侧躺舒展.png",
+      "status": "existing-reference",
+      "sha256": "250ea532638ee871982837e3a26dbef5452927b01392e361107e59d303305b6b",
+      "archiveFile": "references/X.png"
+    },
+    "M": {
+      "source": "art/video-pipeline/expressions-v4/anchors/M-掩面睡姿.png",
+      "status": "existing-reference",
+      "sha256": "db6fb699b156272b98fd32769c6b4f00e8c099efdb48f59a76a2c10176ca0088",
+      "archiveFile": "references/M.png"
+    },
+    "RR": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "RL": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "SF": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "H_D": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "H_A": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "H_B": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "H_X": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    },
+    "H_M": {
+      "status": "new-anchor-required",
+      "source": null,
+      "note": "待新建并审阅，不以旧姿态改名顶替。"
+    }
+  },
+  "startupPlan": {
+    "id": "startup-greeting",
+    "status": "awaiting-independent-running-and-front-standing-assets",
+    "enabled": false,
+    "userDecision": "等独立跑步素材补齐后再启用开场；不加速现有走路替代。",
+    "triggers": [
+      "first-valid-run",
+      "os-autostart-once-per-boot"
+    ],
+    "excludedTriggers": [
+      "ordinary-relaunch",
+      "host-recreation",
+      "wake-from-sleep",
+      "settings-open"
+    ],
+    "requiredNewClips": [
+      108,
+      109,
+      110,
+      111,
+      112,
+      113,
+      114,
+      115,
+      116,
+      117,
+      118
+    ],
+    "preferredTransitions": [
+      99,
+      100
+    ],
+    "stages": [
+      {
+        "id": "sleep",
+        "name": "窝内睡眠",
+        "clips": [
+          20
+        ],
+        "next": "wake"
+      },
+      {
+        "id": "wake",
+        "name": "醒来离窝",
+        "preferredClips": [
+          21,
+          99,
+          100
+        ],
+        "existingFallback": [
+          21,
+          18,
+          6,
+          8
+        ],
+        "next": "run"
+      },
+      {
+        "id": "run",
+        "name": "快速跑到中部",
+        "clips": [
+          108,
+          109,
+          110,
+          111,
+          112,
+          113
+        ],
+        "next": "pace"
+      },
+      {
+        "id": "pace",
+        "name": "中部来回踱步",
+        "existingClips": [
+          "10",
+          "right",
+          "11",
+          "15",
+          "12",
+          "14",
+          "13",
+          "16"
+        ],
+        "next": "rub"
+      },
+      {
+        "id": "rub",
+        "name": "面向前方蹭头",
+        "clips": [
+          114,
+          115,
+          116
+        ],
+        "next": "call"
+      },
+      {
+        "id": "call",
+        "name": "站着连叫三次",
+        "clips": [
+          117
+        ],
+        "count": 3,
+        "next": "sit"
+      },
+      {
+        "id": "sit",
+        "name": "中部平稳坐定",
+        "clips": [
+          118
+        ],
+        "next": "normal"
+      },
+      {
+        "id": "normal",
+        "name": "交回正常行为树",
+        "clips": [
+          1
+        ],
+        "next": null
+      }
+    ],
+    "proposedTuning": {
+      "sleepLeadSeconds": 1.5,
+      "paceRoute": "中点→左侧空位→右侧空位→中点",
+      "greetingCount": 3,
+      "note": "时间和踱步范围为制作建议，尚未成为运行参数。"
+    },
+    "constraints": [
+      "中点被家具占用时找最近可坐空位，不搬物品",
+      "世界位移与脚底速度同步，左右不用镜像",
+      "离窝持续计算坐垫支撑与低窝沿遮挡",
+      "照料期限继续计时，表演不扣库存、不重抽期限",
+      "拖拽/手动命令可取消，取消后不自动重播",
+      "全屏/主动隐藏期间暂停演出进度，恢复后接续",
+      "三次叫声动作始终保留，声音遵从静音设置"
+    ],
+    "activationGate": [
+      "全部必需返片及新RR/RL/SF锚点通过审阅",
+      "透明提取、跑步根位移和姿态图接入完成",
+      "片内相邻帧/循环/接缝/承重脚/窝沿场景审计通过",
+      "首启、自启去重、输入取消、全屏暂停和普通行为恢复测试通过"
+    ]
+  },
+  "audio": [
+    {
+      "id": "A01",
+      "name": "正面三连叫同步音频",
+      "status": "missing",
+      "note": "需合法来源的自然猫叫，按117的三个张嘴峰值同步；当前合成提示音不是最终猫叫素材。"
+    }
+  ],
+  "refinementNotMissing": [
+    {
+      "clips": [
+        86
+      ],
+      "issue": "与旧右行的步态相位统一"
+    },
+    {
+      "clips": [
+        62,
+        63,
+        74
+      ],
+      "issue": "翻身/起身透视与躯干形体精修"
+    }
+  ]
+}

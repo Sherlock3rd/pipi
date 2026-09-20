@@ -237,6 +237,7 @@ internal sealed class PetWindow : Window
         }
         if(args.Contains("--settings"))ShowSettings();
         if(args.Contains("--behavior-editor"))ShowBehaviorEditor();
+        if(args.Contains("--startup-plan")){ShowBehaviorEditor();behaviorEditor?.ShowStartupPlan();}
     }
     private void FitScreen()
     {

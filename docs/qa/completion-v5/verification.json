@@ -1,0 +1,32 @@
+{
+  "MissingClips": 41,
+  "StartupRequiredClips": 11,
+  "PriorityOneTransitions": 6,
+  "NewAnchors": 8,
+  "ExistingReferenceImages": 10,
+  "AudioItems": 1,
+  "AllReferenceHashesVerified": true,
+  "ZipCrcPassed": true,
+  "StartupEnabled": false,
+  "RuntimeFramesChanged": false,
+  "Choreography": [
+    "sleep",
+    "wake",
+    "run",
+    "pace",
+    "rub",
+    "call",
+    "sit",
+    "normal"
+  ],
+  "CallCount": 3,
+  "WorkbenchFixture": "WPF controls and startup-plan capture",
+  "ArchiveSha256": "fc7ce3dbe00e2a8b96bbb39d961b93563ad81eacfca67e739270e05efa9d5bfb",
+  "RootHashesVerified": true,
+  "ConfigurationPreserved": true,
+  "AutoStartSettingPreserved": true,
+  "ProductionResponding": true,
+  "StateSavedAfterStartup": true,
+  "WorkbenchOpened": true,
+  "EngineSchedulingChanged": false
+}

@@ -46,7 +46,16 @@ internal sealed class BehaviorEditorWindow : Window
         new("wall","屏边扶墙","仅在已靠近真实屏幕边缘且没有家具时触发；左右独立动画，完整落地后休息，不跨屏寻找墙面。",new[]{"wall"}),
         new("night","作息辅助条件","夜间且能量较低时倾向休息；不强制打断互动。起止小时相同表示关闭夜间加成，安静入睡仍有效。",new[]{"night"}),
         new("nest","猫窝／原蜷睡","拖进窝或手动回窝使用原蜷睡，保留坐垫支撑和窝沿遮挡。旧侧坐直接站立素材尚缺，不能通过改概率消除中间姿态。",new[]{"rest"}),
-        new("movement","⑦ 移动与待机收尾","起身 → 真实转向 → 起步 → 移动 → 停步。吃喝收尾先判断避让，直接从站姿离开。固定动画时间不在此批量变速。",new[]{"movement"})
+        new("movement","⑦ 移动与待机收尾","起身 → 真实转向 → 起步 → 移动 → 停步。吃喝收尾先判断避让，直接从站姿离开。固定动画时间不在此批量变速。",new[]{"movement"}),
+        new("startup","启动开场 · 待素材","独立的一次性连续开场设计。首次有效运行、开机自启各触发一次，普通重开不重复。用户已明确等独立跑步素材补齐后再启用；当前不执行、不改变既有自启设置。108—118共11段专用片与新姿态锚点待制作、接缝验收和运行接入。",Array.Empty<string>()),
+        new("intro-sleep","① 窝内睡眠","初始在现有猫窝坐垫上蜷睡，复用20；不改猫窝摆放、不跳到地面。开场期间照料期限继续计时，库存不变。",Array.Empty<string>()),
+        new("intro-wake","② 醒来离窝","先醒到侧坐I，再站起，脚掌沿坐垫支撑连续离窝。优先补99/100直接侧坐起身；已有21→18→06/08仍列为过渡路径。",Array.Empty<string>()),
+        new("intro-run","③ 跑到屏幕中部","使用独立左右跑步起步、循环、停步108—113；依据窝与目标的真实位置选方向。不得用现有走路加速替代。目标为中部可坐空位，中央被家具占用时寻找最近空位。",Array.Empty<string>()),
+        new("intro-pace","④ 中部来回踱步","到达中部后短距离来回，再回到中点。复用真实左右行走和15/16转身，路径依据当前家具/屏宽计算，不能身体朝左却向右滑动。往返次数及范围留作返片接入时可调参数。",Array.Empty<string>()),
+        new("intro-rub","⑤ 朝前蹭蹭脑袋","先114/115转为正面四足站姿SF，再116朝屏幕前方探头轻蹭并回SF。不要提前坐下，也不要放大整只猫模拟向镜头靠近；需要新SF标准图。",Array.Empty<string>()),
+        new("intro-call","⑥ 连叫三次","117是一段SF→SF的三连叫，清楚张嘴/合嘴三次，各次间短停顿，最后合嘴。不能重复播放已有坐叫88来偷换姿态。声音需三处同步提示点，仍尊重静音设置。",Array.Empty<string>()),
+        new("intro-sit","⑦ 在中部坐定","118由正面四足SF平稳坐到既有F；手脚接触地面、位置不跳变。完整坐定后才结束开场。",Array.Empty<string>()),
+        new("intro-done","⑧ 交回正常行为树","进入原待机与照料调度，不补扣库存、不重抽照料期限。开场后仍用正常入睡等待。设计中拖拽/手动命令可取消开场，全屏遮挡暂停表演计时，不在看不到时偷播完。",Array.Empty<string>())
     };
     private readonly PetEngine engine;
     private readonly BehaviorSettingsStore store;
@@ -87,6 +96,7 @@ internal sealed class BehaviorEditorWindow : Window
         header.Children.Add(Label("看清决策顺序，调整节奏与概率。连线表示决策关系；编辑为草稿，保存后才影响猫猫。",12,"#697B75"));
         var bar=new StackPanel{Orientation=Orientation.Horizontal,Margin=new Thickness(0,14,0,0)};header.Children.Add(bar);
         bar.Children.Add(Button("全局流程",()=>{view="global";BuildGraph();Fit();}));bar.Children.Add(Button("睡姿与反应",()=>{view="sleep";BuildGraph();Fit();}));
+        bar.Children.Add(Button("启动开场 · 待素材",ShowStartupPlan));
         bar.Children.Add(Button("全部参数",()=>{selected="all";BuildInspector();}));bar.Children.Add(Button("适合窗口",Fit));
         bar.Children.Add(zoom);bar.Children.Add(Label("缩放",12));zoom.ValueChanged+=(_,_)=>canvas.LayoutTransform=new ScaleTransform(zoom.Value,zoom.Value);
         var bottom=new Border{Background=Brush("#FFFFFF"),BorderBrush=Brush("#DFE6DF"),BorderThickness=new Thickness(0,1,0,0),Padding=new Thickness(24,12,24,14)};DockPanel.SetDock(bottom,Dock.Bottom);shell.Children.Add(bottom);
@@ -103,7 +113,13 @@ internal sealed class BehaviorEditorWindow : Window
         Closed+=(_,_)=>ticker.Stop();
     }
     private void Fit(){zoom.Value=Math.Clamp(Math.Min((graphScroll.ActualWidth-25)/canvas.Width,(graphScroll.ActualHeight-25)/canvas.Height),zoom.Minimum,1);canvas.LayoutTransform=new ScaleTransform(zoom.Value,zoom.Value);}
+    internal void ShowStartupPlan(){view="startup";selected="startup";BuildGraph();BuildInspector();Fit();}
     private string Summary(string id)=>id switch {
+        "startup"=>"设计已整理 · 未启用 · 首次运行 / 开机自启",
+        "intro-sleep"=>"蜷睡20 · 坐垫支撑", "intro-wake"=>"离窝支撑连续 · 待补直接起身99/100",
+        "intro-run"=>"待补108—113 · 独立跑步素材", "intro-pace"=>"左右踱步 + 真实转向 · 回到中点",
+        "intro-rub"=>"待补114—116 · 正面站姿SF", "intro-call"=>"待补117 · 单段三次开合嘴",
+        "intro-sit"=>"待补118 · SF → 正面坐姿F", "intro-done"=>"坐定后恢复照料 / 互动 / 入睡",
         "rest"=>$"安静 {engine.Settings.Get("sleep.delay"):0.#} 秒入睡",
         "food" or "water" or "litter"=>$"独立周期 {engine.Settings.Get(id+".min"):0.#}～{engine.Settings.Get(id+".max"):0.#} 分钟",
         "request"=>$"需求成立 + 缺货等待 {engine.Settings.Get("request.delay"):0.#} 秒",
@@ -140,7 +156,7 @@ internal sealed class BehaviorEditorWindow : Window
     }
     private void BuildGraph()
     {
-        canvas.Children.Clear();nodeBorders.Clear();canvas.Width=1040;canvas.Height=view=="global"?1220:950;
+        canvas.Children.Clear();nodeBorders.Clear();canvas.Width=1040;canvas.Height=view=="global"?1220:view=="startup"?1120:950;
         if(view=="global")
         {
             var caption=Label("优先级骨架  /  上层命中后先执行；点击节点可查看实际条件",17,"#527166");Canvas.SetLeft(caption,30);Canvas.SetTop(caption,18);canvas.Children.Add(caption);
@@ -156,6 +172,12 @@ internal sealed class BehaviorEditorWindow : Window
             Connect(new[]{new Point(410,914),new Point(860,914),new Point(860,932)});
             Card("night",440,932,270);Card("nest",730,932,260);
             var hint=Label("物品避让、真实姿态过渡、实际摄入扣库存是固定执行约束。照料不是随机抽奖。",13,"#6F8078");Canvas.SetLeft(hint,440);Canvas.SetTop(hint,320);hint.Width=530;canvas.Children.Add(hint);
+        }
+        else if(view=="startup")
+        {
+            Card("startup",45,25,950);
+            string[] steps={"intro-sleep","intro-wake","intro-run","intro-pace","intro-rub","intro-call","intro-sit","intro-done"};
+            for(int i=0;i<steps.Length;i++){double y=155+i*115;Connect(new[]{new Point(520,i==0?105:y-35),new Point(520,y)});Card(steps[i],145,y,750);}
         }
         else
         {
@@ -183,7 +205,7 @@ internal sealed class BehaviorEditorWindow : Window
         var node=Nodes.FirstOrDefault(n=>n.Id==selected);inspector.Children.Add(Label(node?.Title??"全部可调参数",22));
         var description=Label(node?.Detail??"所有参数按分组列出。时间单位写在输入框右侧；权重在同组内归一化。",12,"#718179");description.Margin=new Thickness(0,10,0,17);inspector.Children.Add(description);
         var parameters=BehaviorSettings.Catalog.Where(p=>selected=="all"||node!.Groups.Contains(p.Group)||selected.StartsWith("pose-")&&p.Key=="pose."+selected[5..]).ToList();
-        if(parameters.Count==0)inspector.Children.Add(Label("此节点是固定条件／顺序。请点击下级节点调整对应参数。",13,"#9A7852"));
+        if(parameters.Count==0)inspector.Children.Add(Label(selected=="startup"||selected.StartsWith("intro-")?"待素材的独立流程设计，尚未接入自动触发；当前没有生效参数。返片通过验收后再启用。":"此节点是固定条件／顺序。请点击下级节点调整对应参数。",13,"#9A7852"));
         foreach(var p in parameters)
         {
             var box=new StackPanel{Margin=new Thickness(0,0,0,18)};inspector.Children.Add(box);box.Children.Add(Label(p.Label,14));
@@ -242,6 +264,7 @@ internal sealed class BehaviorEditorWindow : Window
         if(Math.Abs(engine.CareSecondsRemaining["food"]-120)>.001)throw new Exception("Care reschedule mismatch");
         selected="rest";BuildInspector();Capture(System.IO.Path.Combine(output,"overview.png"));view="sleep";BuildGraph();Fit();selected="gesture-A";BuildInspector();Capture(System.IO.Path.Combine(output,"sleep.png"));
         Width=1000;Height=700;UpdateLayout();Fit();Capture(System.IO.Path.Combine(output,"compact.png"));
+        Width=1320;Height=900;UpdateLayout();view="startup";selected="startup";BuildGraph();BuildInspector();Fit();Capture(System.IO.Path.Combine(output,"startup-plan.png"));
         File.WriteAllText(System.IO.Path.Combine(output,"ui-verification.json"),JsonSerializer.Serialize(new{SavedAndReadBack=true,InvalidRejected=true,CareRescheduled=true,ParameterCount=BehaviorSettings.Catalog.Count,Food=engine.State.Food,Water=engine.State.Water,ConfigurationPath=store.PathName}));AppliedInFixture=true;dirty=false;discardOnClose=true;Close();
     }
     private void Capture(string path)

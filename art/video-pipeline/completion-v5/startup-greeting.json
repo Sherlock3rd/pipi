@@ -1,0 +1,143 @@
+{
+  "id": "startup-greeting",
+  "status": "awaiting-independent-running-and-front-standing-assets",
+  "enabled": false,
+  "userDecision": "等独立跑步素材补齐后再启用开场；不加速现有走路替代。",
+  "triggers": [
+    "first-valid-run",
+    "os-autostart-once-per-boot"
+  ],
+  "excludedTriggers": [
+    "ordinary-relaunch",
+    "host-recreation",
+    "wake-from-sleep",
+    "settings-open"
+  ],
+  "requiredNewClips": [
+    108,
+    109,
+    110,
+    111,
+    112,
+    113,
+    114,
+    115,
+    116,
+    117,
+    118
+  ],
+  "preferredTransitions": [
+    99,
+    100
+  ],
+  "stages": [
+    {
+      "id": "sleep",
+      "name": "窝内睡眠",
+      "clips": [
+        20
+      ],
+      "next": "wake"
+    },
+    {
+      "id": "wake",
+      "name": "醒来离窝",
+      "preferredClips": [
+        21,
+        99,
+        100
+      ],
+      "existingFallback": [
+        21,
+        18,
+        6,
+        8
+      ],
+      "next": "run"
+    },
+    {
+      "id": "run",
+      "name": "快速跑到中部",
+      "clips": [
+        108,
+        109,
+        110,
+        111,
+        112,
+        113
+      ],
+      "next": "pace"
+    },
+    {
+      "id": "pace",
+      "name": "中部来回踱步",
+      "existingClips": [
+        "10",
+        "right",
+        "11",
+        "15",
+        "12",
+        "14",
+        "13",
+        "16"
+      ],
+      "next": "rub"
+    },
+    {
+      "id": "rub",
+      "name": "面向前方蹭头",
+      "clips": [
+        114,
+        115,
+        116
+      ],
+      "next": "call"
+    },
+    {
+      "id": "call",
+      "name": "站着连叫三次",
+      "clips": [
+        117
+      ],
+      "count": 3,
+      "next": "sit"
+    },
+    {
+      "id": "sit",
+      "name": "中部平稳坐定",
+      "clips": [
+        118
+      ],
+      "next": "normal"
+    },
+    {
+      "id": "normal",
+      "name": "交回正常行为树",
+      "clips": [
+        1
+      ],
+      "next": null
+    }
+  ],
+  "proposedTuning": {
+    "sleepLeadSeconds": 1.5,
+    "paceRoute": "中点→左侧空位→右侧空位→中点",
+    "greetingCount": 3,
+    "note": "时间和踱步范围为制作建议，尚未成为运行参数。"
+  },
+  "constraints": [
+    "中点被家具占用时找最近可坐空位，不搬物品",
+    "世界位移与脚底速度同步，左右不用镜像",
+    "离窝持续计算坐垫支撑与低窝沿遮挡",
+    "照料期限继续计时，表演不扣库存、不重抽期限",
+    "拖拽/手动命令可取消，取消后不自动重播",
+    "全屏/主动隐藏期间暂停演出进度，恢复后接续",
+    "三次叫声动作始终保留，声音遵从静音设置"
+  ],
+  "activationGate": [
+    "全部必需返片及新RR/RL/SF锚点通过审阅",
+    "透明提取、跑步根位移和姿态图接入完成",
+    "片内相邻帧/循环/接缝/承重脚/窝沿场景审计通过",
+    "首启、自启去重、输入取消、全屏暂停和普通行为恢复测试通过"
+  ]
+}
