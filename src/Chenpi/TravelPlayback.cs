@@ -27,7 +27,8 @@ public sealed partial class SpritePlayback
             string loop=left?"video-14":"video-right";
             double cycleDistance=Math.Abs(FrameVelocity(loop,0))*clips[loop].Duration;
             string? vocal=null;double vocalDistance=0;
-            if(HasExpressions&&++travelLegs%3==0&&current is not ("video-right" or "video-14"))
+            int interval=WalkingCallEvery?.Invoke()??3;
+            if(HasExpressions&&interval>0&&++travelLegs%interval==0&&current is not ("video-right" or "video-14"))
             {
                 string id=left?"video-87":"video-86";double required=Math.Abs(FrameVelocity(id,0))*clips[id].Duration;
                 if(distance>=baseDistance+required){vocal=id;vocalDistance=required;}

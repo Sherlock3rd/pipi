@@ -136,6 +136,7 @@ internal sealed class Scene : FrameworkElement
         Engine.VisualActionDuration=playback.ActionDuration;
         Engine.VisualCareReady=playback.PrepareCare;
         Engine.VisualStandReady=playback.PrepareStand;
+        playback.WalkingCallEvery=()=>(int)Engine.Settings.Get("walk.callEvery");
         Engine.VisualTravel=playback.TravelTo;
         Engine.VisualBurialWindow=playback.BurialWindow;
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
@@ -204,9 +205,9 @@ internal sealed class Scene : FrameworkElement
     public void InputTick(double elapsed)
     {
         pointer=World(Mouse.GetPosition(this));
-        if(pressed&&!IsDragging&&watch.Elapsed.TotalSeconds-pressedAt>=HoldSeconds)
+        if(pressed&&!IsDragging&&watch.Elapsed.TotalSeconds-pressedAt>=Engine.Settings.Get("drag.hold"))
         {StartDrag();}
-        double liftTarget=!Engine.Grounded&&pressed&&pressedObject=="cat"?(IsDragging?8:Math.Min(1,(watch.Elapsed.TotalSeconds-pressedAt)/HoldSeconds)*3):0;
+        double liftTarget=!Engine.Grounded&&pressed&&pressedObject=="cat"?(IsDragging?8:Math.Min(1,(watch.Elapsed.TotalSeconds-pressedAt)/Engine.Settings.Get("drag.hold"))*3):0;
         lift+=(liftTarget-lift)*(1-Math.Exp(-elapsed*24));
         if(IsDragging)MoveDragged(pointer);
         if(wandHeld)Engine.SetToy(true,new Spot(Math.Clamp(pointer.X,0,WorldWidth),Math.Clamp(pointer.Y,0,WorldHeight)));
@@ -268,7 +269,7 @@ internal sealed class Scene : FrameworkElement
     protected override void OnMouseMove(MouseEventArgs e)
     {
         var p=World(e.GetPosition(this));
-        if(pressed&&!IsDragging&&((p-pressedPoint).Length>=6||watch.Elapsed.TotalSeconds-pressedAt>=HoldSeconds))StartDrag();
+        if(pressed&&!IsDragging&&((p-pressedPoint).Length>=6||watch.Elapsed.TotalSeconds-pressedAt>=Engine.Settings.Get("drag.hold")))StartDrag();
         MoveDragged(p);
         if(IsDragging||wandHeld)InvalidateVisual();
     }

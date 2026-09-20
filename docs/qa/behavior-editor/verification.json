@@ -1,0 +1,25 @@
+{
+  "SavedAndReadBack": true,
+  "InvalidRejected": true,
+  "CareRescheduled": true,
+  "ParameterCount": 53,
+  "Food": 80,
+  "Water": 80,
+  "BehaviorChecks": 441,
+  "FixtureIsolated": true,
+  "VisualReview": [
+    "overview 1320x900",
+    "sleep graph 1320x900",
+    "compact 1000x700"
+  ],
+  "DefaultParametersPreserved": true,
+  "SourceFramesModified": false,
+  "FinalFixture": "artifacts/behavior-editor/ui-release",
+  "RootHashesVerified": true,
+  "Installed": true,
+  "EditorWindowTitle": "陈皮 · 行为工作台",
+  "LiveConfigurationDefaults": true,
+  "ProductionResponding": true,
+  "StateSavedAfterStartup": true,
+  "ErrorLogPresent": false
+}

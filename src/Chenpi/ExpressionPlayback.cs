@@ -35,6 +35,7 @@ public sealed partial class SpritePlayback
     private double carriedAt;
     private string? walkVocalClip;
     private int travelLegs;
+    public Func<int>? WalkingCallEvery {get;set;}
     private string WalkingLoop(string standingPose)
     {
         if(walkVocalClip is string vocal){walkVocalClip=null;return vocal;}

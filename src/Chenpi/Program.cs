@@ -40,6 +40,16 @@ internal static class Program
             var reviewApp=new System.Windows.Application{ShutdownMode=ShutdownMode.OnMainWindowClose};
             reviewApp.Run(new VideoReviewWindow(reviewDirectory,args));return;
         }
+        if(Option(args,"--behavior-editor-preview") is string editorFixture)
+        {
+            Directory.CreateDirectory(editorFixture);
+            var editorApp=new System.Windows.Application{ShutdownMode=ShutdownMode.OnMainWindowClose};
+            var config=new BehaviorSettingsStore(editorFixture);
+            var model=new PetEngine(new PetState{Food=80,Water=80},settings:config.Load()){ExpressionsEnabled=true};
+            var editor=new BehaviorEditorWindow(model,config,()=>{});
+            editor.Loaded+=(_,_)=>{var delay=new DispatcherTimer{Interval=TimeSpan.FromSeconds(1)};delay.Tick+=(_,_)=>{delay.Stop();try{editor.RunFixture(editorFixture);}catch(Exception e){File.WriteAllText(Path.Combine(editorFixture,"error.txt"),e.ToString());editorApp.Shutdown(1);}};delay.Start();};
+            editorApp.Run(editor);return;
+        }
         string? data=Option(args,"--data-dir");
         data??=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.LocalApplicationData),"Chenpi");
         using var single=new Mutex(true,"Local\\Chenpi-"+Convert.ToHexString(System.Security.Cryptography.SHA256.HashData(System.Text.Encoding.UTF8.GetBytes(data)))[..16],out bool created);
@@ -59,6 +69,7 @@ internal static class Program
 internal sealed class PetWindow : Window
 {
     private readonly Store store;
+    private readonly BehaviorSettingsStore behaviorSettingsStore;
     private readonly PetEngine engine;
     private readonly Scene scene;
     private readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(250)};
@@ -75,6 +86,7 @@ internal sealed class PetWindow : Window
     private bool quitting;
     private bool initialized;
     private Window? settings;
+    private static BehaviorEditorWindow? behaviorEditor;
     private TextBlock? layerStatus;
     private string windowStatus="桌面层级";
     private readonly string boot;
@@ -85,10 +97,11 @@ internal sealed class PetWindow : Window
 
     public PetWindow(Store storage,string[] arguments,PetEngine? existingEngine=null)
     {
-        store=storage;args=arguments;
+        store=storage;args=arguments;behaviorSettingsStore=new BehaviorSettingsStore(store.DirectoryPath);
         var state=existingEngine?.State??store.Load();
         if(Preview&&args.Contains("--preview-wake-test")){state.Sleeping=true;state.SleepingInNest=true;}
-        engine=existingEngine??new PetEngine(state);
+        var behaviorSettings=behaviorSettingsStore.Load();
+        engine=existingEngine??new PetEngine(state,settings:behaviorSettings);
         boot=Native.BootIdentifier();previousAwake=Native.AwakeSeconds;
         var elapsed=ClockMath.Elapsed(state.BootId,state.AwakeSeconds,boot,previousAwake);
         engine.AdvanceNeeds(elapsed.Seconds);state.ClockGap|=elapsed.Gap;state.BootId=boot;state.AwakeSeconds=previousAwake;
@@ -112,6 +125,7 @@ internal sealed class PetWindow : Window
         tray=new Forms.NotifyIcon{Icon=MakeIcon(),Text="陈皮 · 桌面小猫",Visible=true};
         var menu=new Forms.ContextMenuStrip();
         menu.Items.Add("陈皮的小日子 · 设置",null,(_,_)=>Dispatcher.Invoke(ShowSettings));
+        menu.Items.Add("行为工作台 · 流程与参数",null,(_,_)=>Dispatcher.Invoke(ShowBehaviorEditor));
         menu.Items.Add("召回猫猫",null,(_,_)=>Dispatcher.Invoke(()=>RunCommand(engine.Recall)));
         menu.Items.Add("显示 / 隐藏",null,(_,_)=>Dispatcher.Invoke(()=>hiddenByUser=!hiddenByUser));
         menu.Items.Add("退出陈皮",null,(_,_)=>Dispatcher.Invoke(Quit));tray.ContextMenuStrip=menu;
@@ -215,6 +229,7 @@ internal sealed class PetWindow : Window
             var shot=new DispatcherTimer{Interval=TimeSpan.FromSeconds(seconds)};shot.Tick+=(_,_)=>{shot.Stop();if(quitting)return;scene.SavePreview(snapshot);File.WriteAllText(snapshot+".json",System.Text.Json.JsonSerializer.Serialize(new{attached,parent=Native.GetParent(new WindowInteropHelper(this).Handle).ToInt64(),windowStatus,boot,awake=Native.AwakeSeconds,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.ClipTransitions,engine.State.X,engine.State.Y,engine.State.NestPosition,engine.State.FoodPosition,engine.State.WaterPosition,engine.State.LitterPosition,engine.State.RestDuration,engine.State.RestElapsed,engine.State.StillSeconds,engine.ToyHeld,engine.ToyOverlaps,scene.LiftTransitions,scene.MaxLiftTransitionMs,renderedFrames,averageFrameMs=renderedFrames>1?frameIntervals/(renderedFrames-1)*1000:0,maxFrameMs=maxFrameInterval*1000,averageDrawMs=scene.RenderMilliseconds/Math.Max(1,scene.RenderCount)}));if(args.Contains("--exit-after-snapshot"))Quit();};shot.Start();
         }
         if(args.Contains("--settings"))ShowSettings();
+        if(args.Contains("--behavior-editor"))ShowBehaviorEditor();
     }
     private void FitScreen()
     {
@@ -302,6 +317,7 @@ internal sealed class PetWindow : Window
     {scene.CancelDrag();hiddenByUser=false;command();Save();}
     private void Quit()
     {
+        if(behaviorEditor is not null){behaviorEditor.Close();if(behaviorEditor is not null)return;}
         scene.CancelDrag();StopHost();Save();store.Flush();settings?.Close();Close();System.Windows.Application.Current.Shutdown();
     }
     private void StopHost()
@@ -316,6 +332,12 @@ internal sealed class PetWindow : Window
     {
         var b=new CheckBox{Content=label,IsChecked=initial,FontSize=14,Margin=new Thickness(0,0,0,14),Foreground=Color("#514C43")};b.Checked+=(_,_)=>change(true);b.Unchecked+=(_,_)=>change(false);return b;
     }
+    private void ShowBehaviorEditor()
+    {
+        if(behaviorEditor is not null){behaviorEditor.Activate();return;}
+        var editor=new BehaviorEditorWindow(engine,behaviorSettingsStore,Save);behaviorEditor=editor;
+        editor.Closed+=(_,_)=>behaviorEditor=null;editor.Show();editor.Activate();
+    }
     private void ShowSettings()
     {
         if(settings is not null){settings.Activate();return;}
@@ -326,6 +348,7 @@ internal sealed class PetWindow : Window
         body.Children.Add(Text("一只住在桌面上的小猫。\n不用打卡，也没有惩罚，记得偶尔摸摸它。",13));
         if(store.Warning is not null)body.Children.Add(Text(store.Warning,12));
         if(store.WriteError is not null)body.Children.Add(Text("存档写入失败："+store.WriteError,12));
+        body.Children.Add(Button("行为工作台 · 流程图与参数",ShowBehaviorEditor));
         body.Children.Add(Toggle("悬浮在普通窗口上（全屏时隐藏）",engine.State.Floating,SwitchLayer));
         body.Children.Add(Toggle("开机显示小猫",AutoStartEnabled(),on=>{try{SetAutoStart(on);}catch(Exception e){System.Windows.MessageBox.Show(e.Message,"自启设置未保存");}}));
         body.Children.Add(Toggle("静音（保留动作提醒）",engine.State.Muted,on=>{engine.State.Muted=on;Save();}));

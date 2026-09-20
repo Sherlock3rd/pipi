@@ -17,6 +17,7 @@ Thumbs.db
 **/obj/
 artifacts/
 **/pet-state.json*
+**/behavior-settings.json*
 *.user
 *.suo
 *.lnk

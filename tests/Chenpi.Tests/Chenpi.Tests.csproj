@@ -9,4 +9,5 @@
   <ItemGroup><Compile Include="../../src/Chenpi/RestPlacement.cs" Link="RestPlacement.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/InteractionGeometry.cs" Link="InteractionGeometry.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/ExpressionPlayback.cs" Link="ExpressionPlayback.cs" /><Compile Include="../../src/Chenpi/Relaxation.cs" Link="Relaxation.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../../src/Chenpi/BehaviorSettings.cs" Link="BehaviorSettings.cs" /><Compile Include="../../src/Chenpi/BehaviorTuning.cs" Link="BehaviorTuning.cs" /></ItemGroup>
 </Project>

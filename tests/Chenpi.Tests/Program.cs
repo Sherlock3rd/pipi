@@ -808,4 +808,5 @@ using(var widthDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runtimeM
 CareRequestChecks.Run(Check);
 HeadLoweringTempoChecks.Run(Check,runtimeManifest);
 ExpressionChecks.Run(Check,runtimeManifest);
+BehaviorSettingsChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

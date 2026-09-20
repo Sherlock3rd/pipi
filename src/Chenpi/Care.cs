@@ -33,8 +33,7 @@ public sealed partial class PetEngine
     }
     private void ScheduleNext(string kind)
     {
-        var (minimum,maximum)=kind switch {"water"=>(600,1800),"food"=>(1200,3600),_=>(3600,7200)};
-        ClockFor(kind).NextDue=State.TotalSeconds+random.Next(minimum,maximum+1);Dirty=true;
+        ClockFor(kind).NextDue=State.TotalSeconds+Settings.Range(random,kind,60);Dirty=true;
     }
     private void RefreshAvailability()
     {
@@ -64,7 +63,7 @@ public sealed partial class PetEngine
         foreach(var kind in CareKinds)
         {
             var clock=ClockFor(kind);
-            if(kind!=except&&HasCareDemand(kind)&&!Available(kind)&&clock.UnavailableSince is double start&&State.TotalSeconds-start>=RequestDelay&&clock.LastRequested<oldest)
+            if(kind!=except&&HasCareDemand(kind)&&!Available(kind)&&clock.UnavailableSince is double start&&State.TotalSeconds-start>=Settings.Get("request.delay")&&clock.LastRequested<oldest)
             {chosen=kind;oldest=clock.LastRequested;}
         }
         return chosen;
@@ -114,9 +113,9 @@ public sealed partial class PetEngine
             {
                 if(ExpressionsEnabled&&VisualPoseReady?.Invoke("F",Now)==false)return true;
                 SetAction("request-"+kind,double.MaxValue,"等待主人注意");
-                if(Now-LastBeg>=35){LastBeg=Now;RequestedAttention?.Invoke();}
+                if(Now-LastBeg>=Settings.Get("request.sound")){LastBeg=Now;RequestedAttention?.Invoke();}
             }
-            if(ActionTime>=30&&ReadyRequest(kind) is string next)BeginRequest(next);
+            if(ActionTime>=Settings.Get("request.rotate")&&ReadyRequest(kind) is string next)BeginRequest(next);
             return true;
         }
         var goal=GuideDestination(kind);
@@ -134,14 +133,14 @@ public sealed partial class PetEngine
             }
             return true;
         }
-        guideFollowing=pointerKnown&&CatPlayCenter.Distance(guidePointer)<=(guideFollowing?FollowRadius+40:FollowRadius);
+        guideFollowing=pointerKnown&&CatPlayCenter.Distance(guidePointer)<=(Settings.Get("guide.radius")+(guideFollowing?40:0));
         double lookDuration=VisualActionDuration?.Invoke("guide-look",FacingLeft)??.6;
         if(Action=="guide-look")
         {
             if(ActionTime<lookDuration||!guideFollowing||ActionTime%lookDuration>dt+.000001)return true;
             guideTravelled=0;
         }
-        else if(Action=="guide-stop"||(IsClearRestSpot(State.X)&&(!guideFollowing||guideTravelled>=70)))
+        else if(Action=="guide-stop"||(IsClearRestSpot(State.X)&&(!guideFollowing||guideTravelled>=Settings.Get("guide.step"))))
         {
             if(Action!="guide-stop")SetAction("guide-stop",double.MaxValue,"停步后回头等待");
             if(VisualStandReady?.Invoke(Now,FacingLeft)!=false)SetAction("guide-look",lookDuration,"回头等主人跟上");
