@@ -147,7 +147,7 @@ internal sealed class PetWindow : Window
     }
     private static string RuntimeInformation()=>System.Runtime.InteropServices.RuntimeInformation.OSDescription;
     private void Save()=>store.QueueSave(engine.State);
-    private void Command(Action action){scene.CancelDrag();action();Save();}
+    private void Command(Action action){scene.CancelDrag();hidden=false;action();Save();}
     private async void Quit(){if(quitting)return;if(editor is BehaviorEditorWindow workbench&&!await workbench.RequestClose())return;if(quitting)return;quitting=true;timer.Stop();voice.Dispose();scene.Dispose();tray?.Dispose();Save();store.Flush();settings?.Close();Close();lifetime.Shutdown();}
     private static Button Button(string text,Action action){var b=new Button{Content=text,Margin=new Thickness(0,0,8,10)};b.Click+=(_,_)=>action();return b;}
     private static TextBlock Text(string value,double size=14)=>new(){Text=value,FontSize=size,TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,0,0,12)};
@@ -163,7 +163,7 @@ internal sealed class PetWindow : Window
         if(OperatingSystem.IsMacOS())body.Children.Add(Toggle("开机显示小猫",AutoStart.Enabled,on=>{try{AutoStart.Set(on);status.Text="自启设置已保存";}catch(Exception e){status.Text=e.Message;}}));
         body.Children.Add(Toggle("静音（保留动作提醒）",engine.State.Muted,on=>{engine.State.Muted=on;if(on)voice.Silence();Save();}));
         body.Children.Add(Text("小猫与物件大小",12));var size=new Slider{Minimum=.7,Maximum=1.4,Value=engine.State.Scale,TickFrequency=.1,IsSnapToTickEnabled=true};size.ValueChanged+=(_,_)=>{engine.State.Scale=size.Value;scene.LayoutWorld();Save();};body.Children.Add(size);
-        body.Children.Add(Text("叫声音量",12));var volume=new Slider{Minimum=0,Maximum=1,Value=engine.State.Volume};volume.ValueChanged+=(_,_)=>{engine.State.Volume=volume.Value;Save();};body.Children.Add(volume);
+        body.Children.Add(Text("叫声音量",12));var volume=new Slider{Minimum=0,Maximum=1,Value=engine.State.Volume};volume.ValueChanged+=(_,_)=>{engine.State.Volume=volume.Value;voice.SetVolume(volume.Value);Save();};body.Children.Add(volume);
         var controls=new WrapPanel();controls.Children.Add(Button("召回猫猫",()=>Command(engine.Recall)));controls.Children.Add(Button("恢复摆放",()=>Command(()=>{engine.Layout(scene.WorldWidth,scene.WorldHeight,true);engine.Recall();})));controls.Children.Add(Button("显示 / 隐藏",()=>hidden=!hidden));body.Children.Add(controls);
         body.Children.Add(Text("体验动作"));var demo=new WrapPanel();foreach(var (label,action) in new[]{("吃饭","eat"),("喝水","drink"),("猫砂盆","toilet"),("回窝","sleep")})demo.Children.Add(Button(label,()=>Command(()=>engine.Demo(action))));body.Children.Add(demo);
         body.Children.Add(Text("点食水盆补给，点猫砂盆清理。\n拖动物品可以搬家；长按小猫拎起，拖进窝里松手睡觉。\n点羽毛棒拿起，再点一次归位。\n仅猫窝右键打开设置。",12));body.Children.Add(Button("退出陈皮",Quit));

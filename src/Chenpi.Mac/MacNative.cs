@@ -141,5 +141,6 @@ internal sealed class MacVoice : IDisposable
         {active=player;MacNative.SendFloat(player,MacNative.Selector("setVolume:"),(float)Math.Clamp(volume,0,1));MacNative.Send(player,MacNative.Selector("play"));}
     }
     internal void Silence(){if(active==IntPtr.Zero)return;MacNative.Send(active,MacNative.Selector("stop"));active=IntPtr.Zero;}
+    internal void SetVolume(double volume){if(active==IntPtr.Zero)return;MacNative.SendFloat(active,MacNative.Selector("setVolume:"),(float)Math.Clamp(volume,0,1));if(volume<=0)Silence();}
     public void Dispose(){Silence();foreach(var p in sounds.Values)MacNative.Send(p,MacNative.Selector("release"));sounds.Clear();}
 }
