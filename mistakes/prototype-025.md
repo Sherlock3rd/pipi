@@ -20,3 +20,7 @@
 ## Mac 包签名追加
 
 首轮两种架构均编译通过，但 `.app/Contents/MacOS` 散放托管 PE DLL 时，严格签名报 `code object is not signed at all`（子项 `System.Diagnostics.Contracts.dll`）。改为不裁剪的 single-file 程序集、数据放标准 Resources、原生库先签、应用最后签。禁止跳过签名校验来声称包可用；增加压缩前的快速 Mac 原生启动测试，避免每次等待全量压缩后才发现宿主问题。
+
+## 参数面板追加
+
+Avalonia 文本事件与 WPF 的同步时机不同；仅依赖 `TextChanged` 更新草稿，程序夹具连续设值后立即保存会读到旧值。保存、导出、切换节点与关闭前直接读取当前控件，并忽略已被替换控件的延迟事件。夹具实际验证保存回读、非法值拒绝、照料期限重排及默认草稿隔离；不以共享模型测试替代宿主 UI 测试。

@@ -7,6 +7,7 @@
 - Windows 保留 WPF；macOS 新增 Avalonia 原生桌面宿主，链接同一套行为树、照料、动作播放、支撑几何、存档与参数代码。场景绘图抽到 `Scene.Artwork.cs` 共用，未改原动画帧、尺寸、脚底、帧率或流程。
 - Mac 提供透明窗口、桌面/悬浮层切换、按物件命中动态点击穿透、不抢键盘焦点、当前主屏全屏避让、菜单栏召回/显隐/退出、猫窝右键设置、参数工作台与原声嘴型绑定。主屏范围沿用 Windows 当前产品边界。
 - Mac 存档在 `~/Library/Application Support/Chenpi`，采用原版本与备份格式。只在用户打开设置开关时写入自己的 `~/Library/LaunchAgents/com.chenpi.desktop.plist`，不默认启用自启。
+- 行为工作台保留草稿保存、撤销、恢复默认、JSON 导入导出、关闭前保存提示、当前决策与照料倒计时；开关沿用勾选交互。保存/切换参数前直接读取输入框，避免延迟的文本事件漏掉最后一次修改。
 - 首轮支持 macOS 15 及以上，分别发布 `osx-arm64` 和 `osx-x64` 自包含 `.app`，不要求用户安装 .NET。系统范围依据 [.NET 10 支持表](https://github.com/dotnet/core/blob/main/release-notes/10.0/supported-os.md)。
 
 ## 无损包体
@@ -23,6 +24,13 @@
 
 ## 构建
 
+下载后使用：
+
+1. 在苹果菜单的“关于本机”查看芯片：Apple 芯片用 `Chenpi-osx-arm64.zip`，Intel 处理器用 `Chenpi-osx-x64.zip`。两包无需同时安装。[Apple 芯片辨别说明](https://support.apple.com/zh-cn/116943)。
+2. 在 Mac 上解压，把 `Chenpi.app` 拖进“应用程序”，双击启动。需要 macOS 15 或以上；无需安装 .NET、Python 或开发工具。
+3. 当前是本地 ad-hoc 签名，尚未 Developer ID 公证。首次被系统拦截时，核对来源后按 [Apple 的打开说明](https://support.apple.com/zh-cn/102445) 在“系统设置 → 隐私与安全性”选择“仍要打开”。不需要关闭系统安全功能。
+4. 猫窝右键进入设置与行为工作台；菜单栏小猫可召回、显示/隐藏或退出。自启开关在设置里，默认不启用。
+
 ```sh
 python -m pip install -r tools/requirements-release.txt
 python tools/package_runtime.py --output artifacts/runtime-assets
@@ -38,6 +46,7 @@ Mac 程序集采用 .NET single-file 合并（不裁剪代码、不启用启动�
 
 - 当前 761 项共享行为/缓存检查和 13 项 Windows 原生窗口检查通过；两端 Release 编译通过。
 - 全量打包后的 Pillow RGBA 像素回查通过；WPF 实际解码/预乘/裁切后 15,349 帧逐帧一致，像素和边界差异均为零。结果见 `docs/qa/macos-resources/windows-pixel-audit.json`。
+- WPF 无损发布包的 82 个左右进窝合成样本错误身体遮挡为 0，旧错误负对照仍检出 3140 像素；Avalonia 工作台本地 UI 夹具通过保存回读、无效值拦截、照料重排和默认草稿隔离检查，真实 Mac 同步运行此夹具。
 - Windows 单独运行优化版完整 60 秒开场，工作集 310,710,272 字节（约 311 MB），峰值约 350 MB；原版采样约 4.69 GB。P95 帧间隔 17.56 ms，平均 16.72 ms，首个睡眠帧一次 63.20 ms。原版与优化版早期重叠运行的性能采样不用于流畅度结论。不能将 Windows 工作集作为 Mac 内存实测，结果见 `docs/qa/macos-resources/windows-performance.json`。
 - GitHub Actions 按 [macOS 官方 runner 架构](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) 分开运行 Apple Silicon 与 Intel。原生测试检查独立进程普通窗口/全屏窗口、窗口层级往返、点击穿透往返、非激活标记、鼠标坐标及 85 秒开场。CI 结果尚待本轮执行，不等于人工验证真实游戏、Spaces、Retina 和拖拽手感。
 

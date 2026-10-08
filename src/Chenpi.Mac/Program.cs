@@ -83,6 +83,11 @@ internal sealed class PetWindow : Window
             MacNative.Configure(this,engine.State.Floating,false);
             CreateTray();lastFrame=clock.Elapsed.TotalSeconds;timer.Start();RequestAnimationFrame(AnimationFrame);
             if(Program.Args.Contains("--settings"))ShowSettings();
+            if(Program.Option("--editor-audit") is string editorOutput)
+            {
+                var audit=new BehaviorEditorWindow(engine,settingsStore,Save,Command);editor=audit;audit.Closed+=(_,_)=>editor=null;
+                audit.Opened+=(_,_)=>Dispatcher.UIThread.Post(()=>audit.RunFixture(editorOutput),DispatcherPriority.Loaded);audit.Show();
+            }
         };
         timer.Tick+=(_,_)=>Maintenance();
         Closing+=(_,e)=>{if(!quitting){e.Cancel=true;hidden=true;}};
@@ -143,7 +148,7 @@ internal sealed class PetWindow : Window
     private static string RuntimeInformation()=>System.Runtime.InteropServices.RuntimeInformation.OSDescription;
     private void Save()=>store.QueueSave(engine.State);
     private void Command(Action action){scene.CancelDrag();action();Save();}
-    private void Quit(){if(quitting)return;quitting=true;timer.Stop();voice.Dispose();scene.Dispose();tray?.Dispose();Save();store.Flush();settings?.Close();editor?.Close();Close();lifetime.Shutdown();}
+    private async void Quit(){if(quitting)return;if(editor is BehaviorEditorWindow workbench&&!await workbench.RequestClose())return;if(quitting)return;quitting=true;timer.Stop();voice.Dispose();scene.Dispose();tray?.Dispose();Save();store.Flush();settings?.Close();Close();lifetime.Shutdown();}
     private static Button Button(string text,Action action){var b=new Button{Content=text,Margin=new Thickness(0,0,8,10)};b.Click+=(_,_)=>action();return b;}
     private static TextBlock Text(string value,double size=14)=>new(){Text=value,FontSize=size,TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,0,0,12)};
     private CheckBox Toggle(string label,bool value,Action<bool> action){var c=new CheckBox{Content=label,IsChecked=value,Margin=new Thickness(0,0,0,10)};c.IsCheckedChanged+=(_,_)=>action(c.IsChecked==true);return c;}

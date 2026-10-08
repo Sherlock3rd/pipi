@@ -6,6 +6,7 @@ using Avalonia.Collections;
 using Avalonia.Threading;
 using Avalonia.Platform.Storage;
 using System.Globalization;
+using Path=System.IO.Path;
 
 namespace Chenpi;
 internal sealed class BehaviorEditorWindow : Window
@@ -23,6 +24,11 @@ internal sealed class BehaviorEditorWindow : Window
     private readonly Dictionary<string,TextBox> fields=new();
     private readonly Dictionary<string,string> invalid=new();
     private readonly TextBlock status=new(){TextWrapping=TextWrapping.Wrap};
+    private readonly TextBlock live=new(){TextWrapping=TextWrapping.Wrap};
+    private readonly Queue<string> transitions=new();
+    private string prior="";
+    private bool dirty,discardOnClose;
+    private Task<bool>? closeRequest;
     private readonly CheckBox restart=new(){Content="重新计时三项照料期限"};
     private readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(250)};
     public BehaviorEditorWindow(PetEngine engine,BehaviorSettingsStore store,Action save,Action<Action> command)
@@ -32,13 +38,15 @@ internal sealed class BehaviorEditorWindow : Window
         var root=new DockPanel();Content=root;var top=new StackPanel{Margin=new Thickness(15)};DockPanel.SetDock(top,Dock.Top);root.Children.Add(top);
         top.Children.Add(Label("行为工作台 · 流程图与参数",24));var buttons=new WrapPanel();top.Children.Add(buttons);
         foreach(var (label,id) in new[]{("全局流程","global"),("睡姿关系","poses"),("启动开场","startup")})buttons.Children.Add(Button(label,()=>{view=id;BuildGraph();}));
-        buttons.Children.Add(Button("全部参数",()=>{selected="";BuildInspector();}));buttons.Children.Add(Button("保存并应用",Apply));
-        buttons.Children.Add(Button("撤销草稿",()=>{draft=engine.Settings.Copy();invalid.Clear();BuildInspector();}));buttons.Children.Add(Button("恢复默认草稿",()=>{draft=new();invalid.Clear();BuildInspector();}));
-        buttons.Children.Add(Button("导入 JSON",()=>_ = Import()));buttons.Children.Add(Button("导出 JSON",()=>_ = Export()));top.Children.Add(restart);top.Children.Add(status);
+        buttons.Children.Add(Button("全部参数",()=>{ReadFields();selected="";BuildInspector();}));buttons.Children.Add(Button("保存并应用",()=>Apply()));
+        buttons.Children.Add(Button("撤销草稿",()=>ResetDraft(false)));buttons.Children.Add(Button("恢复默认草稿",()=>ResetDraft(true)));
+        buttons.Children.Add(Button("导入 JSON",()=>_ = Import()));buttons.Children.Add(Button("导出 JSON",()=>_ = Export()));top.Children.Add(restart);top.Children.Add(status);top.Children.Add(live);
         var grid=new Grid{ColumnDefinitions=new ColumnDefinitions("*,350")};root.Children.Add(grid);
         grid.Children.Add(new ScrollViewer{Content=canvas,HorizontalScrollBarVisibility=Avalonia.Controls.Primitives.ScrollBarVisibility.Auto});
         var side=new ScrollViewer{Content=inspector};Grid.SetColumn(side,1);grid.Children.Add(side);
-        BuildGraph();BuildInspector();timer.Tick+=(_,_)=>PaintNodes();timer.Start();Closed+=(_,_)=>timer.Stop();
+        BuildGraph();BuildInspector();RefreshLive();timer.Tick+=(_,_)=>RefreshLive();timer.Start();Closed+=(_,_)=>timer.Stop();
+        if(store.Warning is string warning)status.Text=warning;
+        Closing+=(_,e)=>{if(discardOnClose)return;ReadFields();if(dirty){e.Cancel=true;_ = RequestClose();}};
     }
     private static SolidColorBrush Brush(string hex)=>new(Color.Parse(hex));
     private static TextBlock Label(string text,double size=14,string color="#527166")=>new(){Text=text,FontSize=size,Foreground=Brush(color),TextWrapping=TextWrapping.Wrap};
@@ -58,7 +66,7 @@ internal sealed class BehaviorEditorWindow : Window
         var node=Nodes.First(n=>n.Id==id);var body=new StackPanel{Margin=new Thickness(15,12)};body.Children.Add(Label(title??node.Title,18));
         var hint=Label("单击查看参数 · 双击执行",11);body.Children.Add(hint);
         var border=new Border{Width=width,MinHeight=80,CornerRadius=new CornerRadius(12),BorderThickness=new Thickness(1.5),Child=body};
-        ToolTip.SetTip(border,node.Detail);border.PointerPressed+=(_,e)=>{selected=id;BuildInspector();PaintNodes();if(e.ClickCount==2)command(()=>status.Text=engine.ExecuteBehavior(id));e.Handled=true;};Canvas.SetLeft(border,x);Canvas.SetTop(border,y);canvas.Children.Add(border);nodeBorders[id]=border;
+        ToolTip.SetTip(border,node.Detail);border.PointerPressed+=(_,e)=>{if(!e.GetCurrentPoint(border).Properties.IsLeftButtonPressed)return;ReadFields();selected=id;BuildInspector();PaintNodes();if(e.ClickCount==2)command(()=>status.Text=engine.ExecuteBehavior(id));e.Handled=true;};Canvas.SetLeft(border,x);Canvas.SetTop(border,y);canvas.Children.Add(border);nodeBorders[id]=border;
     }
     private void PaintNodes()
     {foreach(var (id,border) in nodeBorders){bool active=id==engine.ActiveBehaviorNode||engine.ActiveBehaviorNode=="poses"&&id=="pose-"+engine.RelaxedPose;border.Background=Brush(active?"#E1F2E9":"#FFFFFF");border.BorderBrush=Brush(id==selected?"#247A68":active?"#78AD94":"#D6E1D9");}}
@@ -71,17 +79,67 @@ internal sealed class BehaviorEditorWindow : Window
         {inspector.Children.Add(Label(engine.WallStatus,12));foreach(string side in new[]{"left","right"})inspector.Children.Add(Button(side=="left"?"左侧扶墙":"右侧扶墙",()=>command(()=>status.Text=engine.ExecuteBehavior("wall-"+side))));}
         foreach(var p in BehaviorSettings.Catalog.Where(p=>node is null||node.Groups.Contains(p.Group)))
         {
+            if(p.Unit=="开关")
+            {
+                var toggle=new CheckBox{Content=p.Label,IsChecked=draft.Get(p.Key)==1};
+                toggle.IsCheckedChanged+=(_,_)=>{double value=toggle.IsChecked==true?1:0;if(draft.Get(p.Key)==value)return;draft.Values[p.Key]=value;dirty=true;status.Text="有未保存的草稿";};
+                inspector.Children.Add(toggle);inspector.Children.Add(Label(p.Help,11));continue;
+            }
             inspector.Children.Add(Label(p.Label+"（"+p.Unit+"）",14));var box=new TextBox{Text=invalid.GetValueOrDefault(p.Key)??draft.Get(p.Key).ToString(CultureInfo.InvariantCulture),Margin=new Thickness(0,4,0,4)};
-            box.TextChanged+=(_,_)=>{if(double.TryParse(box.Text,NumberStyles.Float,CultureInfo.InvariantCulture,out var value)&&double.IsFinite(value)&&value>=p.Min&&value<=p.Max){draft.Values[p.Key]=value;invalid.Remove(p.Key);}else invalid[p.Key]=box.Text??"";};
+            box.TextChanged+=(_,_)=>{if(fields.TryGetValue(p.Key,out var current)&&ReferenceEquals(current,box))ReadField(p.Key,box);};
             fields[p.Key]=box;inspector.Children.Add(box);inspector.Children.Add(Label(p.Help+" 范围 "+p.Min+"～"+p.Max,11));
         }
     }
-    private void Apply()
-    {try{if(invalid.Count>0)throw new InvalidDataException("请修正无效参数："+string.Join("、",invalid.Keys));draft.Validate();store.Save(draft);engine.ApplyBehaviorSettings(draft,restart.IsChecked==true);restart.IsChecked=false;save();status.Text="已保存并应用；当前动作完整衔接，后续决策使用新参数。";}catch(Exception e){status.Text=e.Message;}}
+    private void ReadFields(){foreach(var (key,box) in fields)ReadField(key,box);}
+    private void ReadField(string key,TextBox box)
+    {
+        var p=BehaviorSettings.Catalog.First(p=>p.Key==key);
+        if(double.TryParse(box.Text,NumberStyles.Float,CultureInfo.InvariantCulture,out var value)&&double.IsFinite(value)&&value>=p.Min&&value<=p.Max)
+        {if(value==draft.Get(key)&&!invalid.ContainsKey(key))return;draft.Values[key]=value;invalid.Remove(key);}
+        else {if(invalid.GetValueOrDefault(key)==box.Text)return;invalid[key]=box.Text??"";}
+        dirty=true;status.Text="有未保存的草稿 · 当前运行参数尚未改变";
+    }
+    private bool Apply()
+    {try{ReadFields();if(invalid.Count>0)throw new InvalidDataException("请修正无效参数："+string.Join("、",invalid.Keys));draft.Validate();store.Save(draft);engine.ApplyBehaviorSettings(draft,restart.IsChecked==true);restart.IsChecked=false;dirty=false;save();status.Text="已保存并应用；当前动作完整衔接，后续决策使用新参数。";return true;}catch(Exception e){status.Text=e.Message;return false;}}
+    private void ResetDraft(bool defaults){draft=defaults?new():engine.Settings.Copy();invalid.Clear();restart.IsChecked=false;dirty=defaults;BuildInspector();status.Text=defaults?"默认值已载入草稿；保存后才生效。":"已撤销未保存的修改。";}
+    private void RefreshLive()
+    {
+        string active=engine.ActiveBehaviorNode,name=Nodes.FirstOrDefault(n=>n.Id==active)?.Title??active;
+        if(prior!=engine.Action){prior=engine.Action;transitions.Enqueue($"{DateTime.Now:HH:mm:ss}  {name}");while(transitions.Count>4)transitions.Dequeue();}
+        var due=engine.CareSecondsRemaining;
+        live.Text="当前决策："+name+"\n"+string.Join("  →  ",transitions)+$"\n下次照料：饭 {due["food"]/60:0.#} / 水 {due["water"]/60:0.#} / 砂 {due["litter"]/60:0.#} 分钟";PaintNodes();
+    }
+    public Task<bool> RequestClose(){ReadFields();return closeRequest??=ConfirmClose();}
+    private async Task<bool> ConfirmClose()
+    {
+        try
+        {
+            if(dirty)
+            {
+                var dialog=new Window{Title="尚有未保存的修改",Width=410,Height=170,CanResize=false,WindowStartupLocation=WindowStartupLocation.CenterOwner};
+                var body=new StackPanel{Margin=new Thickness(20)};body.Children.Add(Label("保存当前行为参数草稿？",18));var choices=new WrapPanel{Margin=new Thickness(0,20,0,0)};
+                choices.Children.Add(Button("保存并关闭",()=>dialog.Close(2)));choices.Children.Add(Button("放弃草稿",()=>dialog.Close(1)));choices.Children.Add(Button("取消",()=>dialog.Close(0)));body.Children.Add(choices);dialog.Content=body;
+                int result=await dialog.ShowDialog<int>(this);if(result==0||result==2&&!Apply())return false;
+            }
+            discardOnClose=true;Close();return true;
+        }
+        finally{closeRequest=null;}
+    }
+    internal void RunFixture(string output)
+    {
+        Directory.CreateDirectory(output);selected="rest";BuildInspector();fields["sleep.delay"].Text="12";
+        if(!Apply()||store.Load().Get("sleep.delay")!=12)throw new InvalidOperationException("Editor apply/read-back failed");
+        fields["sleep.delay"].Text="-1";if(Apply()||engine.Settings.Get("sleep.delay")!=12)throw new InvalidOperationException("Invalid editor value applied");
+        ResetDraft(false);selected="food";BuildInspector();fields["food.min"].Text="2";fields["food.max"].Text="2";restart.IsChecked=true;
+        if(!Apply()||Math.Abs(engine.CareSecondsRemaining["food"]-120)>.001)throw new InvalidOperationException("Care reschedule failed");
+        ResetDraft(true);if(!dirty||engine.Settings.Get("sleep.delay")!=12)throw new InvalidOperationException("Defaults bypassed draft");ResetDraft(false);
+        UpdateLayout();using var image=new Avalonia.Media.Imaging.RenderTargetBitmap(new PixelSize((int)Bounds.Width,(int)Bounds.Height));image.Render(this);image.Save(Path.Combine(output,"editor.png"));
+        File.WriteAllText(Path.Combine(output,"verification.json"),"{\"applyAndReadBack\":true,\"invalidRejected\":true,\"careReschedule\":true,\"draftIsolation\":true}");
+    }
     private async Task Import()
-    {try{var picks=await StorageProvider.OpenFilePickerAsync(new(){Title="导入行为参数",AllowMultiple=false});if(picks.Count==0)return;await using var stream=await picks[0].OpenReadAsync();using var reader=new StreamReader(stream);draft=BehaviorSettingsStore.Parse(await reader.ReadToEndAsync());invalid.Clear();BuildInspector();status.Text="已导入草稿，保存后应用。";}catch(Exception e){status.Text=e.Message;}}
+    {try{var picks=await StorageProvider.OpenFilePickerAsync(new(){Title="导入行为参数",AllowMultiple=false});if(picks.Count==0)return;await using var stream=await picks[0].OpenReadAsync();using var reader=new StreamReader(stream);draft=BehaviorSettingsStore.Parse(await reader.ReadToEndAsync());invalid.Clear();dirty=true;BuildInspector();status.Text="已导入草稿，保存后应用。";}catch(Exception e){status.Text=e.Message;}}
     private async Task Export()
-    {try{if(invalid.Count>0)throw new InvalidDataException("请先修正无效参数");draft.Validate();var file=await StorageProvider.SaveFilePickerAsync(new(){Title="导出行为参数",SuggestedFileName="chenpi-behavior.json"});if(file is null)return;await using var stream=await file.OpenWriteAsync();stream.SetLength(0);await System.Text.Json.JsonSerializer.SerializeAsync(stream,draft,new System.Text.Json.JsonSerializerOptions{WriteIndented=true});status.Text="已导出当前草稿。";}catch(Exception e){status.Text=e.Message;}}
+    {try{ReadFields();if(invalid.Count>0)throw new InvalidDataException("请先修正无效参数");draft.Validate();var file=await StorageProvider.SaveFilePickerAsync(new(){Title="导出行为参数",SuggestedFileName="chenpi-behavior.json"});if(file is null)return;await using var stream=await file.OpenWriteAsync();stream.SetLength(0);await System.Text.Json.JsonSerializer.SerializeAsync(stream,draft,new System.Text.Json.JsonSerializerOptions{WriteIndented=true});status.Text="已导出当前草稿。";}catch(Exception e){status.Text=e.Message;}}
     private void BuildGraph()
     {
         canvas.Children.Clear();nodeBorders.Clear();canvas.Width=1040;canvas.Height=view=="global"?1220:view=="startup"?1120:950;

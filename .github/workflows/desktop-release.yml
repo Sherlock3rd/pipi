@@ -51,8 +51,9 @@ jobs:
           codesign --force --sign - --entitlements packaging/macos/entitlements.plist artifacts/native-probe/Chenpi.Mac
           python tools/test_macos_native.py artifacts/native-probe/Chenpi.Mac
           mkdir -p artifacts/early-native-qa
-          artifacts/native-probe/Chenpi.Mac --preview --native-audit --data-dir "$PWD/artifacts/early-native-qa/save" --snapshot "$PWD/artifacts/early-native-qa/scene.png" --exit-after 20
+          artifacts/native-probe/Chenpi.Mac --preview --native-audit --editor-audit "$PWD/artifacts/early-native-qa/editor" --data-dir "$PWD/artifacts/early-native-qa/save" --snapshot "$PWD/artifacts/early-native-qa/scene.png" --exit-after 20
           test -f artifacts/early-native-qa/save/native-audit.txt
+          test -f artifacts/early-native-qa/editor/verification.json
           test ! -f artifacts/early-native-qa/save/error.log
       - uses: actions/cache/restore@v4
         id: asset-cache
@@ -69,17 +70,22 @@ jobs:
           key: ${{ steps.asset-cache.outputs.cache-primary-key }}
       - name: Build and ad-hoc sign app bundle
         run: python tools/build_release.py --rid ${{ matrix.rid }} --assets artifacts/runtime-assets
+      - name: Verify the extracted distributable
+        run: |
+          mkdir -p artifacts/unpacked
+          ditto -x -k dist/releases/Chenpi-${{ matrix.rid }}.zip artifacts/unpacked
+          codesign --verify --deep --strict artifacts/unpacked/Chenpi.app
       - name: Native full-screen and normal-window checks
-        run: python tools/test_macos_native.py dist/releases/${{ matrix.rid }}/Chenpi.app/Contents/MacOS/Chenpi.Mac
+        run: python tools/test_macos_native.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac
       - name: Native startup and frame-cache smoke test
         run: |
           mkdir -p artifacts/native-qa
-          dist/releases/${{ matrix.rid }}/Chenpi.app/Contents/MacOS/Chenpi.Mac --preview --native-audit --data-dir "$PWD/artifacts/native-qa/save" --snapshot "$PWD/artifacts/native-qa/scene.png" --exit-after 85
+          artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --preview --native-audit --data-dir "$PWD/artifacts/native-qa/save" --snapshot "$PWD/artifacts/native-qa/scene.png" --exit-after 85
           test -f artifacts/native-qa/save/native-audit.txt
           test -f artifacts/native-qa/scene.png.json
           test ! -f artifacts/native-qa/save/error.log
       - name: Transparent desktop host and screenshot
-        run: python tools/test_macos_desktop.py dist/releases/${{ matrix.rid }}/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa
+        run: python tools/test_macos_desktop.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa
       - uses: actions/upload-artifact@v4
         if: always()
         with:

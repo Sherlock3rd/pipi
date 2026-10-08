@@ -1,0 +1,6 @@
+{
+  "samples": 82,
+  "OldWorst": 3140,
+  "NewWorst": 0,
+  "scope": "WPF packed release, actual composite pixels, same shared artwork source as macOS"
+}
