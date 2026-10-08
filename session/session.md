@@ -398,3 +398,8 @@ v5 index.html改为自包含页面：18张原PNG去重内嵌，覆盖82首尾图
 正式安装逐文件核对4457 PNG及处理记录、5清单/音频文件、252发布根文件；个人摆放/静音False/音量0.25/行为配置保留，自启开关仍关闭。备份与安装时间20260920-205852，新进程254416。运行诊断文件在新启动后持续更新，遵守当前全屏隐藏。详细证据docs/qa/completion-v5/verification.json，说明docs/completion-v5-integration.md；开场有声预览artifacts/completion-v5-integration/startup-greeting.mp4。制作索引/清单已标已接入，首尾图与提示词继续保留。待精修包括真正三连叫117、92可见嘴型以及既有86/62/63/74与6处旧接缝。
 
 当前进一步确认单屏电脑运行 Wallpaper Engine 时也会出现桌面层遮挡。已加入运行时检测：发现 Wallpaper Engine 临时使用兼容悬浮层，退出后恢复用户保存的显示模式。
+
+
+## 2026-10-08 macOS 与无损资源优化
+
+用户要求 Mac 适配，确认 Apple 芯片与 Intel 均支持，并要求不降低画质和流畅性地优化包体与内存。新增 Avalonia 宿主，共用原行为和绘图；全量15349帧逐像素无损回查通过，发布素材1508809307→805360830字节。96 MiB帧缓存、后续帧预读和弱引用边界表取代全量解码。758共享检查、13 Windows检查及两端编译通过。已完成Windows隔离预览；Mac原生CI及WPF全帧预乘像素回查进行中，未覆盖正式安装、个人存档或自启。详见docs/macos-and-resources.md及session/requirements/macos-and-resources.md。提交与最终验证另记。

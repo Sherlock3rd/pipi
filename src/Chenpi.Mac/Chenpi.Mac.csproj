@@ -1,0 +1,19 @@
+<Project Sdk="Microsoft.NET.Sdk">
+  <PropertyGroup>
+    <OutputType>WinExe</OutputType>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <AssemblyName>Chenpi.Mac</AssemblyName>
+    <DefineConstants>$(DefineConstants);AVALONIA</DefineConstants>
+    <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
+  </PropertyGroup>
+  <ItemGroup>
+    <PackageReference Include="Avalonia.Desktop" Version="11.3.22" />
+    <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.22" />
+    <Compile Include="../Chenpi/Model.cs;../Chenpi/Care.cs;../Chenpi/Store.cs;../Chenpi/AnimationVariants.cs;../Chenpi/SpritePlayback.cs;../Chenpi/TravelPlayback.cs;../Chenpi/FullscreenPolicy.cs;../Chenpi/AlphaMatte.cs;../Chenpi/RestPlacement.cs;../Chenpi/InteractionGeometry.cs;../Chenpi/ExpressionPlayback.cs;../Chenpi/Relaxation.cs;../Chenpi/BehaviorSettings.cs;../Chenpi/BehaviorTuning.cs;../Chenpi/BehaviorPreview.cs;../Chenpi/MovementChoices.cs;../Chenpi/VoiceCues.cs;../Chenpi/CompletionPlayback.cs;../Chenpi/StartupGreeting.cs;../Chenpi/FrameCache.cs;../Chenpi/FrameSequence.cs;../Chenpi/RuntimeAssets.cs;../Chenpi/BehaviorGraph.cs;../Chenpi/Scene.Artwork.cs" Link="Shared/%(Filename)%(Extension)" />
+  </ItemGroup>
+  <ItemGroup Condition="'$(SkipAssetCopy)' != 'true'">
+    <Content Include="../../assets/**" Link="assets/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
+  </ItemGroup>
+</Project>

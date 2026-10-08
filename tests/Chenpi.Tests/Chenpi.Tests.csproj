@@ -14,4 +14,5 @@
   <ItemGroup><Compile Include="../../src/Chenpi/MovementChoices.cs" Link="MovementChoices.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/VoiceCues.cs" Link="VoiceCues.cs" /></ItemGroup>
   <ItemGroup><Compile Include="../../src/Chenpi/CompletionPlayback.cs" Link="CompletionPlayback.cs" /><Compile Include="../../src/Chenpi/StartupGreeting.cs" Link="StartupGreeting.cs" /></ItemGroup>
+  <ItemGroup><Compile Include="../../src/Chenpi/FrameCache.cs" Link="FrameCache.cs" /><Compile Include="../../src/Chenpi/FrameSequence.cs" Link="FrameSequence.cs" /></ItemGroup>
 </Project>

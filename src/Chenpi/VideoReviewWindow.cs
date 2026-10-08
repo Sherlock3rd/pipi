@@ -135,7 +135,7 @@ internal sealed class VideoReviewWindow : Window
         {
             string path=Path.GetFullPath(Path.Combine(root,relative));
             if(!path.StartsWith(root+Path.DirectorySeparatorChar,StringComparison.OrdinalIgnoreCase))throw new InvalidDataException("Frame outside review directory");
-            var image=new BitmapImage();image.BeginInit();image.CacheOption=BitmapCacheOption.OnLoad;image.UriSource=new Uri(path);image.EndInit();image.Freeze();frames.Add(Scene.PrepareBitmap(image,false,out _,8,!preparedMatte));
+            var image=Scene.DecodeSource(path);frames.Add(Scene.PrepareBitmap(image,false,out _,8,!preparedMatte));
         }
         elapsed=0;previous=clock.Elapsed.TotalSeconds;sync=true;seek.Maximum=Math.Max(0,frames.Count-1);seek.Value=0;sync=false;RenderFrame();
     }

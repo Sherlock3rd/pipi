@@ -17,6 +17,8 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-resource-pack") is string sourceAssets)
+        {ResourceAudit.Run(Path.GetFullPath(sourceAssets),Option(args,"--audit-output")??"resource-audit.json");return;}
         if(Option(args,"--audit-completion") is string completionAudit)
         {
             Directory.CreateDirectory(completionAudit);
@@ -382,7 +384,7 @@ internal sealed class PetWindow : Window
         scene.CancelDrag();StopHost();Save();store.Flush();settings?.Close();Close();System.Windows.Application.Current.Shutdown();
     }
     private void StopHost()
-    {quitting=true;timer.Stop();CompositionTarget.Rendering-=RenderFrame;scene.FramePresented-=OnFramePresented;voice.Dispose();SystemEvents.DisplaySettingsChanged-=OnDisplays;tray.Visible=false;tray.Dispose();}
+    {quitting=true;timer.Stop();CompositionTarget.Rendering-=RenderFrame;scene.FramePresented-=OnFramePresented;voice.Dispose();scene.ReleaseFrames();SystemEvents.DisplaySettingsChanged-=OnDisplays;tray.Visible=false;tray.Dispose();}
     private static Brush Color(string value)=>new SolidColorBrush((System.Windows.Media.Color)ColorConverter.ConvertFromString(value));
     private static TextBlock Text(string value,double size=14,string color="#685C51")=>new(){Text=value,FontSize=size,Foreground=Color(color),TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,0,0,12)};
     private static Button Button(string text,Action click)
