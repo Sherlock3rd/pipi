@@ -1,0 +1,47 @@
+name: Native macOS sustained memory check
+on:
+  workflow_dispatch:
+    inputs:
+      release_run:
+        description: Successful desktop release run to verify
+        required: true
+        type: string
+permissions:
+  contents: read
+  actions: read
+jobs:
+  memory:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - runner: macos-15
+            rid: osx-arm64
+          - runner: macos-15-intel
+            rid: osx-x64
+    runs-on: ${{ matrix.runner }}
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools
+      - uses: actions/download-artifact@v4
+        with:
+          name: Chenpi-${{ matrix.rid }}
+          run-id: ${{ inputs.release_run }}
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          path: downloaded
+      - name: Verify archive and extract signed app
+        working-directory: downloaded/dist/releases
+        run: |
+          shasum -a 256 -c Chenpi-${{ matrix.rid }}.zip.sha256
+          ditto -x -k Chenpi-${{ matrix.rid }}.zip ../../../unpacked
+          codesign --verify --deep --strict ../../../unpacked/Chenpi.app
+      - name: Five-minute desktop memory trace
+        run: python3 tools/test_macos_memory.py unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/memory
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: Memory-${{ matrix.rid }}
+          path: artifacts/memory
+          retention-days: 14
