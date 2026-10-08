@@ -1,0 +1,315 @@
+{
+  "architecture": "osx-x64",
+  "profiles": [
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37734213003",
+      "commit": "ce9a681a",
+      "group": "gpu-priority",
+      "fixture": "desktop-scene.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "run",
+        "StartupActive": true,
+        "DisplayedClip": "video-21",
+        "DisplayedFrame": 94,
+        "CachedFrameBytes": 35297372,
+        "CacheMisses": 186,
+        "MaxDecodeMilliseconds": 198.1864,
+        "WorkingSet": 264491008,
+        "CpuMilliseconds": 20530.538,
+        "ElapsedSeconds": 15.5514502,
+        "Frames": 85,
+        "P95Milliseconds": 696.910299999999,
+        "MaxMilliseconds": 1765.327600000001
+      },
+      "clips": [
+        "video-20",
+        "video-21"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37734213003",
+      "commit": "ce9a681a",
+      "group": "gpu-priority",
+      "fixture": "legacy-scene.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "expr-116",
+        "StartupActive": true,
+        "DisplayedClip": "video-116",
+        "DisplayedFrame": 39,
+        "CachedFrameBytes": 100423488,
+        "CacheMisses": 1239,
+        "MaxDecodeMilliseconds": 166.4509,
+        "WorkingSet": 367112192,
+        "CpuMilliseconds": 36954.846,
+        "ElapsedSeconds": 45.0741979,
+        "Frames": 1199,
+        "P95Milliseconds": 50.789600000001656,
+        "MaxMilliseconds": 587.3176
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111",
+        "video-112",
+        "video-113",
+        "video-12",
+        "video-13",
+        "video-08",
+        "video-16",
+        "video-10",
+        "video-11",
+        "video-06",
+        "video-114",
+        "video-116"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37734213003",
+      "commit": "ce9a681a",
+      "group": "gpu-priority",
+      "fixture": "scene.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "idle",
+        "StartupActive": false,
+        "DisplayedClip": "video-01",
+        "DisplayedFrame": 8,
+        "CachedFrameBytes": 100434892,
+        "CacheMisses": 1623,
+        "MaxDecodeMilliseconds": 98.2424,
+        "WorkingSet": 458412032,
+        "CpuMilliseconds": 52442.151,
+        "ElapsedSeconds": 85.4524047,
+        "Frames": 2010,
+        "P95Milliseconds": 90.30180000000065,
+        "MaxMilliseconds": 4213.589900000001
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111",
+        "video-112",
+        "video-113",
+        "video-12",
+        "video-13",
+        "video-08",
+        "video-16",
+        "video-10",
+        "video-11",
+        "video-06",
+        "video-114",
+        "video-116",
+        "video-117",
+        "video-118",
+        "video-01"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37735325828",
+      "commit": "d24a7a23",
+      "group": "renderer-isolation",
+      "fixture": "desktop-scene.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "run",
+        "StartupActive": true,
+        "DisplayedClip": "video-111",
+        "DisplayedFrame": 74,
+        "CachedFrameBytes": 90768668,
+        "CacheMisses": 398,
+        "MaxDecodeMilliseconds": 33.7515,
+        "RenderingDiagnostics": {
+          "Count": 417,
+          "P95": 0.516,
+          "Max": 258.2425,
+          "UiDecodes": 4,
+          "UiDecodeMilliseconds": 42.0173
+        },
+        "WorkingSet": 332476416,
+        "CpuMilliseconds": 9004.795,
+        "ElapsedSeconds": 15.1393074,
+        "Frames": 416,
+        "P95Milliseconds": 35.88330000000006,
+        "MaxMilliseconds": 615.3799999999999
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37735325828",
+      "commit": "d24a7a23",
+      "group": "renderer-isolation",
+      "fixture": "legacy-scene.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "expr-116",
+        "StartupActive": true,
+        "DisplayedClip": "video-116",
+        "DisplayedFrame": 65,
+        "CachedFrameBytes": 100572348,
+        "CacheMisses": 1278,
+        "MaxDecodeMilliseconds": 42.3501,
+        "RenderingDiagnostics": {
+          "Count": 1304,
+          "P95": 0.3364,
+          "Max": 286.3863,
+          "UiDecodes": 8,
+          "UiDecodeMilliseconds": 62.816300000000005
+        },
+        "WorkingSet": 367411200,
+        "CpuMilliseconds": 25498.78,
+        "ElapsedSeconds": 45.093271,
+        "Frames": 1303,
+        "P95Milliseconds": 36.28920000000058,
+        "MaxMilliseconds": 569.463
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111",
+        "video-112",
+        "video-113",
+        "video-12",
+        "video-13",
+        "video-08",
+        "video-16",
+        "video-10",
+        "video-11",
+        "video-06",
+        "video-114",
+        "video-116"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37735325828",
+      "commit": "d24a7a23",
+      "group": "renderer-isolation",
+      "fixture": "profile-no-shadow.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "run",
+        "StartupActive": true,
+        "DisplayedClip": "video-112",
+        "DisplayedFrame": 78,
+        "CachedFrameBytes": 100462676,
+        "CacheMisses": 521,
+        "MaxDecodeMilliseconds": 40.3403,
+        "RenderingDiagnostics": {
+          "Count": 570,
+          "P95": 0.5199,
+          "Max": 264.8133,
+          "UiDecodes": 4,
+          "UiDecodeMilliseconds": 46.774100000000004
+        },
+        "WorkingSet": 324235264,
+        "CpuMilliseconds": 10113.17,
+        "ElapsedSeconds": 20.3290851,
+        "Frames": 569,
+        "P95Milliseconds": 36.06390000000026,
+        "MaxMilliseconds": 552.9406
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111",
+        "video-112"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37735325828",
+      "commit": "d24a7a23",
+      "group": "renderer-isolation",
+      "fixture": "profile-software.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "run",
+        "StartupActive": true,
+        "DisplayedClip": "video-112",
+        "DisplayedFrame": 76,
+        "CachedFrameBytes": 100408804,
+        "CacheMisses": 521,
+        "MaxDecodeMilliseconds": 34.3629,
+        "RenderingDiagnostics": {
+          "Count": 572,
+          "P95": 0.5144,
+          "Max": 274.9775,
+          "UiDecodes": 4,
+          "UiDecodeMilliseconds": 40.543200000000006
+        },
+        "WorkingSet": 385818624,
+        "CpuMilliseconds": 16900.56,
+        "ElapsedSeconds": 20.2069317,
+        "Frames": 571,
+        "P95Milliseconds": 35.911399999999816,
+        "MaxMilliseconds": 538.7035999999999
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111",
+        "video-112"
+      ]
+    },
+    {
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37735325828",
+      "commit": "d24a7a23",
+      "group": "renderer-isolation",
+      "fixture": "scene.png.json",
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "Action": "idle",
+        "StartupActive": false,
+        "DisplayedClip": "video-01",
+        "DisplayedFrame": 33,
+        "CachedFrameBytes": 100481048,
+        "CacheMisses": 1548,
+        "MaxDecodeMilliseconds": 178.6322,
+        "RenderingDiagnostics": {
+          "Count": 862,
+          "P95": 0.9058,
+          "Max": 455.2665,
+          "UiDecodes": 10,
+          "UiDecodeMilliseconds": 95.94040000000001
+        },
+        "WorkingSet": 387854336,
+        "CpuMilliseconds": 85728.048,
+        "ElapsedSeconds": 85.5744135,
+        "Frames": 861,
+        "P95Milliseconds": 281.6915000000009,
+        "MaxMilliseconds": 4132.0232
+      },
+      "clips": [
+        "video-20",
+        "video-21",
+        "video-100",
+        "video-111",
+        "video-112",
+        "video-113",
+        "video-12",
+        "video-13",
+        "video-08",
+        "video-16",
+        "video-10",
+        "video-11",
+        "video-06",
+        "video-114",
+        "video-116",
+        "video-117",
+        "video-118",
+        "video-01"
+      ]
+    }
+  ],
+  "interpretation": "Different durations and scene extents are diagnostic controls, not equivalent performance benchmarks. UI draw-list recording is below 1 ms at P95; native Skia shader compilation exceeded 300 ms multiple times. Full software-rendered release acceptance is recorded separately."
+}

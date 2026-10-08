@@ -1,0 +1,144 @@
+{
+  "Action": "rest-D",
+  "CachedFrameBytes": 100425708,
+  "workingSet": 350945280,
+  "peakWorkingSet": 389369856,
+  "renderedFrames": 17931,
+  "durationSeconds": 300,
+  "distinctClips": [
+    "video-32",
+    "video-01",
+    "video-08",
+    "video-12",
+    "video-13",
+    "video-09",
+    "video-06",
+    "video-10",
+    "video-right",
+    "video-11",
+    "video-07",
+    "video-37",
+    "video-39",
+    "video-40",
+    "video-41",
+    "video-42",
+    "video-88",
+    "video-52",
+    "video-53",
+    "video-54",
+    "video-15",
+    "video-14",
+    "video-55",
+    "video-56",
+    "video-57",
+    "video-16",
+    "video-22",
+    "video-23",
+    "video-24",
+    "video-101",
+    "video-66"
+  ],
+  "memorySamples": [
+    {
+      "timestamp": "2026-10-08T13:23:51.9202766+08:00",
+      "workingSet": 297484288,
+      "privateBytes": 287870976
+    },
+    {
+      "timestamp": "2026-10-08T13:24:06.9643819+08:00",
+      "workingSet": 313102336,
+      "privateBytes": 317161472
+    },
+    {
+      "timestamp": "2026-10-08T13:24:21.9822738+08:00",
+      "workingSet": 306593792,
+      "privateBytes": 301105152
+    },
+    {
+      "timestamp": "2026-10-08T13:24:37.0079124+08:00",
+      "workingSet": 319438848,
+      "privateBytes": 330125312
+    },
+    {
+      "timestamp": "2026-10-08T13:24:52.0245270+08:00",
+      "workingSet": 333852672,
+      "privateBytes": 382672896
+    },
+    {
+      "timestamp": "2026-10-08T13:25:07.0337019+08:00",
+      "workingSet": 318296064,
+      "privateBytes": 360148992
+    },
+    {
+      "timestamp": "2026-10-08T13:25:22.0443838+08:00",
+      "workingSet": 334897152,
+      "privateBytes": 383123456
+    },
+    {
+      "timestamp": "2026-10-08T13:25:37.0583946+08:00",
+      "workingSet": 324976640,
+      "privateBytes": 390197248
+    },
+    {
+      "timestamp": "2026-10-08T13:25:52.0752270+08:00",
+      "workingSet": 333471744,
+      "privateBytes": 374358016
+    },
+    {
+      "timestamp": "2026-10-08T13:26:07.0835649+08:00",
+      "workingSet": 321048576,
+      "privateBytes": 366596096
+    },
+    {
+      "timestamp": "2026-10-08T13:26:22.0926397+08:00",
+      "workingSet": 331329536,
+      "privateBytes": 379584512
+    },
+    {
+      "timestamp": "2026-10-08T13:26:37.0991524+08:00",
+      "workingSet": 341192704,
+      "privateBytes": 384299008
+    },
+    {
+      "timestamp": "2026-10-08T13:26:52.1226930+08:00",
+      "workingSet": 328921088,
+      "privateBytes": 372686848
+    },
+    {
+      "timestamp": "2026-10-08T13:27:07.1266258+08:00",
+      "workingSet": 333967360,
+      "privateBytes": 376979456
+    },
+    {
+      "timestamp": "2026-10-08T13:27:22.1449586+08:00",
+      "workingSet": 338026496,
+      "privateBytes": 374681600
+    },
+    {
+      "timestamp": "2026-10-08T13:27:37.1619961+08:00",
+      "workingSet": 341622784,
+      "privateBytes": 380399616
+    },
+    {
+      "timestamp": "2026-10-08T13:27:52.1785317+08:00",
+      "workingSet": 333611008,
+      "privateBytes": 391536640
+    },
+    {
+      "timestamp": "2026-10-08T13:28:07.1848996+08:00",
+      "workingSet": 340373504,
+      "privateBytes": 386334720
+    },
+    {
+      "timestamp": "2026-10-08T13:28:22.1942849+08:00",
+      "workingSet": 350822400,
+      "privateBytes": 392327168
+    },
+    {
+      "timestamp": "2026-10-08T13:28:37.2010379+08:00",
+      "workingSet": 343470080,
+      "privateBytes": 384167936
+    }
+  ],
+  "scope": "Five-minute WPF expression tour. Memory only; UI fixture overlapped briefly, so frame timing is excluded."
+}

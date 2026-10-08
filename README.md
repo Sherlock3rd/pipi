@@ -1,6 +1,6 @@
 # 陈皮 · 桌面小猫
 
-可体验的 Windows 蓝猫桌宠原型，沿用既有 Rules Bootstrap Spec v1.0。使用 C# / WPF / .NET 10 和代码绘制的占位猫，正式蓝猫序列帧后续替换。
+Windows / macOS 的 2D 蓝猫桌宠，沿用既有 Rules Bootstrap Spec v1.0。使用 C# / .NET 10，Windows 采用 WPF，macOS 采用 Avalonia；共用已接入的序列帧、行为树与照料逻辑。
 
 ## 启动
 
@@ -25,7 +25,7 @@
 
 ## macOS 与优化发布包
 
-macOS 新增 Apple 芯片和 Intel 两种原生宿主，沿用相同动画、行为树和存档结构；使用无损帧包和有上限的解码缓存。构建、下载后的启动要求及当前验证边界见 [macOS 与资源优化](docs/macos-and-resources.md)。正式 Windows 原版与用户存档不自动覆盖。
+macOS 15 及以上提供 Apple 芯片和 Intel 两种自包含 `.app`，不需要另装 .NET；两端使用无损帧包和有上限的解码缓存。Mac 从 [Actions 构建产物](https://github.com/Sherlock3rd/pipi/actions/workflows/desktop-release.yml) 选择通过检查的对应架构，取产物内 `dist/releases/` 的安装 ZIP，解压后将 `Chenpi.app` 放进“应用程序”。首次打开的签名说明、构建方式及实测边界见 [macOS 与资源优化](docs/macos-and-resources.md)。正式 Windows 原版与用户存档不自动覆盖。
 
 ## 从源码构建
 

@@ -1,0 +1,329 @@
+{
+  "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37738006657",
+  "codeCommit": "fa4958a35f1f498b19b3b0aeb02f1c8a5931e6a1",
+  "results": {
+    "arm": {
+      "durationSeconds": 300,
+      "samples": [
+        {
+          "seconds": 0.0,
+          "rssBytes": 180224
+        },
+        {
+          "seconds": 10.06,
+          "rssBytes": 260571136
+        },
+        {
+          "seconds": 20.2,
+          "rssBytes": 389136384
+        },
+        {
+          "seconds": 30.25,
+          "rssBytes": 454246400
+        },
+        {
+          "seconds": 40.28,
+          "rssBytes": 501497856
+        },
+        {
+          "seconds": 50.45,
+          "rssBytes": 542867456
+        },
+        {
+          "seconds": 60.48,
+          "rssBytes": 583237632
+        },
+        {
+          "seconds": 70.52,
+          "rssBytes": 624181248
+        },
+        {
+          "seconds": 80.54,
+          "rssBytes": 663142400
+        },
+        {
+          "seconds": 90.7,
+          "rssBytes": 704446464
+        },
+        {
+          "seconds": 100.85,
+          "rssBytes": 745308160
+        },
+        {
+          "seconds": 111.01,
+          "rssBytes": 785973248
+        },
+        {
+          "seconds": 121.06,
+          "rssBytes": 826490880
+        },
+        {
+          "seconds": 131.21,
+          "rssBytes": 862765056
+        },
+        {
+          "seconds": 141.31,
+          "rssBytes": 903364608
+        },
+        {
+          "seconds": 151.47,
+          "rssBytes": 944603136
+        },
+        {
+          "seconds": 161.48,
+          "rssBytes": 976142336
+        },
+        {
+          "seconds": 171.51,
+          "rssBytes": 1019920384
+        },
+        {
+          "seconds": 181.66,
+          "rssBytes": 1053655040
+        },
+        {
+          "seconds": 191.79,
+          "rssBytes": 1060339712
+        },
+        {
+          "seconds": 201.85,
+          "rssBytes": 1065877504
+        },
+        {
+          "seconds": 211.88,
+          "rssBytes": 1075281920
+        },
+        {
+          "seconds": 222.03,
+          "rssBytes": 1075085312
+        },
+        {
+          "seconds": 232.18,
+          "rssBytes": 1084702720
+        },
+        {
+          "seconds": 242.33,
+          "rssBytes": 1100349440
+        },
+        {
+          "seconds": 252.4,
+          "rssBytes": 1103790080
+        },
+        {
+          "seconds": 262.42,
+          "rssBytes": 1132019712
+        },
+        {
+          "seconds": 272.45,
+          "rssBytes": 1136410624
+        },
+        {
+          "seconds": 282.6,
+          "rssBytes": 1102331904
+        },
+        {
+          "seconds": 292.63,
+          "rssBytes": 1111949312
+        }
+      ],
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "GraphicsBackend": "Avalonia.Native.MetalPlatformGraphics",
+        "Action": "rest-M",
+        "StartupActive": false,
+        "DisplayedClip": "video-84",
+        "DisplayedFrame": 6,
+        "CachedFrameBytes": 100495900,
+        "CacheMisses": 2196,
+        "MaxDecodeMilliseconds": 46.3063,
+        "RenderingDiagnostics": {
+          "Count": 17640,
+          "P95": 0.2931,
+          "Max": 270.8285,
+          "UiDecodes": 11,
+          "UiDecodeMilliseconds": 89.79669999999999
+        },
+        "NativeTimings": {
+          "P95": 0.0231,
+          "Max": 1.5742
+        },
+        "UpdateTimings": {
+          "P95": 0.0545,
+          "Max": 10.3787
+        },
+        "WorkingSet": 974798848,
+        "CpuMilliseconds": 60644.345,
+        "ElapsedSeconds": 300.3025516,
+        "Frames": 17639,
+        "P95Milliseconds": 18.688900000000785,
+        "MaxMilliseconds": 3530.5524000000005
+      },
+      "warmMinimum": 704446464,
+      "warmMaximum": 1136410624,
+      "medianGrowthBytes": 301637632.0,
+      "accepted": false
+    },
+    "intel": {
+      "durationSeconds": 300,
+      "samples": [
+        {
+          "seconds": 0.0,
+          "rssBytes": 774144
+        },
+        {
+          "seconds": 10.15,
+          "rssBytes": 276803584
+        },
+        {
+          "seconds": 20.3,
+          "rssBytes": 351424512
+        },
+        {
+          "seconds": 30.45,
+          "rssBytes": 343576576
+        },
+        {
+          "seconds": 40.6,
+          "rssBytes": 346976256
+        },
+        {
+          "seconds": 50.73,
+          "rssBytes": 345464832
+        },
+        {
+          "seconds": 60.88,
+          "rssBytes": 371482624
+        },
+        {
+          "seconds": 70.96,
+          "rssBytes": 358944768
+        },
+        {
+          "seconds": 81.02,
+          "rssBytes": 357040128
+        },
+        {
+          "seconds": 91.17,
+          "rssBytes": 344940544
+        },
+        {
+          "seconds": 101.32,
+          "rssBytes": 357109760
+        },
+        {
+          "seconds": 111.46,
+          "rssBytes": 348778496
+        },
+        {
+          "seconds": 121.62,
+          "rssBytes": 372609024
+        },
+        {
+          "seconds": 131.71,
+          "rssBytes": 354856960
+        },
+        {
+          "seconds": 141.85,
+          "rssBytes": 352538624
+        },
+        {
+          "seconds": 151.97,
+          "rssBytes": 345686016
+        },
+        {
+          "seconds": 162.05,
+          "rssBytes": 353144832
+        },
+        {
+          "seconds": 172.09,
+          "rssBytes": 343990272
+        },
+        {
+          "seconds": 182.21,
+          "rssBytes": 361717760
+        },
+        {
+          "seconds": 192.22,
+          "rssBytes": 358785024
+        },
+        {
+          "seconds": 202.34,
+          "rssBytes": 350490624
+        },
+        {
+          "seconds": 212.35,
+          "rssBytes": 342499328
+        },
+        {
+          "seconds": 222.43,
+          "rssBytes": 348114944
+        },
+        {
+          "seconds": 232.59,
+          "rssBytes": 351809536
+        },
+        {
+          "seconds": 242.65,
+          "rssBytes": 360898560
+        },
+        {
+          "seconds": 252.78,
+          "rssBytes": 345657344
+        },
+        {
+          "seconds": 262.85,
+          "rssBytes": 341139456
+        },
+        {
+          "seconds": 272.98,
+          "rssBytes": 336211968
+        },
+        {
+          "seconds": 283.12,
+          "rssBytes": 347181056
+        },
+        {
+          "seconds": 293.25,
+          "rssBytes": 345161728
+        }
+      ],
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "GraphicsBackend": "Software",
+        "Action": "rest-D",
+        "StartupActive": false,
+        "DisplayedClip": "video-66",
+        "DisplayedFrame": 76,
+        "CachedFrameBytes": 100465500,
+        "CacheMisses": 5910,
+        "MaxDecodeMilliseconds": 54.1808,
+        "RenderingDiagnostics": {
+          "Count": 8941,
+          "P95": 0.4191,
+          "Max": 288.1519,
+          "UiDecodes": 26,
+          "UiDecodeMilliseconds": 111.3119
+        },
+        "NativeTimings": {
+          "P95": 0.0307,
+          "Max": 6.8382
+        },
+        "UpdateTimings": {
+          "P95": 0.0576,
+          "Max": 7.5095
+        },
+        "WorkingSet": 368287744,
+        "CpuMilliseconds": 191686.75,
+        "ElapsedSeconds": 300.2861565,
+        "Frames": 8940,
+        "P95Milliseconds": 34.89849999999706,
+        "MaxMilliseconds": 576.5679
+      },
+      "warmMinimum": 336211968,
+      "warmMaximum": 372609024,
+      "medianGrowthBytes": -8288256.0,
+      "accepted": true
+    }
+  },
+  "maximumAllowedMedianGrowthBytes": 100663296
+}

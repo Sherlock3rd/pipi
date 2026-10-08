@@ -1,0 +1,504 @@
+{
+  "note": "Native 300-second desktop runs with original effects, no frame or timing changes. OpenGL request fell back to Software on this runner. Default-selection commit uses the identical Software path measured here; the release pipeline separately validates the rebuilt archives.",
+  "medianGrowthLimitBytes": 100663296,
+  "results": {
+    "arm-software": {
+      "durationSeconds": 300,
+      "renderer": "software",
+      "samples": [
+        {
+          "seconds": 0.0,
+          "rssBytes": 278528
+        },
+        {
+          "seconds": 10.15,
+          "rssBytes": 313589760
+        },
+        {
+          "seconds": 20.18,
+          "rssBytes": 401178624
+        },
+        {
+          "seconds": 30.2,
+          "rssBytes": 411910144
+        },
+        {
+          "seconds": 40.27,
+          "rssBytes": 417447936
+        },
+        {
+          "seconds": 50.37,
+          "rssBytes": 417660928
+        },
+        {
+          "seconds": 60.52,
+          "rssBytes": 417890304
+        },
+        {
+          "seconds": 70.68,
+          "rssBytes": 417873920
+        },
+        {
+          "seconds": 80.79,
+          "rssBytes": 417906688
+        },
+        {
+          "seconds": 90.9,
+          "rssBytes": 426475520
+        },
+        {
+          "seconds": 101.05,
+          "rssBytes": 426491904
+        },
+        {
+          "seconds": 111.1,
+          "rssBytes": 426524672
+        },
+        {
+          "seconds": 121.25,
+          "rssBytes": 428015616
+        },
+        {
+          "seconds": 131.26,
+          "rssBytes": 426557440
+        },
+        {
+          "seconds": 141.38,
+          "rssBytes": 426524672
+        },
+        {
+          "seconds": 151.4,
+          "rssBytes": 426278912
+        },
+        {
+          "seconds": 161.42,
+          "rssBytes": 426491904
+        },
+        {
+          "seconds": 171.58,
+          "rssBytes": 426131456
+        },
+        {
+          "seconds": 181.73,
+          "rssBytes": 425934848
+        },
+        {
+          "seconds": 191.89,
+          "rssBytes": 425918464
+        },
+        {
+          "seconds": 201.97,
+          "rssBytes": 428769280
+        },
+        {
+          "seconds": 212.02,
+          "rssBytes": 425967616
+        },
+        {
+          "seconds": 222.17,
+          "rssBytes": 425525248
+        },
+        {
+          "seconds": 232.32,
+          "rssBytes": 425508864
+        },
+        {
+          "seconds": 242.48,
+          "rssBytes": 425312256
+        },
+        {
+          "seconds": 252.63,
+          "rssBytes": 425082880
+        },
+        {
+          "seconds": 262.75,
+          "rssBytes": 427393024
+        },
+        {
+          "seconds": 272.9,
+          "rssBytes": 424820736
+        },
+        {
+          "seconds": 282.93,
+          "rssBytes": 427622400
+        },
+        {
+          "seconds": 293.0,
+          "rssBytes": 424607744
+        }
+      ],
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "GraphicsBackend": "Software",
+        "Action": "rest-A",
+        "StartupActive": false,
+        "DisplayedClip": "video-67",
+        "DisplayedFrame": 48,
+        "CachedFrameBytes": 100428340,
+        "CacheMisses": 2049,
+        "MaxDecodeMilliseconds": 37.3262,
+        "RenderingDiagnostics": {
+          "Count": 17903,
+          "P95": 0.239,
+          "Max": 233.698,
+          "UiDecodes": 10,
+          "UiDecodeMilliseconds": 66.967
+        },
+        "NativeTimings": {
+          "P95": 0.0193,
+          "Max": 11.4282
+        },
+        "UpdateTimings": {
+          "P95": 0.044,
+          "Max": 3.9437
+        },
+        "WorkingSet": 417792000,
+        "CpuMilliseconds": 118814.678,
+        "ElapsedSeconds": 300.2834073,
+        "Frames": 17902,
+        "P95Milliseconds": 18.702399999995123,
+        "MaxMilliseconds": 394.21109999999993
+      },
+      "warmMinimum": 424607744,
+      "warmMaximum": 428769280,
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37738938378",
+      "warmMedian": 426524672.0,
+      "tailMedian": 425197568.0,
+      "medianGrowthBytes": -1327104.0,
+      "releaseRun": "37737221958",
+      "releaseCodeCommit": "a541efc9a42a9c8abd31458a29444a33fd222f4c"
+    },
+    "arm-opengl-fallback": {
+      "durationSeconds": 300,
+      "renderer": "opengl",
+      "samples": [
+        {
+          "seconds": 0.0,
+          "rssBytes": 229376
+        },
+        {
+          "seconds": 10.03,
+          "rssBytes": 308051968
+        },
+        {
+          "seconds": 20.11,
+          "rssBytes": 400506880
+        },
+        {
+          "seconds": 30.16,
+          "rssBytes": 428294144
+        },
+        {
+          "seconds": 40.24,
+          "rssBytes": 433750016
+        },
+        {
+          "seconds": 50.28,
+          "rssBytes": 423493632
+        },
+        {
+          "seconds": 60.34,
+          "rssBytes": 423657472
+        },
+        {
+          "seconds": 70.41,
+          "rssBytes": 423673856
+        },
+        {
+          "seconds": 80.47,
+          "rssBytes": 423690240
+        },
+        {
+          "seconds": 90.56,
+          "rssBytes": 430882816
+        },
+        {
+          "seconds": 100.58,
+          "rssBytes": 439287808
+        },
+        {
+          "seconds": 110.66,
+          "rssBytes": 434307072
+        },
+        {
+          "seconds": 120.71,
+          "rssBytes": 425590784
+        },
+        {
+          "seconds": 130.79,
+          "rssBytes": 425607168
+        },
+        {
+          "seconds": 140.86,
+          "rssBytes": 425574400
+        },
+        {
+          "seconds": 150.93,
+          "rssBytes": 425541632
+        },
+        {
+          "seconds": 160.96,
+          "rssBytes": 425836544
+        },
+        {
+          "seconds": 171.04,
+          "rssBytes": 426328064
+        },
+        {
+          "seconds": 181.1,
+          "rssBytes": 425213952
+        },
+        {
+          "seconds": 191.19,
+          "rssBytes": 418070528
+        },
+        {
+          "seconds": 201.2,
+          "rssBytes": 419643392
+        },
+        {
+          "seconds": 211.21,
+          "rssBytes": 417923072
+        },
+        {
+          "seconds": 221.29,
+          "rssBytes": 417546240
+        },
+        {
+          "seconds": 231.42,
+          "rssBytes": 417366016
+        },
+        {
+          "seconds": 241.49,
+          "rssBytes": 417349632
+        },
+        {
+          "seconds": 251.7,
+          "rssBytes": 407289856
+        },
+        {
+          "seconds": 261.71,
+          "rssBytes": 407289856
+        },
+        {
+          "seconds": 271.86,
+          "rssBytes": 407289856
+        },
+        {
+          "seconds": 281.91,
+          "rssBytes": 407011328
+        },
+        {
+          "seconds": 291.93,
+          "rssBytes": 407945216
+        }
+      ],
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "GraphicsBackend": "Software",
+        "Action": "rest-A",
+        "StartupActive": false,
+        "DisplayedClip": "video-67",
+        "DisplayedFrame": 43,
+        "CachedFrameBytes": 100428340,
+        "CacheMisses": 2168,
+        "MaxDecodeMilliseconds": 53.2209,
+        "RenderingDiagnostics": {
+          "Count": 17800,
+          "P95": 0.27,
+          "Max": 344.085,
+          "UiDecodes": 11,
+          "UiDecodeMilliseconds": 75.91720000000001
+        },
+        "NativeTimings": {
+          "P95": 0.0191,
+          "Max": 19.4682
+        },
+        "UpdateTimings": {
+          "P95": 0.048,
+          "Max": 19.3841
+        },
+        "WorkingSet": 417120256,
+        "CpuMilliseconds": 131036.625,
+        "ElapsedSeconds": 300.238804,
+        "Frames": 17799,
+        "P95Milliseconds": 18.791499999998962,
+        "MaxMilliseconds": 725.8931000000001
+      },
+      "warmMinimum": 407011328,
+      "warmMaximum": 439287808,
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37738942673",
+      "warmMedian": 428244992.0,
+      "tailMedian": 407289856.0,
+      "medianGrowthBytes": -20955136.0,
+      "releaseRun": "37737221958",
+      "releaseCodeCommit": "a541efc9a42a9c8abd31458a29444a33fd222f4c"
+    },
+    "intel-software": {
+      "durationSeconds": 300,
+      "samples": [
+        {
+          "seconds": 0.0,
+          "rssBytes": 774144
+        },
+        {
+          "seconds": 10.15,
+          "rssBytes": 276803584
+        },
+        {
+          "seconds": 20.3,
+          "rssBytes": 351424512
+        },
+        {
+          "seconds": 30.45,
+          "rssBytes": 343576576
+        },
+        {
+          "seconds": 40.6,
+          "rssBytes": 346976256
+        },
+        {
+          "seconds": 50.73,
+          "rssBytes": 345464832
+        },
+        {
+          "seconds": 60.88,
+          "rssBytes": 371482624
+        },
+        {
+          "seconds": 70.96,
+          "rssBytes": 358944768
+        },
+        {
+          "seconds": 81.02,
+          "rssBytes": 357040128
+        },
+        {
+          "seconds": 91.17,
+          "rssBytes": 344940544
+        },
+        {
+          "seconds": 101.32,
+          "rssBytes": 357109760
+        },
+        {
+          "seconds": 111.46,
+          "rssBytes": 348778496
+        },
+        {
+          "seconds": 121.62,
+          "rssBytes": 372609024
+        },
+        {
+          "seconds": 131.71,
+          "rssBytes": 354856960
+        },
+        {
+          "seconds": 141.85,
+          "rssBytes": 352538624
+        },
+        {
+          "seconds": 151.97,
+          "rssBytes": 345686016
+        },
+        {
+          "seconds": 162.05,
+          "rssBytes": 353144832
+        },
+        {
+          "seconds": 172.09,
+          "rssBytes": 343990272
+        },
+        {
+          "seconds": 182.21,
+          "rssBytes": 361717760
+        },
+        {
+          "seconds": 192.22,
+          "rssBytes": 358785024
+        },
+        {
+          "seconds": 202.34,
+          "rssBytes": 350490624
+        },
+        {
+          "seconds": 212.35,
+          "rssBytes": 342499328
+        },
+        {
+          "seconds": 222.43,
+          "rssBytes": 348114944
+        },
+        {
+          "seconds": 232.59,
+          "rssBytes": 351809536
+        },
+        {
+          "seconds": 242.65,
+          "rssBytes": 360898560
+        },
+        {
+          "seconds": 252.78,
+          "rssBytes": 345657344
+        },
+        {
+          "seconds": 262.85,
+          "rssBytes": 341139456
+        },
+        {
+          "seconds": 272.98,
+          "rssBytes": 336211968
+        },
+        {
+          "seconds": 283.12,
+          "rssBytes": 347181056
+        },
+        {
+          "seconds": 293.25,
+          "rssBytes": 345161728
+        }
+      ],
+      "metrics": {
+        "Runtime": "macOS 15.7.9",
+        "GraphicsBackend": "Software",
+        "Action": "rest-D",
+        "StartupActive": false,
+        "DisplayedClip": "video-66",
+        "DisplayedFrame": 76,
+        "CachedFrameBytes": 100465500,
+        "CacheMisses": 5910,
+        "MaxDecodeMilliseconds": 54.1808,
+        "RenderingDiagnostics": {
+          "Count": 8941,
+          "P95": 0.4191,
+          "Max": 288.1519,
+          "UiDecodes": 26,
+          "UiDecodeMilliseconds": 111.3119
+        },
+        "NativeTimings": {
+          "P95": 0.0307,
+          "Max": 6.8382
+        },
+        "UpdateTimings": {
+          "P95": 0.0576,
+          "Max": 7.5095
+        },
+        "WorkingSet": 368287744,
+        "CpuMilliseconds": 191686.75,
+        "ElapsedSeconds": 300.2861565,
+        "Frames": 8940,
+        "P95Milliseconds": 34.89849999999706,
+        "MaxMilliseconds": 576.5679
+      },
+      "warmMinimum": 336211968,
+      "warmMaximum": 372609024,
+      "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37738006657",
+      "warmMedian": 353697792.0,
+      "tailMedian": 345409536.0,
+      "medianGrowthBytes": -8288256.0,
+      "releaseRun": "37736489167",
+      "releaseCodeCommit": "fa4958a35f1f498b19b3b0aeb02f1c8a5931e6a1"
+    }
+  },
+  "defaultSelectionCommit": "3772e0f932342d84cff0ba21e4c1af836e925843"
+}
