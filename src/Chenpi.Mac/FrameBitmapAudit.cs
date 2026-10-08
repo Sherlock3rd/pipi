@@ -1,7 +1,7 @@
 using Avalonia;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
-using System.Runtime.InteropServices;
+using System.Buffers;
 using System.Text.Json;
 
 namespace Chenpi;
@@ -40,9 +40,15 @@ internal static class FrameBitmapAudit
         {
             using var actual=FrameBitmap.Load(Path.Combine(RuntimeAssets.Root,"pets/bluecat",path),true,false);
             using var expected=Reference(Path.Combine(sourceAssets,"pets/bluecat",path));
-            // Reuse and return the pooled buffer before checking the first bitmap.
-            using var another=FrameBitmap.Load(Path.Combine(RuntimeAssets.Root,"pets/bluecat",path),true,false);
-            if(actual.Extent!=expected.Extent||actual.PixelWidth!=expected.PixelWidth||actual.PixelHeight!=expected.PixelHeight||!Pixels(actual).SequenceEqual(Pixels(expected)))throw new InvalidDataException("Native decoded pixel mismatch: "+path);
+            // Re-rent the same size bucket and overwrite it with a sentinel:
+            // decoding identical data again would miss an aliased-buffer bug.
+            var reused=ArrayPool<byte>.Shared.Rent(actual.PixelWidth*actual.PixelHeight*4);
+            try
+            {
+                reused.AsSpan().Fill(0xA5);
+                if(actual.Extent!=expected.Extent||actual.PixelWidth!=expected.PixelWidth||actual.PixelHeight!=expected.PixelHeight||!Pixels(actual).SequenceEqual(Pixels(expected)))throw new InvalidDataException("Native decoded pixel mismatch: "+path);
+            }
+            finally{ArrayPool<byte>.Shared.Return(reused);}
         }
         Directory.CreateDirectory(Path.GetDirectoryName(Path.GetFullPath(output))!);
         File.WriteAllText(output,JsonSerializer.Serialize(new{CheckedFrames=paths.Length,PixelMismatches=0,BoundsMismatches=0,PooledBufferLifetime="verified after reuse"}));
