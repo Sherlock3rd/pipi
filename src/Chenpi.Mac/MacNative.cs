@@ -6,6 +6,8 @@ namespace Chenpi;
 
 internal static class MacNative
 {
+    private sealed class WindowState {public bool Initialized;public long? Level;public bool? Pass;}
+    private static readonly System.Runtime.CompilerServices.ConditionalWeakTable<Window,WindowState> windowStates=new();
     private const string ObjC="/usr/lib/libobjc.A.dylib",CG="/System/Library/Frameworks/CoreGraphics.framework/CoreGraphics",CF="/System/Library/Frameworks/CoreFoundation.framework/CoreFoundation";
     [StructLayout(LayoutKind.Sequential)] internal struct XY {public double X,Y;}
     [StructLayout(LayoutKind.Sequential)] private struct CGRect {public XY Origin,Size;}
@@ -16,6 +18,8 @@ internal static class MacNative
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern IntPtr SendPtr(IntPtr obj,IntPtr sel,IntPtr arg);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern void SendLong(IntPtr obj,IntPtr sel,long value);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern void SendBool(IntPtr obj,IntPtr sel,[MarshalAs(UnmanagedType.I1)] bool value);
+    [DllImport(ObjC,EntryPoint="objc_msgSend")] [return:MarshalAs(UnmanagedType.I1)] private static extern bool ReadBool(IntPtr obj,IntPtr sel);
+    [DllImport(ObjC,EntryPoint="objc_msgSend")] [return:MarshalAs(UnmanagedType.I1)] private static extern bool Responds(IntPtr obj,IntPtr sel,IntPtr selector);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] private static extern XY SendPoint(IntPtr obj,IntPtr sel);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern void SendFloat(IntPtr obj,IntPtr sel,float value);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern IntPtr BeginActivity(IntPtr obj,IntPtr sel,ulong options,IntPtr reason);
@@ -47,15 +51,21 @@ internal static class MacNative
     internal static void Configure(Window window,bool floating,bool hidden)
     {
         if(!OperatingSystem.IsMacOS())return;var h=Handle(window);
+        var state=windowStates.GetOrCreateValue(window);
+        if(!state.Initialized)
+        {
         SendBool(h,Selector("setHasShadow:"),false);SendBool(h,Selector("setHidesOnDeactivate:"),false);
         // Avalonia's native AvnWindow exposes this selector. Restrict it to the
         // pet window so clicking the cat does not steal typing focus.
-        if(SendPtr(h,Selector("respondsToSelector:"),Selector("setCanBecomeKeyWindow:"))!=IntPtr.Zero)
+        if(Responds(h,Selector("respondsToSelector:"),Selector("setCanBecomeKeyWindow:")))
             SendBool(h,Selector("setCanBecomeKeyWindow:"),false);
         // All ordinary Spaces, stationary on Mission Control, no key-window cycle.
         // Deliberately no fullScreenAuxiliary: fullscreen apps own their Space.
         SendLong(h,Selector("setCollectionBehavior:"),1|16|64);
-        SendLong(h,Selector("setLevel:"),floating&&!hidden?CGWindowLevelForKey(5):CGWindowLevelForKey(2)+1);
+        state.Initialized=true;
+        }
+        long level=floating&&!hidden?CGWindowLevelForKey(5):CGWindowLevelForKey(2)+1;
+        if(state.Level!=level){SendLong(h,Selector("setLevel:"),level);state.Level=level;}
     }
     internal static Point Pointer(Window window)
     {
@@ -63,8 +73,8 @@ internal static class MacNative
         return new(at.X,window.ClientSize.Height-at.Y);
     }
     internal static void PassThrough(Window window,bool pass)
-    {if(OperatingSystem.IsMacOS())SendBool(Handle(window),Selector("setIgnoresMouseEvents:"),pass);}
-    internal static bool WindowVisible(Window window)=>!OperatingSystem.IsMacOS()||Send(Handle(window),Selector("isVisible"))!=IntPtr.Zero;
+    {if(OperatingSystem.IsMacOS()){var state=windowStates.GetOrCreateValue(window);if(state.Pass!=pass){SendBool(Handle(window),Selector("setIgnoresMouseEvents:"),pass);state.Pass=pass;}}}
+    internal static bool WindowVisible(Window window)=>!OperatingSystem.IsMacOS()||ReadBool(Handle(window),Selector("isVisible"));
     internal static void VerifyWindow(Window window)
     {
         if(!OperatingSystem.IsMacOS())throw new PlatformNotSupportedException();
@@ -73,9 +83,9 @@ internal static class MacNative
         if(Send(h,Selector("level")).ToInt64()!=CGWindowLevelForKey(5))throw new InvalidOperationException("Floating layer read-back failed");
         Configure(window,false,false);
         if(Send(h,Selector("level")).ToInt64()!=CGWindowLevelForKey(2)+1)throw new InvalidOperationException("Desktop layer read-back failed");
-        PassThrough(window,true);if(Send(h,Selector("ignoresMouseEvents"))==IntPtr.Zero)throw new InvalidOperationException("Click-through read-back failed");
-        PassThrough(window,false);if(Send(h,Selector("ignoresMouseEvents"))!=IntPtr.Zero)throw new InvalidOperationException("Interactive read-back failed");
-        if(Send(h,Selector("canBecomeKeyWindow"))!=IntPtr.Zero)throw new InvalidOperationException("Pet can steal keyboard focus");
+        PassThrough(window,true);if(!ReadBool(h,Selector("ignoresMouseEvents")))throw new InvalidOperationException("Click-through read-back failed");
+        PassThrough(window,false);if(ReadBool(h,Selector("ignoresMouseEvents")))throw new InvalidOperationException("Interactive read-back failed");
+        if(ReadBool(h,Selector("canBecomeKeyWindow")))throw new InvalidOperationException("Pet can steal keyboard focus");
         var p=Pointer(window);if(!double.IsFinite(p.X)||!double.IsFinite(p.Y))throw new InvalidOperationException("Invalid pointer coordinates");
     }
     internal static double AwakeSeconds

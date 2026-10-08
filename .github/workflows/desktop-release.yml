@@ -78,6 +78,8 @@ jobs:
           codesign --verify --deep --strict artifacts/unpacked/Chenpi.app
       - name: Native full-screen and normal-window checks
         run: python tools/test_macos_native.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac
+      - name: Native decoded pixels and pooled-buffer lifetime
+        run: artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --audit-source "$PWD/assets" --audit-output "$PWD/artifacts/native-qa/pixel-audit.json"
       - name: Native startup and frame-cache smoke test
         run: |
           mkdir -p artifacts/native-qa
@@ -85,19 +87,14 @@ jobs:
           test -f artifacts/native-qa/save/native-audit.txt
           test -f artifacts/native-qa/scene.png.json
           test ! -f artifacts/native-qa/save/error.log
-      - name: Intel legacy rendering comparison
-        if: matrix.rid == 'osx-x64'
-        run: artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --preview --profile-opengl --profile-allow-nap --data-dir "$PWD/artifacts/native-qa/legacy-save" --snapshot "$PWD/artifacts/native-qa/legacy-scene.png" --exit-after 45
       - name: Transparent desktop host and screenshot
         run: python tools/test_macos_desktop.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa
-      - name: Intel renderer isolation profiles
-        if: matrix.rid == 'osx-x64'
-        run: |
-          for mode in no-shadow software; do
-            artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --profile-$mode --native-audit --data-dir "$PWD/artifacts/native-qa/profile-$mode-save" --snapshot "$PWD/artifacts/native-qa/profile-$mode.png" --exit-after 20
-          done
+      - name: Record native display hardware
+        run: system_profiler SPDisplaysDataType > artifacts/native-qa/display-hardware.txt
       - name: Animation performance acceptance
-        run: python tools/check_macos_performance.py artifacts/native-qa/scene.png.json
+        run: |
+          python tools/check_macos_performance.py artifacts/native-qa/scene.png.json
+          python tools/check_macos_performance.py artifacts/native-qa/desktop-scene.png.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:

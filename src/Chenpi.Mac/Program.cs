@@ -19,7 +19,13 @@ internal static class Program
         Args=args;
         if(args.Contains("--probe-fullscreen")){Console.WriteLine(MacNative.FullscreenOnPrimary()?"fullscreen":"normal");return;}
         if(!OperatingSystem.IsMacOS()&&!args.Contains("--preview"))throw new PlatformNotSupportedException("Use the Windows build on Windows, or --preview for renderer QA.");
-        var rendering=args.Contains("--profile-opengl")?new[]{AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software}:new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software};
+        // Intel's native GPU paths can stall compiling Skia's shadow shaders.
+        // The raster path preserves the same pixels/effects and avoids that
+        // driver-dependent work. Apple Silicon uses Metal with raster fallback.
+        var rendering=System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture==System.Runtime.InteropServices.Architecture.X64
+            ?new[]{AvaloniaNativeRenderingMode.Software}:new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.Software};
+        if(args.Contains("--profile-opengl"))rendering=new[]{AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software};
+        if(args.Contains("--profile-metal"))rendering=new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.Software};
         if(args.Contains("--profile-software"))rendering=new[]{AvaloniaNativeRenderingMode.Software};
         AppBuilder.Configure<MacApp>().UsePlatformDetect().With(new AvaloniaNativePlatformOptions{RenderingMode=rendering}).With(new MacOSPlatformOptions{ShowInDock=false}).LogToTrace().StartWithClassicDesktopLifetime(args,ShutdownMode.OnExplicitShutdown);
     }
@@ -32,6 +38,11 @@ internal sealed class MacApp : Application
     {
         if(ApplicationLifetime is IClassicDesktopStyleApplicationLifetime desktop)
         {
+            if(Program.Option("--audit-source") is string sourceAssets)
+            {
+                Dispatcher.UIThread.Post(()=>{try{FrameBitmapAudit.Run(sourceAssets,Program.Option("--audit-output")??"native-pixels.json");desktop.Shutdown();}catch(Exception e){Console.Error.WriteLine(e);desktop.Shutdown(1);}});
+                base.OnFrameworkInitializationCompleted();return;
+            }
             string data=Program.Option("--data-dir")??Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"Library","Application Support","Chenpi");
             Directory.CreateDirectory(data);
             try{singleInstance=new FileStream(Path.Combine(data,"instance.lock"),FileMode.OpenOrCreate,FileAccess.ReadWrite,FileShare.None);}
@@ -58,6 +69,7 @@ internal sealed class PetWindow : Window
     private readonly Stopwatch clock=Stopwatch.StartNew();
     private readonly List<double> intervals=new();
     private readonly List<object> slowFrames=new();
+    private readonly List<double> nativeTimes=new(),updateTimes=new();
     private readonly string boot;
     private double lastFrame,lastCheck,lastSave,awake;
     private bool hidden,fullscreen,quitting,startupPending=true;
@@ -121,10 +133,14 @@ internal sealed class PetWindow : Window
         if(dt>.04&&slowFrames.Count<100)slowFrames.Add(new{Time=now,Milliseconds=dt*1000,engine.Action,scene.DisplayedClip,scene.DisplayedFrame});
         engine.PresentationPaused=!scene.IsVisible;
         if(startupPending&&!engine.PresentationPaused){startupPending=false;engine.BeginStartup(store.IsFirstRun,Program.Args.Contains("--autostart"),boot,Preview);}
+        long started=Stopwatch.GetTimestamp();
         var pointer=OperatingSystem.IsMacOS()?MacNative.Pointer(this):previewPointer;
         MacNative.PassThrough(this,!scene.IsVisible||!scene.AcceptsPointer(pointer));
+        if(nativeTimes.Count<36000)nativeTimes.Add(Stopwatch.GetElapsedTime(started).TotalMilliseconds);
+        started=Stopwatch.GetTimestamp();
         if(scene.IsVisible)scene.InputTick(Math.Min(.12,dt),pointer);else engine.ObservePointer(0,false,new());
         engine.Update(Math.Min(.12,dt),DateTime.Now.Hour);if(!Audible)voice.Silence();
+        if(updateTimes.Count<36000)updateTimes.Add(Stopwatch.GetElapsedTime(started).TotalMilliseconds);
         RequestAnimationFrame(AnimationFrame);
     }
     private void Maintenance()
@@ -148,7 +164,17 @@ internal sealed class PetWindow : Window
         string path=Program.Option("--snapshot")??Path.Combine(store.DirectoryPath,"preview.png");
         using var bitmap=new RenderTargetBitmap(new PixelSize((int)Bounds.Width,(int)Bounds.Height),new Vector(96,96));bitmap.Render(scene);bitmap.Save(path);
         var sorted=intervals.Order().ToArray();
-        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,engine.StartupActive,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,scene.CacheMisses,scene.MaxDecodeMilliseconds,scene.RenderingDiagnostics,WorkingSet=Process.GetCurrentProcess().WorkingSet64,CpuMilliseconds=Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds,ElapsedSeconds=clock.Elapsed.TotalSeconds,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
+        // Diagnostics only: Avalonia 11 does not expose the selected backend in
+        // its stable API. Failure to inspect it must not affect the renderer.
+        string graphics="Unavailable";
+        try
+        {
+            var resolver=typeof(AvaloniaLocator).GetProperty("Current",System.Reflection.BindingFlags.Static|System.Reflection.BindingFlags.Public|System.Reflection.BindingFlags.NonPublic)?.GetValue(null);
+            if(resolver is not null)graphics=resolver.GetType().GetMethod("GetService")?.Invoke(resolver,new object[]{typeof(Avalonia.Platform.IPlatformGraphics)})?.GetType().FullName??"Software";
+        }
+        catch(Exception e){Trace.WriteLine(e.Message);}
+        object Times(List<double> times)=>new{P95=times.Order().ElementAt((int)(times.Count*.95)),Max=times.Max()};
+        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),GraphicsBackend=graphics,engine.Action,engine.StartupActive,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,scene.CacheMisses,scene.MaxDecodeMilliseconds,scene.RenderingDiagnostics,NativeTimings=Times(nativeTimes),UpdateTimings=Times(updateTimes),WorkingSet=Process.GetCurrentProcess().WorkingSet64,CpuMilliseconds=Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds,ElapsedSeconds=clock.Elapsed.TotalSeconds,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
     }
     private static string RuntimeInformation()=>System.Runtime.InteropServices.RuntimeInformation.OSDescription;
     private void Save()=>store.QueueSave(engine.State);

@@ -3,6 +3,7 @@ using Avalonia.Media;
 using Avalonia.Media.Imaging;
 using Avalonia.Platform;
 using System.Runtime.InteropServices;
+using System.Buffers;
 
 namespace Chenpi;
 
@@ -46,9 +47,9 @@ internal sealed class FrameBitmap : IDisposable
     public int PixelHeight=>Image.PixelSize.Height;
     public Rect Extent {get;}
     private readonly byte[]? hitPixels;
-    private FrameBitmap(Bitmap image,Rect extent,byte[]? hitPixels){Image=image;Extent=extent;this.hitPixels=hitPixels;}
+    internal FrameBitmap(Bitmap image,Rect extent,byte[]? hitPixels){Image=image;Extent=extent;this.hitPixels=hitPixels;}
     public long Bytes=>(long)PixelWidth*PixelHeight*4+(hitPixels?.Length??0);
-    public static FrameBitmap Load(string path,bool crop,bool clean,int threshold=1,bool keepHitPixels=false,int decodeWidth=0)
+    public static unsafe FrameBitmap Load(string path,bool crop,bool clean,int threshold=1,bool keepHitPixels=false,int decodeWidth=0)
     {
         using var source=RuntimeAssets.Open(path,out _);
         using var codec=SkiaSharp.SKCodec.Create(source);
@@ -56,8 +57,12 @@ internal sealed class FrameBitmap : IDisposable
         using var raw=new SkiaSharp.SKBitmap(info);
         if(codec.GetPixels(info,raw.GetPixels())!=SkiaSharp.SKCodecResult.Success)throw new InvalidDataException(path);
         using var resized=decodeWidth>0&&decodeWidth!=info.Width?raw.Resize(new SkiaSharp.SKImageInfo(decodeWidth,(int)Math.Round(info.Height*decodeWidth/(double)info.Width),info.ColorType,info.AlphaType),SkiaSharp.SKFilterQuality.High):null;
-        var selected=resized??raw;int w=selected.Width,h=selected.Height;var pixels=selected.Bytes;
-        if(clean)pixels=AlphaMatte.Clean(pixels,w,h);
+        var selected=resized??raw;int w=selected.Width,h=selected.Height;
+        // Inspect Skia's live decode buffer directly. Copying every full 640px
+        // canvas into the managed large-object heap doubled transient storage.
+        if(selected.RowBytes!=w*4)throw new InvalidDataException("Unexpected pixel stride");
+        ReadOnlySpan<byte> pixels=new((void*)selected.GetPixels(),checked(w*h*4));
+        if(clean)pixels=AlphaMatte.Clean(pixels.ToArray(),w,h);
         int minX=w,minY=h,maxX=0,maxY=0;
         for(int y=0;y<h;y++)for(int x=0;x<w;x++)if(pixels[(y*w+x)*4+3]>threshold)
         {minX=Math.Min(minX,x);minY=Math.Min(minY,y);maxX=Math.Max(maxX,x+1);maxY=Math.Max(maxY,y+1);}
@@ -65,11 +70,14 @@ internal sealed class FrameBitmap : IDisposable
         if(crop&&!clean){minX=Math.Max(0,minX-2);minY=Math.Max(0,minY-2);maxX=Math.Min(w,maxX+2);maxY=Math.Min(h,maxY+2);}
         Rect extent=new(minX/(double)w,minY/(double)h,(maxX-minX)/(double)w,(maxY-minY)/(double)h);
         if(!crop){minX=minY=0;maxX=w;maxY=h;extent=new(0,0,1,1);}
-        int cw=maxX-minX,ch=maxY-minY;var compact=new byte[cw*ch*4];
-        for(int y=0;y<ch;y++)Buffer.BlockCopy(pixels,((minY+y)*w+minX)*4,compact,y*cw*4,cw*4);
-        var pin=GCHandle.Alloc(compact,GCHandleType.Pinned);
-        try{return new(new Bitmap(PixelFormat.Bgra8888,AlphaFormat.Unpremul,pin.AddrOfPinnedObject(),new PixelSize(cw,ch),new Vector(96,96),cw*4),extent,keepHitPixels?compact:null);}
-        finally{pin.Free();}
+        int cw=maxX-minX,ch=maxY-minY;var compact=keepHitPixels?new byte[cw*ch*4]:ArrayPool<byte>.Shared.Rent(cw*ch*4);
+        try
+        {
+            for(int y=0;y<ch;y++)pixels.Slice(((minY+y)*w+minX)*4,cw*4).CopyTo(compact.AsSpan(y*cw*4,cw*4));
+            // Avalonia's constructor copies the buffer before returning.
+            fixed(byte* address=compact)return new(new Bitmap(PixelFormat.Bgra8888,AlphaFormat.Unpremul,(IntPtr)address,new PixelSize(cw,ch),new Vector(96,96),cw*4),extent,keepHitPixels?compact:null);
+        }
+        finally{if(!keepHitPixels)ArrayPool<byte>.Shared.Return(compact);}
     }
     public void CopyPixels(Int32Rect rect,byte[] pixels,int stride,int offset)
     {

@@ -4,6 +4,8 @@ import pathlib
 import sys
 
 data = json.loads(pathlib.Path(sys.argv[1]).read_text())
+print('Native performance measurements:', {k: v for k, v in data.items()
+      if k not in ('slowFrames', 'ClipTransitions')}, flush=True)
 assert data['CachedFrameBytes'] <= 96 * 1024 * 1024, data['CachedFrameBytes']
 assert not data['StartupActive'], 'Startup did not finish in the 85-second smoke test'
 assert data['Frames'] >= 1900, ('Insufficient animation callbacks', data['Frames'])
