@@ -6,6 +6,16 @@ on:
         description: Successful desktop release run to verify
         required: true
         type: string
+      renderer:
+        description: Rendering backend to profile
+        type: choice
+        default: default
+        options: [default, software, opengl]
+      architecture:
+        description: Native architecture
+        type: choice
+        default: both
+        options: [both, arm64, x64]
 permissions:
   contents: read
   actions: read
@@ -14,11 +24,7 @@ jobs:
     strategy:
       fail-fast: false
       matrix:
-        include:
-          - runner: macos-15
-            rid: osx-arm64
-          - runner: macos-15-intel
-            rid: osx-x64
+        include: ${{ fromJSON(inputs.architecture == 'arm64' && '[{"runner":"macos-15","rid":"osx-arm64"}]' || inputs.architecture == 'x64' && '[{"runner":"macos-15-intel","rid":"osx-x64"}]' || '[{"runner":"macos-15","rid":"osx-arm64"},{"runner":"macos-15-intel","rid":"osx-x64"}]') }}
     runs-on: ${{ matrix.runner }}
     timeout-minutes: 15
     steps:
@@ -38,7 +44,7 @@ jobs:
           ditto -x -k Chenpi-${{ matrix.rid }}.zip ../../../unpacked
           codesign --verify --deep --strict ../../../unpacked/Chenpi.app
       - name: Five-minute desktop memory trace
-        run: python3 tools/test_macos_memory.py unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/memory
+        run: python3 tools/test_macos_memory.py unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/memory ${{ inputs.renderer }}
       - uses: actions/upload-artifact@v4
         if: always()
         with:

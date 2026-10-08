@@ -8,8 +8,12 @@ import time
 exe = pathlib.Path(sys.argv[1]).resolve()
 output = pathlib.Path(sys.argv[2]).resolve()
 output.mkdir(parents=True, exist_ok=True)
+renderer = sys.argv[3] if len(sys.argv) > 3 else 'default'
+if renderer not in ('default', 'software', 'opengl'):
+    raise ValueError('Unknown renderer')
+options = [] if renderer == 'default' else ['--profile-' + renderer]
 child = subprocess.Popen([str(exe), '--data-dir', str(output / 'save'),
-                          '--snapshot', str(output / 'scene.png'), '--exit-after', '300'])
+                          '--snapshot', str(output / 'scene.png'), '--exit-after', '300', *options])
 started = time.monotonic()
 samples = []
 try:
@@ -29,7 +33,7 @@ try:
     assert metrics['CachedFrameBytes'] <= 96 * 1024 * 1024
     assert not metrics['StartupActive']
     assert len(samples) >= 29
-    report = dict(durationSeconds=300, samples=samples,
+    report = dict(durationSeconds=300, renderer=renderer, samples=samples,
                   metrics={k: v for k, v in metrics.items() if k not in ('slowFrames', 'ClipTransitions')},
                   warmMinimum=min(s['rssBytes'] for s in samples if s['seconds'] >= 90),
                   warmMaximum=max(s['rssBytes'] for s in samples if s['seconds'] >= 90))
