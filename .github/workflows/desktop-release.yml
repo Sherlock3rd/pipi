@@ -8,6 +8,7 @@ on:
       - 'tools/*release*'
       - 'tools/package_runtime.py'
       - 'tools/test_macos_native.py'
+      - 'tools/test_macos_desktop.py'
       - 'tools/macos_window_fixture.swift'
       - 'packaging/**'
       - '.github/workflows/desktop-release.yml'
@@ -43,7 +44,13 @@ jobs:
       - run: python -m pip install -r tools/requirements-release.txt
       - name: Shared behavior regression
         run: dotnet run --project tests/Chenpi.Tests/Chenpi.Tests.csproj -c Release
+      - uses: actions/cache@v4
+        id: asset-cache
+        with:
+          path: artifacts/runtime-assets
+          key: lossless-frames-v1-${{ hashFiles('assets/**', 'tools/package_runtime.py', 'tools/requirements-release.txt') }}
       - name: Lossless pack and pixel verification
+        if: steps.asset-cache.outputs.cache-hit != 'true'
         run: python tools/package_runtime.py --output artifacts/runtime-assets --workers 3
       - name: Build and ad-hoc sign app bundle
         run: python tools/build_release.py --rid ${{ matrix.rid }} --assets artifacts/runtime-assets
@@ -56,6 +63,8 @@ jobs:
           test -f artifacts/native-qa/save/native-audit.txt
           test -f artifacts/native-qa/scene.png.json
           test ! -f artifacts/native-qa/save/error.log
+      - name: Transparent desktop host and screenshot
+        run: python tools/test_macos_desktop.py dist/releases/${{ matrix.rid }}/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa
       - uses: actions/upload-artifact@v4
         if: always()
         with:

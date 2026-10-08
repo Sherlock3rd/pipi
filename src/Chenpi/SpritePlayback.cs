@@ -44,7 +44,7 @@ public readonly record struct SpriteFrame(string Clip,int Index,SpriteClip Defin
 public sealed partial class SpritePlayback
 {
     private readonly Dictionary<string,SpriteClip> clips=new(StringComparer.Ordinal);
-    private readonly Queue<(string Id,bool Reverse)> pending=new();
+    private Queue<(string Id,bool Reverse)> pending=new();
     private string group="",current="";
     private bool reverse;
     private double started;
@@ -64,6 +64,20 @@ public sealed partial class SpritePlayback
         ("SR","SL","15"),("SL","SR","16"),("F","I","17"),("I","F","18"),
         ("I","C","19"),("C","I","21")};
     public bool HasFoundation=>clips.ContainsKey("idle")&&clips.ContainsKey("walk")&&clips.ContainsKey("sleep");
+
+    // Read ahead across real transition/turn/consumption boundaries. Clone all
+    // mutable scheduling state; prediction must never advance the live player.
+    public IEnumerable<SpriteFrame> PeekFrames(string action,double now,bool left=false)
+    {
+        var preview=(SpritePlayback)MemberwiseClone();preview.pending=new(pending);
+        SpriteFrame? previous=null;
+        for(int i=1;i<=36;i++)
+        {
+            var next=preview.SampleCore(action,now+i/60d,left);
+            if(next is SpriteFrame f&&(previous is not SpriteFrame p||p.Clip!=f.Clip||p.Index!=f.Index))
+            {previous=f;yield return f;}
+        }
+    }
 
     public void Load(JsonElement manifest,Func<string,int> frameCount)
     {

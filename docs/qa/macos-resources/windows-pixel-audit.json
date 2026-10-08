@@ -1,0 +1,8 @@
+{
+  "CheckedFrames": 15349,
+  "PixelMismatches": 0,
+  "BoundsMismatches": 0,
+  "P50DecodeMs": 4.3309,
+  "P95DecodeMs": 6.8339,
+  "MaxDecodeMs": 3794.9688
+}

@@ -51,9 +51,10 @@ internal sealed class PetWindow : Window
     private readonly Scene scene;
     private readonly MacVoice voice;
     private readonly IClassicDesktopStyleApplicationLifetime lifetime;
-    private readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(1000d/60)};
+    private readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(250)};
     private readonly Stopwatch clock=Stopwatch.StartNew();
     private readonly List<double> intervals=new();
+    private readonly List<object> slowFrames=new();
     private readonly string boot;
     private double lastFrame,lastCheck,lastSave,awake;
     private bool hidden,fullscreen,quitting,startupPending=true;
@@ -80,10 +81,10 @@ internal sealed class PetWindow : Window
             if(!Preview)FitScreen();scene.LayoutWorld();
             if(Program.Args.Contains("--native-audit")){MacNative.VerifyWindow(this);File.WriteAllText(Path.Combine(store.DirectoryPath,"native-audit.txt"),"Layer roundtrip, click-through roundtrip, nonactivation and pointer read-back passed");}
             MacNative.Configure(this,engine.State.Floating,false);
-            CreateTray();lastFrame=clock.Elapsed.TotalSeconds;timer.Start();
+            CreateTray();lastFrame=clock.Elapsed.TotalSeconds;timer.Start();RequestAnimationFrame(AnimationFrame);
             if(Program.Args.Contains("--settings"))ShowSettings();
         };
-        timer.Tick+=(_,_)=>Tick();
+        timer.Tick+=(_,_)=>Maintenance();
         Closing+=(_,e)=>{if(!quitting){e.Cancel=true;hidden=true;}};
         Screens.Changed+=(_,_)=>{if(!Preview){scene.CancelDrag();FitScreen();scene.LayoutWorld();}};
     }
@@ -103,11 +104,23 @@ internal sealed class PetWindow : Window
         tray=new TrayIcon{ToolTipText="陈皮 · 桌面小猫",Menu=menu,Icon=new WindowIcon(icon.Image),IsVisible=true};
         tray.Clicked+=(_,_)=>hidden=false;TrayIcon.SetIcons(Application.Current!,new TrayIcons{tray});
     }
-    private void Tick()
+    private void AnimationFrame(TimeSpan timestamp)
     {
         if(quitting)return;
         double now=clock.Elapsed.TotalSeconds,dt=now-lastFrame;lastFrame=now;
         if(intervals.Count<36000)intervals.Add(dt*1000);
+        if(dt>.04&&slowFrames.Count<100)slowFrames.Add(new{Time=now,Milliseconds=dt*1000,engine.Action,scene.DisplayedClip,scene.DisplayedFrame});
+        engine.PresentationPaused=!scene.IsVisible;
+        if(startupPending&&!engine.PresentationPaused){startupPending=false;engine.BeginStartup(store.IsFirstRun,Program.Args.Contains("--autostart"),boot,Preview);}
+        var pointer=OperatingSystem.IsMacOS()?MacNative.Pointer(this):previewPointer;
+        MacNative.PassThrough(this,!scene.IsVisible||!scene.AcceptsPointer(pointer));
+        if(scene.IsVisible)scene.InputTick(Math.Min(.12,dt),pointer);else engine.ObservePointer(0,false,new());
+        engine.Update(Math.Min(.12,dt),DateTime.Now.Hour);if(!Audible)voice.Silence();
+        RequestAnimationFrame(AnimationFrame);
+    }
+    private void Maintenance()
+    {
+        if(quitting)return;double now=clock.Elapsed.TotalSeconds;
         double nextAwake=MacNative.AwakeSeconds;engine.AdvanceNeeds(Math.Max(0,nextAwake-awake));awake=nextAwake;engine.State.AwakeSeconds=awake;
         if(now-lastCheck>=.5)
         {
@@ -115,21 +128,17 @@ internal sealed class PetWindow : Window
             if((fullscreen||hidden)&&scene.IsInteracting)scene.CancelDrag();
             scene.IsVisible=!fullscreen&&!hidden;MacNative.Configure(this,engine.State.Floating,fullscreen||hidden);
         }
-        engine.PresentationPaused=!scene.IsVisible;
-        if(startupPending&&!engine.PresentationPaused){startupPending=false;engine.BeginStartup(store.IsFirstRun,Program.Args.Contains("--autostart"),boot,Preview);}
-        var pointer=OperatingSystem.IsMacOS()?MacNative.Pointer(this):previewPointer;
-        MacNative.PassThrough(this,!scene.IsVisible||!scene.AcceptsPointer(pointer));
-        if(scene.IsVisible)scene.InputTick(Math.Min(.12,dt),pointer);else engine.ObservePointer(0,false,new());
-        engine.Update(Math.Min(.12,dt),DateTime.Now.Hour);if(!Audible)voice.Silence();
+        if(!Audible)voice.Silence();
         if(!scene.IsInteracting&&now-lastSave>5){Save();lastSave=now;}
         if(double.TryParse(Program.Option("--exit-after"),out double end)&&now>=end){WriteDiagnostics();Quit();}
     }
     private void WriteDiagnostics()
     {
+        if(intervals.Count==0)throw new InvalidOperationException("No animation frames were presented");
         string path=Program.Option("--snapshot")??Path.Combine(store.DirectoryPath,"preview.png");
         using var bitmap=new RenderTargetBitmap(new PixelSize((int)Bounds.Width,(int)Bounds.Height),new Vector(96,96));bitmap.Render(scene);bitmap.Save(path);
         var sorted=intervals.Order().ToArray();
-        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,WorkingSet=Process.GetCurrentProcess().WorkingSet64,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],scene.ClipTransitions}));
+        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,WorkingSet=Process.GetCurrentProcess().WorkingSet64,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
     }
     private static string RuntimeInformation()=>System.Runtime.InteropServices.RuntimeInformation.OSDescription;
     private void Save()=>store.QueueSave(engine.State);

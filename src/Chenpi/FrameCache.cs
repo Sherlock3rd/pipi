@@ -21,6 +21,7 @@ public sealed class FrameCache<T> : IDisposable where T : class
     public long Bytes {get;private set;}
     public long Misses {get;private set;}
     public long Hits {get;private set;}
+    public double MaxLoadMilliseconds {get;private set;}
     public FrameCache(long budget,Func<string,(T Value,long Bytes)> load,Action<T>? release=null)
     {if(budget<=0)throw new ArgumentOutOfRangeException(nameof(budget));this.budget=budget;this.load=load;this.release=release;}
     public T Get(string key)
@@ -32,9 +33,11 @@ public sealed class FrameCache<T> : IDisposable where T : class
         }
         // IO and decompression must not hold the cache lock: a background
         // look-ahead must never block presentation of an already cached frame.
+        long started=System.Diagnostics.Stopwatch.GetTimestamp();
         var result=load(key);
         lock(gate)
         {
+            MaxLoadMilliseconds=Math.Max(MaxLoadMilliseconds,System.Diagnostics.Stopwatch.GetElapsedTime(started).TotalMilliseconds);
             if(disposed){release?.Invoke(result.Value);throw new ObjectDisposedException(nameof(FrameCache<T>));}
             if(entries.TryGetValue(key,out var existing))
             {release?.Invoke(result.Value);Hits++;lru.Remove(existing.Node);lru.AddLast(existing.Node);return existing.Value;}

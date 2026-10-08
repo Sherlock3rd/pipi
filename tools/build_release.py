@@ -48,6 +48,9 @@ def main():
     # Licenses and native third-party notices ship with each architecture.
     notices = binary / 'licenses'
     notices.mkdir()
+    for source in (ROOT / 'packaging/licenses').glob('*'):
+        if source.is_file():
+            shutil.copyfile(source, notices / source.name)
     nuget = pathlib.Path(os.environ.get('NUGET_PACKAGES', str(pathlib.Path.home() / '.nuget/packages')))
     graph = json.loads((project.parent / 'obj/project.assets.json').read_text(encoding='utf-8'))
     packages = []
@@ -72,8 +75,16 @@ def main():
         executable.chmod(0o755)
         if sys.platform == 'darwin':
             identity = os.environ.get('CHENPI_SIGN_IDENTITY', '-')
+            architecture = 'arm64' if args.rid == 'osx-arm64' else 'x86_64'
             for file in binary.rglob('*'):
                 if file.suffix == '.dylib' or file == executable:
+                    architectures = subprocess.check_output(['lipo', '-archs', str(file)], text=True).split()
+                    if architecture not in architectures:
+                        raise ValueError(f'Wrong native architecture: {file}: {architectures}')
+                    if len(architectures) > 1:
+                        thinned = file.with_name(file.name + '.thin')
+                        run('lipo', file, '-thin', architecture, '-output', thinned)
+                        thinned.replace(file)
                     run('codesign', '--force', '--sign', identity, file)
             run('codesign', '--force', '--sign', identity, '--entitlements', ROOT / 'packaging/macos/entitlements.plist', app)
             run('codesign', '--verify', '--deep', '--strict', app)
@@ -90,7 +101,8 @@ def main():
             metadata.compress_type = zipfile.ZIP_STORED if file.suffix == '.cpak' else zipfile.ZIP_DEFLATED
             with file.open('rb') as source, archive.open(metadata, 'w', force_zip64=True) as target:
                 shutil.copyfileobj(source, target)
-    digest = hashlib.sha256(zip_path.read_bytes()).hexdigest()
+    with zip_path.open('rb') as archive_file:
+        digest = hashlib.file_digest(archive_file, 'sha256').hexdigest()
     zip_path.with_suffix('.zip.sha256').write_text(digest + '  ' + zip_path.name + '\n', encoding='ascii')
     print(json.dumps(dict(archive=str(zip_path), bytes=zip_path.stat().st_size, sha256=digest,
                           signedOnMac=mac and sys.platform == 'darwin'), indent=2))

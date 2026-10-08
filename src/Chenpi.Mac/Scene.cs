@@ -18,6 +18,7 @@ internal sealed partial class Scene : Panel,IDisposable
         {using var dc=new DrawingContextAdapter(context);if(overlay)scene.RenderOverlay(dc);else scene.RenderArtwork(dc);}
     }
     private readonly Layer art,ui;
+    private readonly DropShadowEffect shadow=new(){Color=Colors.Black,Opacity=.38,BlurRadius=14,OffsetY=3,OffsetX=0};
     public PetEngine Engine {get;}
     public Action? OpenSettings,SaveNow;
     internal event Action<SpriteFrame?>? FramePresented;
@@ -62,8 +63,9 @@ internal sealed partial class Scene : Panel,IDisposable
         Engine=engine;shownFood=engine.State.Food;shownWater=engine.State.Water;
         using var doc=JsonDocument.Parse(File.ReadAllText(Path.Combine(RuntimeAssets.Root,"pets/bluecat/manifest.json")));
         var manifest=doc.RootElement;bool prepared=manifest.GetProperty("videoMattePrepared").GetBoolean();
-        cache=new(96L*1024*1024,path=>{var image=FrameBitmap.Load(path,true,!prepared);frameBounds[image]=image.Extent;return (image,image.Bytes);},image=>Dispatcher.UIThread.Post(image.Dispose,DispatcherPriority.Background));
         string root=Path.GetFullPath(Path.Combine(RuntimeAssets.Root,"pets/bluecat"))+Path.DirectorySeparatorChar;
+        var videoPaths=manifest.GetProperty("animations").EnumerateObject().Where(p=>p.Name.StartsWith("video-",StringComparison.Ordinal)).SelectMany(p=>p.Value.EnumerateArray().Select(v=>Path.GetFullPath(Path.Combine(root,v.GetString()!)))).ToHashSet(StringComparer.Ordinal);
+        cache=new(96L*1024*1024,path=>{bool video=videoPaths.Contains(path);var image=FrameBitmap.Load(path,video,video&&!prepared);frameBounds[image]=image.Extent;return (image,image.Bytes);},image=>Dispatcher.UIThread.Post(image.Dispose,DispatcherPriority.Background));
         foreach(var clip in manifest.GetProperty("animations").EnumerateObject())
         {
             var paths=clip.Value.EnumerateArray().Select(v=>Path.GetFullPath(Path.Combine(root,v.GetString()!))).ToList();
@@ -81,12 +83,18 @@ internal sealed partial class Scene : Panel,IDisposable
         Engine.CompletionEnabled=playback.HasCompletion;Engine.VisualRestorePose=playback.RestorePose;Engine.VisualDropPose=()=>playback.DropPose;
         Engine.RestoreRelaxedSleep();if(Engine.Action.StartsWith("rest-"))playback.RestorePose(Engine.RelaxedPose);
         foreach(string id in new[]{"video-01","video-20","video-32"})if(frames.TryGetValue(id,out var f))_ = f[0];
-        art=new(this,false){Effect=new DropShadowEffect{Color=Colors.Black,Opacity=.38,BlurRadius=14,OffsetY=3,OffsetX=0}};
+        art=new(this,false){Effect=shadow};
         ui=new(this,true);Children.Add(art);Children.Add(ui);Background=Brushes.Transparent;
         RenderOptions.SetBitmapInterpolationMode(this,Avalonia.Media.Imaging.BitmapInterpolationMode.HighQuality);
         SizeChanged+=(_,_)=>LayoutWorld();
     }
     private IReadOnlyList<FrameBitmap>? GetFrames(string id)=>frames.GetValueOrDefault(id);
+    private double lastPrefetch=-1;
+    private void PrefetchPlayback(string action)
+    {
+        if(Engine.Now-lastPrefetch<.12)return;lastPrefetch=Engine.Now;
+        cache.Prefetch(playback.PeekFrames(action,Engine.Now,Engine.FacingLeft).Where(f=>framePaths.ContainsKey(f.Clip)).Select(f=>framePaths[f.Clip][f.Index]).Distinct().ToArray());
+    }
     public void LayoutWorld(){if(WorldWidth>=400&&WorldHeight>=250)Engine.Layout(WorldWidth,WorldHeight);Repaint();}
     public void Repaint(){art.InvalidateVisual();ui.InvalidateVisual();}
     public void InputTick(double dt,Point at)
@@ -98,7 +106,7 @@ internal sealed partial class Scene : Panel,IDisposable
         if(wandHeld)Engine.SetToy(true,new(Math.Clamp(pointer.X,0,WorldWidth),Math.Clamp(pointer.Y,0,WorldHeight)));
         Engine.ObservePointer(dt,IsVisible&&!pressed&&CatRect.Contains(pointer),new(pointer.X,pointer.Y));
         shownFood+=Math.Clamp(Engine.State.Food-shownFood,-dt*95,dt*95);shownWater+=Math.Clamp(Engine.State.Water-shownWater,-dt*95,dt*95);
-        art.Effect=new DropShadowEffect{Color=Colors.Black,Opacity=.38,BlurRadius=14*Scale,OffsetY=3*Scale,OffsetX=0};Repaint();
+        if(shadow.BlurRadius!=14*Scale){shadow.BlurRadius=14*Scale;shadow.OffsetY=3*Scale;}Repaint();
     }
     private Point World(Point p)=>new(p.X/Scale,p.Y/Scale);
     private Rect CatRect=>currentCatBounds is Rect b?b.Translate(new Vector(Engine.VisualPosition.X,Engine.VisualPosition.Y-lift-poseLift)).Inflate(7):new(Engine.State.X-85,Engine.State.Y-158,170,170);

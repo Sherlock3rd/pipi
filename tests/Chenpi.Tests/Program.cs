@@ -814,4 +814,5 @@ VoiceChecks.Run(Check,runtimeManifest);
 RequestGestureChecks.Run(Check,runtimeManifest);
 CompletionChecks.Run(Check,runtimeManifest);
 FrameCacheChecks.Run(Check);
+FrameCacheChecks.Playback(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

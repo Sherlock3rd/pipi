@@ -1,0 +1,21 @@
+{
+  "renderedFrames": 3589,
+  "averageFrameMs": 16.72099016164994,
+  "maxFrameMs": 63.201999999999536,
+  "averageDrawMs": 0.4275762593932635,
+  "CachedFrameBytes": 100573488,
+  "workingSet": 310710272,
+  "peakWorkingSet": 349872128,
+  "p95FrameMs": 17.557899999999904,
+  "slowFrames": [
+    {
+      "Time": 4.1354307,
+      "Milliseconds": 63.201999999999536,
+      "Action": "sleep",
+      "DisplayedClip": "video-20",
+      "DisplayedFrame": 0
+    }
+  ],
+  "scope": "60-second isolated WPF preview, original timing, source assets packed losslessly; not macOS performance",
+  "baselineWorkingSetBytes": 4685877248
+}

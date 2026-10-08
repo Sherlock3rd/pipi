@@ -1,0 +1,10 @@
+{
+  "framePaths": 15349,
+  "uniquePayloads": 15349,
+  "originalFrameBytes": 1401083730,
+  "packedFrameBytes": 797323282,
+  "sourceAssetBytes": 1508809307,
+  "outputAssetBytes": 805360830,
+  "verified": "Every packed frame decoded to exactly identical RGBA bytes; manifest, props and audio copied byte-for-byte",
+  "manifestSha256": "b973d94ae09bce67e61aacec2e57bf0040afe22c76f00506a3d3b418f0a8e2a5"
+}

@@ -94,6 +94,12 @@ internal sealed partial class Scene : FrameworkElement
         if(!framePaths.TryGetValue(id,out var paths))return null;
         var sequence=new FrameSequence<BitmapSource>(paths,frameCache);frames[id]=sequence;return sequence;
     }
+    private double lastPrefetch=-1;
+    private void PrefetchPlayback(string action)
+    {
+        if(Engine.Now-lastPrefetch<.12)return;lastPrefetch=Engine.Now;
+        frameCache.Prefetch(playback.PeekFrames(action,Engine.Now,Engine.FacingLeft).Where(f=>framePaths.ContainsKey(f.Clip)).Select(f=>framePaths[f.Clip][f.Index]).Distinct().ToArray());
+    }
     internal static BitmapSource DecodeSource(string path)
     {
         using var stream=RuntimeAssets.Open(path,out bool webp);

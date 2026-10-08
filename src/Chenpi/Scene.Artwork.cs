@@ -66,6 +66,7 @@ internal sealed partial class Scene
     }
     private void RenderOverlay(DrawingContext dc)
     {
+        if(PreviewSupplies||PreviewRightWalk)return;
         dc.PushTransform(new ScaleTransform(Scale,Scale));
         if(IsDragging&&pressedObject=="cat"&&AtNest)
         {dc.DrawRoundedRectangle(null,new Pen(Brush("#A3C7A2"),3),NestRect,30,30);}
@@ -286,6 +287,7 @@ internal sealed partial class Scene
             // One supplied frame per instant. Layering the opaque previous pose
             // underneath a fading new pose created double outlines and bright flashes.
             DrawVideoFrame(dc,generated[sprite.Index],definition);
+            PrefetchPlayback(action);
             if(mirror)dc.Pop();dc.Pop();if(action==Engine.Action)FramePresented?.Invoke(sprite);return;
         }
         poseLift=0;lastSpriteClip="";currentCatBounds=null;

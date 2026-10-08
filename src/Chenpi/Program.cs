@@ -128,6 +128,8 @@ internal sealed class PetWindow : Window
     private bool startupPending;
     private double frameIntervals;
     private double maxFrameInterval;
+    private readonly System.Collections.Generic.List<double> frameSamples=new();
+    private readonly System.Collections.Generic.List<object> slowFrames=new();
 
     public PetWindow(Store storage,string[] arguments,PetEngine? existingEngine=null)
     {
@@ -271,7 +273,7 @@ internal sealed class PetWindow : Window
         if(snapshot is not null)
         {
             double seconds=double.TryParse(Program.Option(args,"--snapshot-delay"),out var requested)?Math.Clamp(requested,1,Preview&&args.Contains("--preview-expression-tour")?600:60):2;
-            var shot=new DispatcherTimer{Interval=TimeSpan.FromSeconds(seconds)};shot.Tick+=(_,_)=>{shot.Stop();if(quitting)return;scene.SavePreview(snapshot);File.WriteAllText(snapshot+".json",System.Text.Json.JsonSerializer.Serialize(new{attached,parent=Native.GetParent(new WindowInteropHelper(this).Handle).ToInt64(),windowStatus,boot,awake=Native.AwakeSeconds,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.ClipTransitions,engine.State.X,engine.State.Y,engine.State.NestPosition,engine.State.FoodPosition,engine.State.WaterPosition,engine.State.LitterPosition,engine.State.RestDuration,engine.State.RestElapsed,engine.State.StillSeconds,engine.ToyHeld,engine.ToyOverlaps,scene.LiftTransitions,scene.MaxLiftTransitionMs,renderedFrames,averageFrameMs=renderedFrames>1?frameIntervals/(renderedFrames-1)*1000:0,maxFrameMs=maxFrameInterval*1000,averageDrawMs=scene.RenderMilliseconds/Math.Max(1,scene.RenderCount)}));if(args.Contains("--exit-after-snapshot"))Quit();};shot.Start();
+            var shot=new DispatcherTimer{Interval=TimeSpan.FromSeconds(seconds)};shot.Tick+=(_,_)=>{shot.Stop();if(quitting)return;scene.SavePreview(snapshot);File.WriteAllText(snapshot+".json",System.Text.Json.JsonSerializer.Serialize(new{attached,parent=Native.GetParent(new WindowInteropHelper(this).Handle).ToInt64(),windowStatus,boot,awake=Native.AwakeSeconds,engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.ClipTransitions,engine.State.X,engine.State.Y,engine.State.NestPosition,engine.State.FoodPosition,engine.State.WaterPosition,engine.State.LitterPosition,engine.State.RestDuration,engine.State.RestElapsed,engine.State.StillSeconds,engine.ToyHeld,engine.ToyOverlaps,scene.LiftTransitions,scene.MaxLiftTransitionMs,renderedFrames,averageFrameMs=renderedFrames>1?frameIntervals/(renderedFrames-1)*1000:0,maxFrameMs=maxFrameInterval*1000,averageDrawMs=scene.RenderMilliseconds/Math.Max(1,scene.RenderCount),scene.CachedFrameBytes,workingSet=Process.GetCurrentProcess().WorkingSet64,peakWorkingSet=Process.GetCurrentProcess().PeakWorkingSet64,p95FrameMs=frameSamples.Count>0?frameSamples.Order().ElementAt((int)(frameSamples.Count*.95)):0,slowFrames}));if(args.Contains("--exit-after-snapshot"))Quit();};shot.Start();
         }
         if(args.Contains("--settings"))ShowSettings();
         if(args.Contains("--behavior-editor"))ShowBehaviorEditor();
@@ -336,7 +338,7 @@ internal sealed class PetWindow : Window
         double now=animationClock.Elapsed.TotalSeconds,dt=now-previousAnimation;
         if(dt<1.0/120)return;
         previousAnimation=now;
-        if(renderedFrames>0){frameIntervals+=dt;maxFrameInterval=Math.Max(maxFrameInterval,dt);}renderedFrames++;
+        if(renderedFrames>0){frameIntervals+=dt;maxFrameInterval=Math.Max(maxFrameInterval,dt);if(frameSamples.Count<36000)frameSamples.Add(dt*1000);if(dt>.04&&slowFrames.Count<100)slowFrames.Add(new {Time=now,Milliseconds=dt*1000,engine.Action,scene.DisplayedClip,scene.DisplayedFrame});}renderedFrames++;
         if(scene.Visibility==Visibility.Visible)scene.InputTick(Math.Min(.12,dt));
         else engine.ObservePointer(0,false,new Spot());
         // Isolated regression fixture feeds the same input entry point as hover.
