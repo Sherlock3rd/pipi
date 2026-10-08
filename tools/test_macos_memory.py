@@ -1,6 +1,7 @@
 """Sample the real self-contained desktop process; never use a personal save."""
 import json
 import pathlib
+import statistics
 import subprocess
 import sys
 import time
@@ -37,8 +38,14 @@ try:
                   metrics={k: v for k, v in metrics.items() if k not in ('slowFrames', 'ClipTransitions')},
                   warmMinimum=min(s['rssBytes'] for s in samples if s['seconds'] >= 90),
                   warmMaximum=max(s['rssBytes'] for s in samples if s['seconds'] >= 90))
+    warm = statistics.median(s['rssBytes'] for s in samples if 90 <= s['seconds'] <= 150)
+    tail = statistics.median(s['rssBytes'] for s in samples if s['seconds'] >= 240)
+    report.update(warmMedian=warm, tailMedian=tail, medianGrowthBytes=tail-warm)
     (output / 'memory.json').write_text(json.dumps(report, indent=2) + '\n')
     print(json.dumps(report), flush=True)
+    # Allow one whole decoded-frame budget of late startup/cache variation,
+    # but reject persistent native growth hidden by the bounded managed LRU.
+    assert tail-warm <= 96*1024*1024, ('Sustained process memory growth', tail-warm)
 finally:
     if child.poll() is None:
         child.terminate()

@@ -19,11 +19,11 @@ internal static class Program
         Args=args;
         if(args.Contains("--probe-fullscreen")){Console.WriteLine(MacNative.FullscreenOnPrimary()?"fullscreen":"normal");return;}
         if(!OperatingSystem.IsMacOS()&&!args.Contains("--preview"))throw new PlatformNotSupportedException("Use the Windows build on Windows, or --preview for renderer QA.");
-        // Intel's native GPU paths can stall compiling Skia's shadow shaders.
-        // The raster path preserves the same pixels/effects and avoids that
-        // driver-dependent work. Apple Silicon uses Metal with raster fallback.
-        var rendering=System.Runtime.InteropServices.RuntimeInformation.ProcessArchitecture==System.Runtime.InteropServices.Architecture.X64
-            ?new[]{AvaloniaNativeRenderingMode.Software}:new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.Software};
+        // Native GPU paths can stall compiling shadow shaders on Intel and
+        // accumulate native memory on Apple Silicon. The raster path preserves
+        // all pixels/effects and passed five-minute native cadence/RSS checks
+        // on both architectures. Keep explicit backend overrides for profiling.
+        var rendering=new[]{AvaloniaNativeRenderingMode.Software};
         if(args.Contains("--profile-opengl"))rendering=new[]{AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software};
         if(args.Contains("--profile-metal"))rendering=new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.Software};
         if(args.Contains("--profile-software"))rendering=new[]{AvaloniaNativeRenderingMode.Software};
