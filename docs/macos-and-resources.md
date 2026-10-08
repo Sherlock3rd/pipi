@@ -32,6 +32,8 @@ python tools/build_release.py --rid osx-x64 --assets artifacts/runtime-assets
 
 Windows 将 `--rid` 改为 `win-x64`。输出目录必须为空，脚本拒绝覆盖旧版本。Mac 本机打包会逐个签名原生库与应用，并执行 `codesign --verify --deep --strict`；默认本地 ad-hoc 签名，可通过 `CHENPI_SIGN_IDENTITY` 提供已有签名身份。未配置 Developer ID 公证，不宣称获得 Gatekeeper 公证通过；首次下载可能需在系统隐私与安全性中批准打开。
 
+Mac 程序集采用 .NET single-file 合并（不裁剪代码、不启用启动解压压缩）；原生动态库按对应架构保留，素材及许可放 `Contents/Resources`。首轮原生 CI 发现散放 PE DLL 的旧目录布局导致严格签名失败，已按实际日志调整；编译通过不能代替签名和启动检查。自启仅允许已移入 `/Applications` 或 `~/Applications` 的 `.app`，避免记录下载隔离区临时路径。
+
 ## 验证范围
 
 - 当前 761 项共享行为/缓存检查和 13 项 Windows 原生窗口检查通过；两端 Release 编译通过。

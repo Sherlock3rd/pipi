@@ -14,7 +14,17 @@ public static class RuntimeAssets
     private static ZipArchive? pack;
     private static Dictionary<string,string>? index;
     private static bool initialized;
-    public static string Root=>Path.Combine(AppContext.BaseDirectory,"assets");
+    public static string Root {get; }=FindRoot();
+    private static string FindRoot()
+    {
+        string adjacent=Path.Combine(AppContext.BaseDirectory,"assets");
+        if(OperatingSystem.IsMacOS())
+        {
+            string resources=Path.GetFullPath(Path.Combine(AppContext.BaseDirectory,"..","Resources","assets"));
+            if(Directory.Exists(resources))return resources;
+        }
+        return adjacent;
+    }
     private static void Initialize()
     {
         if(initialized)return;

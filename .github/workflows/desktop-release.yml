@@ -44,7 +44,17 @@ jobs:
       - run: python -m pip install -r tools/requirements-release.txt
       - name: Shared behavior regression
         run: dotnet run --project tests/Chenpi.Tests/Chenpi.Tests.csproj -c Release
-      - uses: actions/cache@v4
+      - name: Early native host check against source assets
+        run: |
+          dotnet publish src/Chenpi.Mac/Chenpi.Mac.csproj -c Release -r ${{ matrix.rid }} --self-contained true -p:SkipAssetCopy=true -p:PublishSingleFile=true -p:DebugType=None -o artifacts/native-probe
+          ln -s "$PWD/assets" artifacts/native-probe/assets
+          codesign --force --sign - --entitlements packaging/macos/entitlements.plist artifacts/native-probe/Chenpi.Mac
+          python tools/test_macos_native.py artifacts/native-probe/Chenpi.Mac
+          mkdir -p artifacts/early-native-qa
+          artifacts/native-probe/Chenpi.Mac --preview --native-audit --data-dir "$PWD/artifacts/early-native-qa/save" --snapshot "$PWD/artifacts/early-native-qa/scene.png" --exit-after 20
+          test -f artifacts/early-native-qa/save/native-audit.txt
+          test ! -f artifacts/early-native-qa/save/error.log
+      - uses: actions/cache/restore@v4
         id: asset-cache
         with:
           path: artifacts/runtime-assets
@@ -52,6 +62,11 @@ jobs:
       - name: Lossless pack and pixel verification
         if: steps.asset-cache.outputs.cache-hit != 'true'
         run: python tools/package_runtime.py --output artifacts/runtime-assets --workers 3
+      - uses: actions/cache/save@v4
+        if: steps.asset-cache.outputs.cache-hit != 'true'
+        with:
+          path: artifacts/runtime-assets
+          key: ${{ steps.asset-cache.outputs.cache-primary-key }}
       - name: Build and ad-hoc sign app bundle
         run: python tools/build_release.py --rid ${{ matrix.rid }} --assets artifacts/runtime-assets
       - name: Native full-screen and normal-window checks
@@ -74,5 +89,6 @@ jobs:
             dist/releases/*.zip
             dist/releases/*.sha256
             artifacts/native-qa
+            artifacts/early-native-qa
             artifacts/runtime-assets/pack-report.json
           retention-days: 14

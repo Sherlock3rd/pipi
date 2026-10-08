@@ -10,7 +10,8 @@ internal static class AutoStart
         if(!OperatingSystem.IsMacOS())throw new PlatformNotSupportedException();
         if(!enabled){if(File.Exists(FileName))File.Delete(FileName);return;}
         string host=Environment.ProcessPath??throw new InvalidOperationException("找不到应用路径");
-        if(!host.Contains(".app/Contents/MacOS/",StringComparison.Ordinal))throw new InvalidOperationException("请先把陈皮.app 移至应用程序文件夹，再开启自启。");
+        string userApplications=Path.Combine(Environment.GetFolderPath(Environment.SpecialFolder.UserProfile),"Applications")+Path.DirectorySeparatorChar;
+        if(!host.Contains(".app/Contents/MacOS/",StringComparison.Ordinal)||!(host.StartsWith("/Applications/",StringComparison.Ordinal)||host.StartsWith(userApplications,StringComparison.Ordinal)))throw new InvalidOperationException("请先把陈皮.app 移至应用程序文件夹，再开启自启。");
         var doc=new XDocument(new XDeclaration("1.0","UTF-8",null),new XDocumentType("plist","-//Apple//DTD PLIST 1.0//EN","http://www.apple.com/DTDs/PropertyList-1.0.dtd",null),
             new XElement("plist",new XAttribute("version","1.0"),new XElement("dict",
                 new XElement("key","Label"),new XElement("string","com.chenpi.desktop"),

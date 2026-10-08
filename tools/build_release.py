@@ -41,12 +41,18 @@ def main():
     project = ROOT / 'src' / ('Chenpi.Mac/Chenpi.Mac.csproj' if mac else 'Chenpi/Chenpi.csproj')
     command = [args.dotnet, 'publish', project, '-c', 'Release', '-r', args.rid, '--self-contained', 'true',
                '-p:SkipAssetCopy=true', '-p:DebugType=None', '-p:DebugSymbols=false', '-p:NuGetAudit=false', '-o', binary]
+    if mac:
+        # Keep managed assemblies in the apphost, native libraries alongside it,
+        # and data in Resources. Loose PE DLLs in MacOS break strict codesigning.
+        command += ['-p:PublishSingleFile=true', '-p:IncludeNativeLibrariesForSelfExtract=false']
     if args.source:
         command += ['--source', pathlib.Path(args.source).resolve()]
     run(*command)
-    shutil.copytree(assets, binary / 'assets')
+    resources = app / 'Contents/Resources' if mac else binary
+    resources.mkdir(parents=True, exist_ok=True)
+    shutil.copytree(assets, resources / 'assets')
     # Licenses and native third-party notices ship with each architecture.
-    notices = binary / 'licenses'
+    notices = resources / 'licenses'
     notices.mkdir()
     for source in (ROOT / 'packaging/licenses').glob('*'):
         if source.is_file():
@@ -64,8 +70,6 @@ def main():
                 shutil.copyfile(source, notices / (name.replace('/', '-') + '-' + source.name))
     (notices / 'packages.txt').write_text('\n'.join(packages) + '\n', encoding='utf-8')
     if mac:
-        resources = app / 'Contents/Resources'
-        resources.mkdir()
         with (app / 'Contents/Info.plist').open('wb') as f:
             plistlib.dump(dict(CFBundleName='Chenpi', CFBundleDisplayName='陈皮', CFBundleIdentifier='com.chenpi.desktop',
                               CFBundleExecutable='Chenpi.Mac', CFBundlePackageType='APPL', CFBundleVersion='1.0.0',
@@ -76,8 +80,8 @@ def main():
         if sys.platform == 'darwin':
             identity = os.environ.get('CHENPI_SIGN_IDENTITY', '-')
             architecture = 'arm64' if args.rid == 'osx-arm64' else 'x86_64'
-            for file in binary.rglob('*'):
-                if file.suffix == '.dylib' or file == executable:
+            for file in list(binary.glob('*.dylib')) + [executable]:
+                if file.is_file():
                     architectures = subprocess.check_output(['lipo', '-archs', str(file)], text=True).split()
                     if architecture not in architectures:
                         raise ValueError(f'Wrong native architecture: {file}: {architectures}')
@@ -85,7 +89,8 @@ def main():
                         thinned = file.with_name(file.name + '.thin')
                         run('lipo', file, '-thin', architecture, '-output', thinned)
                         thinned.replace(file)
-                    run('codesign', '--force', '--sign', identity, file)
+                    if file != executable:
+                        run('codesign', '--force', '--sign', identity, file)
             run('codesign', '--force', '--sign', identity, '--entitlements', ROOT / 'packaging/macos/entitlements.plist', app)
             run('codesign', '--verify', '--deep', '--strict', app)
     zip_path = args.output.resolve() / ('Chenpi-' + args.rid + '.zip')
