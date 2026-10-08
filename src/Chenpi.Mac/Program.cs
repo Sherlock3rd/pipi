@@ -20,6 +20,7 @@ internal static class Program
         if(args.Contains("--probe-fullscreen")){Console.WriteLine(MacNative.FullscreenOnPrimary()?"fullscreen":"normal");return;}
         if(!OperatingSystem.IsMacOS()&&!args.Contains("--preview"))throw new PlatformNotSupportedException("Use the Windows build on Windows, or --preview for renderer QA.");
         var rendering=args.Contains("--profile-opengl")?new[]{AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software}:new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software};
+        if(args.Contains("--profile-software"))rendering=new[]{AvaloniaNativeRenderingMode.Software};
         AppBuilder.Configure<MacApp>().UsePlatformDetect().With(new AvaloniaNativePlatformOptions{RenderingMode=rendering}).With(new MacOSPlatformOptions{ShowInDock=false}).LogToTrace().StartWithClassicDesktopLifetime(args,ShutdownMode.OnExplicitShutdown);
     }
 }
@@ -147,7 +148,7 @@ internal sealed class PetWindow : Window
         string path=Program.Option("--snapshot")??Path.Combine(store.DirectoryPath,"preview.png");
         using var bitmap=new RenderTargetBitmap(new PixelSize((int)Bounds.Width,(int)Bounds.Height),new Vector(96,96));bitmap.Render(scene);bitmap.Save(path);
         var sorted=intervals.Order().ToArray();
-        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,engine.StartupActive,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,scene.CacheMisses,scene.MaxDecodeMilliseconds,WorkingSet=Process.GetCurrentProcess().WorkingSet64,CpuMilliseconds=Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds,ElapsedSeconds=clock.Elapsed.TotalSeconds,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
+        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,engine.StartupActive,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,scene.CacheMisses,scene.MaxDecodeMilliseconds,scene.RenderingDiagnostics,WorkingSet=Process.GetCurrentProcess().WorkingSet64,CpuMilliseconds=Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds,ElapsedSeconds=clock.Elapsed.TotalSeconds,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
     }
     private static string RuntimeInformation()=>System.Runtime.InteropServices.RuntimeInformation.OSDescription;
     private void Save()=>store.QueueSave(engine.State);

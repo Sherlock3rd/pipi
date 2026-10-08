@@ -15,7 +15,7 @@ internal sealed partial class Scene : Panel,IDisposable
         private readonly Scene scene;private readonly bool overlay;
         public Layer(Scene scene,bool overlay){this.scene=scene;this.overlay=overlay;IsHitTestVisible=false;}
         public override void Render(DrawingContext context)
-        {using var dc=new DrawingContextAdapter(context);if(overlay)scene.RenderOverlay(dc);else scene.RenderArtwork(dc);}
+        {long start=Stopwatch.GetTimestamp();using var dc=new DrawingContextAdapter(context);if(overlay)scene.RenderOverlay(dc);else scene.RenderArtwork(dc);if(!overlay)scene.RecordRender(Stopwatch.GetElapsedTime(start).TotalMilliseconds);}
     }
     private readonly Layer art,ui;
     private readonly DropShadowEffect shadow=new(){Color=Colors.Black,Opacity=.38,BlurRadius=14,OffsetY=3,OffsetX=0};
@@ -57,6 +57,11 @@ internal sealed partial class Scene : Panel,IDisposable
     public long CachedFrameBytes=>cache.Bytes;
     public long CacheMisses=>cache.Misses;
     public double MaxDecodeMilliseconds=>cache.MaxLoadMilliseconds;
+    private readonly List<double> renderTimes=new();
+    private int uiDecodes;
+    private double uiDecodeMilliseconds;
+    private void RecordRender(double ms){if(renderTimes.Count<36000)renderTimes.Add(ms);}
+    public object RenderingDiagnostics=>new{Count=renderTimes.Count,P95=renderTimes.Count==0?0:renderTimes.Order().ElementAt((int)(renderTimes.Count*.95)),Max=renderTimes.Count==0?0:renderTimes.Max(),UiDecodes=uiDecodes,UiDecodeMilliseconds=uiDecodeMilliseconds};
     public double Scale=>Engine.State.Scale;
     public double WorldWidth=>Bounds.Width/Scale;
     public double WorldHeight=>Bounds.Height/Scale;
@@ -67,7 +72,7 @@ internal sealed partial class Scene : Panel,IDisposable
         var manifest=doc.RootElement;bool prepared=manifest.GetProperty("videoMattePrepared").GetBoolean();
         string root=Path.GetFullPath(Path.Combine(RuntimeAssets.Root,"pets/bluecat"))+Path.DirectorySeparatorChar;
         var videoPaths=manifest.GetProperty("animations").EnumerateObject().Where(p=>p.Name.StartsWith("video-",StringComparison.Ordinal)).SelectMany(p=>p.Value.EnumerateArray().Select(v=>Path.GetFullPath(Path.Combine(root,v.GetString()!)))).ToHashSet(StringComparer.Ordinal);
-        cache=new(96L*1024*1024,path=>{bool video=videoPaths.Contains(path);var image=FrameBitmap.Load(path,video,video&&!prepared);frameBounds[image]=image.Extent;return (image,image.Bytes);},image=>Dispatcher.UIThread.Post(image.Dispose,DispatcherPriority.Background));
+        cache=new(96L*1024*1024,path=>{bool video=videoPaths.Contains(path);long start=Stopwatch.GetTimestamp();var image=FrameBitmap.Load(path,video,video&&!prepared);if(Dispatcher.UIThread.CheckAccess()){uiDecodes++;uiDecodeMilliseconds+=Stopwatch.GetElapsedTime(start).TotalMilliseconds;}frameBounds[image]=image.Extent;return (image,image.Bytes);},image=>Dispatcher.UIThread.Post(image.Dispose,DispatcherPriority.Background));
         foreach(var clip in manifest.GetProperty("animations").EnumerateObject())
         {
             var paths=clip.Value.EnumerateArray().Select(v=>Path.GetFullPath(Path.Combine(root,v.GetString()!))).ToList();
@@ -86,6 +91,7 @@ internal sealed partial class Scene : Panel,IDisposable
         Engine.RestoreRelaxedSleep();if(Engine.Action.StartsWith("rest-"))playback.RestorePose(Engine.RelaxedPose);
         foreach(string id in new[]{"video-01","video-20","video-32"})if(frames.TryGetValue(id,out var f))_ = f[0];
         art=new(this,false){Effect=shadow};
+        if(Program.Args.Contains("--profile-no-shadow"))art.Effect=null;
         ui=new(this,true);Children.Add(art);Children.Add(ui);Background=Brushes.Transparent;
         RenderOptions.SetBitmapInterpolationMode(this,Avalonia.Media.Imaging.BitmapInterpolationMode.HighQuality);
         SizeChanged+=(_,_)=>LayoutWorld();

@@ -90,6 +90,12 @@ jobs:
         run: artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --preview --profile-opengl --profile-allow-nap --data-dir "$PWD/artifacts/native-qa/legacy-save" --snapshot "$PWD/artifacts/native-qa/legacy-scene.png" --exit-after 45
       - name: Transparent desktop host and screenshot
         run: python tools/test_macos_desktop.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa
+      - name: Intel renderer isolation profiles
+        if: matrix.rid == 'osx-x64'
+        run: |
+          for mode in no-shadow software; do
+            artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --profile-$mode --native-audit --data-dir "$PWD/artifacts/native-qa/profile-$mode-save" --snapshot "$PWD/artifacts/native-qa/profile-$mode.png" --exit-after 20
+          done
       - name: Animation performance acceptance
         run: python tools/check_macos_performance.py artifacts/native-qa/scene.png.json
       - uses: actions/upload-artifact@v4
