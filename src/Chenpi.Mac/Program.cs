@@ -19,7 +19,8 @@ internal static class Program
         Args=args;
         if(args.Contains("--probe-fullscreen")){Console.WriteLine(MacNative.FullscreenOnPrimary()?"fullscreen":"normal");return;}
         if(!OperatingSystem.IsMacOS()&&!args.Contains("--preview"))throw new PlatformNotSupportedException("Use the Windows build on Windows, or --preview for renderer QA.");
-        AppBuilder.Configure<MacApp>().UsePlatformDetect().With(new MacOSPlatformOptions{ShowInDock=false}).LogToTrace().StartWithClassicDesktopLifetime(args,ShutdownMode.OnExplicitShutdown);
+        var rendering=args.Contains("--profile-opengl")?new[]{AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software}:new[]{AvaloniaNativeRenderingMode.Metal,AvaloniaNativeRenderingMode.OpenGl,AvaloniaNativeRenderingMode.Software};
+        AppBuilder.Configure<MacApp>().UsePlatformDetect().With(new AvaloniaNativePlatformOptions{RenderingMode=rendering}).With(new MacOSPlatformOptions{ShowInDock=false}).LogToTrace().StartWithClassicDesktopLifetime(args,ShutdownMode.OnExplicitShutdown);
     }
 }
 internal sealed class MacApp : Application
@@ -50,6 +51,7 @@ internal sealed class PetWindow : Window
     private readonly PetEngine engine;
     private readonly Scene scene;
     private readonly MacVoice voice;
+    private readonly MacAnimationActivity activity=new();
     private readonly IClassicDesktopStyleApplicationLifetime lifetime;
     private readonly DispatcherTimer timer=new(){Interval=TimeSpan.FromMilliseconds(250)};
     private readonly Stopwatch clock=Stopwatch.StartNew();
@@ -81,6 +83,7 @@ internal sealed class PetWindow : Window
             if(!Preview)FitScreen();scene.LayoutWorld();
             if(Program.Args.Contains("--native-audit")){MacNative.VerifyWindow(this);File.WriteAllText(Path.Combine(store.DirectoryPath,"native-audit.txt"),"Layer roundtrip, click-through roundtrip, nonactivation and pointer read-back passed");}
             MacNative.Configure(this,engine.State.Floating,false);
+            activity.SetActive(!Program.Args.Contains("--profile-allow-nap"));
             CreateTray();lastFrame=clock.Elapsed.TotalSeconds;timer.Start();RequestAnimationFrame(AnimationFrame);
             if(Program.Args.Contains("--settings"))ShowSettings();
             if(Program.Option("--editor-audit") is string editorOutput)
@@ -132,6 +135,7 @@ internal sealed class PetWindow : Window
             lastCheck=now;fullscreen=!Preview&&MacNative.FullscreenOnPrimary();
             if((fullscreen||hidden)&&scene.IsInteracting)scene.CancelDrag();
             scene.IsVisible=!fullscreen&&!hidden;MacNative.Configure(this,engine.State.Floating,fullscreen||hidden);
+            activity.SetActive(scene.IsVisible&&WindowState!=WindowState.Minimized&&MacNative.WindowVisible(this)&&!Program.Args.Contains("--profile-allow-nap"));
         }
         if(!Audible)voice.Silence();
         if(!scene.IsInteracting&&now-lastSave>5){Save();lastSave=now;}
@@ -143,12 +147,12 @@ internal sealed class PetWindow : Window
         string path=Program.Option("--snapshot")??Path.Combine(store.DirectoryPath,"preview.png");
         using var bitmap=new RenderTargetBitmap(new PixelSize((int)Bounds.Width,(int)Bounds.Height),new Vector(96,96));bitmap.Render(scene);bitmap.Save(path);
         var sorted=intervals.Order().ToArray();
-        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,WorkingSet=Process.GetCurrentProcess().WorkingSet64,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
+        File.WriteAllText(path+".json",JsonSerializer.Serialize(new{Runtime=RuntimeInformation(),engine.Action,engine.StartupActive,scene.DisplayedClip,scene.DisplayedFrame,scene.CachedFrameBytes,scene.CacheMisses,scene.MaxDecodeMilliseconds,WorkingSet=Process.GetCurrentProcess().WorkingSet64,CpuMilliseconds=Process.GetCurrentProcess().TotalProcessorTime.TotalMilliseconds,ElapsedSeconds=clock.Elapsed.TotalSeconds,Frames=intervals.Count,P95Milliseconds=sorted[(int)(sorted.Length*.95)],MaxMilliseconds=sorted[^1],slowFrames,scene.ClipTransitions}));
     }
     private static string RuntimeInformation()=>System.Runtime.InteropServices.RuntimeInformation.OSDescription;
     private void Save()=>store.QueueSave(engine.State);
     private void Command(Action action){scene.CancelDrag();hidden=false;action();Save();}
-    private async void Quit(){if(quitting)return;if(editor is BehaviorEditorWindow workbench&&!await workbench.RequestClose())return;if(quitting)return;quitting=true;timer.Stop();voice.Dispose();scene.Dispose();tray?.Dispose();Save();store.Flush();settings?.Close();Close();lifetime.Shutdown();}
+    private async void Quit(){if(quitting)return;if(editor is BehaviorEditorWindow workbench&&!await workbench.RequestClose())return;if(quitting)return;quitting=true;timer.Stop();activity.Dispose();voice.Dispose();scene.Dispose();tray?.Dispose();Save();store.Flush();settings?.Close();Close();lifetime.Shutdown();}
     private static Button Button(string text,Action action){var b=new Button{Content=text,Margin=new Thickness(0,0,8,10)};b.Click+=(_,_)=>action();return b;}
     private static TextBlock Text(string value,double size=14)=>new(){Text=value,FontSize=size,TextWrapping=TextWrapping.Wrap,Margin=new Thickness(0,0,0,12)};
     private CheckBox Toggle(string label,bool value,Action<bool> action){var c=new CheckBox{Content=label,IsChecked=value,Margin=new Thickness(0,0,0,10)};c.IsCheckedChanged+=(_,_)=>action(c.IsChecked==true);return c;}

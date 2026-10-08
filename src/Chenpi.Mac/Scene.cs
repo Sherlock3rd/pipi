@@ -55,6 +55,8 @@ internal sealed partial class Scene : Panel,IDisposable
     public SpriteClip? DisplayedDefinition {get;private set;}
     public List<object> ClipTransitions {get;}=new();
     public long CachedFrameBytes=>cache.Bytes;
+    public long CacheMisses=>cache.Misses;
+    public double MaxDecodeMilliseconds=>cache.MaxLoadMilliseconds;
     public double Scale=>Engine.State.Scale;
     public double WorldWidth=>Bounds.Width/Scale;
     public double WorldHeight=>Bounds.Height/Scale;

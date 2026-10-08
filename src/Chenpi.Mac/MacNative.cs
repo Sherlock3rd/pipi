@@ -18,6 +18,7 @@ internal static class MacNative
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern void SendBool(IntPtr obj,IntPtr sel,[MarshalAs(UnmanagedType.I1)] bool value);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] private static extern XY SendPoint(IntPtr obj,IntPtr sel);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern void SendFloat(IntPtr obj,IntPtr sel,float value);
+    [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern IntPtr BeginActivity(IntPtr obj,IntPtr sel,ulong options,IntPtr reason);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern IntPtr InitSound(IntPtr obj,IntPtr sel,IntPtr path,[MarshalAs(UnmanagedType.I1)] bool byReference);
     [DllImport(CG)] private static extern int CGWindowLevelForKey(int key);
     [DllImport(CG)] private static extern uint CGMainDisplayID();
@@ -63,6 +64,7 @@ internal static class MacNative
     }
     internal static void PassThrough(Window window,bool pass)
     {if(OperatingSystem.IsMacOS())SendBool(Handle(window),Selector("setIgnoresMouseEvents:"),pass);}
+    internal static bool WindowVisible(Window window)=>!OperatingSystem.IsMacOS()||Send(Handle(window),Selector("isVisible"))!=IntPtr.Zero;
     internal static void VerifyWindow(Window window)
     {
         if(!OperatingSystem.IsMacOS())throw new PlatformNotSupportedException();
@@ -110,6 +112,33 @@ internal static class MacNative
         }
         finally{CFRelease(array);CFRelease(pidKey);CFRelease(layerKey);CFRelease(boundsKey);CFRelease(alphaKey);}
     }
+}
+
+// Visible desktop animation must not be timer-throttled as background work.
+// This scoped activity still allows display/system idle sleep, and is released
+// whenever the pet is hidden, a fullscreen app takes over, or the app exits.
+internal sealed class MacAnimationActivity : IDisposable
+{
+    private IntPtr token,info;
+    public void SetActive(bool active)
+    {
+        if(!OperatingSystem.IsMacOS())return;
+        if(active&&token==IntPtr.Zero)
+        {
+            info=MacNative.Send(MacNative.objc_getClass("NSProcessInfo"),MacNative.Selector("processInfo"));
+            var reason=MacNative.String("Visible desktop pet animation");
+            try
+            {
+                const ulong userInitiatedAllowingIdleSystemSleep=0x00FFFFFFUL&~(1UL<<20);
+                token=MacNative.BeginActivity(info,MacNative.Selector("beginActivityWithOptions:reason:"),userInitiatedAllowingIdleSystemSleep,reason);
+                if(token!=IntPtr.Zero)MacNative.Send(token,MacNative.Selector("retain"));
+            }
+            finally{MacNative.CFRelease(reason);}
+        }
+        else if(!active&&token!=IntPtr.Zero)
+        {MacNative.SendPtr(info,MacNative.Selector("endActivity:"),token);MacNative.Send(token,MacNative.Selector("release"));token=IntPtr.Zero;}
+    }
+    public void Dispose()=>SetActive(false);
 }
 
 internal sealed class MacVoice : IDisposable

@@ -9,6 +9,7 @@ on:
       - 'tools/package_runtime.py'
       - 'tools/test_macos_native.py'
       - 'tools/test_macos_desktop.py'
+      - 'tools/check_macos_performance.py'
       - 'tools/macos_window_fixture.swift'
       - 'packaging/**'
       - '.github/workflows/desktop-release.yml'
@@ -84,8 +85,13 @@ jobs:
           test -f artifacts/native-qa/save/native-audit.txt
           test -f artifacts/native-qa/scene.png.json
           test ! -f artifacts/native-qa/save/error.log
+      - name: Intel legacy rendering comparison
+        if: matrix.rid == 'osx-x64'
+        run: artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --preview --profile-opengl --profile-allow-nap --data-dir "$PWD/artifacts/native-qa/legacy-save" --snapshot "$PWD/artifacts/native-qa/legacy-scene.png" --exit-after 45
       - name: Transparent desktop host and screenshot
         run: python tools/test_macos_desktop.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa
+      - name: Animation performance acceptance
+        run: python tools/check_macos_performance.py artifacts/native-qa/scene.png.json
       - uses: actions/upload-artifact@v4
         if: always()
         with:
