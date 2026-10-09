@@ -21,6 +21,7 @@ internal static class MacNative
     [DllImport(ObjC,EntryPoint="objc_msgSend")] [return:MarshalAs(UnmanagedType.I1)] private static extern bool ReadBool(IntPtr obj,IntPtr sel);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] [return:MarshalAs(UnmanagedType.I1)] private static extern bool Responds(IntPtr obj,IntPtr sel,IntPtr selector);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] private static extern XY SendPoint(IntPtr obj,IntPtr sel);
+    [DllImport(ObjC,EntryPoint="objc_msgSend")] private static extern XY ConvertPoint(IntPtr obj,IntPtr sel,XY point);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern void SendFloat(IntPtr obj,IntPtr sel,float value);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern IntPtr BeginActivity(IntPtr obj,IntPtr sel,ulong options,IntPtr reason);
     [DllImport(ObjC,EntryPoint="objc_msgSend")] internal static extern IntPtr InitSound(IntPtr obj,IntPtr sel,IntPtr path,[MarshalAs(UnmanagedType.I1)] bool byReference);
@@ -64,7 +65,11 @@ internal static class MacNative
         SendLong(h,Selector("setCollectionBehavior:"),1|16|64);
         state.Initialized=true;
         }
-        long level=floating&&!hidden?CGWindowLevelForKey(5):CGWindowLevelForKey(2)+1;
+        // Finder's transparent desktop icon window receives input above the
+        // wallpaper layer. A visible pet below that window cannot be clicked.
+        // Keep the desktop pet above icons but below ordinary application windows.
+        long level=floating&&!hidden?CGWindowLevelForKey(5):CGWindowLevelForKey(18)+1;
+        if(Program.Args.Contains("--audit-legacy-layer")&&!floating&&!hidden)level=CGWindowLevelForKey(2)+1;
         if(state.Level!=level){SendLong(h,Selector("setLevel:"),level);state.Level=level;}
     }
     internal static Point Pointer(Window window)
@@ -72,6 +77,12 @@ internal static class MacNative
         var at=SendPoint(Handle(window),Selector("mouseLocationOutsideOfEventStream"));
         return new(at.X,window.ClientSize.Height-at.Y);
     }
+    internal static Point EventPoint(Window window,Point client)
+    {
+        var p=ConvertPoint(Handle(window),Selector("convertPointToScreen:"),new XY{X=client.X,Y=window.ClientSize.Height-client.Y});
+        return new(p.X,CGDisplayBounds(CGMainDisplayID()).Size.Y-p.Y);
+    }
+    internal static object InputState(Window window)=>new{Level=Send(Handle(window),Selector("level")).ToInt64(),DesktopIconLevel=CGWindowLevelForKey(18),NormalLevel=CGWindowLevelForKey(4),PassThrough=ReadBool(Handle(window),Selector("ignoresMouseEvents")),Key=ReadBool(Handle(window),Selector("isKeyWindow")),Pointer=Pointer(window)};
     internal static void PassThrough(Window window,bool pass)
     {if(OperatingSystem.IsMacOS()){var state=windowStates.GetOrCreateValue(window);if(state.Pass!=pass){SendBool(Handle(window),Selector("setIgnoresMouseEvents:"),pass);state.Pass=pass;}}}
     internal static bool WindowVisible(Window window)=>!OperatingSystem.IsMacOS()||ReadBool(Handle(window),Selector("isVisible"));
@@ -82,7 +93,8 @@ internal static class MacNative
         Configure(window,true,false);
         if(Send(h,Selector("level")).ToInt64()!=CGWindowLevelForKey(5))throw new InvalidOperationException("Floating layer read-back failed");
         Configure(window,false,false);
-        if(Send(h,Selector("level")).ToInt64()!=CGWindowLevelForKey(2)+1)throw new InvalidOperationException("Desktop layer read-back failed");
+        long desktopLevel=Send(h,Selector("level")).ToInt64();
+        if(desktopLevel<=CGWindowLevelForKey(18)||desktopLevel>=CGWindowLevelForKey(4))throw new InvalidOperationException("Desktop pet must be above Finder icons and below ordinary windows");
         PassThrough(window,true);if(!ReadBool(h,Selector("ignoresMouseEvents")))throw new InvalidOperationException("Click-through read-back failed");
         PassThrough(window,false);if(ReadBool(h,Selector("ignoresMouseEvents")))throw new InvalidOperationException("Interactive read-back failed");
         if(ReadBool(h,Selector("canBecomeKeyWindow")))throw new InvalidOperationException("Pet can steal keyboard focus");

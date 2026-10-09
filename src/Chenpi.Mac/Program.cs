@@ -56,7 +56,7 @@ internal sealed class MacApp : Application
         base.OnFrameworkInitializationCompleted();
     }
 }
-internal sealed class PetWindow : Window
+internal sealed partial class PetWindow : Window
 {
     private readonly Store store;
     private readonly BehaviorSettingsStore settingsStore;
@@ -96,6 +96,7 @@ internal sealed class PetWindow : Window
             if(!Preview)FitScreen();scene.LayoutWorld();
             if(Program.Args.Contains("--native-audit")){MacNative.VerifyWindow(this);File.WriteAllText(Path.Combine(store.DirectoryPath,"native-audit.txt"),"Layer roundtrip, click-through roundtrip, nonactivation and pointer read-back passed");}
             MacNative.Configure(this,engine.State.Floating,false);
+            if(Program.Option("--input-audit") is not null)startupPending=false;
             activity.SetActive(!Program.Args.Contains("--profile-allow-nap"));
             CreateTray();lastFrame=clock.Elapsed.TotalSeconds;timer.Start();RequestAnimationFrame(AnimationFrame);
             if(Program.Args.Contains("--settings"))ShowSettings();
@@ -154,6 +155,7 @@ internal sealed class PetWindow : Window
             scene.IsVisible=!fullscreen&&!hidden;MacNative.Configure(this,engine.State.Floating,fullscreen||hidden);
             activity.SetActive(scene.IsVisible&&WindowState!=WindowState.Minimized&&MacNative.WindowVisible(this)&&!Program.Args.Contains("--profile-allow-nap"));
         }
+        if(Program.Option("--input-audit") is string inputAudit)WriteInputAudit(inputAudit);
         if(!Audible)voice.Silence();
         if(!scene.IsInteracting&&now-lastSave>5){Save();lastSave=now;}
         if(double.TryParse(Program.Option("--exit-after"),out double end)&&now>=end){WriteDiagnostics();Quit();}

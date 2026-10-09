@@ -37,6 +37,10 @@ internal sealed partial class Scene : Panel,IDisposable
     private bool pressed,wandHeld,nestOcclusion;
     public bool IsDragging {get;private set;}
     public bool IsInteracting=>pressed||wandHeld;
+    internal int PointerPresses {get;private set;}
+    internal int PointerReleases {get;private set;}
+    internal object InputState=>new{PointerPresses,PointerReleases,pressed,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale};
+    internal Dictionary<string,Point> InputTargets=>new(){["cat"]=CatRect.Center*Scale,["nest"]=new Point(NestRect.Left+45,NestRect.Bottom-40)*Scale,["food"]=ObjectRect(Engine.FoodSpot).Center*Scale,["empty"]=new Point(50,50)};
     private double pressedAt,lift,poseLift,shownFood,shownWater;
     private Point pointer,pressedPoint;
     private Vector grabOffset;
@@ -127,7 +131,7 @@ internal sealed partial class Scene : Panel,IDisposable
     private bool OpensSettingsAt(Point p)=>!IsInteracting&&!CatRect.Contains(p)&&!WandRect.Contains(p)&&!LitterRect.Contains(p)&&!ObjectRect(Engine.FoodSpot).Contains(p)&&!ObjectRect(Engine.WaterSpot).Contains(p)&&NestRect.Contains(p);
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
-        base.OnPointerPressed(e);var point=e.GetCurrentPoint(this);if(!point.Properties.IsLeftButtonPressed)return;
+        base.OnPointerPressed(e);PointerPresses++;var point=e.GetCurrentPoint(this);if(!point.Properties.IsLeftButtonPressed)return;
         var p=World(point.Position);pointer=p;
         if(wandHeld){CancelWand();e.Handled=true;return;}
         if(WandRect.Contains(p)){wandHeld=true;Engine.SetToy(true,new(p.X,p.Y));captured=e.Pointer;captured.Capture(this);e.Handled=true;return;}
@@ -144,6 +148,7 @@ internal sealed partial class Scene : Panel,IDisposable
     private void MoveDragged(Point p){if(!IsDragging)return;if(pressedObject=="cat")Engine.DragTo(new(p.X-grabOffset.X,p.Y-grabOffset.Y));else Engine.MoveObject(pressedObject,new(p.X-grabOffset.X,p.Y-grabOffset.Y));}
     protected override void OnPointerReleased(PointerReleasedEventArgs e)
     {
+        PointerReleases++;
         pointer=World(e.GetPosition(this));
         if(e.InitialPressMouseButton==MouseButton.Right){if(OpensSettingsAt(pointer))OpenSettings?.Invoke();e.Handled=true;return;}
         if(!pressed)return;MoveDragged(pointer);bool dragged=IsDragging;pressed=false;IsDragging=false;Engine.Holding=false;captured?.Capture(null);captured=null;Cursor=Cursor.Default;

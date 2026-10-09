@@ -11,6 +11,8 @@ on:
       - 'tools/test_macos_desktop.py'
       - 'tools/check_macos_performance.py'
       - 'tools/macos_window_fixture.swift'
+      - 'tools/macos_input_fixture.swift'
+      - 'tools/test_macos_input.py'
       - 'packaging/**'
       - '.github/workflows/desktop-release.yml'
 permissions:
@@ -56,6 +58,8 @@ jobs:
           test -f artifacts/early-native-qa/save/native-audit.txt
           test -f artifacts/early-native-qa/editor/verification.json
           test ! -f artifacts/early-native-qa/save/error.log
+      - name: Real native mouse input and old-layer negative control
+        run: python tools/test_macos_input.py artifacts/native-probe/Chenpi.Mac artifacts/early-native-qa/input
       - uses: actions/cache/restore@v4
         id: asset-cache
         with:
@@ -78,6 +82,8 @@ jobs:
           codesign --verify --deep --strict artifacts/unpacked/Chenpi.app
       - name: Native full-screen and normal-window checks
         run: python tools/test_macos_native.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac
+      - name: Extracted app native click drag and settings acceptance
+        run: python tools/test_macos_input.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac artifacts/native-qa/input
       - name: Native decoded pixels and pooled-buffer lifetime
         run: artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --audit-source "$PWD/assets" --audit-output "$PWD/artifacts/native-qa/pixel-audit.json"
       - name: Native startup and frame-cache smoke test
