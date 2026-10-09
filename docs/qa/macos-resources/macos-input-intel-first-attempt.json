@@ -1,0 +1,73 @@
+{
+  "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37911346625/attempts/1",
+  "job": 113756978235,
+  "codeCommit": "2a4ac4649d514782539491ae717723b1a0e7db5b",
+  "status": "failed",
+  "reason": "desktop P95 48.2324 ms exceeds unchanged 45 ms threshold",
+  "performance": {
+    "scene": {
+      "Runtime": "macOS 15.7.9",
+      "GraphicsBackend": "Software",
+      "Action": "rest-HL",
+      "StartupActive": false,
+      "DisplayedClip": "video-55",
+      "DisplayedFrame": 1,
+      "CachedFrameBytes": 100608820,
+      "CacheMisses": 1898,
+      "MaxDecodeMilliseconds": 191.3387,
+      "RenderingDiagnostics": {
+        "Count": 2376,
+        "P95": 0.4849,
+        "Max": 322.6989,
+        "UiDecodes": 12,
+        "UiDecodeMilliseconds": 75.26700000000001
+      },
+      "NativeTimings": {
+        "P95": 0.0271,
+        "Max": 3.0731
+      },
+      "UpdateTimings": {
+        "P95": 0.0514,
+        "Max": 12.0644
+      },
+      "WorkingSet": 326258688,
+      "CpuMilliseconds": 50883.477,
+      "ElapsedSeconds": 85.3483841,
+      "Frames": 2375,
+      "P95Milliseconds": 36.728699999997616,
+      "MaxMilliseconds": 855.1456
+    },
+    "desktop-scene": {
+      "Runtime": "macOS 15.7.9",
+      "GraphicsBackend": "Software",
+      "Action": "walk",
+      "StartupActive": false,
+      "DisplayedClip": "video-08",
+      "DisplayedFrame": 81,
+      "CachedFrameBytes": 100557208,
+      "CacheMisses": 1713,
+      "MaxDecodeMilliseconds": 126.8928,
+      "RenderingDiagnostics": {
+        "Count": 2298,
+        "P95": 0.6568,
+        "Max": 406.5262,
+        "UiDecodes": 11,
+        "UiDecodeMilliseconds": 92.25829999999999
+      },
+      "NativeTimings": {
+        "P95": 0.0389,
+        "Max": 1.2405
+      },
+      "UpdateTimings": {
+        "P95": 0.0713,
+        "Max": 16.5218
+      },
+      "WorkingSet": 391258112,
+      "CpuMilliseconds": 76061.016,
+      "ElapsedSeconds": 85.3800259,
+      "Frames": 2297,
+      "P95Milliseconds": 48.23239999999629,
+      "MaxMilliseconds": 1088.9654
+    }
+  }
+}

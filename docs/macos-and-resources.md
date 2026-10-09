@@ -53,7 +53,26 @@ Mac 程序集采用 .NET single-file 合并（不裁剪代码、不启用启动�
 - Windows 额外连续运行 5 分钟，实际经过 31 种片段，结束工作集约 351 MB、峰值约 389 MB，缓存 100,425,708 字节，未超过 96 MiB；内存采样见 `windows-memory-tour.json`。该轮中途短暂并行了参数面板夹具，只用于内存稳定性，不用于帧率比较。
 - GitHub Actions 按 [macOS 官方 runner 架构](https://docs.github.com/en/actions/reference/runners/github-hosted-runners) 分开运行 Apple Silicon 与 Intel。原生测试已通过独立进程普通窗口/全屏窗口、窗口层级往返、点击穿透往返、非激活标记、鼠标坐标和行为工作台四项检查。两端解压安装 ZIP 后严格签名回查、420 帧原生像素/边界与缓冲池哨兵覆盖检查通过。不等于人工验证真实游戏、Spaces、Retina、声音硬件延迟和拖拽手感。
 
-### 最终安装包与完整开场
+### 2026-10-09 鼠标交互修复
+
+用户实机反馈“能显示但点不到、拖动出现桌面选择框”，根因是桌面窗口设在壁纸层上方，却仍低于 Finder 的透明桌面图标输入层。改为 `desktopIconWindow+1`，继续低于普通应用窗口；悬浮模式、空白穿透、非激活点击与全屏避让保持原约定。仅猫窝右键打开设置，没增加常驻入口或改变互动规则。
+
+新增 `tools/macos_input_fixture.swift` 与 `tools/test_macos_input.py`，由独立原生接收窗口和 CGEvent 经 WindowServer 投递鼠标，不直接调用业务处理函数。每轮13项：旧层级负对照、补给点击、0.7/1/1.4三档猫窝拖动、猫点击唤醒、长按拖放、互动前后两次猫窝右键、空白穿透、普通窗口遮挡、悬浮及返回桌面。原始素材宿主与安装包解压后的应用各跑一轮。
+
+夹具修订保留真实命中规则：猫窝被前景物件遮住的位置不能冒称猫窝；拖拽进入 `drag` 动作后模型会释放预按暂停 `Holding`，不能用该暂停标记判断拖动；落地动画覆盖猫窝时等待画面中的空位可用，再验证右键。诊断记录实际鼠标按钮、命中物件、全局/客户区坐标和窗口状态，未修改猫的落地或睡眠动画来迁就测试。
+
+程序提交 `2a4ac464`。[构建37911346625](https://github.com/Sherlock3rd/pipi/actions/runs/37911346625)两种架构最终通过：共享761项检查、原生系统输入、严格签名、窗口/全屏/非激活、工作台、420帧像素和缓冲生命周期、两组85秒完整开场。两份本地安装包与前版比较，只有 `Contents/MacOS/Chenpi.Mac` 的内容发生变化；其他52个文件逐个SHA256一致，包括素材、原生渲染库、许可和帧包。保留96 MiB缓存、原帧数/尺寸/时长、透明边缘和阴影效果。
+
+| 架构 | 预览/桌面P95 | 结束工作集（预览/桌面） | 本地安装ZIP | SHA256 |
+| --- | --- | --- | --- | --- |
+| Apple芯片 | 18.61 / 18.56 ms | 445 / 452 MB | `dist/mac-release-20261009/Chenpi-osx-arm64.zip`（838,063,747字节） | `da4fcb5af3a9e163e06876da712dd27e0874f52d7c77f90b2d715f38100a729a` |
+| Intel | 34.44 / 41.63 ms | 351 / 384 MB | `dist/mac-release-20261009/Chenpi-osx-x64.zip`（840,529,410字节） | `845c6370a920ed493ad943331feb8b15b1980fcf50afc5d2e5b0787067e7f17a` |
+
+Intel首轮桌面P95为48.23ms，被原45ms门槛拒绝；保留于 `docs/qa/macos-resources/macos-input-intel-first-attempt.json`。未改代码、未改门槛的第二次完整构建通过，两个Intel安装ZIP的SHA256完全相同。这说明运行样本有波动，不能宣称所有机器与每帧都流畅。最终结果与原生输入回读见 `macos-input-acceptance.json`；物理Retina、Spaces、真实游戏和触控板手感仍需实机体验，应用0.7/1/1.4缩放不冒称Retina验证。
+
+本地目录还包含校验文件与安装说明。先从菜单栏陈皮图标退出旧版，再将对应ZIP解压得到的 `Chenpi.app` 拖进“应用程序”替换，个人存档保留。右键应点击未被猫或其他物件遮住的猫窝区域。要求macOS15+，自包含运行时，ad-hoc签名未公证。远端下载：[Apple芯片](https://github.com/Sherlock3rd/pipi/actions/runs/37911346625/artifacts/11606373247)、[Intel](https://github.com/Sherlock3rd/pipi/actions/runs/37911346625/artifacts/11608021471)。
+
+### 2026-10-08 安装包与完整开场（已被交互修复版替代）
 
 [构建 37739873431](https://github.com/Sherlock3rd/pipi/actions/runs/37739873431) 双架构全部通过，对应程序提交 `3772e0f9`。以下均为 macOS 15.7.9、各自独立运行 85 秒后的回读，MB 使用十进制；结束工作集包含诊断截图分配，不是缓存预算或跨操作系统的等价内存指标。
 

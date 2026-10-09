@@ -1,0 +1,1192 @@
+{
+  "run": "https://github.com/Sherlock3rd/pipi/actions/runs/37911346625",
+  "codeCommit": "2a4ac4649d514782539491ae717723b1a0e7db5b",
+  "platforms": [
+    {
+      "rid": "osx-arm64",
+      "artifact": 11606373247,
+      "bytes": 838063747,
+      "sha256": "da4fcb5af3a9e163e06876da712dd27e0874f52d7c77f90b2d715f38100a729a",
+      "localArchiveVerified": true,
+      "pixelAudit": {
+        "CheckedFrames": 420,
+        "PixelMismatches": 0,
+        "BoundsMismatches": 0,
+        "PooledBufferLifetime": "verified after reuse"
+      },
+      "inputChecks": [
+        {
+          "stage": "early-native-qa",
+          "checks": [
+            {
+              "name": "negative control: old visible pet cannot receive clicks",
+              "native": {
+                "Level": -2147483622,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 626.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 0,
+              "releases": 0
+            },
+            {
+              "name": "desktop food click and non-key window",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 626.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 1,
+              "releases": 1
+            },
+            {
+              "name": "native nest drag and release at scale 1.0",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 749.0933227539062,
+                  "Y": 349.3999938964844
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 2,
+              "releases": 2
+            },
+            {
+              "name": "native nest drag and release at scale 1.4",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 679.0933227539062,
+                  "Y": 248.760009765625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1.4,
+              "action": "sleep",
+              "presses": 3,
+              "releases": 3
+            },
+            {
+              "name": "native nest drag and release at scale 0.7",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0933227539062,
+                  "Y": 424.8800048828125
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.7,
+              "action": "sleep",
+              "presses": 4,
+              "releases": 4
+            },
+            {
+              "name": "nest right click settings before cat interaction",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0933227539062,
+                  "Y": 429.3999938964844
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 5,
+              "releases": 5
+            },
+            {
+              "name": "cat click wakes sleeping pet",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0606079101562,
+                  "Y": 514.6649169921875
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "wake",
+              "presses": 6,
+              "releases": 6
+            },
+            {
+              "name": "cat long press, captured drag and drop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 488.97119140625,
+                  "Y": 425.8858642578125
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 7,
+              "releases": 7
+            },
+            {
+              "name": "nest right click settings",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0933227539062,
+                  "Y": 429.3999938964844
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "empty area passes through to desktop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 50,
+                  "Y": 50
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "ordinary application remains above desktop mode",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 616.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "floating mode receives input",
+              "native": {
+                "Level": 3,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 616.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            },
+            {
+              "name": "floating to desktop roundtrip preserves routing",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 616.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            }
+          ]
+        },
+        {
+          "stage": "native-qa",
+          "checks": [
+            {
+              "name": "negative control: old visible pet cannot receive clicks",
+              "native": {
+                "Level": -2147483622,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 626.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 0,
+              "releases": 0
+            },
+            {
+              "name": "desktop food click and non-key window",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 626.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 1,
+              "releases": 1
+            },
+            {
+              "name": "native nest drag and release at scale 1.0",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 749.0933227539062,
+                  "Y": 349.3999938964844
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 2,
+              "releases": 2
+            },
+            {
+              "name": "native nest drag and release at scale 1.4",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 679.0933227539062,
+                  "Y": 248.760009765625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1.4,
+              "action": "sleep",
+              "presses": 3,
+              "releases": 3
+            },
+            {
+              "name": "native nest drag and release at scale 0.7",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0933227539062,
+                  "Y": 424.8800048828125
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.7,
+              "action": "sleep",
+              "presses": 4,
+              "releases": 4
+            },
+            {
+              "name": "nest right click settings before cat interaction",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0933227539062,
+                  "Y": 429.3999938964844
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 5,
+              "releases": 5
+            },
+            {
+              "name": "cat click wakes sleeping pet",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.3419189453125,
+                  "Y": 514.6637573242188
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "wake",
+              "presses": 6,
+              "releases": 6
+            },
+            {
+              "name": "cat long press, captured drag and drop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 488.93365478515625,
+                  "Y": 426.1182556152344
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 7,
+              "releases": 7
+            },
+            {
+              "name": "nest right click settings",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 609.0933227539062,
+                  "Y": 429.3999938964844
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "empty area passes through to desktop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 50,
+                  "Y": 50
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "ordinary application remains above desktop mode",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 616.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "floating mode receives input",
+              "native": {
+                "Level": 3,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 616.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            },
+            {
+              "name": "floating to desktop roundtrip preserves routing",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 586.9866943359375,
+                  "Y": 616.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            }
+          ]
+        }
+      ],
+      "performance": {
+        "scene": {
+          "Runtime": "macOS 15.7.9",
+          "GraphicsBackend": "Software",
+          "Action": "idle",
+          "StartupActive": false,
+          "DisplayedClip": "video-01",
+          "DisplayedFrame": 76,
+          "CachedFrameBytes": 100523832,
+          "CacheMisses": 1623,
+          "MaxDecodeMilliseconds": 18.6262,
+          "RenderingDiagnostics": {
+            "Count": 5063,
+            "P95": 0.1489,
+            "Max": 199.5135,
+            "UiDecodes": 10,
+            "UiDecodeMilliseconds": 42.7875
+          },
+          "NativeTimings": {
+            "P95": 0.0155,
+            "Max": 1.8789
+          },
+          "UpdateTimings": {
+            "P95": 0.0221,
+            "Max": 4.6805
+          },
+          "WorkingSet": 444973056,
+          "CpuMilliseconds": 33530.204,
+          "ElapsedSeconds": 85.1141382,
+          "Frames": 5062,
+          "P95Milliseconds": 18.60610000000662,
+          "MaxMilliseconds": 328.07579999999996
+        },
+        "desktop-scene": {
+          "Runtime": "macOS 15.7.9",
+          "GraphicsBackend": "Software",
+          "Action": "rest-C",
+          "StartupActive": false,
+          "DisplayedClip": "video-19",
+          "DisplayedFrame": 39,
+          "CachedFrameBytes": 100492692,
+          "CacheMisses": 1541,
+          "MaxDecodeMilliseconds": 18.6106,
+          "RenderingDiagnostics": {
+            "Count": 5070,
+            "P95": 0.1355,
+            "Max": 173.2234,
+            "UiDecodes": 9,
+            "UiDecodeMilliseconds": 34.997
+          },
+          "NativeTimings": {
+            "P95": 0.0155,
+            "Max": 0.5166
+          },
+          "UpdateTimings": {
+            "P95": 0.0245,
+            "Max": 8.071
+          },
+          "WorkingSet": 452476928,
+          "CpuMilliseconds": 32431.735,
+          "ElapsedSeconds": 85.2404589,
+          "Frames": 5069,
+          "P95Milliseconds": 18.562099999996917,
+          "MaxMilliseconds": 279.8669
+        }
+      }
+    },
+    {
+      "rid": "osx-x64",
+      "artifact": 11608021471,
+      "bytes": 840529410,
+      "sha256": "845c6370a920ed493ad943331feb8b15b1980fcf50afc5d2e5b0787067e7f17a",
+      "localArchiveVerified": true,
+      "pixelAudit": {
+        "CheckedFrames": 420,
+        "PixelMismatches": 0,
+        "BoundsMismatches": 0,
+        "PooledBufferLifetime": "verified after reuse"
+      },
+      "inputChecks": [
+        {
+          "stage": "early-native-qa",
+          "checks": [
+            {
+              "name": "negative control: old visible pet cannot receive clicks",
+              "native": {
+                "Level": -2147483622,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 915.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 0,
+              "releases": 0
+            },
+            {
+              "name": "desktop food click and non-key window",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 915.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 1,
+              "releases": 1
+            },
+            {
+              "name": "native nest drag and release at scale 1.0",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 1645.0933837890625,
+                  "Y": 638.4000244140625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 2,
+              "releases": 2
+            },
+            {
+              "name": "native nest drag and release at scale 1.4",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 1575.0933837890625,
+                  "Y": 537.760009765625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1.4,
+              "action": "sleep",
+              "presses": 3,
+              "releases": 3
+            },
+            {
+              "name": "native nest drag and release at scale 0.7",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0933837890625,
+                  "Y": 713.8800048828125
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.7,
+              "action": "sleep",
+              "presses": 4,
+              "releases": 4
+            },
+            {
+              "name": "nest right click settings before cat interaction",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0933837890625,
+                  "Y": 718.4000244140625
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 5,
+              "releases": 5
+            },
+            {
+              "name": "cat click wakes sleeping pet",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0611572265625,
+                  "Y": 803.6608276367188
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "wake",
+              "presses": 6,
+              "releases": 6
+            },
+            {
+              "name": "cat long press, captured drag and drop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1385.0606689453125,
+                  "Y": 713.6641235351562
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 7,
+              "releases": 7
+            },
+            {
+              "name": "nest right click settings",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0933837890625,
+                  "Y": 718.4000244140625
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "empty area passes through to desktop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 50,
+                  "Y": 50
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "ordinary application remains above desktop mode",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 905.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "floating mode receives input",
+              "native": {
+                "Level": 3,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 905.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            },
+            {
+              "name": "floating to desktop roundtrip preserves routing",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 905.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            }
+          ]
+        },
+        {
+          "stage": "native-qa",
+          "checks": [
+            {
+              "name": "negative control: old visible pet cannot receive clicks",
+              "native": {
+                "Level": -2147483622,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 915.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 0,
+              "releases": 0
+            },
+            {
+              "name": "desktop food click and non-key window",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 915.1749877929688
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.85,
+              "action": "sleep",
+              "presses": 1,
+              "releases": 1
+            },
+            {
+              "name": "native nest drag and release at scale 1.0",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 1645.0933837890625,
+                  "Y": 638.4000244140625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 2,
+              "releases": 2
+            },
+            {
+              "name": "native nest drag and release at scale 1.4",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 1575.0933837890625,
+                  "Y": 537.760009765625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1.4,
+              "action": "sleep",
+              "presses": 3,
+              "releases": 3
+            },
+            {
+              "name": "native nest drag and release at scale 0.7",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0933837890625,
+                  "Y": 713.8800048828125
+                }
+              },
+              "settingsOpen": false,
+              "scale": 0.7,
+              "action": "sleep",
+              "presses": 4,
+              "releases": 4
+            },
+            {
+              "name": "nest right click settings before cat interaction",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0933837890625,
+                  "Y": 718.4000244140625
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 5,
+              "releases": 5
+            },
+            {
+              "name": "cat click wakes sleeping pet",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0615234375,
+                  "Y": 804.2206420898438
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "wake",
+              "presses": 6,
+              "releases": 6
+            },
+            {
+              "name": "cat long press, captured drag and drop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1384.9627685546875,
+                  "Y": 714.785400390625
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 7,
+              "releases": 7
+            },
+            {
+              "name": "nest right click settings",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1505.0933837890625,
+                  "Y": 718.4000244140625
+                }
+              },
+              "settingsOpen": true,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "empty area passes through to desktop",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": true,
+                "Key": false,
+                "Pointer": {
+                  "X": 50,
+                  "Y": 50
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "ordinary application remains above desktop mode",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 905.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 8,
+              "releases": 8
+            },
+            {
+              "name": "floating mode receives input",
+              "native": {
+                "Level": 3,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 905.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            },
+            {
+              "name": "floating to desktop roundtrip preserves routing",
+              "native": {
+                "Level": -2147483602,
+                "DesktopIconLevel": -2147483603,
+                "NormalLevel": 0,
+                "PassThrough": false,
+                "Key": false,
+                "Pointer": {
+                  "X": 1482.9866943359375,
+                  "Y": 905.5
+                }
+              },
+              "settingsOpen": false,
+              "scale": 1,
+              "action": "sleep",
+              "presses": 9,
+              "releases": 9
+            }
+          ]
+        }
+      ],
+      "performance": {
+        "scene": {
+          "Runtime": "macOS 15.7.9",
+          "GraphicsBackend": "Software",
+          "Action": "idle",
+          "StartupActive": false,
+          "DisplayedClip": "video-01",
+          "DisplayedFrame": 53,
+          "CachedFrameBytes": 100433260,
+          "CacheMisses": 1634,
+          "MaxDecodeMilliseconds": 45.8977,
+          "RenderingDiagnostics": {
+            "Count": 2495,
+            "P95": 0.6433,
+            "Max": 353.5352,
+            "UiDecodes": 10,
+            "UiDecodeMilliseconds": 80.87859999999999
+          },
+          "NativeTimings": {
+            "P95": 0.0329,
+            "Max": 2.445
+          },
+          "UpdateTimings": {
+            "P95": 0.0537,
+            "Max": 11.9801
+          },
+          "WorkingSet": 351064064,
+          "CpuMilliseconds": 48337.544,
+          "ElapsedSeconds": 85.1615744,
+          "Frames": 2494,
+          "P95Milliseconds": 34.4387000000026,
+          "MaxMilliseconds": 690.6205000000001
+        },
+        "desktop-scene": {
+          "Runtime": "macOS 15.7.9",
+          "GraphicsBackend": "Software",
+          "Action": "walk",
+          "StartupActive": false,
+          "DisplayedClip": "video-10",
+          "DisplayedFrame": 48,
+          "CachedFrameBytes": 100527312,
+          "CacheMisses": 1785,
+          "MaxDecodeMilliseconds": 91.8357,
+          "RenderingDiagnostics": {
+            "Count": 2344,
+            "P95": 0.6585,
+            "Max": 450.1621,
+            "UiDecodes": 10,
+            "UiDecodeMilliseconds": 132.43250000000003
+          },
+          "NativeTimings": {
+            "P95": 0.0327,
+            "Max": 2.3963
+          },
+          "UpdateTimings": {
+            "P95": 0.0614,
+            "Max": 70.6841
+          },
+          "WorkingSet": 383762432,
+          "CpuMilliseconds": 82809.723,
+          "ElapsedSeconds": 85.2888902,
+          "Frames": 2343,
+          "P95Milliseconds": 41.625199999998586,
+          "MaxMilliseconds": 798.5714000000002
+        }
+      }
+    }
+  ],
+  "limits": [
+    "Native CGEvent tests on macOS 15.7.9 runners; not manual hardware acceptance.",
+    "Application scale 0.7/1.0/1.4 tested; runner RenderScaling=1 does not prove physical Retina or trackpad gestures.",
+    "Intel first attempt desktop P95 48.2324 ms failed the unchanged 45 ms threshold; retained separately."
+  ],
+  "finalRunAttempt": 2,
+  "unchangedNonExecutableFiles": [
+    {
+      "rid": "osx-arm64",
+      "identicalNonExecutableEntries": 52
+    },
+    {
+      "rid": "osx-x64",
+      "identicalNonExecutableEntries": 52
+    }
+  ]
+}
