@@ -112,9 +112,14 @@ try:
         record('cat click wakes sleeping pet')
         point = move('cat'); before = read_receiver()['downs']
         event('down', point)
-        wait_for(read, lambda d: d['Scene']['IsDragging'] and d['Scene']['Holding'] and d['Scene']['pressedObject']=='cat', 'cat long press lifts')
+        # Holding is the pre-drag pause, intentionally cleared by BeginDrag.
+        # The authored drag action and captured scene state are the drag contract.
+        wait_for(read, lambda d: d['Scene']['IsDragging'] and d['Scene']['Action']=='drag' and d['Scene']['pressedObject']=='cat', 'cat long press lifts')
+        start = read()['Scene']['X']
         target = dict(X=point['X']-120, Y=point['Y']-90)
-        event('drag', target); time.sleep(.3); event('up', target)
+        event('drag', target)
+        wait_for(read, lambda d: abs(d['Scene']['X']-start)>50, 'captured cat follows pointer horizontally')
+        event('up', target)
         wait_for(read, lambda d: not d['Scene']['Holding'] and not d['Scene']['IsDragging'], 'cat drop')
         assert read_receiver()['downs'] == before
         record('cat long press, captured drag and drop')
