@@ -39,7 +39,8 @@ internal sealed partial class Scene : Panel,IDisposable
     public bool IsInteracting=>pressed||wandHeld;
     internal int PointerPresses {get;private set;}
     internal int PointerReleases {get;private set;}
-    internal object InputState=>new{PointerPresses,PointerReleases,pressed,pressedObject,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale};
+    private object? lastRelease;
+    internal object InputState=>new{PointerPresses,PointerReleases,pressed,pressedObject,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale,DisplayedClip,NestTargetClear=OpensSettingsAt(InputNestPoint()),lastRelease};
     // The top of the bed is visible even when a moved lower rim overlaps bowls
     // or the litter tray. Tests must use the same foreground hit priority as UI.
     internal Dictionary<string,Point> InputTargets=>new(){["cat"]=CatRect.Center*Scale,["nest"]=InputNestPoint()*Scale,["food"]=ObjectRect(Engine.FoodSpot).Center*Scale,["empty"]=new Point(50,50)};
@@ -157,6 +158,7 @@ internal sealed partial class Scene : Panel,IDisposable
     {
         PointerReleases++;
         pointer=World(e.GetPosition(this));
+        if(Program.Option("--input-audit") is not null)lastRelease=new{Button=e.InitialPressMouseButton.ToString(),X=pointer.X,Y=pointer.Y,Eligible=OpensSettingsAt(pointer),Cat=CatRect.Contains(pointer),Wand=WandRect.Contains(pointer),Litter=LitterRect.Contains(pointer),Food=ObjectRect(Engine.FoodSpot).Contains(pointer),Water=ObjectRect(Engine.WaterSpot).Contains(pointer),Nest=NestRect.Contains(pointer),IsInteracting,DisplayedClip};
         if(e.InitialPressMouseButton==MouseButton.Right){if(OpensSettingsAt(pointer))OpenSettings?.Invoke();e.Handled=true;return;}
         if(!pressed)return;MoveDragged(pointer);bool dragged=IsDragging;pressed=false;IsDragging=false;Engine.Holding=false;captured?.Capture(null);captured=null;Cursor=Cursor.Default;
         if(dragged){if(pressedObject=="cat")Engine.Drop(AtNest);}

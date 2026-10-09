@@ -64,6 +64,7 @@ def click(name, right=False):
 
 def record(name):
     checks.append(dict(check=name, scene=read(), receiver=read_receiver()))
+    (output/'verification.json').write_text(json.dumps(dict(checks=checks), indent=2)+'\n')
     print('PASS', name, flush=True)
 
 try:
@@ -105,6 +106,11 @@ try:
             record('native nest drag and release at scale '+str(scale))
 
         command(scale=1.0)
+        wait_for(read, lambda d: d['Scene']['NestTargetClear'], 'visible bed target before cat interaction')
+        click('nest', right=True)
+        wait_for(read, lambda d: d['SettingsOpen'], 'nest right click before cat interaction opens settings')
+        record('nest right click settings before cat interaction')
+        command(closeSettings=True)
         assert read()['Scene']['Action']=='sleep'
         click('cat')
         wait_for(read, lambda d: d['Scene']['Action']!='sleep', 'cat click wakes sleeping pet')
@@ -124,6 +130,9 @@ try:
         assert read_receiver()['downs'] == before
         record('cat long press, captured drag and drop')
 
+        # The landing animation can cover the bed. Target a currently uncovered
+        # bed pixel, exactly as required by the existing foreground hit rule.
+        wait_for(read, lambda d: d['Scene']['NestTargetClear'] and d['Scene']['DisplayedClip']=='video-20', 'landing settles and exposes bed target')
         click('nest', right=True)
         wait_for(read, lambda d: d['SettingsOpen'], 'nest right click opens settings')
         record('nest right click settings')
