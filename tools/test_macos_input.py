@@ -105,9 +105,14 @@ try:
             record('native nest drag and release at scale '+str(scale))
 
         command(scale=1.0)
+        assert read()['Scene']['Action']=='sleep'
+        click('cat')
+        wait_for(read, lambda d: d['Scene']['Action']!='sleep', 'cat click wakes sleeping pet')
+        assert read()['Scene']['pressedObject']=='cat'
+        record('cat click wakes sleeping pet')
         point = move('cat'); before = read_receiver()['downs']
         event('down', point)
-        wait_for(read, lambda d: d['Scene']['IsDragging'] and d['Scene']['Holding'], 'cat long press lifts')
+        wait_for(read, lambda d: d['Scene']['IsDragging'] and d['Scene']['Holding'] and d['Scene']['pressedObject']=='cat', 'cat long press lifts')
         target = dict(X=point['X']-120, Y=point['Y']-90)
         event('drag', target); time.sleep(.3); event('up', target)
         wait_for(read, lambda d: not d['Scene']['Holding'] and not d['Scene']['IsDragging'], 'cat drop')
@@ -131,6 +136,11 @@ try:
         wait_for(read, lambda d: d['Scene']['Food'] > 0, 'floating pet receives click above ordinary window')
         assert read_receiver()['downs'] == before
         record('floating mode receives input')
+        command(floating=False, food=0)
+        before = read_receiver()['downs']; click('food')
+        wait_for(read_receiver, lambda d: d['downs'] > before, 'return to desktop stays below ordinary window')
+        assert read()['Scene']['Food']==0
+        record('floating to desktop roundtrip preserves routing')
         pet.terminate(); pet.wait(timeout=15); pet = None
     (output/'verification.json').write_text(json.dumps(dict(checks=checks), indent=2)+'\n')
 finally:
