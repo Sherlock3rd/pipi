@@ -95,7 +95,7 @@ try:
             before = read_receiver()['downs']
             point = move('nest'); start = read()['Scene']['NestX']
             event('down', point)
-            wait_for(read, lambda d: d['Scene']['pressed'], 'nest press delivered')
+            wait_for(read, lambda d: d['Scene']['pressed'] and d['Scene']['pressedObject']=='nest', 'nest press delivered to nest, not overlapping furniture')
             target = dict(X=point['X']-70, Y=point['Y']-80)
             event('drag', target)
             wait_for(read, lambda d: d['Scene']['IsDragging'] and abs(d['Scene']['NestX']-start) > 25, 'nest drag moves object')

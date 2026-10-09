@@ -39,8 +39,15 @@ internal sealed partial class Scene : Panel,IDisposable
     public bool IsInteracting=>pressed||wandHeld;
     internal int PointerPresses {get;private set;}
     internal int PointerReleases {get;private set;}
-    internal object InputState=>new{PointerPresses,PointerReleases,pressed,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale};
-    internal Dictionary<string,Point> InputTargets=>new(){["cat"]=CatRect.Center*Scale,["nest"]=new Point(NestRect.Left+45,NestRect.Bottom-40)*Scale,["food"]=ObjectRect(Engine.FoodSpot).Center*Scale,["empty"]=new Point(50,50)};
+    internal object InputState=>new{PointerPresses,PointerReleases,pressed,pressedObject,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale};
+    // The top of the bed is visible even when a moved lower rim overlaps bowls
+    // or the litter tray. Tests must use the same foreground hit priority as UI.
+    internal Dictionary<string,Point> InputTargets=>new(){["cat"]=CatRect.Center*Scale,["nest"]=InputNestPoint()*Scale,["food"]=ObjectRect(Engine.FoodSpot).Center*Scale,["empty"]=new Point(50,50)};
+    private Point InputNestPoint()
+    {
+        var choices=new[]{new Point(NestRect.Center.X,NestRect.Top+30),new Point(NestRect.Left+45,NestRect.Bottom-40),new Point(NestRect.Right-45,NestRect.Bottom-40)};
+        return choices.FirstOrDefault(OpensSettingsAt,choices[0]);
+    }
     private double pressedAt,lift,poseLift,shownFood,shownWater;
     private Point pointer,pressedPoint;
     private Vector grabOffset;
