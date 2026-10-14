@@ -1,0 +1,31 @@
+name: Upload verified Mac packages to draft release
+on:
+  workflow_dispatch:
+    inputs:
+      run_id:
+        description: Successful desktop-release run ID
+        required: true
+      source_commit:
+        description: Exact source commit embedded in the packages
+        required: true
+      tag:
+        description: Existing draft release tag
+        required: true
+permissions:
+  actions: read
+  contents: write
+jobs:
+  upload:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools
+      - run: python tools/upload_verified_packages.py
+        env:
+          GH_TOKEN: ${{ github.token }}
+          GH_REPO: ${{ github.repository }}
+          PACKAGE_RUN: ${{ inputs.run_id }}
+          PACKAGE_COMMIT: ${{ inputs.source_commit }}
+          PACKAGE_TAG: ${{ inputs.tag }}
