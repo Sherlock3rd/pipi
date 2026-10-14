@@ -43,7 +43,9 @@ def main():
             if existing:
                 with path.open('rb') as stream:
                     digest = hashlib.file_digest(stream, 'sha256').hexdigest()
-                asset = json.loads(gh('api', f'repos/{repo}/releases/assets/{existing["id"]}'))
+                api_url = existing['apiUrl']
+                assert api_url.startswith(f'https://api.github.com/repos/{repo}/releases/assets/')
+                asset = json.loads(gh('api', api_url))
                 assert asset['state'] == 'uploaded' and asset['size'] == path.stat().st_size
                 assert asset.get('digest') == 'sha256:' + digest
             else:
