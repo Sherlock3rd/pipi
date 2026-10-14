@@ -81,7 +81,7 @@ public sealed partial class PetEngine
     public Func<string,double,bool,double?>? VisualVelocity {get;set;}
     public Func<string,bool,double?>? VisualActionDuration {get;set;}
     public Func<double,bool>? VisualCareReady {get;set;}
-    public Func<double,bool>? VisualRequestFinishReady {get;set;}
+    public Func<double,bool,bool>? VisualRequestFinishReady {get;set;}
     public Func<double,bool,bool>? VisualStandReady {get;set;}
     public Func<string,double,double,double,bool,(double X,bool Complete)?>? VisualTravel {get;set;}
     public Func<(double Start,double Duration)?>? VisualBurialWindow {get;set;}
@@ -221,7 +221,7 @@ public sealed partial class PetEngine
         guidePointer=cursor;pointerKnown=true;
         if(!Holding&&!ToyHeld&&State.CareRequest is not null)
         {if(overCat&&!State.Guiding&&Action.StartsWith("request-"))BeginGuide();hoverSeconds=0;hoverTriggered=false;return;}
-        if(!overCat||Holding||ToyHeld||manualSequence||IsRelaxing||Action is "drag" or "walk" or "eat" or "drink" or "toilet" or "bury" or "sleep")
+        if(!overCat||Holding||ToyHeld||manualSequence||IsRelaxing||Action is "drag" or "walk" or "eat" or "drink" or "toilet" or "bury" or "sleep" or "care-finish")
         {hoverSeconds=0;hoverTriggered=false;return;}
         if(Action=="rub")return;
         if(hoverTriggered)return;

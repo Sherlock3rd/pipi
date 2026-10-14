@@ -10,23 +10,25 @@ namespace Chenpi;
 
 internal static class RequestGestureAudit
 {
-    internal static void Run(string directory,string kind,bool guided)
+    internal static void Run(string directory,string kind,bool guided,bool approach=false)
     {
         if(kind is not ("food" or "water"))throw new ArgumentException("Use food or water");
         var state=new PetState{X=700,Y=652,Scale=1,TotalSeconds=1000,Food=0,Water=0,RestDuration=3600,
             CareRequest=kind,Guiding=guided,NestPosition=new(2000,652),FoodPosition=new(700,652),WaterPosition=new(1200,652),LitterPosition=new(1750,652),
             FoodClock=new(){NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){NextDue=99999}};
-        new Scene(new PetEngine(state,7)).ExportRequestGestureAudit(directory,kind,guided);
+        var scene=new Scene(new PetEngine(state,7));
+        try{scene.ExportRequestGestureAudit(directory,kind,guided,approach);}finally{scene.ReleaseFrames();}
     }
 }
 
 internal sealed partial class Scene
 {
-    internal void ExportRequestGestureAudit(string directory,string kind,bool guided)
+    internal void ExportRequestGestureAudit(string directory,string kind,bool guided,bool approach=false)
     {
         Directory.CreateDirectory(directory);Directory.CreateDirectory(Path.Combine(directory,"sequence"));
         Engine.Layout(2400,700);Engine.State.X=(guided?Engine.GuideDestination(kind):Engine.RequestDestination(kind)).X;
-        playback.RestorePose(guided?"SR":"F");bool refilled=false,recording=false;int count=0;double refillTime=-1;
+        if(approach)Engine.State.X+=180;
+        playback.RestorePose(guided&&!approach?"SR":"F");bool refilled=false,recording=approach;int count=0;double refillTime=-1;
         var framesOut=new List<object>();var trace=new List<object>();var transitions=new List<string>();
         void Save(string file,Action<DrawingContext> draw)
         {
@@ -46,13 +48,13 @@ internal sealed partial class Scene
         }
         for(int tick=0;tick<1200;tick++)
         {
+            if(approach||refilled)Engine.ObservePointer(1d/24,true,Engine.CatPlayCenter);
             Engine.Update(1d/24,12);
             var frame=playback.Sample(Engine.Action,Engine.Now,Engine.FacingLeft)!.Value;
-            bool complete=refilled&&Engine.Action is not ("care-finish" or "care-thanks");
-            if(complete&&guided)break;
+            bool complete=refilled&&Engine.Action is not ("care-finish" or "care-thanks" or "expr-119");
             recording|=Engine.Action==(guided?"guide-":"request-")+kind;
             if(!recording)continue;
-            if(!refilled&&Engine.Action==(guided?"guide-":"request-")+kind&&Engine.ActionTime>=2)
+            if(!refilled&&(approach?Engine.Now>=.3:Engine.Action==(guided?"guide-":"request-")+kind&&Engine.ActionTime>=2))
             {
                 SceneCapture("alignment-after.png",Engine.State.X,frame);
                 if(!guided)SceneCapture("alignment-before.png",Engine.CareDestination(Engine.ObjectPosition(kind),kind=="food"?"eat":"drink").X,frame);
@@ -71,6 +73,6 @@ internal sealed partial class Scene
         }
         if(!refilled||Engine.Action=="care-finish")throw new InvalidDataException("Request did not finish");
         File.WriteAllText(Path.Combine(directory,"frames.json"),JsonSerializer.Serialize(new{PixelsPerUnit=2,RootX=192,RootY=256,Frames=framesOut}));
-        File.WriteAllText(Path.Combine(directory,"trace.json"),JsonSerializer.Serialize(new{Kind=kind,Guided=guided,RefillTime=refillTime,Transitions=transitions,Samples=trace}));
+        File.WriteAllText(Path.Combine(directory,"trace.json"),JsonSerializer.Serialize(new{Kind=kind,Guided=guided,Approach=approach,RefillTime=refillTime,Transitions=transitions,Samples=trace}));
     }
 }

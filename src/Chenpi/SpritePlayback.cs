@@ -167,7 +167,6 @@ public sealed partial class SpritePlayback
         if(action!="care-finish"){requestFinishAt=-1;requestFinishStanding=false;}
         else if(careAction is "request-food" or "request-water" or "request-litter" or "guide-food" or "guide-water" or "guide-litter")
         {
-            requestFinishStanding=HasCompletion&&careAction.StartsWith("guide-");
             string id="video-"+CareSequence(careAction,left)[0];var finishing=clips[id];
             // Refill changes stock immediately, but finish the currently visible
             // gesture at its authored endpoint before walking through the graph.
@@ -343,9 +342,12 @@ public sealed partial class SpritePlayback
         Sample("care-ready",now,false);
         return pose=="SR"&&destination=="SR"&&current.Length==0;
     }
-    public bool PrepareRequestFinish(double now)
+    public bool PrepareRequestFinish(double now,bool thanks)
     {
         if(!careGraph)return true;
+        // The next action owns this target. Inferring it from the last rendered
+        // gesture fails when supply arrives during approach/turn/guide arrival.
+        requestFinishStanding=HasCompletion&&thanks;
         Sample("care-finish",now);
         string target=requestFinishStanding?"SR":"F";
         return careAction.Length==0&&pose==target&&destination==target&&(current.Length==0||clips[current].Loop);

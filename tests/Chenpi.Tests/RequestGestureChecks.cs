@@ -42,14 +42,46 @@ public static class RequestGestureChecks
             }
         }
         {
-            var p=Player();p.Sample("guide-water",0);p.Sample("guide-water",2);p.PrepareRequestFinish(2);
+            var p=Player();p.Sample("guide-water",0);p.Sample("guide-water",2);p.PrepareRequestFinish(2,true);
             check(p.Sample("drag",2.01)!.Value.Clip=="video-32","explicit pickup still interrupts a pending gesture finish immediately");
+        }
+        foreach(string kind in new[]{"food","water"})foreach(double offset in new[]{-180d,180d})foreach(double delay in new[]{0d,.3,2d,5d})foreach(bool hover in new[]{false,true})
+        {
+            var p=Player();var state=new PetState{X=800,Y=752,TotalSeconds=1000,Food=0,Water=0,RestDuration=3600,
+                CareRequest=kind,Guiding=true,NestPosition=new(2000,752),FoodPosition=new(800,752),WaterPosition=new(1300,752),LitterPosition=new(1750,752),
+                FoodClock=new(){NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){NextDue=99999}};
+            var c=new PetEngine(state,7){ExpressionsEnabled=true,CompletionEnabled=p.HasCompletion,VisualPoseReady=p.PreparePose,VisualStandReady=p.PrepareStand,
+                VisualCareReady=p.PrepareCare,VisualRequestFinishReady=p.PrepareRequestFinish,VisualTravel=p.TravelTo,VisualActionDuration=p.ActionDuration,VisualConsumptionWindow=p.ConsumptionWindow};
+            c.Layout(2400,800);state.X=c.GuideDestination(kind).X+offset;p.RestorePose("F");
+            SpriteFrame Tick(){c.ObservePointer(1d/60,hover,c.CatPlayCenter);c.Update(1d/60,12);return p.Sample(c.AligningForCare?"care-ready":c.Action,c.Now,c.FacingLeft)!.Value;}
+            var previous=p.Sample(c.Action,c.Now)!.Value;
+            for(int i=0;i<(int)(delay*60);i++)previous=Tick();
+            c.Refill(kind);bool reached=false,standing=false;var order=new List<string>();
+            c.Refill(kind); // A second supply click must not restart visual finishing.
+            for(int i=0;i<3000;i++)
+            {
+                var frame=Tick();if(order.Count==0||order[^1]!=frame.Clip)order.Add(frame.Clip);
+                if(frame.Clip=="video-119")
+                {
+                    reached=true;standing=previous.Clip is "video-06" or "video-16" or "video-11" or "video-48" or "video-49"&&previous.Index==previous.Definition.Count-1;break;
+                }
+                previous=frame;
+            }
+            check(reached&&standing&&!order.Contains("video-38"),$"{kind}/{offset}/{delay}/{hover}: guide-approach refill and repeated supply reach standing before thanks without hover takeover ({string.Join(",",order)})");
+            int lastThanks=-1;bool stockPreserved=true;
+            for(int i=0;i<600;i++)
+            {
+                var frame=Tick();if(frame.Clip!="video-119")break;lastThanks=frame.Index;
+                stockPreserved&=(kind=="food"?state.Food:state.Water)==40;
+            }
+            check(lastThanks==p.InspectFrame("video-119",0)!.Value.Definition.Count-1&&stockPreserved,
+                $"{kind}/{offset}/{delay}/{hover}: complete thanks plays once at authored duration without consuming supply");
         }
         {
             var p=Player();p.Sample("guide-water",0);double now=2;var last=new Dictionary<string,int>();
             for(int i=0;i<400;i++)
             {
-                bool ready=p.PrepareRequestFinish(now);var frame=p.Sample("care-finish",now)!.Value;last[frame.Clip]=frame.Index;
+                bool ready=p.PrepareRequestFinish(now,true);var frame=p.Sample("care-finish",now)!.Value;last[frame.Clip]=frame.Index;
                 if(ready)break;now+=1d/24;
             }
             check(last["video-49"]==120&&!last.ContainsKey("video-07"),

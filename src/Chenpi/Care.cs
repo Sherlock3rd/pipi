@@ -91,7 +91,10 @@ public sealed partial class PetEngine
         if(VisualRequestFinishReady is not null)
         {
             requestFinishThanks=guided;
-            SetAction("care-finish",double.MaxValue,"完成当前示意并衔接坐姿");return;
+            SetAction("care-finish",double.MaxValue,"完成当前示意并衔接致谢姿态");
+            // Select the incoming pose before the next render, including refill
+            // during guide travel or before its first item-gesture frame.
+            VisualRequestFinishReady(Now,requestFinishThanks);return;
         }
         SetAction(guided?"care-thanks":"sit",guided?2:1,"照料已完成");
     }
@@ -108,7 +111,7 @@ public sealed partial class PetEngine
     private bool UpdateRequestFinish()
     {
         if(Action!="care-finish")return false;
-        if(VisualRequestFinishReady?.Invoke(Now)!=false)
+        if(VisualRequestFinishReady?.Invoke(Now,requestFinishThanks)!=false)
             SetAction(requestFinishThanks?(CompletionEnabled?"expr-119":"care-thanks"):"sit",requestFinishThanks?2:1,"照料已完成");
         return true;
     }

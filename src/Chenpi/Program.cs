@@ -43,7 +43,7 @@ internal static class Program
         if(Option(args,"--audit-care-request") is string requestAudit)
         {
             Directory.CreateDirectory(requestAudit);
-            try{var app=new System.Windows.Application();RequestGestureAudit.Run(requestAudit,Option(args,"--request-kind")??"food",args.Contains("--request-guided"));}
+            try{var app=new System.Windows.Application();RequestGestureAudit.Run(requestAudit,Option(args,"--request-kind")??"food",args.Contains("--request-guided"),args.Contains("--request-approach"));}
             catch(Exception e){File.WriteAllText(Path.Combine(requestAudit,"error.txt"),e.ToString());Environment.ExitCode=1;}
             return;
         }
