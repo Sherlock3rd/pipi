@@ -1,0 +1,224 @@
+{
+  "codeCommit": "6b9557f56f15eadb9b8f8b7adedd912567e2df37",
+  "sharedChecks": 825,
+  "cases": [
+    {
+      "name": "food-approach-final",
+      "transitions": [
+        "video-06",
+        "video-119",
+        "video-10"
+      ],
+      "frames": 160,
+      "scanPairs": 159,
+      "retainedThresholdFlags": 38,
+      "retainedReviewFlags": 31,
+      "seams": [
+        {
+          "from": "video-06",
+          "to": "video-119",
+          "sourceFrame": 90,
+          "targetFrame": 0,
+          "overlap": 0.9347605990297405,
+          "outlineWidthDelta": -1.0,
+          "outlineHeightDelta": 0.5,
+          "opaqueBottomDelta": 0.0,
+          "inliers": 90,
+          "reliable": true,
+          "failures": [
+            "body-width"
+          ],
+          "review": [],
+          "bodyWidthPercent": -1.7521350457282203,
+          "bodyHeightPercent": 0.22328959135378135,
+          "bodyDeltaX": -0.12380100041627884,
+          "bodyDeltaY": -0.13101603090763092,
+          "residual": 0.5538573617498345,
+          "horizontalCoverage": 0.7135788798332214
+        },
+        {
+          "from": "video-119",
+          "to": "video-10",
+          "sourceFrame": 96,
+          "targetFrame": 0,
+          "overlap": 0.9900907249185238,
+          "outlineWidthDelta": 0.0,
+          "outlineHeightDelta": -0.5,
+          "opaqueBottomDelta": 0.0,
+          "inliers": 102,
+          "reliable": true,
+          "failures": [],
+          "review": [],
+          "bodyWidthPercent": 0.05876190829854355,
+          "bodyHeightPercent": -0.29052014968594664,
+          "bodyDeltaX": -0.013641357421875,
+          "bodyDeltaY": 0.15955008566379547,
+          "residual": 0.23303084257529333,
+          "horizontalCoverage": 0.9130784869194031
+        }
+      ]
+    },
+    {
+      "name": "water-approach",
+      "transitions": [
+        "video-06",
+        "video-119",
+        "video-10"
+      ],
+      "frames": 160,
+      "scanPairs": 159,
+      "retainedThresholdFlags": 38,
+      "retainedReviewFlags": 31,
+      "seams": [
+        {
+          "from": "video-06",
+          "to": "video-119",
+          "sourceFrame": 90,
+          "targetFrame": 0,
+          "overlap": 0.9347605990297405,
+          "outlineWidthDelta": -1.0,
+          "outlineHeightDelta": 0.5,
+          "opaqueBottomDelta": 0.0,
+          "inliers": 90,
+          "reliable": true,
+          "failures": [
+            "body-width"
+          ],
+          "review": [],
+          "bodyWidthPercent": -1.7521350457282203,
+          "bodyHeightPercent": 0.22328959135378135,
+          "bodyDeltaX": -0.12380100041627884,
+          "bodyDeltaY": -0.13101603090763092,
+          "residual": 0.5538573617498345,
+          "horizontalCoverage": 0.7135788798332214
+        },
+        {
+          "from": "video-119",
+          "to": "video-10",
+          "sourceFrame": 96,
+          "targetFrame": 0,
+          "overlap": 0.9900907249185238,
+          "outlineWidthDelta": 0.0,
+          "outlineHeightDelta": -0.5,
+          "opaqueBottomDelta": 0.0,
+          "inliers": 102,
+          "reliable": true,
+          "failures": [],
+          "review": [],
+          "bodyWidthPercent": 0.05876190829854355,
+          "bodyHeightPercent": -0.29052014968594664,
+          "bodyDeltaX": -0.013641357421875,
+          "bodyDeltaY": 0.15955008566379547,
+          "residual": 0.23303084257529333,
+          "horizontalCoverage": 0.9130784869194031
+        }
+      ]
+    },
+    {
+      "name": "water-guide",
+      "transitions": [
+        "video-49",
+        "video-119",
+        "video-15"
+      ],
+      "frames": 220,
+      "scanPairs": 219,
+      "retainedThresholdFlags": 15,
+      "retainedReviewFlags": 11,
+      "seams": [
+        {
+          "from": "video-49",
+          "to": "video-119",
+          "sourceFrame": 120,
+          "targetFrame": 0,
+          "overlap": 0.973776873783435,
+          "outlineWidthDelta": 0.0,
+          "outlineHeightDelta": 0.0,
+          "opaqueBottomDelta": -0.5,
+          "inliers": 180,
+          "reliable": true,
+          "failures": [],
+          "review": [],
+          "bodyWidthPercent": -0.02969569620967505,
+          "bodyHeightPercent": -0.035080940916298875,
+          "bodyDeltaX": 0.008814112283289433,
+          "bodyDeltaY": -0.5475494265556335,
+          "residual": 0.11999318556252143,
+          "horizontalCoverage": 0.9535229206085205
+        },
+        {
+          "from": "video-119",
+          "to": "video-15",
+          "sourceFrame": 96,
+          "targetFrame": 0,
+          "overlap": 0.9742647058823529,
+          "outlineWidthDelta": -1.0,
+          "outlineHeightDelta": -1.0,
+          "opaqueBottomDelta": 0.0,
+          "inliers": 69,
+          "reliable": true,
+          "failures": [],
+          "review": [],
+          "bodyWidthPercent": 0.03270681439271339,
+          "bodyHeightPercent": -0.05898476678806164,
+          "bodyDeltaX": 0.055449776351451874,
+          "bodyDeltaY": -0.027607571333646774,
+          "residual": 0.35148124182763885,
+          "horizontalCoverage": 0.6337066888809204
+        }
+      ]
+    },
+    {
+      "name": "food-request",
+      "transitions": [
+        "video-45",
+        "video-01"
+      ],
+      "frames": 122,
+      "scanPairs": 121,
+      "retainedThresholdFlags": 26,
+      "retainedReviewFlags": 9,
+      "seams": [
+        {
+          "from": "video-45",
+          "to": "video-01",
+          "sourceFrame": 120,
+          "targetFrame": 0,
+          "overlap": 0.9961630497565805,
+          "outlineWidthDelta": 0.0,
+          "outlineHeightDelta": 0.5,
+          "opaqueBottomDelta": 0.0,
+          "inliers": 246,
+          "reliable": true,
+          "failures": [],
+          "review": [],
+          "bodyWidthPercent": 0.01781375094742632,
+          "bodyHeightPercent": 0.013434665604039608,
+          "bodyDeltaX": -0.007835140451788902,
+          "bodyDeltaY": -0.006198355928063393,
+          "residual": 0.11776668710140996,
+          "horizontalCoverage": 0.8600418567657471
+        }
+      ]
+    }
+  ],
+  "oldSeatedToStandingNegativeOverlap": 0.23810799707053928,
+  "existing06To10EndpointControl": {
+    "outlineWidthDelta": -1.0,
+    "outlineHeightDelta": 0.0,
+    "opaqueBottomDelta": 0.0,
+    "inliers": 81,
+    "reliable": true,
+    "failures": [
+      "body-width"
+    ],
+    "review": [],
+    "bodyWidthPercent": -0.9187690830414152,
+    "bodyHeightPercent": 0.3458035355016653,
+    "bodyDeltaX": -0.20929501950740814,
+    "bodyDeltaY": -0.10682471096515656,
+    "residual": 0.5374294010222064,
+    "horizontalCoverage": 0.695348858833313
+  },
+  "limitations": "Original pose deformation flags retained; 06 to 119 width fit differs by 1.75%. No source frames or geometry changed. Native WPF render audits are not human Mac interaction acceptance."
+}

@@ -17,6 +17,7 @@ internal static class Program
     [STAThread] public static void Main(string[] args)
     {
         Args=args;
+        if(Option("--build-info") is string buildInfo){BuildIdentity.Write(buildInfo);return;}
         if(args.Contains("--probe-fullscreen")){Console.WriteLine(MacNative.FullscreenOnPrimary()?"fullscreen":"normal");return;}
         if(!OperatingSystem.IsMacOS()&&!args.Contains("--preview"))throw new PlatformNotSupportedException("Use the Windows build on Windows, or --preview for renderer QA.");
         // Native GPU paths can stall compiling shadow shaders on Intel and

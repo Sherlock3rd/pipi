@@ -62,7 +62,7 @@ Windows 默认数据目录为 `%LOCALAPPDATA%/Chenpi`，macOS 为 `~/Library/App
 
 本次规则文档变更不冒称新的程序功能版本，也不为了记录规范重复发布未变化的运行包。后续功能、修复及资源优化阶段须执行上述交付。
 
-- 当前 `tools/build_release.py` 已提供三种架构包和 SHA256，但 Mac `CFBundleVersion` / `CFBundleShortVersionString` 固定为 `1.0.0`。需要真实递增版本及程序可回读的构建标识，不能用 ZIP文件名、修改时间或这两个固定值判断最新。
+- 2026-10-14：`packaging/release.json` 统一声明版本与发行序号；`tools/build_release.py` 把固定源码提交、版本写入程序集及包内 `build-info.json`，Mac两项CFBundle版本同步。两端 `--build-info <输出JSON>` 在进入UI/存档前回读实际程序集版本、提交和进程架构，发行验收须核对这些值，不能只看ZIP名或修改时间。首个使用此机制的版本为1.0.1，正式发布状态见对应发行记录。
 - 当前 `.github/workflows/desktop-release.yml` 仅有 Mac 双架构任务，Actions产物配置保留14天，且失败时也会上传诊断产物。存在可下载ZIP不等于通过发布验证；Windows正式发布与三平台统一发布清单需要补齐。
 - 需要新增发布清单，至少记录版本、发布序号、源码提交、平台/架构、最低系统版本、固定下载地址、压缩及解压大小、SHA256、签名状态、存档兼容性和验收结果。只有资产齐全且验证通过才能将该版本设为正式入口。
 - 使用 GitHub Releases 的固定发现入口，再锁定具体版本下载。本轮未查询远端 Releases 状态，也未创建 Release 或上传包。

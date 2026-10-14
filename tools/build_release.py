@@ -5,6 +5,7 @@ import json
 import os
 import pathlib
 import plistlib
+import re
 import shutil
 import stat
 import subprocess
@@ -26,6 +27,13 @@ def main():
     parser.add_argument('--dotnet', default='dotnet')
     parser.add_argument('--source', help='Optional local NuGet feed for offline builds')
     args = parser.parse_args()
+    release_info = json.loads((ROOT / 'packaging/release.json').read_text(encoding='utf-8'))
+    version = release_info['version']
+    if not re.fullmatch(r'\d+\.\d+\.\d+', version):
+        raise ValueError('Release version must have three numeric components')
+    commit = subprocess.check_output([os.environ.get('GIT_EXECUTABLE', 'git'), 'rev-parse', 'HEAD'], cwd=ROOT, text=True).strip()
+    if not re.fullmatch(r'[0-9a-f]{40}', commit):
+        raise ValueError('A fixed source commit is required')
     assets = args.assets.resolve()
     report = json.loads((assets / 'pack-report.json').read_text(encoding='utf-8'))
     expected = hashlib.sha256((ROOT / 'assets/pets/bluecat/manifest.json').read_bytes()).hexdigest()
@@ -40,7 +48,9 @@ def main():
     binary = app / 'Contents/MacOS' if mac else app
     project = ROOT / 'src' / ('Chenpi.Mac/Chenpi.Mac.csproj' if mac else 'Chenpi/Chenpi.csproj')
     command = [args.dotnet, 'publish', project, '-c', 'Release', '-r', args.rid, '--self-contained', 'true',
-               '-p:SkipAssetCopy=true', '-p:DebugType=None', '-p:DebugSymbols=false', '-p:NuGetAudit=false', '-o', binary]
+               '-p:SkipAssetCopy=true', '-p:DebugType=None', '-p:DebugSymbols=false', '-p:NuGetAudit=false',
+               f'-p:Version={version}', f'-p:InformationalVersion={version}+{commit}',
+               '-p:IncludeSourceRevisionInInformationalVersion=false', '-o', binary]
     if mac:
         # Keep managed assemblies in the apphost, native libraries alongside it,
         # and data in Resources. Loose PE DLLs in MacOS break strict codesigning.
@@ -50,6 +60,8 @@ def main():
     run(*command)
     resources = app / 'Contents/Resources' if mac else binary
     resources.mkdir(parents=True, exist_ok=True)
+    (resources / 'build-info.json').write_text(json.dumps(dict(version=version, sequence=release_info['sequence'],
+        sourceCommit=commit, rid=args.rid), indent=2) + '\n', encoding='utf-8')
     shutil.copytree(assets, resources / 'assets')
     # Licenses and native third-party notices ship with each architecture.
     notices = resources / 'licenses'
@@ -72,8 +84,8 @@ def main():
     if mac:
         with (app / 'Contents/Info.plist').open('wb') as f:
             plistlib.dump(dict(CFBundleName='Chenpi', CFBundleDisplayName='陈皮', CFBundleIdentifier='com.chenpi.desktop',
-                              CFBundleExecutable='Chenpi.Mac', CFBundlePackageType='APPL', CFBundleVersion='1.0.0',
-                              CFBundleShortVersionString='1.0.0', LSMinimumSystemVersion='15.0',
+                              CFBundleExecutable='Chenpi.Mac', CFBundlePackageType='APPL', CFBundleVersion=version,
+                              CFBundleShortVersionString=version, LSMinimumSystemVersion='15.0',
                               LSUIElement=True, NSHighResolutionCapable=True), f)
         executable = binary / 'Chenpi.Mac'
         executable.chmod(0o755)

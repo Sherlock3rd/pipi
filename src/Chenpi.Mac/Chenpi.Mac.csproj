@@ -9,6 +9,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
   </PropertyGroup>
   <ItemGroup>
+    <Compile Include="../Chenpi/BuildIdentity.cs" Link="Shared/BuildIdentity.cs" />
     <PackageReference Include="Avalonia.Desktop" Version="11.3.22" />
     <PackageReference Include="Avalonia.Themes.Fluent" Version="11.3.22" />
     <Compile Include="../Chenpi/Model.cs;../Chenpi/Care.cs;../Chenpi/Store.cs;../Chenpi/AnimationVariants.cs;../Chenpi/SpritePlayback.cs;../Chenpi/TravelPlayback.cs;../Chenpi/FullscreenPolicy.cs;../Chenpi/AlphaMatte.cs;../Chenpi/RestPlacement.cs;../Chenpi/InteractionGeometry.cs;../Chenpi/ExpressionPlayback.cs;../Chenpi/Relaxation.cs;../Chenpi/BehaviorSettings.cs;../Chenpi/BehaviorTuning.cs;../Chenpi/BehaviorPreview.cs;../Chenpi/MovementChoices.cs;../Chenpi/VoiceCues.cs;../Chenpi/CompletionPlayback.cs;../Chenpi/StartupGreeting.cs;../Chenpi/FrameCache.cs;../Chenpi/FrameSequence.cs;../Chenpi/RuntimeAssets.cs;../Chenpi/BehaviorGraph.cs;../Chenpi/Scene.Artwork.cs" Link="Shared/%(Filename)%(Extension)" />

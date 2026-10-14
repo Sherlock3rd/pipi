@@ -80,6 +80,8 @@ jobs:
           mkdir -p artifacts/unpacked
           ditto -x -k dist/releases/Chenpi-${{ matrix.rid }}.zip artifacts/unpacked
           codesign --verify --deep --strict artifacts/unpacked/Chenpi.app
+          artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac --build-info artifacts/unpacked/identity.json
+          python -c "import json,os; a=json.load(open('artifacts/unpacked/identity.json')); b=json.load(open('packaging/release.json')); assert a['version']==b['version'] and a['sourceCommit']==os.environ['GITHUB_SHA']; assert a['architecture']=='${{ matrix.rid }}'.split('-')[1]"
       - name: Native full-screen and normal-window checks
         run: python tools/test_macos_native.py artifacts/unpacked/Chenpi.app/Contents/MacOS/Chenpi.Mac
       - name: Extracted app native click drag and settings acceptance

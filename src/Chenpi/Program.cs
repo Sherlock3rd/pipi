@@ -17,6 +17,7 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--build-info") is string buildInfo){BuildIdentity.Write(buildInfo);return;}
         if(Option(args,"--audit-resource-pack") is string sourceAssets)
         {ResourceAudit.Run(Path.GetFullPath(sourceAssets),Option(args,"--audit-output")??"resource-audit.json");return;}
         if(Option(args,"--audit-completion") is string completionAudit)
