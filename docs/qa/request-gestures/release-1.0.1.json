@@ -1,0 +1,347 @@
+{
+  "version": "1.0.1",
+  "sourceCommit": "3a4bcc5c770a3b1fff654afcafbb2b83630fbe85",
+  "localDirectory": "dist/release-1.0.1",
+  "publicVerification": {
+    "version": "1.0.1",
+    "sourceCommit": "3a4bcc5c770a3b1fff654afcafbb2b83630fbe85",
+    "manifestSha256": "3dbaef9ac0d2785fa4c088abc2bf79b0b06cefbcfaf5a37a51523cd80907ff61",
+    "url": "https://github.com/Sherlock3rd/pipi/releases/tag/v1.0.1",
+    "verificationRun": "https://github.com/Sherlock3rd/pipi/actions/runs/38541836063",
+    "verificationHost": "GitHub ubuntu-latest runner",
+    "assets": [
+      {
+        "name": "Chenpi-macos-verification.json",
+        "assetId": 639846433,
+        "bytes": 7833,
+        "sha256": "73a9d089f9fab33438412c4c233d9584e8237edbf55bfd53dfff10f2244c0fc5",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-arm64.zip",
+        "assetId": 639835721,
+        "bytes": 838065322,
+        "sha256": "49c70634713b54de27e66fec55d5a1c86fe11667f2c123cbdd03cd40da923457",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-arm64.zip.sha256",
+        "assetId": 639836623,
+        "bytes": 87,
+        "sha256": "afebb6f22c7623780f5ade4a614c0fdc0c933e7d1cdbf97c941d151ab08b0461",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-x64.zip",
+        "assetId": 639837865,
+        "bytes": 840531129,
+        "sha256": "a6b9d3ccf39c0c9a9709eb43e61065d4879645b5be7c3c9ee5372c6b6c0e4066",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-x64.zip.sha256",
+        "assetId": 639838964,
+        "bytes": 85,
+        "sha256": "e330e88b81504c947c292b839db7252181d3851cfbbaa5394d8f05d4ddbcaf5f",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-win-x64.zip",
+        "assetId": 639804536,
+        "bytes": 882089320,
+        "sha256": "cb23ead0a03ac5aae4e66a68fd4d48dfccb8059b3ce8b7adc9e1cf47bd03b302",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-win-x64.zip.sha256",
+        "assetId": 639804532,
+        "bytes": 86,
+        "sha256": "bba7b10772656805bfab3e74f056dd41ca2d36e436c62e3fab7fb7fa5b15afae",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "INSTALL.txt",
+        "assetId": 639850735,
+        "bytes": 1882,
+        "sha256": "5f890d63397c1621b91c742504a52838478f6b9a7d1503f9a0cfc02d8b54488b",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "release-manifest.json",
+        "assetId": 639855012,
+        "bytes": 13420,
+        "sha256": "3dbaef9ac0d2785fa4c088abc2bf79b0b06cefbcfaf5a37a51523cd80907ff61",
+        "publicAnonymousDownload": true
+      }
+    ]
+  },
+  "windows": {
+    "sourceCommit": "3a4bcc5c770a3b1fff654afcafbb2b83630fbe85",
+    "version": "1.0.1",
+    "os": "Windows 11 10.0.22631 x64",
+    "buildIdentity": {
+      "version": "1.0.1",
+      "sourceCommit": "3a4bcc5c770a3b1fff654afcafbb2b83630fbe85",
+      "architecture": "x64",
+      "framework": ".NET 10.0.12"
+    },
+    "pixelAudit": {
+      "CheckedFrames": 15349,
+      "PixelMismatches": 0,
+      "BoundsMismatches": 0,
+      "P50DecodeMs": 4.2815,
+      "P95DecodeMs": 7.1699,
+      "MaxDecodeMs": 101.1481
+    },
+    "refillRenderedFrames": 380,
+    "refillFramesIdenticalToFixAudit": true,
+    "zipCrcVerified": true,
+    "startupRender": {
+      "Action": "rest-M",
+      "DisplayedClip": "video-84",
+      "DisplayedFrame": 84,
+      "renderedFrames": 3594,
+      "averageFrameMs": 16.694605649874756,
+      "maxFrameMs": 32.91710000000015,
+      "averageDrawMs": 0.3466545858810455,
+      "CachedFrameBytes": 100244728,
+      "workingSet": 315269120,
+      "peakWorkingSet": 335781888,
+      "p95FrameMs": 17.215199999995434
+    },
+    "limitations": [
+      "Automated native render and model checks; not manual mouse or all-hardware acceptance.",
+      "Windows preview smoke validates rendering and rest transitions; full greeting is covered by shared tests and Mac 85-second checks."
+    ]
+  },
+  "macos": {
+    "sourceCommit": "3a4bcc5c770a3b1fff654afcafbb2b83630fbe85",
+    "run": "https://github.com/Sherlock3rd/pipi/actions/runs/38537971898",
+    "platforms": [
+      {
+        "rid": "osx-arm64",
+        "sha256": "49c70634713b54de27e66fec55d5a1c86fe11667f2c123cbdd03cd40da923457",
+        "bytes": 838065322,
+        "pixelAudit": {
+          "CheckedFrames": 420,
+          "PixelMismatches": 0,
+          "BoundsMismatches": 0,
+          "PooledBufferLifetime": "verified after reuse"
+        },
+        "inputChecks": {
+          "early-native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ],
+          "native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ]
+        },
+        "performance": {
+          "scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "idle",
+            "StartupActive": false,
+            "DisplayedClip": "video-01",
+            "DisplayedFrame": 68,
+            "CachedFrameBytes": 100440724,
+            "CacheMisses": 1630,
+            "MaxDecodeMilliseconds": 39.5312,
+            "RenderingDiagnostics": {
+              "Count": 5031,
+              "P95": 0.3626,
+              "Max": 327.5767,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 69.1955
+            },
+            "NativeTimings": {
+              "P95": 0.0293,
+              "Max": 1.201
+            },
+            "UpdateTimings": {
+              "P95": 0.0468,
+              "Max": 6.6312
+            },
+            "WorkingSet": 441286656,
+            "CpuMilliseconds": 49554.642,
+            "ElapsedSeconds": 85.235943,
+            "Frames": 5030,
+            "P95Milliseconds": 18.479399999996815,
+            "MaxMilliseconds": 518.5849000000001
+          },
+          "desktop-scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "rest-A",
+            "StartupActive": false,
+            "DisplayedClip": "video-60",
+            "DisplayedFrame": 6,
+            "CachedFrameBytes": 100657420,
+            "CacheMisses": 1488,
+            "MaxDecodeMilliseconds": 49.6144,
+            "RenderingDiagnostics": {
+              "Count": 5008,
+              "P95": 0.3276,
+              "Max": 362.8116,
+              "UiDecodes": 9,
+              "UiDecodeMilliseconds": 54.71800000000001
+            },
+            "NativeTimings": {
+              "P95": 0.0284,
+              "Max": 5.0698
+            },
+            "UpdateTimings": {
+              "P95": 0.0498,
+              "Max": 4.9195
+            },
+            "WorkingSet": 446791680,
+            "CpuMilliseconds": 46346.779,
+            "ElapsedSeconds": 85.1635249,
+            "Frames": 5007,
+            "P95Milliseconds": 18.757200000010243,
+            "MaxMilliseconds": 565.3521999999999
+          }
+        }
+      },
+      {
+        "rid": "osx-x64",
+        "sha256": "a6b9d3ccf39c0c9a9709eb43e61065d4879645b5be7c3c9ee5372c6b6c0e4066",
+        "bytes": 840531129,
+        "pixelAudit": {
+          "CheckedFrames": 420,
+          "PixelMismatches": 0,
+          "BoundsMismatches": 0,
+          "PooledBufferLifetime": "verified after reuse"
+        },
+        "inputChecks": {
+          "early-native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ],
+          "native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ]
+        },
+        "performance": {
+          "scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "idle",
+            "StartupActive": false,
+            "DisplayedClip": "video-01",
+            "DisplayedFrame": 46,
+            "CachedFrameBytes": 100433260,
+            "CacheMisses": 1634,
+            "MaxDecodeMilliseconds": 74.6477,
+            "RenderingDiagnostics": {
+              "Count": 2471,
+              "P95": 0.4958,
+              "Max": 370.1275,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 110.45400000000001
+            },
+            "NativeTimings": {
+              "P95": 0.0263,
+              "Max": 8.1756
+            },
+            "UpdateTimings": {
+              "P95": 0.0469,
+              "Max": 14.0406
+            },
+            "WorkingSet": 349532160,
+            "CpuMilliseconds": 46818.825,
+            "ElapsedSeconds": 85.1676363,
+            "Frames": 2470,
+            "P95Milliseconds": 34.42209999999868,
+            "MaxMilliseconds": 687.0382
+          },
+          "desktop-scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "idle",
+            "StartupActive": false,
+            "DisplayedClip": "video-01",
+            "DisplayedFrame": 55,
+            "CachedFrameBytes": 100433260,
+            "CacheMisses": 1635,
+            "MaxDecodeMilliseconds": 39.5241,
+            "RenderingDiagnostics": {
+              "Count": 2477,
+              "P95": 0.6251,
+              "Max": 350.1306,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 75.1744
+            },
+            "NativeTimings": {
+              "P95": 0.0404,
+              "Max": 1.3796
+            },
+            "UpdateTimings": {
+              "P95": 0.0681,
+              "Max": 14.3864
+            },
+            "WorkingSet": 386248704,
+            "CpuMilliseconds": 73657.833,
+            "ElapsedSeconds": 85.1580639,
+            "Frames": 2476,
+            "P95Milliseconds": 35.03549999999933,
+            "MaxMilliseconds": 634.8493000000001
+          }
+        }
+      }
+    ]
+  },
+  "limits": [
+    "Native automated tests do not replace user-hardware acceptance.",
+    "Original animation deformation and minor endpoint differences retained; see refill-20261014.json.",
+    "Existing installed app and personal save files were not replaced.",
+    "Local large-file public download attempt was superseded; full anonymous public download was performed on the independent GitHub runner and every returned hash matched the local accepted files."
+  ]
+}

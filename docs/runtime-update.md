@@ -63,8 +63,8 @@ Windows 默认数据目录为 `%LOCALAPPDATA%/Chenpi`，macOS 为 `~/Library/App
 本次规则文档变更不冒称新的程序功能版本，也不为了记录规范重复发布未变化的运行包。后续功能、修复及资源优化阶段须执行上述交付。
 
 - 2026-10-14：`packaging/release.json` 统一声明版本与发行序号；`tools/build_release.py` 把固定源码提交、版本写入程序集及包内 `build-info.json`，Mac两项CFBundle版本同步。两端 `--build-info <输出JSON>` 在进入UI/存档前回读实际程序集版本、提交和进程架构，发行验收须核对这些值，不能只看ZIP名或修改时间。首个使用此机制的版本为1.0.1，正式发布状态见对应发行记录。
-- 当前 `.github/workflows/desktop-release.yml` 仅有 Mac 双架构任务，Actions产物配置保留14天，且失败时也会上传诊断产物。存在可下载ZIP不等于通过发布验证；Windows正式发布与三平台统一发布清单需要补齐。
-- 需要新增发布清单，至少记录版本、发布序号、源码提交、平台/架构、最低系统版本、固定下载地址、压缩及解压大小、SHA256、签名状态、存档兼容性和验收结果。只有资产齐全且验证通过才能将该版本设为正式入口。
+- 当前 `.github/workflows/desktop-release.yml` 仅有 Mac 双架构构建任务，Actions产物保留14天，且失败时也会上传诊断产物；不能据存在ZIP判断通过。本次1.0.1的Windows包在本机从同一固定提交构建并完成解压后原生验收，自动Windows构建流水线仍未补齐。
+- 1.0.1已提供三平台统一`release-manifest.json`，包含版本、发行序号、源码提交、架构、最低系统版本及验证边界、固定下载地址、压缩/解压大小、SHA256、签名、存档兼容性及验收。`upload-verified-packages.yml`只把指定成功构建的Mac原包上传到已有草稿，不自动公开；Windows、校验、清单齐全且校验后才公开。本轮发行及远端回验见[交付记录](releases/1.0.1.md)。
 - 使用 GitHub Releases 的固定发现入口，再锁定具体版本下载。本轮未查询远端 Releases 状态，也未创建 Release 或上传包。
 - 两端 `Program.cs` 的窗口关闭会隐藏；真正 `Quit()` 才会保存并刷新存档。需要可验证的优雅退出与健康响应接口，不能假定普通关闭消息或任意终止信号会保存数据。
 - 当前 Mac 包是 ad-hoc 签名、未公证。自动更新不能承诺绕过系统拦截；遇到权限或 Gatekeeper 阻断时保留恢复条件并指引系统批准。不自动关闭系统安全功能或批量去除隔离属性。Developer ID签名与公证可另行规划。
