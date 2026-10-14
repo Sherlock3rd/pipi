@@ -1,0 +1,33 @@
+name: Verify public release downloads
+on:
+  workflow_dispatch:
+    inputs:
+      tag:
+        description: Published release tag
+        required: true
+      source_commit:
+        description: Expected runtime source commit
+        required: true
+      manifest_sha256:
+        description: SHA256 of the locally accepted release manifest
+        required: true
+permissions:
+  contents: read
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          sparse-checkout: tools
+      - run: python tools/verify_public_packages.py
+        env:
+          PACKAGE_REPO: ${{ github.repository }}
+          PACKAGE_TAG: ${{ inputs.tag }}
+          PACKAGE_COMMIT: ${{ inputs.source_commit }}
+          PACKAGE_MANIFEST_SHA: ${{ inputs.manifest_sha256 }}
+      - uses: actions/upload-artifact@v4
+        with:
+          name: public-download-verification
+          path: artifacts/public-download-verification.json
