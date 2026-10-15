@@ -101,6 +101,7 @@ public sealed partial class PetEngine
     private readonly Selector tree;
     private readonly Selector toyTree;
     private double toyStep;
+    private bool toyCatchFacingLeft;
     private Spot target;
     private string arrival = "idle";
     private bool settleAfterCare;
@@ -123,7 +124,7 @@ public sealed partial class PetEngine
     public const double ToyPlayRadius=170;
     public const double CatCatchRadius=100;
     public const double WalkSpeed=36;
-    public const double ToyRunSpeed=WalkSpeed;
+    public const double ToyRunSpeed=137.5;
     public Spot CatPlayCenter=>new(State.X,State.Y-65);
     public bool ToyOverlaps=>ToyHeld&&CatPlayCenter.Distance(ToyTip)<=Settings.Get("toy.outer");
     // The outer rings attract attention. Catching requires the actual feather tip near the cat.
@@ -252,8 +253,12 @@ public sealed partial class PetEngine
     private void CatchToy()
     {
         if(!IsClearRestSpot(State.X)){ChaseToy();return;}
+        // Keep a live catch cycle alive; preparing the same standing pose every
+        // tick would cancel it and repeatedly replay the lift/lower transitions.
+        if(Action=="toy-bat"&&FacingLeft==toyCatchFacingLeft)return;
         if(ExpressionsEnabled&&VisualStandReady?.Invoke(Now,FacingLeft)==false)
         {if(Action!="toy-ready")SetAction("toy-ready",double.MaxValue,"起身准备玩耍");return;}
+        toyCatchFacingLeft=FacingLeft;
         if(Action!="toy-bat")SetAction("toy-bat",double.MaxValue,"贴近抓逗猫棒");
     }
     private void MoveTowards(Spot destination,double step)
@@ -265,7 +270,7 @@ public sealed partial class PetEngine
         if(CanAdvanceMovement?.Invoke(Action,Now,FacingLeft)==false)return;
         if(VisualVelocity?.Invoke(Action,Now,FacingLeft) is double velocity)
         {
-            double dt=step/(Action=="rub"?24:WalkSpeed);
+            double dt=step/(Action=="rub"?24:Action=="toy-run"?ToyRunSpeed:WalkSpeed);
             step=Math.Abs(velocity)*dt;
             if(Math.Abs(destination.X-State.X)>.1&&velocity*(destination.X-State.X)<0)
             {State.X=Math.Clamp(State.X+velocity*dt,65,Width-65);return;}
@@ -292,7 +297,6 @@ public sealed partial class PetEngine
         ActionTime+=dt;
         if(Action=="drag") return;
         if(UpdateDebugBehavior())return;
-        if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&LeaveOccupiedRestSpot())return;
         if(ToyOverlaps){TickToy(dt);return;}
         if(Action.StartsWith("toy-")){NewRest();SetAction("sit",1,"等主人靠近一点");}
         if(UpdateRequestFinish())return;
@@ -303,6 +307,7 @@ public sealed partial class PetEngine
             if(request is not null){BeginRequest(request);UpdateCareFlow(dt);return;}
             string? due=DueCare();if(due is not null)StartCare(due);
         }
+        if((Action is "idle" or "sit"||Action=="sleep"&&!State.SleepingInNest||IsRelaxing&&LyingPose(RelaxedPose))&&LeaveOccupiedRestSpot())return;
         if(UpdateRelaxation()){State.RestElapsed+=dt;State.StillSeconds+=dt;return;}
         if(TryAutonomousMovement())return;
         if(TrySeatedCall())return;
@@ -362,6 +367,10 @@ public sealed partial class PetEngine
         if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);State.LitterCover[SupplyLayers(State.Litter)-1]=0;ScheduleNext("litter");RefreshAvailability();Dirty=true;Go(LitterSpot,"bury","走到便便旁边埋砂");return;}
         if(Action=="bury") {Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
         if(manualSequence){FinishManualSequence();return;}
+        // Commit to the next due visit before asking the renderer to leave in
+        // the opposite direction for a rest spot. A one-tick detour still starts
+        // a complete authored turn, even when care takes over on the next tick.
+        if(Action is "eat" or "drink"&&DueCare() is string nextCare){StartCare(nextCare);return;}
         if(LeaveOccupiedRestSpot())return;
         tree.Tick();
     }

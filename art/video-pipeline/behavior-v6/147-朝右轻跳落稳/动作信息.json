@@ -1,0 +1,16 @@
+{
+  "id": 147,
+  "name": "朝右轻跳落稳",
+  "group": "埋砂衔接",
+  "start": "SR",
+  "end": "SR",
+  "suggestedSeconds": "1.5—2.5",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SR.png",
+  "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
+  "folder": "147-朝右轻跳落稳",
+  "startFrame": "147-朝右轻跳落稳/首帧.png",
+  "endFrame": "147-朝右轻跳落稳/尾帧.png",
+  "promptFile": "147-朝右轻跳落稳/提示词.txt"
+}

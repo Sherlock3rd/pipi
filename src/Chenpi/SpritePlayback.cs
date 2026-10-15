@@ -165,12 +165,12 @@ public sealed partial class SpritePlayback
     private SpriteFrame? SampleCare(string action,double now,bool left)
     {
         if(action!="care-finish"){requestFinishAt=-1;requestFinishStanding=false;}
-        else if(careAction is "request-food" or "request-water" or "request-litter" or "guide-food" or "guide-water" or "guide-litter")
+        else if(careAction is "request-food" or "request-water" or "request-litter" or "guide-food" or "guide-water" or "guide-litter" or "expr-88")
         {
-            string id="video-"+CareSequence(careAction,left)[0];var finishing=clips[id];
+            string id=careAction=="expr-88"?"video-88":"video-"+CareSequence(careAction,left)[0];var finishing=clips[id];
             // Refill changes stock immediately, but finish the currently visible
             // gesture at its authored endpoint before walking through the graph.
-            if(requestFinishAt<0)requestFinishAt=careStarted+Math.Max(1,Math.Ceiling((now-careStarted)/finishing.Duration-1e-8))*finishing.Duration;
+            if(requestFinishAt<0)requestFinishAt=careStarted+(careAction=="expr-88"?1:Math.Max(1,Math.Ceiling((now-careStarted)/finishing.Duration-1e-8)))*finishing.Duration;
             if(now<requestFinishAt-1e-8)
                 return new(id,FrameIndex(now-careStarted,finishing.Fps)%finishing.Count,finishing);
         }
@@ -287,9 +287,10 @@ public sealed partial class SpritePlayback
     private SpriteFrame? SampleVideo(string action,double now,bool left)
     {
         string target=action switch {
-            "idle" or "sit" or "wake" or "care-finish"=>"F",
+            "idle" or "sit" or "wake" or "care-finish" or "request-call-ready"=>"F",
             "run"=>left?"RL":"RR",
-            "walk" or "toy-run" or "request-walk" or "guide-walk"=>left?"WL":"WR",
+            "toy-run"=>HasCompletion?(left?"RL":"RR"):(left?"WL":"WR"),
+            "walk" or "request-walk" or "guide-walk"=>left?"WL":"WR",
             "guide-stop" or "guide-arrive" or "toy-ready"=>left?"SL":"SR",
             "sleep"=>"C",_=>""};
         if(action=="care-ready")target="SR";

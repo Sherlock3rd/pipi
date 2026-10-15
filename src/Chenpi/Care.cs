@@ -7,6 +7,7 @@ public sealed class CareClock
     public double NextDue {get;set;}
     public double? UnavailableSince {get;set;}
     public double LastRequested {get;set;}=-1e12;
+    public bool RequestCallPlayed {get;set;}
 }
 
 public sealed partial class PetEngine
@@ -41,7 +42,7 @@ public sealed partial class PetEngine
         foreach(var kind in CareKinds)
         {
             var clock=ClockFor(kind);
-            if(Available(kind))clock.UnavailableSince=null;
+            if(Available(kind)){clock.UnavailableSince=null;clock.RequestCallPlayed=false;}
             else clock.UnavailableSince??=State.TotalSeconds;
         }
     }
@@ -120,6 +121,20 @@ public sealed partial class PetEngine
         string? kind=State.CareRequest;if(kind is null)return false;
         if(!HasCareDemand(kind)){CancelCareRequest();NewRest();SetAction("sit",1,"当前没有吃喝需求");return true;}
         if(Available(kind)){FinishRequest();return true;}
+        if(Action=="request-call-ready")
+        {
+            if(VisualPoseReady?.Invoke("F",Now)==false)return true;
+            ClockFor(kind).RequestCallPlayed=true;Dirty=true;
+            SetAction("expr-88",4,"本次照料需求轻叫一次");return true;
+        }
+        if(Action=="expr-88")
+        {
+            if(ActionTime<duration)return true;
+            string resume=State.Guiding?"guide-arrive":new Spot(State.X,State.Y).Distance(RequestDestination(kind))<=2?"request-"+kind:"request-walk";
+            if(State.Guiding)FacingLeft=false;
+            SetAction(resume,double.MaxValue,"叫声结束，继续对应物品示意");
+            return true;
+        }
         if(!State.Guiding)
         {
             var requestGoal=RequestDestination(kind);
@@ -136,6 +151,7 @@ public sealed partial class PetEngine
                 SetAction("request-"+kind,double.MaxValue,"等待主人注意");
                 if(Now-LastBeg>=Settings.Get("request.sound")){LastBeg=Now;RequestedAttention?.Invoke();}
             }
+            if(TryRequestCall(kind))return true;
             if(ActionTime>=Settings.Get("request.rotate")&&ReadyRequest(kind) is string next)BeginRequest(next);
             return true;
         }
@@ -152,6 +168,7 @@ public sealed partial class PetEngine
                 if(VisualStandReady?.Invoke(Now,false)==false)return true;
                 SetAction("guide-"+kind,double.MaxValue,"在物品旁示意照料");
             }
+            TryRequestCall(kind);
             return true;
         }
         guideFollowing=pointerKnown&&CatPlayCenter.Distance(guidePointer)<=(Settings.Get("guide.radius")+(guideFollowing?40:0));
@@ -171,6 +188,17 @@ public sealed partial class PetEngine
         FacingLeft=goal.X<State.X;double step=Math.Min(remaining,WalkSpeed*dt);
         double previousX=State.X,previousY=State.Y;MoveTowards(goal,step);
         guideTravelled+=new Spot(previousX,previousY).Distance(new Spot(State.X,State.Y));
+        return true;
+    }
+    private bool TryRequestCall(string kind)
+    {
+        if(!ExpressionsEnabled||ClockFor(kind).RequestCallPlayed||Action!=(State.Guiding?"guide-":"request-")+kind)return false;
+        double cycle=VisualActionDuration?.Invoke(Action,FacingLeft)??5.04;
+        if(ActionTime+1e-8<cycle)return false;
+        // Both request and guide gestures finish at their authored endpoints.
+        // A standing guide must sit through the graph before the seated call.
+        SetAction("request-call-ready",double.MaxValue,"完成示意后准备轻叫一次");
+        VisualPoseReady?.Invoke("F",Now);
         return true;
     }
 }

@@ -1,0 +1,16 @@
+{
+  "id": 142,
+  "name": "左向摸背拱背伸展",
+  "group": "背部",
+  "start": "SL",
+  "end": "SL",
+  "suggestedSeconds": "3—4",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SL.png",
+  "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+  "folder": "142-左向摸背拱背伸展",
+  "startFrame": "142-左向摸背拱背伸展/首帧.png",
+  "endFrame": "142-左向摸背拱背伸展/尾帧.png",
+  "promptFile": "142-左向摸背拱背伸展/提示词.txt"
+}

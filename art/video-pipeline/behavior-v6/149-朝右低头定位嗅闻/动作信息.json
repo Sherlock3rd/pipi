@@ -1,0 +1,16 @@
+{
+  "id": 149,
+  "name": "朝右低头定位嗅闻",
+  "group": "埋砂衔接",
+  "start": "SR",
+  "end": "SR",
+  "suggestedSeconds": "2—3",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SR.png",
+  "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
+  "folder": "149-朝右低头定位嗅闻",
+  "startFrame": "149-朝右低头定位嗅闻/首帧.png",
+  "endFrame": "149-朝右低头定位嗅闻/尾帧.png",
+  "promptFile": "149-朝右低头定位嗅闻/提示词.txt"
+}

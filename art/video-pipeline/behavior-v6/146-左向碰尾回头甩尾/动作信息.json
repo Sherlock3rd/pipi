@@ -1,0 +1,16 @@
+{
+  "id": 146,
+  "name": "左向碰尾回头甩尾",
+  "group": "尾巴",
+  "start": "SL",
+  "end": "SL",
+  "suggestedSeconds": "2—3",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SL.png",
+  "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+  "folder": "146-左向碰尾回头甩尾",
+  "startFrame": "146-左向碰尾回头甩尾/首帧.png",
+  "endFrame": "146-左向碰尾回头甩尾/尾帧.png",
+  "promptFile": "146-左向碰尾回头甩尾/提示词.txt"
+}

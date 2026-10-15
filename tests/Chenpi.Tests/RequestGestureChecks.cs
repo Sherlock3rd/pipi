@@ -11,7 +11,7 @@ public static class RequestGestureChecks
         {
             var p=Player();var state=new PetState{X=800,Y=752,TotalSeconds=1000,Food=0,Water=0,Litter=0,RestDuration=3600,
                 CareRequest=kind,Guiding=guided,NestPosition=new(2000,752),FoodPosition=new(800,752),WaterPosition=new(1300,752),LitterPosition=new(1750,752),
-                FoodClock=new(){NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){NextDue=99999}};
+                FoodClock=new(){RequestCallPlayed=true,NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){RequestCallPlayed=true,NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){RequestCallPlayed=true,NextDue=99999}};
             var c=new PetEngine(state,7){ExpressionsEnabled=true,CompletionEnabled=p.HasCompletion,VisualPoseReady=p.PreparePose,VisualStandReady=p.PrepareStand,VisualCareReady=p.PrepareCare,
                 VisualRequestFinishReady=p.PrepareRequestFinish,VisualTravel=p.TravelTo,VisualActionDuration=p.ActionDuration,VisualConsumptionWindow=p.ConsumptionWindow};
             c.Layout(2400,800);state.X=(guided?c.GuideDestination(kind):c.RequestDestination(kind)).X;p.RestorePose(guided?"SR":"F");
@@ -49,7 +49,7 @@ public static class RequestGestureChecks
         {
             var p=Player();var state=new PetState{X=800,Y=752,TotalSeconds=1000,Food=0,Water=0,RestDuration=3600,
                 CareRequest=kind,Guiding=true,NestPosition=new(2000,752),FoodPosition=new(800,752),WaterPosition=new(1300,752),LitterPosition=new(1750,752),
-                FoodClock=new(){NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){NextDue=99999}};
+                FoodClock=new(){RequestCallPlayed=true,NextDue=kind=="food"?1:99999,UnavailableSince=0},WaterClock=new(){RequestCallPlayed=true,NextDue=kind=="water"?1:99999,UnavailableSince=0},LitterClock=new(){RequestCallPlayed=true,NextDue=99999}};
             var c=new PetEngine(state,7){ExpressionsEnabled=true,CompletionEnabled=p.HasCompletion,VisualPoseReady=p.PreparePose,VisualStandReady=p.PrepareStand,
                 VisualCareReady=p.PrepareCare,VisualRequestFinishReady=p.PrepareRequestFinish,VisualTravel=p.TravelTo,VisualActionDuration=p.ActionDuration,VisualConsumptionWindow=p.ConsumptionWindow};
             c.Layout(2400,800);state.X=c.GuideDestination(kind).X+offset;p.RestorePose("F");

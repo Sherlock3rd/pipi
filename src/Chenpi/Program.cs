@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-behavior-update") is string behaviorUpdateAudit)
+        {
+            Directory.CreateDirectory(behaviorUpdateAudit);
+            try{var app=new System.Windows.Application();BehaviorUpdateAudit.Run(behaviorUpdateAudit);}
+            catch(Exception e){File.WriteAllText(Path.Combine(behaviorUpdateAudit,"error.txt"),e.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--build-info") is string buildInfo){BuildIdentity.Write(buildInfo);return;}
         if(Option(args,"--audit-resource-pack") is string sourceAssets)
         {ResourceAudit.Run(Path.GetFullPath(sourceAssets),Option(args,"--audit-output")??"resource-audit.json");return;}
