@@ -36,8 +36,10 @@ def main():
         with zipfile.ZipFile(archive) as bundle:
             info = json.loads(bundle.read('Chenpi.app/Contents/Resources/build-info.json'))
             assert info['sourceCommit'] == commit and info['version'] == tag[1:] and info['rid'] == rid
+            uncompressed_bytes = sum(entry.file_size for entry in bundle.infolist())
         qa = folder / 'artifacts/native-qa'
         platform = dict(rid=rid, sha256=expected, bytes=archive.stat().st_size,
+                        uncompressedBytes=uncompressed_bytes, buildIdentity=info,
                         pixelAudit=json.loads((qa / 'pixel-audit.json').read_text()), inputChecks={}, performance={})
         for stage in ('early-native-qa', 'native-qa'):
             checks = json.loads((folder / 'artifacts' / stage / 'input/verification.json').read_text())['checks']
