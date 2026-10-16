@@ -19,3 +19,5 @@
 本轮请求场景汇总曾误写88末帧为120；回查当前manifest为97帧，实际0—96完整且仅一次。汇总改为从manifest读取帧数，不能把旧121帧假设带到新97帧片段。
 
 Windows冒烟参数与Mac不同：WPF使用--snapshot-delay 60及--exit-after-snapshot，不能照搬Mac的--exit-after；本轮首次隔离预览参数误用后，核对专属PID/命令行终止，再用新测试目录重跑，未操作正式实例。
+
+2026-10-16 打包溯源：Windows检出manifest含CRLF，而Git blob及Mac为LF，原始文件SHA不同不等于语义漂移。本轮同时验证去CR后的字节与JSON内容一致，发布仍分别记录真实包哈希；不得修改或伪造原始哈希来强行一致。
