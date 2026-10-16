@@ -163,6 +163,8 @@ internal sealed partial class Scene : FrameworkElement
         Engine.VisualBurialWindow=playback.BurialWindow;
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         Engine.ExpressionsEnabled=playback.HasExpressions;
+        Engine.BodyInteractionsEnabled=playback.HasBodyInteractions;Engine.BurialV6Enabled=playback.HasBurialV6;
+        Engine.ToyGrabsEnabled=playback.HasToyGrabs;Engine.HighToyGrabsEnabled=playback.HasHighToyGrabs;
         Engine.VisualPoseReady=playback.PreparePose;
         Engine.VisualWallRestComplete=playback.WallRestComplete;
         Engine.CompletionEnabled=playback.HasCompletion;
@@ -230,7 +232,7 @@ internal sealed partial class Scene : FrameworkElement
         lift+=(liftTarget-lift)*(1-Math.Exp(-elapsed*24));
         if(IsDragging)MoveDragged(pointer);
         if(wandHeld)Engine.SetToy(true,new Spot(Math.Clamp(pointer.X,0,WorldWidth),Math.Clamp(pointer.Y,0,WorldHeight)));
-        Engine.ObservePointer(elapsed,IsVisible&&IsMouseOver&&!pressed&&CatRect.Contains(pointer),new Spot(pointer.X,pointer.Y));
+        Engine.ObservePointer(elapsed,IsVisible&&IsMouseOver&&!pressed&&CatContains(pointer),new Spot(pointer.X,pointer.Y));
         double now=watch.Elapsed.TotalSeconds,step=Math.Min(.1,now-previousVisualTime)*95;previousVisualTime=now;
         shownFood+=Math.Clamp(Engine.State.Food-shownFood,-step,step);
         shownWater+=Math.Clamp(Engine.State.Water-shownWater,-step,step);
@@ -269,7 +271,7 @@ internal sealed partial class Scene : FrameworkElement
     protected override HitTestResult? HitTestCore(PointHitTestParameters p)
     {
         var at=World(p.HitPoint);
-        return pressed||wandHeld||WandRect.Contains(at)||CatRect.Contains(at)||NestRect.Contains(at)||ObjectRect(Engine.FoodSpot).Contains(at)||ObjectRect(Engine.WaterSpot).Contains(at)||LitterRect.Contains(at)
+        return pressed||wandHeld||WandRect.Contains(at)||CatContains(at)||NestRect.Contains(at)||ObjectRect(Engine.FoodSpot).Contains(at)||ObjectRect(Engine.WaterSpot).Contains(at)||LitterRect.Contains(at)
             ?new PointHitTestResult(this,p.HitPoint):null;
     }
     protected override void OnMouseLeftButtonDown(MouseButtonEventArgs e)
@@ -278,9 +280,9 @@ internal sealed partial class Scene : FrameworkElement
         if(wandHeld){ReturnWand();e.Handled=true;return;}
         if(WandRect.Contains(p))
         {wandHeld=true;Engine.SetToy(true,new Spot(p.X,p.Y));CaptureMouse();Cursor=Cursors.Cross;InvalidateVisual();e.Handled=true;return;}
-        string? hit=FrontBowlContains(p,true)?"water":FrontBowlContains(p,false)?"food":CatRect.Contains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
+        string? hit=FrontBowlContains(p,true)?"water":FrontBowlContains(p,false)?"food":CatContains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
         if(hit is null)return;
-        pressedObject=hit;originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
+        pressedObject=hit;if(hit=="cat")RememberBodyHit(p);originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
         pressed=true;pressedAt=watch.Elapsed.TotalSeconds;pressedPoint=p;grabOffset=new Vector(p.X-originalPosition.X,p.Y-originalPosition.Y);Engine.Holding=true;CaptureMouse();e.Handled=true;
     }
     protected override void OnMouseMove(MouseEventArgs e)
@@ -310,13 +312,13 @@ internal sealed partial class Scene : FrameworkElement
         if(dragged){if(pressedObject=="cat")Engine.Drop(AtNest);}
         else if((World(e.GetPosition(this))-pressedPoint).Length<12)
         {
-            if(pressedObject=="cat")Engine.Interact();
+            if(pressedObject=="cat")Engine.Interact(pressedBodyPart,pressedBodyLeft);
             else if(pressedObject!="nest")Engine.Refill(pressedObject);
         }
         SaveNow?.Invoke();e.Handled=true;
     }
     private void ReturnWand(){wandHeld=false;Engine.SetToy(false,new Spot());Cursor=Cursors.Arrow;if(IsMouseCaptured)ReleaseMouseCapture();SaveNow?.Invoke();InvalidateVisual();}
-    internal bool OpensSettingsAt(Point p)=>!wandHeld&&!pressed&&!CatRect.Contains(p)&&!WandRect.Contains(p)&&!LitterRect.Contains(p)&&!ObjectRect(Engine.FoodSpot).Contains(p)&&!ObjectRect(Engine.WaterSpot).Contains(p)&&NestRect.Contains(p);
+    internal bool OpensSettingsAt(Point p)=>!wandHeld&&!pressed&&!CatContains(p)&&!WandRect.Contains(p)&&!LitterRect.Contains(p)&&!ObjectRect(Engine.FoodSpot).Contains(p)&&!ObjectRect(Engine.WaterSpot).Contains(p)&&NestRect.Contains(p);
     protected override void OnMouseRightButtonUp(MouseButtonEventArgs e)
     {if(OpensSettingsAt(World(e.GetPosition(this))))OpenSettings?.Invoke();e.Handled=true;}
     protected override void OnRender(DrawingContext context)

@@ -5,12 +5,17 @@
   "start": "SL",
   "end": "SL",
   "suggestedSeconds": "3—4",
-  "status": "awaiting-video",
-  "runtimeEnabled": false,
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
   "sourceAnchor": "../completion-v5/anchors/SL.png",
   "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
   "folder": "142-左向摸背拱背伸展",
   "startFrame": "142-左向摸背拱背伸展/首帧.png",
   "endFrame": "142-左向摸背拱背伸展/尾帧.png",
-  "promptFile": "142-左向摸背拱背伸展/提示词.txt"
+  "promptFile": "142-左向摸背拱背伸展/提示词.txt",
+  "video": "returned/142/source.mp4?v=a3d14bf72448",
+  "frames": 97,
+  "fps": 24.0,
+  "duration": 4.041666666666667,
+  "sourceSha256": "a3d14bf72448a24f6ff08f000cab997cca7482c7c63a6cb7e6cadd765b2a5d96"
 }

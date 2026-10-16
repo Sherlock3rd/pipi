@@ -5,12 +5,17 @@
   "start": "SR",
   "end": "SR",
   "suggestedSeconds": "2—3",
-  "status": "awaiting-video",
-  "runtimeEnabled": false,
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
   "sourceAnchor": "../completion-v5/anchors/SR.png",
   "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
   "folder": "145-右向碰尾回头甩尾",
   "startFrame": "145-右向碰尾回头甩尾/首帧.png",
   "endFrame": "145-右向碰尾回头甩尾/尾帧.png",
-  "promptFile": "145-右向碰尾回头甩尾/提示词.txt"
+  "promptFile": "145-右向碰尾回头甩尾/提示词.txt",
+  "video": "returned/145/source.mp4?v=8c407624df08",
+  "frames": 97,
+  "fps": 24.0,
+  "duration": 4.041666666666667,
+  "sourceSha256": "8c407624df08ff584f36459b640d86b762a85072d9e7520433a3e7d0943041d9"
 }

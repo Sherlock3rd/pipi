@@ -1,0 +1,23 @@
+{
+  "id": 149,
+  "name": "朝右低头定位嗅闻",
+  "group": "埋砂衔接",
+  "start": "SR",
+  "end": "SR",
+  "suggestedSeconds": "2—3",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SR.png",
+  "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
+  "folder": "149-朝右低头定位嗅闻",
+  "startFrame": "149-朝右低头定位嗅闻/首帧.png",
+  "endFrame": "149-朝右低头定位嗅闻/尾帧.png",
+  "promptFile": "149-朝右低头定位嗅闻/提示词.txt",
+  "originalName": "149-固定镜头、固定光线、浅暖灰背景、2D绘本厚涂。严格保持首尾图陈皮的蓝灰短毛、金色眼睛、短深鼻.mp4",
+  "sha256": "bf7aa5d492310003685284df651acd1497c042ba478980d9a0df02757eb334d1",
+  "frames": 97,
+  "fps": 24.0,
+  "width": 1918,
+  "height": 1080,
+  "duration": 4.041666666666667
+}

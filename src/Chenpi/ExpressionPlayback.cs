@@ -8,6 +8,19 @@ public sealed partial class SpritePlayback
     // X is the new stretched pose; C remains the original curled sleep pose.
     public bool HasExpressions=>clips.ContainsKey("video-98")&&clips.ContainsKey("video-58");
     public bool HasCompletion {get;private set;}
+    public bool HasBodyInteractions=>HasExpressions&&HasRange(140,146);
+    public bool HasBurialV6=>HasExpressions&&HasRange(147,150);
+    public bool HasToyGrabs=>HasExpressions&&HasRange(151,152);
+    public bool HasHighToyGrabs {get;private set;}
+    private bool HasRange(int first,int last){for(int n=first;n<=last;n++)if(!clips.ContainsKey("video-"+n))return false;return true;}
+    public string HitPose
+    {
+        get
+        {
+            if(lastSample is SpriteFrame f&&int.TryParse(f.Clip.Replace("video-",""),out int id)&&ExpressionPose(id) is string p&&p.Length>0)return p;
+            return pose;
+        }
+    }
     private static readonly (string From,string To,string Clip)[] completionEdges={
         ("I","SR","99"),("I","SL","100"),("SR","D","101"),("SL","D","102"),
         ("D","SR","103"),("D","SL","104"),("A","SL","105"),("B","SL","106"),("X","SL","107"),
@@ -20,6 +33,7 @@ public sealed partial class SpritePlayback
         ("A","B","62"),("B","A","63"),("A","X","64"),("X","A","65"),
         ("A","SR","70"),("B","SR","74"),("X","SR","78"),("A","M","83"),("M","A","85")};
     public static string ExpressionPose(int id)=>id switch {
+        140 or 144=>"F",141 or 145 or 147 or 149 or 151 or 153=>"SR",142 or 146 or 148 or 150 or 152 or 154=>"SL",143=>"B",
         53=>"HR",56=>"HL",66 or 79 or 89 or 95=>"D",
         67 or 68 or 69 or 80 or 90 or 96=>"A",
         71 or 72 or 73 or 81 or 91 or 97=>"B",

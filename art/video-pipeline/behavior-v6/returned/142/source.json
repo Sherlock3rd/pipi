@@ -1,0 +1,23 @@
+{
+  "id": 142,
+  "name": "左向摸背拱背伸展",
+  "group": "背部",
+  "start": "SL",
+  "end": "SL",
+  "suggestedSeconds": "3—4",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SL.png",
+  "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+  "folder": "142-左向摸背拱背伸展",
+  "startFrame": "142-左向摸背拱背伸展/首帧.png",
+  "endFrame": "142-左向摸背拱背伸展/尾帧.png",
+  "promptFile": "142-左向摸背拱背伸展/提示词.txt",
+  "originalName": "142-固定镜头、固定光线、浅暖灰背景、2D绘本厚涂。严格保持首尾图陈皮的蓝灰短毛、金色眼睛、短深鼻.mp4",
+  "sha256": "a3d14bf72448a24f6ff08f000cab997cca7482c7c63a6cb7e6cadd765b2a5d96",
+  "frames": 97,
+  "fps": 24.0,
+  "width": 1918,
+  "height": 1080,
+  "duration": 4.041666666666667
+}

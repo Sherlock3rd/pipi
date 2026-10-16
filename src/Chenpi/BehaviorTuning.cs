@@ -21,7 +21,7 @@ public sealed partial class PetEngine
         return start!=end&&(start<end?hour>=start&&hour<end:hour>=start||hour<end);
     }
     public string ActiveBehaviorNode=>Holding||Action is "drag" or "land"?"input":
-        ToyOverlaps||Action.StartsWith("toy-")?"toy":
+        ToyOverlaps||ToyGrabClip!=0||Action.StartsWith("toy-")?"toy":
         State.CareRequest is not null?(State.Guiding?"guide":"request"):
         Action is "care-finish" or "care-thanks"?"guide":
         Action=="eat"?"food":Action=="drink"?"water":Action is "toilet" or "bury"?"litter":

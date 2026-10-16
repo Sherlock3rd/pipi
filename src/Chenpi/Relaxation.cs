@@ -33,6 +33,7 @@ public sealed partial class PetEngine
     private bool UpdateRelaxation()
     {
         if(!ExpressionsEnabled||!IsRelaxing)return false;
+        if(!State.Sleeping&&LyingPose(RelaxedPose)&&Action.StartsWith("rest-")&&State.StillSeconds>=RestDelay)State.Sleeping=true;
         if(RelaxedPose is "HR" or "HL"&&Math.Abs(State.X-(RelaxedPose=="HR"?Width-WallRightOffset:-WallLeftOffset))>2)
         {RestInPose("D");return true;}
         if(Action.StartsWith("expr-"))

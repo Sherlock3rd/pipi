@@ -185,6 +185,8 @@ internal sealed class BehaviorEditorWindow : Window
             var execute=Button("执行此动作",()=>ExecuteNode(selected));execute.Margin=new Thickness(0,0,0,15);inspector.Children.Add(execute);
             if(selected is "food" or "water" or "litter")inspector.Children.Add(Label("在桌面真实执行，会消耗库存或使用猫砂。",11,"#9A7852"));
         }
+        if(selected is "click" or "input")foreach(var body in Nodes.Where(n=>n.Id.StartsWith("body-")))
+        {var preview=Button(body.Title,()=>ExecuteNode(body.Id));preview.Margin=new Thickness(0,0,0,8);inspector.Children.Add(preview);}
         var parameters=BehaviorSettings.Catalog.Where(p=>selected=="all"||node!.Groups.Contains(p.Group)||selected.StartsWith("pose-")&&p.Key=="pose."+selected[5..]).ToList();
         if(parameters.Count==0)inspector.Children.Add(Label(selected.StartsWith("intro-")?"双击此节点从窝内睡眠开始预览完整开场；等待、踱步范围和往返次数在开场总节点调节。":"此节点是固定条件／顺序。请点击下级节点调整对应参数。",13,"#9A7852"));
         foreach(var p in parameters)

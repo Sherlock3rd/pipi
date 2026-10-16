@@ -1,0 +1,21 @@
+{
+  "id": 153,
+  "name": "朝右站起高位快速抓取落地",
+  "group": "逗猫棒抓取",
+  "start": "SR",
+  "end": "SR",
+  "suggestedSeconds": "1.5—2",
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
+  "sourceAnchor": "../completion-v5/anchors/SR.png",
+  "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
+  "folder": "153-朝右站起高位快速抓取落地",
+  "startFrame": "153-朝右站起高位快速抓取落地/首帧.png",
+  "endFrame": "153-朝右站起高位快速抓取落地/尾帧.png",
+  "promptFile": "153-朝右站起高位快速抓取落地/提示词.txt",
+  "video": "returned/153/source.mp4?v=a97de8d01028",
+  "frames": 97,
+  "fps": 24.0,
+  "duration": 4.041666666666667,
+  "sourceSha256": "a97de8d01028307d5ab5501a0941c256bef9080363ce09cb25f27095c1096830"
+}

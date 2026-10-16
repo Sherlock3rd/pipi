@@ -75,6 +75,7 @@ internal sealed class BehaviorEditorWindow : Window
         inspector.Children.Clear();fields.Clear();var node=Nodes.FirstOrDefault(n=>n.Id==selected);
         inspector.Children.Add(Label(node?.Title??"全部可调参数",22));inspector.Children.Add(Label(node?.Detail??"修改先进入草稿，保存后应用。",12));
         if(node is not null)inspector.Children.Add(Button("执行此动作",()=>command(()=>status.Text=engine.ExecuteBehavior(node.Id))));
+        if(selected is "click" or "input")foreach(var body in Nodes.Where(n=>n.Id.StartsWith("body-")))inspector.Children.Add(Button(body.Title,()=>command(()=>status.Text=engine.ExecuteBehavior(body.Id))));
         if(selected=="wall")
         {inspector.Children.Add(Label(engine.WallStatus,12));foreach(string side in new[]{"left","right"})inspector.Children.Add(Button(side=="left"?"左侧扶墙":"右侧扶墙",()=>command(()=>status.Text=engine.ExecuteBehavior("wall-"+side))));}
         foreach(var p in BehaviorSettings.Catalog.Where(p=>node is null||node.Groups.Contains(p.Group)))

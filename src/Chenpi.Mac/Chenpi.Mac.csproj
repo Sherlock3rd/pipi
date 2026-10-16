@@ -17,4 +17,5 @@
   <ItemGroup Condition="'$(SkipAssetCopy)' != 'true'">
     <Content Include="../../assets/**" Link="assets/%(RecursiveDir)%(Filename)%(Extension)" CopyToOutputDirectory="PreserveNewest" />
   </ItemGroup>
+  <ItemGroup><Compile Include="../Chenpi/BehaviorV6.cs" Link="Shared/BehaviorV6.cs" /><Compile Include="../Chenpi/CatBodyHit.cs" Link="Shared/CatBodyHit.cs" /><Compile Include="../Chenpi/Scene.BodyHit.cs" Link="Shared/Scene.BodyHit.cs" /></ItemGroup>
 </Project>

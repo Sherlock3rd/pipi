@@ -1,0 +1,23 @@
+{
+  "id": 140,
+  "name": "摸头眯眼蹭手",
+  "group": "头脸",
+  "start": "F",
+  "end": "F",
+  "suggestedSeconds": "3—4",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/F.png",
+  "anchorSha256": "9a2b92eac7d796922f5329e60b1bafa4ed3fc6f07bce497999abff0a5d4a6b3e",
+  "folder": "140-摸头眯眼蹭手",
+  "startFrame": "140-摸头眯眼蹭手/首帧.png",
+  "endFrame": "140-摸头眯眼蹭手/尾帧.png",
+  "promptFile": "140-摸头眯眼蹭手/提示词.txt",
+  "originalName": "140-固定镜头、固定光线、浅暖灰背景、2D绘本厚涂。严格保持首尾图陈皮的蓝灰短毛、金色眼睛、短深鼻.mp4",
+  "sha256": "c36ef24cdcbc84810d207d238da462360c6bc1ae285c195c083e4328fdc93f27",
+  "frames": 97,
+  "fps": 24.0,
+  "width": 1918,
+  "height": 1080,
+  "duration": 4.041666666666667
+}

@@ -1,0 +1,23 @@
+{
+  "id": 152,
+  "name": "朝左对准羽毛伸爪抓取",
+  "group": "逗猫棒抓取",
+  "start": "SL",
+  "end": "SL",
+  "suggestedSeconds": "2—3",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SL.png",
+  "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+  "folder": "152-朝左对准羽毛伸爪抓取",
+  "startFrame": "152-朝左对准羽毛伸爪抓取/首帧.png",
+  "endFrame": "152-朝左对准羽毛伸爪抓取/尾帧.png",
+  "promptFile": "152-朝左对准羽毛伸爪抓取/提示词.txt",
+  "originalName": "152-固定镜头、固定光线、浅暖灰背景、2D绘本厚涂。严格保持首尾图陈皮的蓝灰短毛、金色眼睛、短深鼻.mp4",
+  "sha256": "73c964124fb1c8b56214bfad73aac86e2507641a3fab4bca05a733f474c2bcb1",
+  "frames": 97,
+  "fps": 24.0,
+  "width": 1918,
+  "height": 1080,
+  "duration": 4.041666666666667
+}

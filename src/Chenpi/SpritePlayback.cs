@@ -81,7 +81,7 @@ public sealed partial class SpritePlayback
 
     public void Load(JsonElement manifest,Func<string,int> frameCount)
     {
-        clips.Clear();sleepPhases.Clear();HasCompletion=false;Reset();
+        clips.Clear();sleepPhases.Clear();HasCompletion=false;HasHighToyGrabs=false;Reset();
         if(!manifest.TryGetProperty("clips",out var entries)||entries.ValueKind!=JsonValueKind.Object)return;
         foreach(var item in entries.EnumerateObject())
         {
@@ -108,6 +108,7 @@ public sealed partial class SpritePlayback
             &&clips.ContainsKey("video-01")&&clips.ContainsKey("video-14")&&clips.ContainsKey("video-right");
         careGraph=manifest.TryGetProperty("careVideoGraph",out var care)&&care.GetBoolean()&&clips.ContainsKey("video-22");
         HasCompletion=true;for(int n=99;n<=139;n++)if(!clips.ContainsKey("video-"+n)){HasCompletion=false;break;}
+        HasHighToyGrabs=HasToyGrabs&&HasRange(153,154)&&manifest.TryGetProperty("toyGrabV6",out var grab)&&grab.TryGetProperty("highEnabled",out var enabled)&&enabled.ValueKind==JsonValueKind.True;
         if(entries.TryGetProperty("video-20",out var sleeping)&&sleeping.TryGetProperty("phaseRegistration",out var phases)&&phases.ValueKind==JsonValueKind.Array)
             foreach(var phase in phases.EnumerateArray())
                 if(phase.ValueKind==JsonValueKind.Array&&phase.GetArrayLength()==3&&phase[0].TryGetDouble(out double s)&&phase[1].TryGetDouble(out double px)&&phase[2].TryGetDouble(out double py)

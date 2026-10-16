@@ -48,6 +48,10 @@ def command(**kwargs):
     temp = audit / 'command.tmp'
     temp.write_text(json.dumps(kwargs)); temp.replace(path)
     wait_for(lambda: path.exists(), lambda exists: not exists, 'audit command consumed')
+    if 'scale' in kwargs:
+        wait_for(read, lambda d: abs(d['Scene']['Scale']-kwargs['scale']) < .001
+            and abs(d['Scene']['RenderedScale']-kwargs['scale']) < .001,
+            'new scale rendered before selecting native pointer target')
 
 def move(name):
     point = read()['Targets'][name]

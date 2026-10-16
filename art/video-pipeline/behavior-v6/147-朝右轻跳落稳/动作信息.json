@@ -5,12 +5,17 @@
   "start": "SR",
   "end": "SR",
   "suggestedSeconds": "1.5—2.5",
-  "status": "awaiting-video",
-  "runtimeEnabled": false,
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
   "sourceAnchor": "../completion-v5/anchors/SR.png",
   "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
   "folder": "147-朝右轻跳落稳",
   "startFrame": "147-朝右轻跳落稳/首帧.png",
   "endFrame": "147-朝右轻跳落稳/尾帧.png",
-  "promptFile": "147-朝右轻跳落稳/提示词.txt"
+  "promptFile": "147-朝右轻跳落稳/提示词.txt",
+  "video": "returned/147/source.mp4?v=2787ddcf9014",
+  "frames": 97,
+  "fps": 24.0,
+  "duration": 4.041666666666667,
+  "sourceSha256": "2787ddcf9014a984b476b115cc07cc7d45b84ef0e1c1c1f862290904595d8338"
 }

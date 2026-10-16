@@ -5,12 +5,17 @@
   "start": "B",
   "end": "B",
   "suggestedSeconds": "3—4",
-  "status": "awaiting-video",
-  "runtimeEnabled": false,
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
   "sourceAnchor": "../completion-v5/anchors/B.png",
   "anchorSha256": "4d4cc9c4d3b762b071657c3a8dbaf62d07a91b0fe49dabb4b797537fd1fb0e2b",
   "folder": "143-摸肚蜷身护肚轻拨",
   "startFrame": "143-摸肚蜷身护肚轻拨/首帧.png",
   "endFrame": "143-摸肚蜷身护肚轻拨/尾帧.png",
-  "promptFile": "143-摸肚蜷身护肚轻拨/提示词.txt"
+  "promptFile": "143-摸肚蜷身护肚轻拨/提示词.txt",
+  "video": "returned/143/source.mp4?v=4144c3ed4f0a",
+  "frames": 145,
+  "fps": 24.0,
+  "duration": 6.041666666666667,
+  "sourceSha256": "4144c3ed4f0ad34cfe0d4b85f35129042cc8f1320b6ab59760bdcb19f67e65bb"
 }

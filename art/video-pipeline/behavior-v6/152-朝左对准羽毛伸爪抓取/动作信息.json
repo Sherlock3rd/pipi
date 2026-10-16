@@ -1,0 +1,21 @@
+{
+  "id": 152,
+  "name": "朝左对准羽毛伸爪抓取",
+  "group": "逗猫棒抓取",
+  "start": "SL",
+  "end": "SL",
+  "suggestedSeconds": "2—3",
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
+  "sourceAnchor": "../completion-v5/anchors/SL.png",
+  "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+  "folder": "152-朝左对准羽毛伸爪抓取",
+  "startFrame": "152-朝左对准羽毛伸爪抓取/首帧.png",
+  "endFrame": "152-朝左对准羽毛伸爪抓取/尾帧.png",
+  "promptFile": "152-朝左对准羽毛伸爪抓取/提示词.txt",
+  "video": "returned/152/source.mp4?v=73c964124fb1",
+  "frames": 97,
+  "fps": 24.0,
+  "duration": 4.041666666666667,
+  "sourceSha256": "73c964124fb1c8b56214bfad73aac86e2507641a3fab4bca05a733f474c2bcb1"
+}

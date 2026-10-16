@@ -40,7 +40,7 @@ internal sealed partial class Scene : Panel,IDisposable
     internal int PointerPresses {get;private set;}
     internal int PointerReleases {get;private set;}
     private object? lastRelease;
-    internal object InputState=>new{PointerPresses,PointerReleases,pressed,pressedObject,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale,DisplayedClip,NestTargetClear=OpensSettingsAt(InputNestPoint()),lastRelease};
+    internal object InputState=>new{PointerPresses,PointerReleases,pressed,pressedObject,IsDragging,wandHeld,Engine.Holding,Engine.Action,Engine.State.Food,Engine.State.X,Engine.State.Y,NestX=Engine.Nest.X,Scale,RenderedScale=renderedScale,DisplayedClip,NestTargetClear=OpensSettingsAt(InputNestPoint()),lastRelease};
     // The top of the bed is visible even when a moved lower rim overlaps bowls
     // or the litter tray. Tests must use the same foreground hit priority as UI.
     internal Dictionary<string,Point> InputTargets=>new(){["cat"]=CatRect.Center*Scale,["nest"]=InputNestPoint()*Scale,["food"]=ObjectRect(Engine.FoodSpot).Center*Scale,["empty"]=new Point(50,50)};
@@ -72,7 +72,8 @@ internal sealed partial class Scene : Panel,IDisposable
     private readonly List<double> renderTimes=new();
     private int uiDecodes;
     private double uiDecodeMilliseconds;
-    private void RecordRender(double ms){if(renderTimes.Count<36000)renderTimes.Add(ms);}
+    private double renderedScale;
+    private void RecordRender(double ms){renderedScale=Scale;if(renderTimes.Count<36000)renderTimes.Add(ms);}
     public object RenderingDiagnostics=>new{Count=renderTimes.Count,P95=renderTimes.Count==0?0:renderTimes.Order().ElementAt((int)(renderTimes.Count*.95)),Max=renderTimes.Count==0?0:renderTimes.Max(),UiDecodes=uiDecodes,UiDecodeMilliseconds=uiDecodeMilliseconds};
     public double Scale=>Engine.State.Scale;
     public double WorldWidth=>Bounds.Width/Scale;
@@ -99,6 +100,8 @@ internal sealed partial class Scene : Panel,IDisposable
         Engine.VisualStandReady=playback.PrepareStand;playback.WalkingCallEvery=()=>(int)Engine.Settings.Get("walk.callEvery");
         Engine.VisualTravel=playback.TravelTo;Engine.VisualBurialWindow=playback.BurialWindow;Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         Engine.ExpressionsEnabled=playback.HasExpressions;Engine.VisualPoseReady=playback.PreparePose;Engine.VisualWallRestComplete=playback.WallRestComplete;
+        Engine.BodyInteractionsEnabled=playback.HasBodyInteractions;Engine.BurialV6Enabled=playback.HasBurialV6;
+        Engine.ToyGrabsEnabled=playback.HasToyGrabs;Engine.HighToyGrabsEnabled=playback.HasHighToyGrabs;
         Engine.CompletionEnabled=playback.HasCompletion;Engine.VisualRestorePose=playback.RestorePose;Engine.VisualDropPose=()=>playback.DropPose;
         Engine.RestoreRelaxedSleep();if(Engine.Action.StartsWith("rest-"))playback.RestorePose(Engine.RelaxedPose);
         foreach(string id in new[]{"video-01","video-20","video-32"})if(frames.TryGetValue(id,out var f))_ = f[0];
@@ -124,7 +127,7 @@ internal sealed partial class Scene : Panel,IDisposable
         double target=!Engine.Grounded&&pressed&&pressedObject=="cat"?(IsDragging?8:Math.Min(1,(clock.Elapsed.TotalSeconds-pressedAt)/Engine.Settings.Get("drag.hold"))*3):0;
         lift+=(target-lift)*(1-Math.Exp(-dt*24));MoveDragged(pointer);
         if(wandHeld)Engine.SetToy(true,new(Math.Clamp(pointer.X,0,WorldWidth),Math.Clamp(pointer.Y,0,WorldHeight)));
-        Engine.ObservePointer(dt,IsVisible&&!pressed&&CatRect.Contains(pointer),new(pointer.X,pointer.Y));
+        Engine.ObservePointer(dt,IsVisible&&!pressed&&CatContains(pointer),new(pointer.X,pointer.Y));
         shownFood+=Math.Clamp(Engine.State.Food-shownFood,-dt*95,dt*95);shownWater+=Math.Clamp(Engine.State.Water-shownWater,-dt*95,dt*95);
         if(shadow.BlurRadius!=14*Scale){shadow.BlurRadius=14*Scale;shadow.OffsetY=3*Scale;}Repaint();
     }
@@ -135,16 +138,16 @@ internal sealed partial class Scene : Panel,IDisposable
     private Rect ObjectRect(Spot p)=>new(p.X-36,p.Y+InteractionGeometry.BowlBaseOffset(p==Engine.WaterSpot)-70,72,70);
     private Rect WandRect=>new(Engine.WandHome.X-39,Engine.WandHome.Y-38,78,73);
     private bool AtNest=>Engine.CanDropInNest(new(pointer.X,pointer.Y));
-    public bool AcceptsPointer(Point p){p=World(p);return IsInteracting||CatRect.Contains(p)||NestRect.Contains(p)||LitterRect.Contains(p)||ObjectRect(Engine.FoodSpot).Contains(p)||ObjectRect(Engine.WaterSpot).Contains(p)||WandRect.Contains(p);}
-    private bool OpensSettingsAt(Point p)=>!IsInteracting&&!CatRect.Contains(p)&&!WandRect.Contains(p)&&!LitterRect.Contains(p)&&!ObjectRect(Engine.FoodSpot).Contains(p)&&!ObjectRect(Engine.WaterSpot).Contains(p)&&NestRect.Contains(p);
+    public bool AcceptsPointer(Point p){p=World(p);return IsInteracting||CatContains(p)||NestRect.Contains(p)||LitterRect.Contains(p)||ObjectRect(Engine.FoodSpot).Contains(p)||ObjectRect(Engine.WaterSpot).Contains(p)||WandRect.Contains(p);}
+    private bool OpensSettingsAt(Point p)=>!IsInteracting&&!CatContains(p)&&!WandRect.Contains(p)&&!LitterRect.Contains(p)&&!ObjectRect(Engine.FoodSpot).Contains(p)&&!ObjectRect(Engine.WaterSpot).Contains(p)&&NestRect.Contains(p);
     protected override void OnPointerPressed(PointerPressedEventArgs e)
     {
         base.OnPointerPressed(e);PointerPresses++;var point=e.GetCurrentPoint(this);if(!point.Properties.IsLeftButtonPressed)return;
         var p=World(point.Position);pointer=p;
         if(wandHeld){CancelWand();e.Handled=true;return;}
         if(WandRect.Contains(p)){wandHeld=true;Engine.SetToy(true,new(p.X,p.Y));captured=e.Pointer;captured.Capture(this);e.Handled=true;return;}
-        string? hit=FrontBowlContains(p,true)?"water":FrontBowlContains(p,false)?"food":CatRect.Contains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
-        if(hit is null)return;pressedObject=hit;originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
+        string? hit=FrontBowlContains(p,true)?"water":FrontBowlContains(p,false)?"food":CatContains(p)?"cat":LitterRect.Contains(p)?"litter":ObjectRect(Engine.WaterSpot).Contains(p)?"water":ObjectRect(Engine.FoodSpot).Contains(p)?"food":NestRect.Contains(p)?"nest":null;
+        if(hit is null)return;pressedObject=hit;if(hit=="cat")RememberBodyHit(p);originalPosition=hit=="cat"?Engine.VisualPosition:Engine.ObjectPosition(hit);
         pressed=true;pressedAt=clock.Elapsed.TotalSeconds;pressedPoint=p;grabOffset=new(p.X-originalPosition.X,p.Y-originalPosition.Y);Engine.Holding=true;captured=e.Pointer;captured.Capture(this);e.Handled=true;
     }
     protected override void OnPointerMoved(PointerEventArgs e)
@@ -158,11 +161,11 @@ internal sealed partial class Scene : Panel,IDisposable
     {
         PointerReleases++;
         pointer=World(e.GetPosition(this));
-        if(Program.Option("--input-audit") is not null)lastRelease=new{Button=e.InitialPressMouseButton.ToString(),X=pointer.X,Y=pointer.Y,Eligible=OpensSettingsAt(pointer),Cat=CatRect.Contains(pointer),Wand=WandRect.Contains(pointer),Litter=LitterRect.Contains(pointer),Food=ObjectRect(Engine.FoodSpot).Contains(pointer),Water=ObjectRect(Engine.WaterSpot).Contains(pointer),Nest=NestRect.Contains(pointer),IsInteracting,DisplayedClip};
+        if(Program.Option("--input-audit") is not null)lastRelease=new{Button=e.InitialPressMouseButton.ToString(),X=pointer.X,Y=pointer.Y,Eligible=OpensSettingsAt(pointer),Cat=CatContains(pointer),Wand=WandRect.Contains(pointer),Litter=LitterRect.Contains(pointer),Food=ObjectRect(Engine.FoodSpot).Contains(pointer),Water=ObjectRect(Engine.WaterSpot).Contains(pointer),Nest=NestRect.Contains(pointer),IsInteracting,DisplayedClip};
         if(e.InitialPressMouseButton==MouseButton.Right){if(OpensSettingsAt(pointer))OpenSettings?.Invoke();e.Handled=true;return;}
         if(!pressed)return;MoveDragged(pointer);bool dragged=IsDragging;pressed=false;IsDragging=false;Engine.Holding=false;captured?.Capture(null);captured=null;Cursor=Cursor.Default;
         if(dragged){if(pressedObject=="cat")Engine.Drop(AtNest);}
-        else if(((Vector)(pointer-pressedPoint)).Length<12){if(pressedObject=="cat")Engine.Interact();else if(pressedObject!="nest")Engine.Refill(pressedObject);}
+        else if(((Vector)(pointer-pressedPoint)).Length<12){if(pressedObject=="cat")Engine.Interact(pressedBodyPart,pressedBodyLeft);else if(pressedObject!="nest")Engine.Refill(pressedObject);}
         SaveNow?.Invoke();e.Handled=true;
     }
     protected override void OnPointerCaptureLost(PointerCaptureLostEventArgs e){if(IsInteracting)CancelDrag();base.OnPointerCaptureLost(e);}

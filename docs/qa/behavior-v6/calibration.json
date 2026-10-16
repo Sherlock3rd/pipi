@@ -1,0 +1,269 @@
+{
+  "clips": [
+    {
+      "id": 140,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.993609607219696,
+          "offsetX": -0.052652835845947266,
+          "support": 595.790274542842,
+          "inliers": 140,
+          "residual": 0.38783665458593664
+        },
+        {
+          "accepted": true,
+          "scale": 0.9935310482978821,
+          "offsetX": -0.05733919143676758,
+          "support": 595.828629792932,
+          "inliers": 138,
+          "residual": 0.40743660958138334
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 141,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9982340335845947,
+          "offsetX": -0.024770736694335938,
+          "support": 601.5110397986863,
+          "inliers": 116,
+          "residual": 0.5201741506944665
+        },
+        {
+          "accepted": true,
+          "scale": 0.9983668327331543,
+          "offsetX": -0.007982254028320312,
+          "support": 601.4703999136468,
+          "inliers": 107,
+          "residual": 0.5283322458280729
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 142,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.99737149477005,
+          "offsetX": -0.09386014938354492,
+          "support": 601.4857325147491,
+          "inliers": 113,
+          "residual": 0.5584300941451539
+        },
+        {
+          "accepted": true,
+          "scale": 0.9975250363349915,
+          "offsetX": -0.09766244888305664,
+          "support": 601.4480958750856,
+          "inliers": 121,
+          "residual": 0.5166425520884521
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 143,
+      "frames": 145,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9994565844535828,
+          "offsetX": -0.03067159652709961,
+          "support": 603.6648633813529,
+          "inliers": 341,
+          "residual": 0.3651802543300874
+        },
+        {
+          "accepted": true,
+          "scale": 0.999565064907074,
+          "offsetX": -0.028439998626708984,
+          "support": 603.6702111679848,
+          "inliers": 334,
+          "residual": 0.3662570621014875
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 144,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9939041137695312,
+          "offsetX": -0.044597625732421875,
+          "support": 595.7954756549707,
+          "inliers": 148,
+          "residual": 0.3782558235075468
+        },
+        {
+          "accepted": true,
+          "scale": 0.9931967258453369,
+          "offsetX": -0.038512229919433594,
+          "support": 595.850886595008,
+          "inliers": 146,
+          "residual": 0.42402865569738996
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 145,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9977737069129944,
+          "offsetX": 0.004939556121826172,
+          "support": 601.5054176362833,
+          "inliers": 113,
+          "residual": 0.5028592659157933
+        },
+        {
+          "accepted": true,
+          "scale": 0.9982287883758545,
+          "offsetX": -0.0098876953125,
+          "support": 601.4992814449918,
+          "inliers": 117,
+          "residual": 0.5124620869529667
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 146,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9974343776702881,
+          "offsetX": -0.1011343002319336,
+          "support": 601.4667816250484,
+          "inliers": 124,
+          "residual": 0.5263600445265457
+        },
+        {
+          "accepted": true,
+          "scale": 0.9977419972419739,
+          "offsetX": -0.09691572189331055,
+          "support": 601.4359248364317,
+          "inliers": 117,
+          "residual": 0.5178579762212332
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 147,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9977654218673706,
+          "offsetX": -0.022393226623535156,
+          "support": 601.5631424313635,
+          "inliers": 116,
+          "residual": 0.5815933054685359
+        },
+        {
+          "accepted": true,
+          "scale": 0.9979989528656006,
+          "offsetX": 0.0043430328369140625,
+          "support": 601.5162233501859,
+          "inliers": 122,
+          "residual": 0.4962238233481343
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 148,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9977080225944519,
+          "offsetX": -0.10845136642456055,
+          "support": 601.4482384391248,
+          "inliers": 121,
+          "residual": 0.5434332640987505
+        },
+        {
+          "accepted": true,
+          "scale": 0.9974316954612732,
+          "offsetX": -0.09779119491577148,
+          "support": 601.4523360555349,
+          "inliers": 116,
+          "residual": 0.5303746875671197
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 149,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9985269904136658,
+          "offsetX": -0.06639432907104492,
+          "support": 601.5097784492264,
+          "inliers": 118,
+          "residual": 0.620640187537407
+        },
+        {
+          "accepted": true,
+          "scale": 0.9981330037117004,
+          "offsetX": 0.010930538177490234,
+          "support": 601.5205586229412,
+          "inliers": 109,
+          "residual": 0.4995176531795411
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    },
+    {
+      "id": 150,
+      "frames": 97,
+      "fps": 24.0,
+      "fits": [
+        {
+          "accepted": true,
+          "scale": 0.9975277185440063,
+          "offsetX": -0.0824747085571289,
+          "support": 601.4822727267839,
+          "inliers": 115,
+          "residual": 0.5468003047989203
+        },
+        {
+          "accepted": true,
+          "scale": 0.9971100091934204,
+          "offsetX": -0.050683021545410156,
+          "support": 601.5038741135759,
+          "inliers": 115,
+          "residual": 0.5591047477313432
+        }
+      ],
+      "supportMethod": "registered fixed root; original airborne and body motion preserved"
+    }
+  ],
+  "clippedFrames": []
+}

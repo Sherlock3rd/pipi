@@ -11,7 +11,8 @@ internal sealed partial class PetWindow
     {
         Directory.CreateDirectory(folder);
         string command=Path.Combine(folder,"command.json");
-        if(File.Exists(command))
+        bool consumed=File.Exists(command);
+        if(consumed)
         {
             using var json=JsonDocument.Parse(File.ReadAllText(command));
             var root=json.RootElement;
@@ -20,7 +21,6 @@ internal sealed partial class PetWindow
             if(root.TryGetProperty("food",out var food))engine.State.Food=food.GetDouble();
             if(root.TryGetProperty("closeSettings",out _))settings?.Close();
             MacNative.Configure(this,engine.State.Floating,hidden||fullscreen);
-            File.Delete(command);
         }
         var targets=scene.InputTargets.ToDictionary(pair=>pair.Key,pair=>
         {
@@ -30,5 +30,8 @@ internal sealed partial class PetWindow
         var value=new{Time=clock.Elapsed.TotalSeconds,Native=MacNative.InputState(this),Scene=scene.InputState,Targets=targets,SettingsOpen=settings is not null,RenderScaling,scene.IsVisible,engine.State.Floating};
         string path=Path.Combine(folder,"state.json");
         File.WriteAllText(path+".tmp",JsonSerializer.Serialize(value));File.Move(path+".tmp",path,true);
+        // Acknowledgement must follow the new snapshot, otherwise the external
+        // mouse fixture can read target coordinates from the previous scale.
+        if(consumed)File.Delete(command);
     }
 }

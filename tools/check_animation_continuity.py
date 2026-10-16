@@ -42,6 +42,16 @@ if completion_manifest.exists():
         if clip['start'] in incoming: COMMON_EDGES.append((incoming[clip['start']],str(clip['id'])))
         if clip['end'] in canonical: COMMON_EDGES.append((str(clip['id']),canonical[clip['end']]))
     COMMON_EDGES += [('21','99'),('21','100'),('110','15'),('113','16'),('24','119'),('119','101'),('120','102')]
+v6_manifest=Path(__file__).resolve().parents[1]/'art/video-pipeline/behavior-v6/manifest.json'
+if v6_manifest.exists():
+    v6=[r for r in json.loads(v6_manifest.read_text(encoding='utf-8'))['clips'] if r['id']<=154]
+    canonical={'F':'01','SR':'22','SL':'09','B':'71'}
+    incoming={'F':'01','SR':'11','SL':'13','B':'62'}
+    for r in v6:
+        COMMON_EDGES += [(incoming[r['start']],str(r['id'])),(str(r['id']),canonical[r['end']])]
+    COMMON_EDGES += [('28','15'),('15','148'),('28','147'),('147','15'),('148','16'),('11','149'),('13','150'),('149','29'),('150','16'),('16','29')]
+COMMON_EDGES += [('110','151'),('113','152'),('110','153'),('113','154'),('151','153'),('153','151'),('152','154'),('154','152'),('151','15'),('153','15'),('152','16'),('154','16')]
+COMMON_EDGES += [(str(n),str(n)) for n in range(151,155)]
 COMMON_EDGES=list(dict.fromkeys(COMMON_EDGES))
 
 def features(path, frame=None, export=None):

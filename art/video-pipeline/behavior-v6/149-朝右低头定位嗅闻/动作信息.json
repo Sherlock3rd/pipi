@@ -5,12 +5,17 @@
   "start": "SR",
   "end": "SR",
   "suggestedSeconds": "2—3",
-  "status": "awaiting-video",
-  "runtimeEnabled": false,
+  "status": "local-runtime-review",
+  "runtimeEnabled": true,
   "sourceAnchor": "../completion-v5/anchors/SR.png",
   "anchorSha256": "9bbeec4e89f1566590a030e837a2a4279c91e7234b0f51fb8629db6ece261dcb",
   "folder": "149-朝右低头定位嗅闻",
   "startFrame": "149-朝右低头定位嗅闻/首帧.png",
   "endFrame": "149-朝右低头定位嗅闻/尾帧.png",
-  "promptFile": "149-朝右低头定位嗅闻/提示词.txt"
+  "promptFile": "149-朝右低头定位嗅闻/提示词.txt",
+  "video": "returned/149/source.mp4?v=bf7aa5d49231",
+  "frames": 97,
+  "fps": 24.0,
+  "duration": 4.041666666666667,
+  "sourceSha256": "bf7aa5d492310003685284df651acd1497c042ba478980d9a0df02757eb334d1"
 }

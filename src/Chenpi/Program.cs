@@ -17,6 +17,13 @@ internal static class Program
 {
     [STAThread] public static void Main(string[] args)
     {
+        if(Option(args,"--audit-behavior-v6") is string v6Audit)
+        {
+            Directory.CreateDirectory(v6Audit);
+            try{var app=new System.Windows.Application();BehaviorV6Audit.Run(v6Audit,Option(args,"--v6-scenarios"));}
+            catch(Exception e){File.WriteAllText(Path.Combine(v6Audit,"error.txt"),e.ToString());Environment.ExitCode=1;}
+            return;
+        }
         if(Option(args,"--audit-behavior-update") is string behaviorUpdateAudit)
         {
             Directory.CreateDirectory(behaviorUpdateAudit);

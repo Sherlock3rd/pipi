@@ -1,0 +1,83 @@
+{
+  "status": "local-candidate-art-review",
+  "clips": 4,
+  "frames": 388,
+  "checks": 909,
+  "native": [
+    {
+      "scenario": "toy-low-right",
+      "frames": 97,
+      "samples": 340
+    },
+    {
+      "scenario": "toy-low-left",
+      "frames": 97,
+      "samples": 315
+    },
+    {
+      "scenario": "toy-high-right",
+      "frames": 97,
+      "samples": 340
+    },
+    {
+      "scenario": "toy-high-left",
+      "frames": 97,
+      "samples": 315
+    }
+  ],
+  "sourceBounds": [
+    {
+      "id": 151,
+      "frames": 97,
+      "topTouchedFrames": [],
+      "minimumTopPixels": 202,
+      "minTopFraction": 0.18703703703703703
+    },
+    {
+      "id": 152,
+      "frames": 97,
+      "topTouchedFrames": [],
+      "minimumTopPixels": 193,
+      "minTopFraction": 0.1787037037037037
+    },
+    {
+      "id": 153,
+      "frames": 97,
+      "topTouchedFrames": [
+        25,
+        26,
+        27,
+        28,
+        29
+      ],
+      "minimumTopPixels": 0,
+      "minTopFraction": 0.0
+    },
+    {
+      "id": 154,
+      "frames": 97,
+      "topTouchedFrames": [
+        43,
+        44,
+        45
+      ],
+      "minimumTopPixels": 0,
+      "minTopFraction": 0.0
+    }
+  ],
+  "replacement154": "ddca88de6a3210a9ee3f7266f422fb6558904633a6d840aa2d0e7b5e6aad8379",
+  "monitor": {
+    "frameCount": 1619,
+    "pairCount": 1642,
+    "failureCount": 424,
+    "reviewCount": 455
+  },
+  "releaseCreated": false,
+  "notes": [
+    "153 source touches top at frames 25-29; replacement 154 at 43-45 (zero-based).",
+    "All raw frames and 24fps retained; 4.04s source duration is longer than the 1.5-2s prompt suggestion.",
+    "Full affine monitor includes running, turning and rearing; flags are retained for art review, not an all-clear.",
+    "Rear-paw contact tracks supporting feet without scaling the body or changing frame timing.",
+    "Native WPF audits are isolated rendering tests, not OS-pointer or macOS native acceptance."
+  ]
+}

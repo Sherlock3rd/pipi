@@ -1,0 +1,23 @@
+{
+  "id": 148,
+  "name": "朝左轻跳落稳",
+  "group": "埋砂衔接",
+  "start": "SL",
+  "end": "SL",
+  "suggestedSeconds": "1.5—2.5",
+  "status": "awaiting-video",
+  "runtimeEnabled": false,
+  "sourceAnchor": "../completion-v5/anchors/SL.png",
+  "anchorSha256": "870642227cb56a1fc5b0ab784579323a17ff4c02bd41dd02e8bd0836995c9874",
+  "folder": "148-朝左轻跳落稳",
+  "startFrame": "148-朝左轻跳落稳/首帧.png",
+  "endFrame": "148-朝左轻跳落稳/尾帧.png",
+  "promptFile": "148-朝左轻跳落稳/提示词.txt",
+  "originalName": "148-固定镜头、固定光线、浅暖灰背景、2D绘本厚涂。严格保持首尾图陈皮的蓝灰短毛、金色眼睛、短深鼻.mp4",
+  "sha256": "aff91cacb2d783199d89aa7c0c99d7cfb0473c9b3fe9c01eb4080f37523b33a7",
+  "frames": 97,
+  "fps": 24.0,
+  "width": 1918,
+  "height": 1080,
+  "duration": 4.041666666666667
+}

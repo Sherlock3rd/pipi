@@ -26,6 +26,8 @@ public sealed partial class PetEngine
     }
     public string ExecuteBehavior(string id)
     {
+        if(id.StartsWith("body-")&&Enum.TryParse<CatBodyPart>(id[5..],true,out var part))
+        {if(!BodyInteractionsEnabled)return "部位互动素材尚未加载";Interact(part);return "已执行对应部位互动；睡眠先醒来，再完成姿态过渡";}
         if(id=="startup"||id.StartsWith("intro-"))return BeginStartup(preview:true)?"已开始完整开场；点击或拖拽可取消":"开场正在执行或素材尚未加载";
         if(QueueStartupCommand(()=>ExecuteBehavior(id)))return "正在结束开场并衔接所选动作";
         if(id is "food" or "water" or "litter" or "nest")
@@ -35,7 +37,7 @@ public sealed partial class PetEngine
             if(id=="litter"&&State.Litter>=100)return "猫砂已满，请先清理";
             Demo(id switch {"food"=>"eat","water"=>"drink","litter"=>"toilet",_=>"sleep"});return "已执行；照料会实际消耗库存";
         }
-        if(id is "click" or "input"){Interact();return "已执行一次点击互动";}
+        if(id is "click" or "input"){if(BodyInteractionsEnabled)Interact(CatBodyPart.Head);else Interact();return "已执行一次点击互动";}
         if(id=="movement"||id.StartsWith("move-"))
         {
             var choices=MovementChoices();
@@ -66,6 +68,7 @@ public sealed partial class PetEngine
             if(ids.Length>0)expression=int.Parse(Settings.Choose(random,"gesture."+ids[0],"gesture."+ids[1],"gesture."+ids[2])[8..]);
         }
         else if(id.StartsWith("expr-")&&int.TryParse(id[5..],out int clip)&&clip is 68 or 69 or 72 or 73 or 76 or 77 or 79 or 80 or 81 or 82 or 88 or 89 or 90 or 91 or 92 or 93 or 94 or 95 or 96 or 97 or 98 or 116 or 117 or 119 or 120)expression=clip;
+        else if(id.StartsWith("expr-")&&int.TryParse(id[5..],out int v6)&&((v6 is >=140 and <=146&&BodyInteractionsEnabled)||(v6 is >=147 and <=150&&BurialV6Enabled)||(v6 is 151 or 152&&ToyGrabsEnabled)||(v6 is 153 or 154&&HighToyGrabsEnabled)))expression=v6;
         if(expression>0)pose=SpritePlayback.ExpressionPose(expression);
         if(pose is not ("C" or "D" or "A" or "B" or "X" or "M" or "HR" or "HL" or "F" or "SR" or "SL" or "SF"))
             return id=="startup"||id.StartsWith("intro-")?"开场尚未启用，等待独立跑步等素材补齐":"这是条件／组合节点，请双击具体动作节点";

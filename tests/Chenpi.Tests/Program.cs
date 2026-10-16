@@ -622,7 +622,7 @@ using(var groundedDoc=System.Text.Json.JsonDocument.Parse(File.ReadAllText(runti
   var clip=new SpriteClip(profile.Length,24,true,width,height,.5,.921875,false,GroundContacts:profile);
   for(int i=0;i<profile.Length;i++){var frame=clip.AtFrame(i);correct&=Math.Abs((profile[i]-frame.AnchorY)*frame.Height)<.001&&frame.Width==width;measured++;}
  }
- int newGrounded=Enumerable.Range(52,88).Sum(n=>groundedDoc.RootElement.GetProperty("animations").GetProperty("video-"+n).GetArrayLength());
+ int newGrounded=Enumerable.Range(52,103).Sum(n=>groundedDoc.RootElement.GetProperty("animations").GetProperty("video-"+n).GetArrayLength());
  Check(correct&&measured==4673+newGrounded,"all original and new grounded poses place their measured contact on the support plane without rescaling");
  Check(!entries.GetProperty("video-32").TryGetProperty("groundContacts",out _)&&!entries.GetProperty("video-33").TryGetProperty("groundContacts",out _),"pickup and suspended motion retain their authored vertical trajectory");
 }
@@ -816,4 +816,6 @@ CompletionChecks.Run(Check,runtimeManifest);
 FrameCacheChecks.Run(Check);
 FrameCacheChecks.Playback(Check,runtimeManifest);
 BehaviorUpdateChecks.Run(Check,runtimeManifest);
+BehaviorV6Checks.Run(Check,runtimeManifest);
+ToyGrabChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

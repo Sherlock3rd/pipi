@@ -79,9 +79,10 @@ internal sealed class FrameBitmap : IDisposable
         }
         finally{if(!keepHitPixels)ArrayPool<byte>.Shared.Return(compact);}
     }
-    public void CopyPixels(Int32Rect rect,byte[] pixels,int stride,int offset)
+    public unsafe void CopyPixels(Int32Rect rect,byte[] pixels,int stride,int offset)
     {
-        if(hitPixels is null)throw new InvalidOperationException("Hit pixels not retained");
+        if(hitPixels is null)
+        {fixed(byte* address=pixels)Image.CopyPixels(new PixelRect(rect.X,rect.Y,rect.Width,rect.Height),(IntPtr)(address+offset),pixels.Length-offset,stride);return;}
         for(int y=0;y<rect.Height;y++)Buffer.BlockCopy(hitPixels,((rect.Y+y)*PixelWidth+rect.X)*4,pixels,offset+y*stride,rect.Width*4);
     }
     public void Dispose()=>Image.Dispose();

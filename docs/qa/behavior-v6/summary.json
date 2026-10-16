@@ -1,0 +1,211 @@
+{
+  "status": "local-candidate-art-review-required",
+  "sourceHashesVerified": true,
+  "sourceClips": 11,
+  "sourceFrames": 1115,
+  "regressionChecks": 887,
+  "nativeScenarios": [
+    {
+      "scenario": "Head",
+      "samples": 244,
+      "hits": [
+        {
+          "Part": "Head",
+          "X": 378.9375,
+          "Y": 636.4375,
+          "TransparentRejected": 800,
+          "OpaqueAccepted": 685
+        }
+      ],
+      "finalAction": "idle",
+      "finalCover": 0
+    },
+    {
+      "scenario": "Back",
+      "samples": 198,
+      "hits": [
+        {
+          "Part": "Back",
+          "X": 376.4005356878042,
+          "Y": 660.6405451893806,
+          "TransparentRejected": 2020,
+          "OpaqueAccepted": 1324
+        }
+      ],
+      "finalAction": "idle",
+      "finalCover": 0
+    },
+    {
+      "scenario": "Back-left",
+      "samples": 332,
+      "hits": [
+        {
+          "Part": "Back",
+          "X": 407.4329861328006,
+          "Y": 660.7737857103348,
+          "TransparentRejected": 1977,
+          "OpaqueAccepted": 1308
+        }
+      ],
+      "finalAction": "idle",
+      "finalCover": 0
+    },
+    {
+      "scenario": "Belly",
+      "samples": 2040,
+      "hits": [
+        {
+          "Part": "Belly",
+          "X": 304.5,
+          "Y": 690.25,
+          "TransparentRejected": 2522,
+          "OpaqueAccepted": 1918
+        }
+      ],
+      "finalAction": "rest-B",
+      "finalCover": 0
+    },
+    {
+      "scenario": "Paw",
+      "samples": 244,
+      "hits": [
+        {
+          "Part": "Paw",
+          "X": 369.9375,
+          "Y": 738.4375,
+          "TransparentRejected": 800,
+          "OpaqueAccepted": 685
+        }
+      ],
+      "finalAction": "idle",
+      "finalCover": 0
+    },
+    {
+      "scenario": "Tail",
+      "samples": 198,
+      "hits": [
+        {
+          "Part": "Tail",
+          "X": 340.4005356878042,
+          "Y": 678.6405451893806,
+          "TransparentRejected": 2020,
+          "OpaqueAccepted": 1324
+        }
+      ],
+      "finalAction": "idle",
+      "finalCover": 0
+    },
+    {
+      "scenario": "Tail-left",
+      "samples": 332,
+      "hits": [
+        {
+          "Part": "Tail",
+          "X": 455.4329861328006,
+          "Y": 675.7737857103348,
+          "TransparentRejected": 1977,
+          "OpaqueAccepted": 1308
+        }
+      ],
+      "finalAction": "idle",
+      "finalCover": 0
+    },
+    {
+      "scenario": "burial-left",
+      "samples": 1578,
+      "hits": [],
+      "finalAction": "bury",
+      "finalCover": 1
+    },
+    {
+      "scenario": "burial-right",
+      "samples": 1560,
+      "hits": [],
+      "finalAction": "bury",
+      "finalCover": 1
+    }
+  ],
+  "playedFrames": {
+    "140": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "141": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "142": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "143": {
+      "frames": 145,
+      "first": 0,
+      "last": 144
+    },
+    "144": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "145": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "146": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "148": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "149": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "147": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    },
+    "150": {
+      "frames": 97,
+      "first": 0,
+      "last": 96
+    }
+  },
+  "pending": [
+    151,
+    152
+  ],
+  "monitor": {
+    "frameCount": 2394,
+    "pairCount": 2411,
+    "failureCount": 405,
+    "reviewCount": 410
+  },
+  "torso": {
+    "pairs": 768,
+    "flagged": 27,
+    "lowConfidence": 590,
+    "excluded": [
+      143,
+      147,
+      148
+    ]
+  },
+  "artNotes": [
+    "149 nose remains about 35 logical pixels above clump; 150 about 14. Horizontal alignment calibrated separately.",
+    "145 looks toward camera rather than clearly back toward tail.",
+    "Affine monitor flags retained; not a full art pass."
+  ],
+  "releaseCreated": false
+}

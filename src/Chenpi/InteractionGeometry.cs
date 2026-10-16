@@ -60,6 +60,7 @@ public sealed class SurfaceSupport
     public double Height {get;private set;}
     public double Update(PetEngine engine)
     {
+        if(engine.JumpSupportHeight is double jump){Height=jump;Kind=jump>0?"litter":null;return Height;}
         double x=engine.VisualPosition.X;
         double At(string? kind)=>kind switch {
             "nest"=>InteractionGeometry.NestSupport(x,engine.Nest.X),
