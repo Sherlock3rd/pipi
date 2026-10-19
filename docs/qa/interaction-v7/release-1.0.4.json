@@ -1,0 +1,1517 @@
+{
+  "version": "1.0.4",
+  "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+  "status": "published-and-public-download-verified",
+  "sharedChecks": 1039,
+  "localBuilds": {
+    "windows": "0 warnings, 0 errors",
+    "macos": "0 warnings, 0 errors"
+  },
+  "nativeWindowsScenarios": 15,
+  "nativeScenarios": [
+    {
+      "scenario": "Back",
+      "clips": [
+        [
+          "video-141",
+          98
+        ],
+        [
+          "video-06",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 4.124999999999995,
+        "Action": "rest-SR",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-06",
+        "Frame": 90,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "Back-left",
+      "clips": [
+        [
+          "video-142",
+          98
+        ],
+        [
+          "video-08",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 4.124999999999995,
+        "Action": "rest-SL",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-08",
+        "Frame": 96,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "Belly",
+      "clips": [
+        [
+          "video-143",
+          145
+        ],
+        [
+          "video-71",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 11.08333333333331,
+        "Action": "rest-B",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-71",
+        "Frame": 0,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "burial-jump-left",
+      "clips": [
+        [
+          "video-06",
+          61
+        ],
+        [
+          "video-10",
+          57
+        ],
+        [
+          "video-right",
+          156
+        ],
+        [
+          "video-11",
+          53
+        ],
+        [
+          "video-26",
+          121
+        ],
+        [
+          "video-27",
+          121
+        ],
+        [
+          "video-28",
+          122
+        ],
+        [
+          "video-06",
+          1
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-148",
+          98
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-10",
+          57
+        ],
+        [
+          "video-right",
+          39
+        ],
+        [
+          "video-11",
+          53
+        ],
+        [
+          "video-149",
+          98
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-29",
+          41
+        ],
+        [
+          "video-30",
+          121
+        ],
+        [
+          "video-31",
+          121
+        ],
+        [
+          "video-06",
+          1
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-148",
+          98
+        ],
+        [
+          "video-102",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 77.70833333333343,
+        "Action": "rest-D",
+        "BurialStage": "",
+        "LastBurialExit": "jump",
+        "X": 582,
+        "Support": 0,
+        "Clip": "video-102",
+        "Frame": 0,
+        "Cover": 1,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "burial-jump-right",
+      "clips": [
+        [
+          "video-08",
+          65
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-26",
+          122
+        ],
+        [
+          "video-27",
+          120
+        ],
+        [
+          "video-28",
+          122
+        ],
+        [
+          "video-06",
+          1
+        ],
+        [
+          "video-147",
+          98
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-14",
+          120
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-150",
+          98
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-14",
+          120
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-29",
+          41
+        ],
+        [
+          "video-30",
+          121
+        ],
+        [
+          "video-31",
+          121
+        ],
+        [
+          "video-06",
+          1
+        ],
+        [
+          "video-147",
+          98
+        ],
+        [
+          "video-101",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 74.16666666666636,
+        "Action": "rest-D",
+        "BurialStage": "",
+        "LastBurialExit": "jump",
+        "X": 668,
+        "Support": 0,
+        "Clip": "video-101",
+        "Frame": 0,
+        "Cover": 1,
+        "Target": {
+          "X": 365,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "burial-walk-left",
+      "clips": [
+        [
+          "video-06",
+          61
+        ],
+        [
+          "video-10",
+          57
+        ],
+        [
+          "video-right",
+          156
+        ],
+        [
+          "video-11",
+          53
+        ],
+        [
+          "video-26",
+          121
+        ],
+        [
+          "video-27",
+          121
+        ],
+        [
+          "video-28",
+          122
+        ],
+        [
+          "video-06",
+          1
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-148",
+          98
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-10",
+          57
+        ],
+        [
+          "video-right",
+          39
+        ],
+        [
+          "video-11",
+          53
+        ],
+        [
+          "video-149",
+          98
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-29",
+          41
+        ],
+        [
+          "video-30",
+          121
+        ],
+        [
+          "video-31",
+          121
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-14",
+          120
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-102",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 83.16666666666738,
+        "Action": "rest-D",
+        "BurialStage": "",
+        "LastBurialExit": "walk",
+        "X": 582,
+        "Support": 0,
+        "Clip": "video-102",
+        "Frame": 0,
+        "Cover": 1,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "burial-walk-right",
+      "clips": [
+        [
+          "video-08",
+          65
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-26",
+          122
+        ],
+        [
+          "video-27",
+          120
+        ],
+        [
+          "video-28",
+          122
+        ],
+        [
+          "video-06",
+          1
+        ],
+        [
+          "video-147",
+          98
+        ],
+        [
+          "video-15",
+          67
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-14",
+          120
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-150",
+          98
+        ],
+        [
+          "video-12",
+          57
+        ],
+        [
+          "video-14",
+          120
+        ],
+        [
+          "video-13",
+          53
+        ],
+        [
+          "video-16",
+          67
+        ],
+        [
+          "video-29",
+          41
+        ],
+        [
+          "video-30",
+          121
+        ],
+        [
+          "video-31",
+          121
+        ],
+        [
+          "video-10",
+          57
+        ],
+        [
+          "video-right",
+          117
+        ],
+        [
+          "video-11",
+          53
+        ],
+        [
+          "video-101",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 79.5000000000003,
+        "Action": "rest-D",
+        "BurialStage": "",
+        "LastBurialExit": "walk",
+        "X": 668,
+        "Support": 0,
+        "Clip": "video-101",
+        "Frame": 0,
+        "Cover": 1,
+        "Target": {
+          "X": 365,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "Head",
+      "clips": [
+        [
+          "video-140",
+          98
+        ],
+        [
+          "video-01",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 4.124999999999995,
+        "Action": "idle",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-01",
+        "Frame": 0,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "Paw",
+      "clips": [
+        [
+          "video-144",
+          98
+        ],
+        [
+          "video-01",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 4.124999999999995,
+        "Action": "idle",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-01",
+        "Frame": 0,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "Tail",
+      "clips": [
+        [
+          "video-145",
+          98
+        ],
+        [
+          "video-06",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 4.124999999999995,
+        "Action": "rest-SR",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-06",
+        "Frame": 90,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "Tail-left",
+      "clips": [
+        [
+          "video-146",
+          98
+        ],
+        [
+          "video-08",
+          1
+        ]
+      ],
+      "last": {
+        "Now": 4.124999999999995,
+        "Action": "rest-SL",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 400,
+        "Support": 0,
+        "Clip": "video-08",
+        "Frame": 96,
+        "Cover": 0,
+        "Target": {
+          "X": 915,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "toy-high-left",
+      "clips": [
+        [
+          "video-111",
+          121
+        ],
+        [
+          "video-113",
+          97
+        ],
+        [
+          "video-154",
+          97
+        ]
+      ],
+      "last": {
+        "Now": 13.124999999999948,
+        "Action": "expr-154",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 624.2876240784256,
+        "Support": 0,
+        "Clip": "video-154",
+        "Frame": 96,
+        "Cover": 0,
+        "Target": {
+          "X": 1715,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "toy-high-right",
+      "clips": [
+        [
+          "video-108",
+          121
+        ],
+        [
+          "video-110",
+          122
+        ],
+        [
+          "video-153",
+          97
+        ]
+      ],
+      "last": {
+        "Now": 14.1666666666666,
+        "Action": "expr-153",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 1006.3236179843652,
+        "Support": 0,
+        "Clip": "video-153",
+        "Frame": 96,
+        "Cover": 0,
+        "Target": {
+          "X": 1715,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "toy-low-left",
+      "clips": [
+        [
+          "video-111",
+          121
+        ],
+        [
+          "video-113",
+          97
+        ],
+        [
+          "video-152",
+          97
+        ]
+      ],
+      "last": {
+        "Now": 13.124999999999948,
+        "Action": "expr-152",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 655.1724146106172,
+        "Support": 0,
+        "Clip": "video-152",
+        "Frame": 96,
+        "Cover": 0,
+        "Target": {
+          "X": 1715,
+          "Y": 702
+        }
+      }
+    },
+    {
+      "scenario": "toy-low-right",
+      "clips": [
+        [
+          "video-108",
+          121
+        ],
+        [
+          "video-110",
+          122
+        ],
+        [
+          "video-151",
+          97
+        ]
+      ],
+      "last": {
+        "Now": 14.1666666666666,
+        "Action": "expr-151",
+        "BurialStage": "",
+        "LastBurialExit": "",
+        "X": 940.4899205065476,
+        "Support": 0,
+        "Clip": "video-151",
+        "Frame": 96,
+        "Cover": 0,
+        "Target": {
+          "X": 1715,
+          "Y": 702
+        }
+      }
+    }
+  ],
+  "assetReuse": {
+    "sourceAssetsTree": "57092911e4edbb618d7717336fe1534cd09a7ed0",
+    "previousReleaseCommit": "3c435ccdfb9d9782a92e5be6114b3df754143267",
+    "manifestSha256": "1bc2e4677fb0040731a917e3459c2369b2d76fbfce5397702bacfbf975474275",
+    "packReport": {
+      "framePaths": 16852,
+      "uniquePayloads": 16852,
+      "originalFrameBytes": 1522018287,
+      "packedFrameBytes": 865828722,
+      "sourceAssetBytes": 1630127267,
+      "outputAssetBytes": 874021710,
+      "verified": "Every packed frame decoded to exactly identical RGBA bytes; manifest, props and audio copied byte-for-byte",
+      "manifestSha256": "1bc2e4677fb0040731a917e3459c2369b2d76fbfce5397702bacfbf975474275"
+    }
+  },
+  "notes": [
+    "WPF scene audit uses native rendering and hit resolution, not operating-system mouse end-to-end input.",
+    "Unchanged transitional artwork issues remain accepted, not all-clear.",
+    "Formal local installation and personal saves untouched in this release task."
+  ],
+  "windowsPackage": {
+    "buildIdentity": {
+      "version": "1.0.4",
+      "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+      "architecture": "x64",
+      "framework": ".NET 10.0.12"
+    },
+    "pixelAudit": {
+      "CheckedFrames": 16852,
+      "PixelMismatches": 0,
+      "BoundsMismatches": 0,
+      "P50DecodeMs": 4.8919,
+      "P95DecodeMs": 7.965,
+      "MaxDecodeMs": 110.2691
+    },
+    "assetFiles": [
+      {
+        "file": "frames.cpak",
+        "bytes": 865828722,
+        "sha256": "c1d59e456b7a76a5275fb1fc210a67c9a4ecef61bf60d37267b3ffd1943120b1"
+      },
+      {
+        "file": "pack-report.json",
+        "bytes": 409,
+        "sha256": "0574964c4d12c4f4e260d8488f236c21928a7fcb72bd3b5c7b1240210e239e50"
+      },
+      {
+        "file": "props/food-bowl-empty.png",
+        "bytes": 1030308,
+        "sha256": "483426434097c8d06c87edb797cbad1e827b3314c47b6f41daa01accae3ab247"
+      },
+      {
+        "file": "props/kibble.png",
+        "bytes": 869135,
+        "sha256": "28f584431653501da4deb90d8581d147e1abb6d33b01a653ae3edc0a26833466"
+      },
+      {
+        "file": "props/litter-tray.png",
+        "bytes": 1002950,
+        "sha256": "cc4038c2888339844556ce02bb8531ea94468cd14184800bfdf3ec3fc03c8ecd"
+      },
+      {
+        "file": "props/nest.png",
+        "bytes": 2090600,
+        "sha256": "246e85c61bbd2e207771501a34b826609a1ce6e42476cbaef64c3b82ab2a2e25"
+      },
+      {
+        "file": "props/water-cup-empty.png",
+        "bytes": 1054586,
+        "sha256": "8de907c74e3658d9048619037e39e8ff6927be734f565847653ee634a5922198"
+      },
+      {
+        "file": "pets/bluecat/manifest.json",
+        "bytes": 1309193,
+        "sha256": "1bc2e4677fb0040731a917e3459c2369b2d76fbfce5397702bacfbf975474275"
+      },
+      {
+        "file": "audio/cat/117-109-meow4.wav",
+        "bytes": 58830,
+        "sha256": "a0925533bde7d1b4dbea534410826294fdddf8992c9533c6c3839ff24ae3e7f8"
+      },
+      {
+        "file": "audio/cat/117-12-meow1.wav",
+        "bytes": 71934,
+        "sha256": "fb4e452765c2973eb79bd2eebb5a0ac2a7ac9ea3cbe6263dd777ca7fe850f92b"
+      },
+      {
+        "file": "audio/cat/117-60-meow3.wav",
+        "bytes": 53990,
+        "sha256": "54caaeef6c2be917af00e11d9a84333121c2ac3aa009c2124addc4f4c14a0281"
+      },
+      {
+        "file": "audio/cat/69-annoyed1.wav",
+        "bytes": 49730,
+        "sha256": "b78df741f2bda706ccb5886bb5101a729f12264b5432d56dce0dccdc4bd26ea9"
+      },
+      {
+        "file": "audio/cat/73-lying2.wav",
+        "bytes": 38116,
+        "sha256": "b3aed4ad004900f2f5b5d33d864f2871d3c7cb8e7d6dd361091e9bbe1f929156"
+      },
+      {
+        "file": "audio/cat/77-meow3.wav",
+        "bytes": 31354,
+        "sha256": "e8303966f120b8338c43105e5bfadeaa482469ccbd4eb1c796eda6da55f1de08"
+      },
+      {
+        "file": "audio/cat/86-meow2.wav",
+        "bytes": 42380,
+        "sha256": "7bab65f13a8b014c0bafb84d5be99ea2ffd8b5fb1f93a5d198500d771e271534"
+      },
+      {
+        "file": "audio/cat/87-meow3.wav",
+        "bytes": 53990,
+        "sha256": "54caaeef6c2be917af00e11d9a84333121c2ac3aa009c2124addc4f4c14a0281"
+      },
+      {
+        "file": "audio/cat/88-meow1.wav",
+        "bytes": 71934,
+        "sha256": "fb4e452765c2973eb79bd2eebb5a0ac2a7ac9ea3cbe6263dd777ca7fe850f92b"
+      },
+      {
+        "file": "audio/cat/88-meow4.wav",
+        "bytes": 58830,
+        "sha256": "a0925533bde7d1b4dbea534410826294fdddf8992c9533c6c3839ff24ae3e7f8"
+      },
+      {
+        "file": "audio/cat/89-lying1.wav",
+        "bytes": 86110,
+        "sha256": "4d9e06e31ab8211ef3694bcbaccda525a29dbacb8a7fd072e4be16e342fcfb86"
+      },
+      {
+        "file": "audio/cat/90-lying1.wav",
+        "bytes": 86110,
+        "sha256": "4d9e06e31ab8211ef3694bcbaccda525a29dbacb8a7fd072e4be16e342fcfb86"
+      },
+      {
+        "file": "audio/cat/90-lying2.wav",
+        "bytes": 62790,
+        "sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+      },
+      {
+        "file": "audio/cat/91-lying2.wav",
+        "bytes": 62790,
+        "sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+      },
+      {
+        "file": "audio/cat/manifest.json",
+        "bytes": 7328,
+        "sha256": "e85f5586b8e3893a70faf1958c5628877db3ab1c29cbd40f3bb0e46fe51d6012"
+      }
+    ],
+    "normalPreview": {
+      "Action": "rest-D",
+      "DisplayedClip": "video-66",
+      "renderedFrames": 3596,
+      "p95FrameMs": 17.65500000000131,
+      "CachedFrameBytes": 100656172,
+      "workingSet": 309751808
+    },
+    "startupPreview": {
+      "Action": "idle",
+      "DisplayedClip": "video-01",
+      "renderedFrames": 3591,
+      "p95FrameMs": 17.625799999997582,
+      "CachedFrameBytes": 100573488,
+      "workingSet": 309907456
+    }
+  },
+  "manifest": {
+    "schemaVersion": 1,
+    "version": "1.0.4",
+    "releaseSequence": 2026101901,
+    "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+    "releaseUrl": "https://github.com/Sherlock3rd/pipi/releases/tag/v1.0.4",
+    "saveCompatibility": {
+      "migration": false,
+      "previousVersionReadable": false,
+      "downgradeNote": "Pet state is unchanged; restore pre-update behavior-settings.json before downgrading to 1.0.3 if the new litter.exitJumpChance parameter has been saved. The old parser rejects unknown parameter keys.",
+      "preserves": [
+        "pet-state.json",
+        "behavior-settings.json",
+        "furniture positions",
+        "care deadlines",
+        "autostart",
+        "volume",
+        "muted"
+      ]
+    },
+    "packages": [
+      {
+        "rid": "win-x64",
+        "file": "Chenpi-win-x64.zip",
+        "compressedBytes": 950623359,
+        "uncompressedBytes": 1064121814,
+        "sha256": "7057d876b267c768c599696a09b68dae4f111a0af491a39857bc5f6084d36af2",
+        "url": "https://github.com/Sherlock3rd/pipi/releases/download/v1.0.4/Chenpi-win-x64.zip",
+        "minimumOsVersion": "10.0.14393",
+        "minimumOsBasis": "NET 10 runtime floor; native acceptance on Windows 11 10.0.22631; vendor OS support lifecycle still applies",
+        "signature": "unsigned Windows application",
+        "validation": "passed"
+      },
+      {
+        "rid": "osx-arm64",
+        "file": "Chenpi-osx-arm64.zip",
+        "compressedBytes": 906233982,
+        "uncompressedBytes": 968997355,
+        "sha256": "9498dc909fc522873e97140c1bce08a4dafc38fbb12fc75f66c25a41b1372c64",
+        "url": "https://github.com/Sherlock3rd/pipi/releases/download/v1.0.4/Chenpi-osx-arm64.zip",
+        "minimumOsVersion": "15.0",
+        "minimumOsBasis": "Info.plist LSMinimumSystemVersion",
+        "signature": "macOS ad-hoc signature, strict verified, not notarized",
+        "validation": "passed"
+      },
+      {
+        "rid": "osx-x64",
+        "file": "Chenpi-osx-x64.zip",
+        "compressedBytes": 908700163,
+        "uncompressedBytes": 962739695,
+        "sha256": "5deddd757ae2e4aa5f9cfb33d808f1f65edfbf1bb7f29be690ba777ca32d1de4",
+        "url": "https://github.com/Sherlock3rd/pipi/releases/download/v1.0.4/Chenpi-osx-x64.zip",
+        "minimumOsVersion": "15.0",
+        "minimumOsBasis": "Info.plist LSMinimumSystemVersion",
+        "signature": "macOS ad-hoc signature, strict verified, not notarized",
+        "validation": "passed"
+      }
+    ],
+    "validation": {
+      "sharedChecks": 1039,
+      "losslessPackingFramesPerPlatform": 16852,
+      "macNativePixelSamplesPerArchitecture": 465,
+      "windowsNativeScenarios": 15,
+      "windowsPixelAudit": {
+        "CheckedFrames": 16852,
+        "PixelMismatches": 0,
+        "BoundsMismatches": 0,
+        "P50DecodeMs": 4.8919,
+        "P95DecodeMs": 7.965,
+        "MaxDecodeMs": 110.2691
+      },
+      "windowsAssetFiles": [
+        {
+          "file": "frames.cpak",
+          "bytes": 865828722,
+          "sha256": "c1d59e456b7a76a5275fb1fc210a67c9a4ecef61bf60d37267b3ffd1943120b1"
+        },
+        {
+          "file": "pack-report.json",
+          "bytes": 409,
+          "sha256": "0574964c4d12c4f4e260d8488f236c21928a7fcb72bd3b5c7b1240210e239e50"
+        },
+        {
+          "file": "props/food-bowl-empty.png",
+          "bytes": 1030308,
+          "sha256": "483426434097c8d06c87edb797cbad1e827b3314c47b6f41daa01accae3ab247"
+        },
+        {
+          "file": "props/kibble.png",
+          "bytes": 869135,
+          "sha256": "28f584431653501da4deb90d8581d147e1abb6d33b01a653ae3edc0a26833466"
+        },
+        {
+          "file": "props/litter-tray.png",
+          "bytes": 1002950,
+          "sha256": "cc4038c2888339844556ce02bb8531ea94468cd14184800bfdf3ec3fc03c8ecd"
+        },
+        {
+          "file": "props/nest.png",
+          "bytes": 2090600,
+          "sha256": "246e85c61bbd2e207771501a34b826609a1ce6e42476cbaef64c3b82ab2a2e25"
+        },
+        {
+          "file": "props/water-cup-empty.png",
+          "bytes": 1054586,
+          "sha256": "8de907c74e3658d9048619037e39e8ff6927be734f565847653ee634a5922198"
+        },
+        {
+          "file": "pets/bluecat/manifest.json",
+          "bytes": 1309193,
+          "sha256": "1bc2e4677fb0040731a917e3459c2369b2d76fbfce5397702bacfbf975474275"
+        },
+        {
+          "file": "audio/cat/117-109-meow4.wav",
+          "bytes": 58830,
+          "sha256": "a0925533bde7d1b4dbea534410826294fdddf8992c9533c6c3839ff24ae3e7f8"
+        },
+        {
+          "file": "audio/cat/117-12-meow1.wav",
+          "bytes": 71934,
+          "sha256": "fb4e452765c2973eb79bd2eebb5a0ac2a7ac9ea3cbe6263dd777ca7fe850f92b"
+        },
+        {
+          "file": "audio/cat/117-60-meow3.wav",
+          "bytes": 53990,
+          "sha256": "54caaeef6c2be917af00e11d9a84333121c2ac3aa009c2124addc4f4c14a0281"
+        },
+        {
+          "file": "audio/cat/69-annoyed1.wav",
+          "bytes": 49730,
+          "sha256": "b78df741f2bda706ccb5886bb5101a729f12264b5432d56dce0dccdc4bd26ea9"
+        },
+        {
+          "file": "audio/cat/73-lying2.wav",
+          "bytes": 38116,
+          "sha256": "b3aed4ad004900f2f5b5d33d864f2871d3c7cb8e7d6dd361091e9bbe1f929156"
+        },
+        {
+          "file": "audio/cat/77-meow3.wav",
+          "bytes": 31354,
+          "sha256": "e8303966f120b8338c43105e5bfadeaa482469ccbd4eb1c796eda6da55f1de08"
+        },
+        {
+          "file": "audio/cat/86-meow2.wav",
+          "bytes": 42380,
+          "sha256": "7bab65f13a8b014c0bafb84d5be99ea2ffd8b5fb1f93a5d198500d771e271534"
+        },
+        {
+          "file": "audio/cat/87-meow3.wav",
+          "bytes": 53990,
+          "sha256": "54caaeef6c2be917af00e11d9a84333121c2ac3aa009c2124addc4f4c14a0281"
+        },
+        {
+          "file": "audio/cat/88-meow1.wav",
+          "bytes": 71934,
+          "sha256": "fb4e452765c2973eb79bd2eebb5a0ac2a7ac9ea3cbe6263dd777ca7fe850f92b"
+        },
+        {
+          "file": "audio/cat/88-meow4.wav",
+          "bytes": 58830,
+          "sha256": "a0925533bde7d1b4dbea534410826294fdddf8992c9533c6c3839ff24ae3e7f8"
+        },
+        {
+          "file": "audio/cat/89-lying1.wav",
+          "bytes": 86110,
+          "sha256": "4d9e06e31ab8211ef3694bcbaccda525a29dbacb8a7fd072e4be16e342fcfb86"
+        },
+        {
+          "file": "audio/cat/90-lying1.wav",
+          "bytes": 86110,
+          "sha256": "4d9e06e31ab8211ef3694bcbaccda525a29dbacb8a7fd072e4be16e342fcfb86"
+        },
+        {
+          "file": "audio/cat/90-lying2.wav",
+          "bytes": 62790,
+          "sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+        },
+        {
+          "file": "audio/cat/91-lying2.wav",
+          "bytes": 62790,
+          "sha256": "1e19846a0f86c8e38e67585f58f5f98d0e05b3c4ea9036485ece6ec897411bf6"
+        },
+        {
+          "file": "audio/cat/manifest.json",
+          "bytes": 7328,
+          "sha256": "e85f5586b8e3893a70faf1958c5628877db3ab1c29cbd40f3bb0e46fe51d6012"
+        }
+      ],
+      "windowsBuildIdentity": {
+        "version": "1.0.4",
+        "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+        "architecture": "x64",
+        "framework": ".NET 10.0.12"
+      },
+      "windowsSmoke": {
+        "Action": "idle",
+        "DisplayedClip": "video-01",
+        "renderedFrames": 3591,
+        "p95FrameMs": 17.625799999997582,
+        "CachedFrameBytes": 100573488,
+        "workingSet": 309907456
+      },
+      "macosNativeRun": "https://github.com/Sherlock3rd/pipi/actions/runs/39237218699"
+    },
+    "artAcceptance": "User accepted transitional artwork on 2026-10-16; not an all-clear art review.",
+    "knownArtIssues": [
+      "153/154: a few source frames touch the top edge.",
+      "149/150: nose remains above the clump.",
+      "145: head turns toward camera rather than clearly toward the tail.",
+      "Continuity monitor flags and low-confidence pairs remain for manual art review."
+    ]
+  },
+  "macos": {
+    "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+    "run": "https://github.com/Sherlock3rd/pipi/actions/runs/39237218699",
+    "platforms": [
+      {
+        "rid": "osx-arm64",
+        "sha256": "9498dc909fc522873e97140c1bce08a4dafc38fbb12fc75f66c25a41b1372c64",
+        "bytes": 906233982,
+        "uncompressedBytes": 968997355,
+        "buildIdentity": {
+          "version": "1.0.4",
+          "sequence": 2026101901,
+          "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+          "rid": "osx-arm64"
+        },
+        "pixelAudit": {
+          "CheckedFrames": 465,
+          "PixelMismatches": 0,
+          "BoundsMismatches": 0,
+          "PooledBufferLifetime": "verified after reuse"
+        },
+        "inputChecks": {
+          "early-native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ],
+          "native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ]
+        },
+        "performance": {
+          "scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "idle",
+            "StartupActive": false,
+            "DisplayedClip": "video-01",
+            "DisplayedFrame": 72,
+            "CachedFrameBytes": 100440724,
+            "CacheMisses": 1624,
+            "MaxDecodeMilliseconds": 26.6346,
+            "RenderingDiagnostics": {
+              "Count": 5052,
+              "P95": 0.2911,
+              "Max": 289.1464,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 59.9889
+            },
+            "NativeTimings": {
+              "P95": 0.0306,
+              "Max": 2.7284
+            },
+            "UpdateTimings": {
+              "P95": 0.0427,
+              "Max": 8.0617
+            },
+            "WorkingSet": 449953792,
+            "CpuMilliseconds": 40980.857,
+            "ElapsedSeconds": 85.2415019,
+            "Frames": 5051,
+            "P95Milliseconds": 18.36440000000028,
+            "MaxMilliseconds": 460.71459999999996
+          },
+          "desktop-scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "rest-HL",
+            "StartupActive": false,
+            "DisplayedClip": "video-56",
+            "DisplayedFrame": 79,
+            "CachedFrameBytes": 100463252,
+            "CacheMisses": 1942,
+            "MaxDecodeMilliseconds": 27.3084,
+            "RenderingDiagnostics": {
+              "Count": 5048,
+              "P95": 0.3083,
+              "Max": 222.3754,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 45.1211
+            },
+            "NativeTimings": {
+              "P95": 0.0375,
+              "Max": 1.6458
+            },
+            "UpdateTimings": {
+              "P95": 0.0506,
+              "Max": 7.6738
+            },
+            "WorkingSet": 457113600,
+            "CpuMilliseconds": 43678.123,
+            "ElapsedSeconds": 85.2078792,
+            "Frames": 5047,
+            "P95Milliseconds": 18.599800000004052,
+            "MaxMilliseconds": 356.9046
+          }
+        }
+      },
+      {
+        "rid": "osx-x64",
+        "sha256": "5deddd757ae2e4aa5f9cfb33d808f1f65edfbf1bb7f29be690ba777ca32d1de4",
+        "bytes": 908700163,
+        "uncompressedBytes": 962739695,
+        "buildIdentity": {
+          "version": "1.0.4",
+          "sequence": 2026101901,
+          "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+          "rid": "osx-x64"
+        },
+        "pixelAudit": {
+          "CheckedFrames": 465,
+          "PixelMismatches": 0,
+          "BoundsMismatches": 0,
+          "PooledBufferLifetime": "verified after reuse"
+        },
+        "inputChecks": {
+          "early-native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ],
+          "native-qa": [
+            "negative control: old visible pet cannot receive clicks",
+            "desktop food click and non-key window",
+            "native nest drag and release at scale 1.0",
+            "native nest drag and release at scale 1.4",
+            "native nest drag and release at scale 0.7",
+            "nest right click settings before cat interaction",
+            "cat click wakes sleeping pet",
+            "cat long press, captured drag and drop",
+            "nest right click settings",
+            "empty area passes through to desktop",
+            "ordinary application remains above desktop mode",
+            "floating mode receives input",
+            "floating to desktop roundtrip preserves routing"
+          ]
+        },
+        "performance": {
+          "scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "idle",
+            "StartupActive": false,
+            "DisplayedClip": "video-01",
+            "DisplayedFrame": 35,
+            "CachedFrameBytes": 100434892,
+            "CacheMisses": 1635,
+            "MaxDecodeMilliseconds": 129.8774,
+            "RenderingDiagnostics": {
+              "Count": 2428,
+              "P95": 0.668,
+              "Max": 442.2813,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 106.29269999999998
+            },
+            "NativeTimings": {
+              "P95": 0.0348,
+              "Max": 2.1516
+            },
+            "UpdateTimings": {
+              "P95": 0.0673,
+              "Max": 29.168
+            },
+            "WorkingSet": 349065216,
+            "CpuMilliseconds": 63333.023,
+            "ElapsedSeconds": 85.1879257,
+            "Frames": 2427,
+            "P95Milliseconds": 37.069999999999936,
+            "MaxMilliseconds": 839.0081
+          },
+          "desktop-scene": {
+            "Runtime": "macOS 15.7.9",
+            "GraphicsBackend": "Software",
+            "Action": "idle",
+            "StartupActive": false,
+            "DisplayedClip": "video-01",
+            "DisplayedFrame": 37,
+            "CachedFrameBytes": 100437020,
+            "CacheMisses": 1632,
+            "MaxDecodeMilliseconds": 71.4829,
+            "RenderingDiagnostics": {
+              "Count": 2428,
+              "P95": 0.5418,
+              "Max": 456.2766,
+              "UiDecodes": 10,
+              "UiDecodeMilliseconds": 101.6135
+            },
+            "NativeTimings": {
+              "P95": 0.0336,
+              "Max": 5.176
+            },
+            "UpdateTimings": {
+              "P95": 0.0565,
+              "Max": 56.319
+            },
+            "WorkingSet": 380096512,
+            "CpuMilliseconds": 86829.035,
+            "ElapsedSeconds": 85.4206461,
+            "Frames": 2427,
+            "P95Milliseconds": 36.251499999991665,
+            "MaxMilliseconds": 832.8301999999999
+          }
+        }
+      }
+    ]
+  },
+  "publicDownload": {
+    "version": "1.0.4",
+    "sourceCommit": "e14a880b4b5ffa90b6101a90762828fa3a7494b7",
+    "manifestSha256": "681e731a573db5c779c57efe723054e3759a98540d56c623f17cb12b261bb5cd",
+    "url": "https://github.com/Sherlock3rd/pipi/releases/tag/v1.0.4",
+    "verificationRun": "https://github.com/Sherlock3rd/pipi/actions/runs/39241991206",
+    "verificationHost": "GitHub ubuntu-latest runner",
+    "assets": [
+      {
+        "name": "Chenpi-macos-verification.json",
+        "assetId": 655980813,
+        "bytes": 8271,
+        "sha256": "d0617714d31d1bd28651d9651e90c653aa0684247b3035e7b1682e6e5007dc0b",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-arm64.zip",
+        "assetId": 655977452,
+        "bytes": 906233982,
+        "sha256": "9498dc909fc522873e97140c1bce08a4dafc38fbb12fc75f66c25a41b1372c64",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-arm64.zip.sha256",
+        "assetId": 655978785,
+        "bytes": 87,
+        "sha256": "740a8d6c0a63510f28350d652f680d075ab499b20d5256f4a3eb6de6d29ee52a",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-x64.zip",
+        "assetId": 655979837,
+        "bytes": 908700163,
+        "sha256": "5deddd757ae2e4aa5f9cfb33d808f1f65edfbf1bb7f29be690ba777ca32d1de4",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-osx-x64.zip.sha256",
+        "assetId": 655980755,
+        "bytes": 85,
+        "sha256": "07aaf03f9ae54f10c7a2b7829ad76d2ad5e9366cf110cd8603df84f9a2285ee7",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-win-x64.zip",
+        "assetId": 655970978,
+        "bytes": 950623359,
+        "sha256": "7057d876b267c768c599696a09b68dae4f111a0af491a39857bc5f6084d36af2",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "Chenpi-win-x64.zip.sha256",
+        "assetId": 655949578,
+        "bytes": 86,
+        "sha256": "5a04b1bbc983b734b1bd38e242333cb527331af4dd6b0c6ada8b010be5e388a2",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "INSTALL.txt",
+        "assetId": 655949577,
+        "bytes": 2147,
+        "sha256": "895681db172d06bc7f8cfb8351dd91df23622431e7e0f18121f711ca779bd205",
+        "publicAnonymousDownload": true
+      },
+      {
+        "name": "release-manifest.json",
+        "assetId": 656031739,
+        "bytes": 7781,
+        "sha256": "681e731a573db5c779c57efe723054e3759a98540d56c623f17cb12b261bb5cd",
+        "publicAnonymousDownload": true
+      }
+    ]
+  }
+}

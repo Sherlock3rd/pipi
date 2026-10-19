@@ -27,7 +27,7 @@ Windows / macOS 的 2D 蓝猫桌宠，沿用既有 Rules Bootstrap Spec v1.0。�
 
 ## macOS 与优化发布包
 
-macOS 15 及以上提供 Apple 芯片和 Intel 两种自包含 `.app`，不需要另装 .NET；两端使用无损帧包和有上限的解码缓存。Mac 从 [Actions 构建产物](https://github.com/Sherlock3rd/pipi/actions/workflows/desktop-release.yml) 选择通过检查的对应架构，取产物内 `dist/releases/` 的安装 ZIP，解压后将 `Chenpi.app` 放进“应用程序”。首次打开的签名说明、构建方式及实测边界见 [macOS 与资源优化](docs/macos-and-resources.md)。正式 Windows 原版与用户存档不自动覆盖。
+macOS 15 及以上提供 Apple 芯片和 Intel 两种自包含 `.app`，不需要另装 .NET；两端使用无损帧包和有上限的解码缓存。Mac 从 [正式完整包](https://github.com/Sherlock3rd/pipi/releases/latest) 选择对应架构的安装 ZIP，解压后将 `Chenpi.app` 放进“应用程序”。首次打开的签名说明、构建方式及实测边界见 [macOS 与资源优化](docs/macos-and-resources.md)。正式 Windows 原版与用户存档不自动覆盖。
 
 ## 从源码构建
 
