@@ -10,20 +10,20 @@ internal static class BehaviorV6Checks
         {
             var pb=new SpritePlayback();pb.Load(doc.RootElement,id=>animations.TryGetProperty(id,out var a)?a.GetArrayLength():0);
             var s=new PetState{X=left?1500:400,Litter=0,Food=100,Water=100,RestDuration=3600,FoodClock=new(){NextDue=99999},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999},NestPosition=new(2200,752),FoodPosition=new(1900,752),WaterPosition=new(2050,752),LitterPosition=new(900,752)};
-            var e=new PetEngine(s,7){ExpressionsEnabled=true,CompletionEnabled=true,BodyInteractionsEnabled=pb.HasBodyInteractions,BurialV6Enabled=pb.HasBurialV6,VisualPoseReady=pb.PreparePose,VisualActionDuration=pb.ActionDuration,VisualTravel=pb.TravelTo,VisualCareReady=pb.PrepareCare,VisualBurialWindow=pb.BurialWindow};
+            var e=new PetEngine(s,7){ExpressionsEnabled=true,CompletionEnabled=true,BodyInteractionsEnabled=pb.HasBodyInteractions,BurialV6Enabled=pb.HasBurialV6,VisualInteractionPose=()=>pb.HitPose,VisualPoseReady=pb.PreparePose,VisualActionDuration=pb.ActionDuration,VisualTravel=pb.TravelTo,VisualCareReady=pb.PrepareCare,VisualBurialWindow=pb.BurialWindow};
             e.Layout(2400,800);pb.RestorePose(left?"SL":"F");return(e,pb);
         }
         string Step(PetEngine e,SpritePlayback pb){e.Update(1d/24,12);e.Support.Update(e);return pb.Sample(e.AligningForCare?"care-ready":e.Action,e.Now,e.FacingLeft)?.Clip??"";}
         foreach(var part in Enum.GetValues<CatBodyPart>())
         {
-            var(e,pb)=Create();e.Interact(part);var frames=new HashSet<int>();string expected="video-"+(part switch{CatBodyPart.Head=>140,CatBodyPart.Back=>141,CatBodyPart.Belly=>143,CatBodyPart.Paw=>144,_=>145});
+            var(e,pb)=Create();if(part==CatBodyPart.Belly){e.PreviewRest("B");pb.RestorePose("B");Step(e,pb);e.Interact(part);for(int i=0;i<24*5;i++)Step(e,pb);}e.Interact(part);var frames=new HashSet<int>();string expected="video-"+(part switch{CatBodyPart.Head=>140,CatBodyPart.Back=>141,CatBodyPart.Belly=>143,CatBodyPart.Paw=>144,_=>145});
             for(int i=0;i<24*80;i++){string clip=Step(e,pb);if(clip==expected)frames.Add(pb.Sample(e.Action,e.Now,e.FacingLeft)!.Value.Index);if(frames.Count>0&&e.Action!="expr-"+expected[6..])break;}
             check(frames.Count>=animations.GetProperty(expected).GetArrayLength()-1,"body click finishes complete native clip: "+part+" frames="+frames.Count);
         }
         {
-            var(e,pb)=Create();e.Sleep();Step(e,pb);e.Interact(CatBodyPart.Paw);bool seenWake=false,seenPaw=false;
+            var(e,pb)=Create();e.Sleep();for(int i=0;i<24*15;i++)Step(e,pb);e.Interact(CatBodyPart.Paw);bool seenWake=false,seenPaw=false;
             for(int i=0;i<24*70;i++){string clip=Step(e,pb);seenWake|=clip is "video-21" or "video-18";seenPaw|=clip=="video-144";}
-            check(seenWake&&seenPaw,"sleep click wakes through real graph before paw response");
+            check(seenWake&&!seenPaw,"sleep click only wakes, without a queued paw response");
             e.Interact(CatBodyPart.Belly);Step(e,pb);e.BeginDrag();for(int i=0;i<50;i++)Step(e,pb);
             check(e.Action=="drag","hold-drag cancels queued body reaction");
         }

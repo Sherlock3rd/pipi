@@ -164,6 +164,7 @@ internal sealed partial class Scene : FrameworkElement
         Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         Engine.ExpressionsEnabled=playback.HasExpressions;
         Engine.BodyInteractionsEnabled=playback.HasBodyInteractions;Engine.BurialV6Enabled=playback.HasBurialV6;
+        Engine.VisualInteractionPose=()=>playback.HitPose;
         Engine.ToyGrabsEnabled=playback.HasToyGrabs;Engine.HighToyGrabsEnabled=playback.HasHighToyGrabs;
         Engine.VisualPoseReady=playback.PreparePose;
         Engine.VisualWallRestComplete=playback.WallRestComplete;

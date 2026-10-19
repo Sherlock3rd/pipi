@@ -10,6 +10,7 @@ public sealed partial class PetEngine
     public bool BurialV6Enabled {get;set;}
     public bool ToyGrabsEnabled {get;set;}
     public bool HighToyGrabsEnabled {get;set;}
+    public Func<string>? VisualInteractionPose {get;set;}
     public int ToyGrabClip {get;private set;}
     public double ToyHeight=>State.Y-Support.Height-ToyTip.Y;
     // Calibrated from the authored reaching paw, relative to the ground root.
@@ -30,66 +31,81 @@ public sealed partial class PetEngine
         return false;
     }
     public string BurialStage {get;private set;}="";
+    public string LastBurialExit {get;private set;}="";
     public double? JumpSupportHeight {get;private set;}
-    private CatBodyPart? bodyRequest;
     private int bodyClip;
-    private bool bodyPreparing,bodyWaking;
-    private bool bodyLeft;
+    private bool bodyPreparing;
     private string bodyPose="F";
     private int burialSlot=-1;
     private bool jumpLeft,burialCleaned;
+    private bool finalBurialExit,bodyResting;
     private double jumpStart,jumpEnd,jumpStartLift;
 
     public void Interact(CatBodyPart part,bool? facingLeft=null)
     {
         if(!BodyInteractionsEnabled){Interact();return;}
         if(QueueStartupCommand(()=>Interact(part,facingLeft)))return;
-        if(State.CareRequest is not null){Interact();return;}
-        CancelDebugBehavior();ResetMovementChoice();
-        // Finish an in-flight jump before handling the queued click.
-        bodyRequest=part;bodyLeft=facingLeft??FacingLeft;LastInteraction=Now;State.StillSeconds=0;manualSequence=false;
-        if(BurialStage=="jump")return;
-        CancelBurialV6();manualSequence=false;
+        if(State.CareRequest is not null){BeginGuide();return;}
+        // A light click must not abort consumption, scratch/landing, or queue a
+        // delayed show after a critical action. Drag still uses BeginManualSequence.
+        if(Action is "eat" or "drink" or "toilet" or "bury" or "land" or "wake" || BurialStage.Length>0 || ToyGrabClip!=0)return;
         if(bodyClip!=0||bodyPreparing)return;
-        if(State.Sleeping||Action=="sleep")
-        {Wake();bodyWaking=true;bodyPose=Action.StartsWith("rest-")?Action[5..]:"F";}
+        CancelDebugBehavior();ResetMovementChoice();
+        LastInteraction=Now;State.StillSeconds=0;manualSequence=false;
+        if(IsRelaxing&&LyingPose(RelaxedPose)){InteractRelaxed(part);return;}
+        if(State.Sleeping||Action=="sleep"){Wake();return;}
+        if(Action.StartsWith("expr-")&&ActionTime<duration)return;
+        string pose=VisualInteractionPose?.Invoke()??(IsRelaxing?RelaxedPose:FacingLeft?"SL":"F");
+        if(pose is "HR" or "HL"){RestInPose(pose=="HL"?"SL":"SR",false);return;}
+        // A transition or lying silhouette is not permission to start a distant
+        // pose. In particular 143 can only be selected by the B click ladder.
+        if(pose is not ("F" or "I" or "SF" or "SR" or "SL" or "WR" or "WL" or "RR" or "RL"))return;
+        bool left=pose is "SL" or "WL" or "RL" || facingLeft==true;
+        bool standing=pose is "SR" or "SL" or "WR" or "WL" or "RR" or "RL";
+        bodyClip=part switch {
+            CatBodyPart.Head=>standing?(left?142:141):140,
+            CatBodyPart.Paw=>standing?(left?146:145):144,
+            CatBodyPart.Back=>left?142:141,
+            CatBodyPart.Tail=>left?146:145,
+            _=>standing?(left?142:141):144};
+        bodyPose=SpritePlayback.ExpressionPose(bodyClip);bodyPreparing=true;
+        bodyResting=false;
+        RestInPose(bodyPose,false);
     }
 
     private bool UpdateBodyInteraction()
     {
-        if(bodyRequest is null&&bodyClip==0&&!bodyPreparing)return false;
-        if(bodyClip==0&&!bodyPreparing&&Action.StartsWith("expr-")&&ActionTime<duration)return true;
-        if(bodyWaking)
-        {
-            if(Action=="wake"&&ActionTime<duration)return true;
-            if(VisualPoseReady?.Invoke(bodyPose,Now)==false)return true;
-            bodyWaking=false;
-        }
+        if(bodyClip==0&&!bodyPreparing)return false;
         if(bodyClip!=0&&!bodyPreparing)
         {
             if(ActionTime<duration)return true;
             bodyClip=0;RestInPose(bodyPose,false);
-            if(bodyRequest is null){NewRest();if(bodyPose=="F")SetAction("idle",RestDelay,"互动结束，安静休息");return true;}
-        }
-        if(!bodyPreparing)
-        {
-            var part=bodyRequest!.Value;bodyRequest=null;
-            bodyClip=part switch {CatBodyPart.Head=>140,CatBodyPart.Back=>bodyLeft?142:141,CatBodyPart.Belly=>143,CatBodyPart.Paw=>144,_=>bodyLeft?146:145};
-            bodyPose=SpritePlayback.ExpressionPose(bodyClip);bodyPreparing=true;
-            RestInPose(bodyPose,false);
+            NewRest();bodyResting=bodyPose is "SR" or "SL";
+            if(bodyPose=="F")SetAction("idle",RestDelay,"互动结束，安静休息");return true;
         }
         if(VisualPoseReady?.Invoke(bodyPose,Now)==false)return true;
         bodyPreparing=false;SetAction("expr-"+bodyClip,bodyClip==143?145d/24:97d/24,"回应身体部位点击");
         return true;
     }
 
-    private void CancelBodyInteraction(){bodyRequest=null;bodyClip=0;bodyPreparing=false;bodyWaking=false;}
-    private void CancelBurialV6(){BurialStage="";burialSlot=-1;JumpSupportHeight=null;burialCleaned=false;}
+    private void CancelBodyInteraction(){bodyClip=0;bodyPreparing=false;bodyResting=false;pendingBellyReaction=false;}
+    private void CancelBurialV6(){BurialStage="";burialSlot=-1;JumpSupportHeight=null;burialCleaned=false;finalBurialExit=false;}
     private bool BeginBurialV6()
     {
         if(!BurialV6Enabled)return false;
+        LastBurialExit="";finalBurialExit=false;
         burialSlot=SupplyLayers(State.Litter)-1;BurialStage="exit-ready";burialCleaned=false;
         RestInPose("SR",false);return true;
+    }
+    private bool BeginPostBurialExit()
+    {
+        // Called once, after the complete 29/30/31 sequence (including paw down).
+        LastBurialExit="walk";
+        if(!BurialV6Enabled||random.NextDouble()*100>=Settings.Get("litter.exitJumpChance"))return false;
+        var exit=NearestRestSpot(new(State.X,GroundY));
+        if(!IsClearRestSpot(exit.X)||Math.Abs(exit.X-State.X)>550||InteractionGeometry.LitterSupport(State.X,LitterSpot.X)<=0)return false;
+        LastBurialExit="jump";finalBurialExit=true;burialSlot=-1;burialCleaned=false;
+        BurialStage="final-exit-ready";RestInPose("SR",false);return true;
     }
     private Spot SniffDestination()
     {
@@ -100,21 +116,25 @@ public sealed partial class PetEngine
     private bool UpdateBurialV6(double dt)
     {
         if(BurialStage.Length==0)return false;
-        if(SupplyLayers(State.Litter)<=burialSlot)burialCleaned=true;
+        if(!finalBurialExit&&SupplyLayers(State.Litter)<=burialSlot)burialCleaned=true;
         if(burialCleaned&&BurialStage!="jump")
         {CancelBurialV6();Go(NearestRestSpot(new(State.X,GroundY)),"settle","已经清理好了");return true;}
-        if(BurialStage=="exit-ready")
+        if(BurialStage is "exit-ready" or "final-exit-ready")
         {
             var exit=NearestRestSpot(new(State.X,GroundY));
-            if(!IsClearRestSpot(exit.X)||Math.Abs(exit.X-State.X)>550)return true;
+            if(!IsClearRestSpot(exit.X)||Math.Abs(exit.X-State.X)>550||finalBurialExit&&InteractionGeometry.LitterSupport(State.X,LitterSpot.X)<=0)
+            {
+                if(finalBurialExit){CancelBurialV6();LastBurialExit="walk";settleAfterCare=CompletionEnabled;Go(exit,"settle","落点不可用，走出猫砂盆");}
+                return true;
+            }
             jumpLeft=exit.X<State.X;jumpEnd=exit.X;
             var pose=jumpLeft?"SL":"SR";
             if(Action!="rest-"+pose)RestInPose(pose,false);
             if(VisualPoseReady?.Invoke(pose,Now)==false)return true;
             FacingLeft=jumpLeft;jumpStart=State.X;jumpStartLift=InteractionGeometry.LitterSupport(State.X,LitterSpot.X);JumpSupportHeight=jumpStartLift;
-            BurialStage="jump";SetAction(jumpLeft?"expr-148":"expr-147",97d/24,"跳出猫砂盆");return true;
+            BurialStage=finalBurialExit?"final-jump":"jump";SetAction(jumpLeft?"expr-148":"expr-147",97d/24,"跳出猫砂盆");return true;
         }
-        if(BurialStage=="jump")
+        if(BurialStage is "jump" or "final-jump")
         {
             // Native takeoff/first landing frames: 38..64. Hold the root during
             // anticipation and recovery; preserve the video's vertical arc.
@@ -123,7 +143,14 @@ public sealed partial class PetEngine
             JumpSupportHeight=jumpStartLift*(1-smooth);
             if(ActionTime<duration)return true;
             JumpSupportHeight=null;
-            if(burialCleaned||bodyRequest is not null)
+            if(finalBurialExit)
+            {
+                CancelBurialV6();manualSequence=false;careResumeAfter=Now+3;NewRest();
+                if(!IsClearRestSpot(State.X)){settleAfterCare=CompletionEnabled;Go(NearestRestSpot(new(State.X,GroundY)),"settle","落地后避开搬来的物品");}
+                else RestInPose("D");
+                return true;
+            }
+            if(burialCleaned)
             {CancelBurialV6();RestInPose(jumpLeft?"SL":"SR",false);return true;}
             BurialStage="return";Go(SniffDestination(),"v6-sniff","回头走向刚留下的便便");return true;
         }

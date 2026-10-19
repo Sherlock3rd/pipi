@@ -31,6 +31,7 @@ public sealed class BehaviorSettings
             Add(kind+".min",kind,name+"周期下限",min,1,1440,"分钟","实际摄入／如厕后抽取下一期限；不自动扣库存。");
             Add(kind+".max",kind,name+"周期上限",max,1,1440,"分钟","原有已排期任务默认保持，勾选重新计时可重排。");
         }
+        Add("litter.exitJumpChance","litter","埋砂后跳出概率",50,0,100,"%","完整埋砂收爪后抽取一次；剩余概率走出。跳出落点不安全时改为走出，不影响埋砂前的跳出嗅闻流程。");
         Add("request.delay","request","空盆／满砂等待",300,0,7200,"秒","吃喝还必须到达需求期限；仅空盆不请求。");
         Add("request.rotate","request","多项请求轮换间隔",30,1,600,"秒","已有另一项缺货需求时切换。");
         Add("request.sound","request","请求注意事件最小间隔",35,1,600,"秒","兼容原请求提醒计时；当前请求片未标记张嘴，不直接发声。独立叫声按实际嘴型帧播放。");

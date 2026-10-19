@@ -32,10 +32,22 @@ public static class MovementChecks
             check(e.Action=="walk"&&(id=="wall"?e.LastMovementChoice.StartsWith("wall-"):e.LastMovementChoice=="move-"+id),"single positive destination weight selects "+id+" from distant idle position");
         }
         {
-            var e=Cat(2,Settings("wall"));e.MoveObject("nest",new(170,752));
+            var e=Cat(2,Settings("wall"));e.Nest=new(70,752);
             var choices=e.MovementChoices();check(choices.Count==1&&choices[0].Id=="wall-right"&&choices[0].Weight==1,"blocked left wall removed; right keeps full wall weight");
             Tick(e,20);check(e.LastMovementChoice=="wall-right","autonomous choice ignores blocked nearer edge");
-            e.MoveObject("nest",new(3830,752));check(e.Action=="walk"&&e.Reason.Contains("屏边被占用"),"moving furniture into wall destination reroutes current trip safely");
+            e.MoveObject("food",new(3930,752));check(e.Action=="walk"&&e.Reason.Contains("屏边被占用"),"moving furniture into wall destination reroutes current trip safely");
+        }
+        foreach(bool left in new[]{true,false})
+        {
+            var e=Cat(2,Settings("wall"));double goal=left?-e.WallLeftOffset:e.Width-e.WallRightOffset;
+            double inward=left?1:-1,oldDistance=InteractionGeometry.NestHalfWidth+e.RelaxedHalfWidth+8;
+            e.Nest=new(goal+inward*(oldDistance*.1-.01),752);
+            check(e.WallBlockReason(left).Length>0,"wall blocks inside reduced clearance: "+left);
+            e.Nest=new(goal+inward*(oldDistance*.1+.01),752);
+            check(e.WallBlockReason(left).Length==0&&e.MovementChoices().Any(c=>c.Id==(left?"wall-left":"wall-right")),"wall is available above ten-percent clearance: "+left);
+            check(!e.IsClearRestSpot(e.Nest.X+inward*oldDistance*.5),"ordinary rest clearance stays unchanged: "+left);
+            e.MoveObject("nest",new(left?170:3830,752));
+            check(e.WallBlockReason(left).Length==0,"formerly blocked nearby furniture now permits wall: "+left);
         }
         {
             var s=Settings("none");s.Validate();var e=Cat(2,s);Tick(e,40);

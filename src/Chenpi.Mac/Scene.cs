@@ -101,6 +101,7 @@ internal sealed partial class Scene : Panel,IDisposable
         Engine.VisualTravel=playback.TravelTo;Engine.VisualBurialWindow=playback.BurialWindow;Engine.VisualConsumptionWindow=playback.ConsumptionWindow;
         Engine.ExpressionsEnabled=playback.HasExpressions;Engine.VisualPoseReady=playback.PreparePose;Engine.VisualWallRestComplete=playback.WallRestComplete;
         Engine.BodyInteractionsEnabled=playback.HasBodyInteractions;Engine.BurialV6Enabled=playback.HasBurialV6;
+        Engine.VisualInteractionPose=()=>playback.HitPose;
         Engine.ToyGrabsEnabled=playback.HasToyGrabs;Engine.HighToyGrabsEnabled=playback.HasHighToyGrabs;
         Engine.CompletionEnabled=playback.HasCompletion;Engine.VisualRestorePose=playback.RestorePose;Engine.VisualDropPose=()=>playback.DropPose;
         Engine.RestoreRelaxedSleep();if(Engine.Action.StartsWith("rest-"))playback.RestorePose(Engine.RelaxedPose);

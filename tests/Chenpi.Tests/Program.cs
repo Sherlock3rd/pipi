@@ -818,4 +818,5 @@ FrameCacheChecks.Playback(Check,runtimeManifest);
 BehaviorUpdateChecks.Run(Check,runtimeManifest);
 BehaviorV6Checks.Run(Check,runtimeManifest);
 ToyGrabChecks.Run(Check,runtimeManifest);
+InteractionPriorityChecks.Run(Check,runtimeManifest);
 Console.WriteLine($"{checks} checks passed.");

@@ -15,6 +15,7 @@ public sealed partial class PetEngine
     public int RelaxedClickCount {get;private set;}
     private double clickWindow=-1,nextRelaxation;
     private int pendingReaction;
+    private bool pendingBellyReaction;
     private bool restReady;
     private double nextSeatedCall=120;
     private bool IsRelaxing=>Action.StartsWith("rest-")||Action.StartsWith("expr-");
@@ -47,12 +48,16 @@ public sealed partial class PetEngine
         if(!restReady){restReady=true;nextRelaxation=Now+(RelaxedPose is "HR" or "HL"?Settings.Get("wall.duration"):Settings.Range(random,"relax"));}
         if(pendingReaction>0)
         {
-            int level=pendingReaction;pendingReaction=0;
+            int level=pendingReaction;pendingReaction=0;bool belly=pendingBellyReaction;pendingBellyReaction=false;
             if(level==3){RelaxedClickCount=0;clickWindow=-1;RestInPose("SR",false);nextRelaxation=Now+2;return true;}
-            int id=RelaxedPose switch {"A"=>level==1?68:69,"B"=>level==1?72:73,"X"=>level==1?76:77,_=>0};
+            int id=RelaxedPose switch {"A"=>level==1?68:69,"B"=>level==1?72:belly&&BodyInteractionsEnabled?143:73,"X"=>level==1?76:77,_=>0};
             if(id>0){SetAction("expr-"+id,4,"躺着回应点击");return true;}
         }
-        if(RelaxedPose is "SR" or "SL"){NewRest();if(random.NextDouble()*100<Settings.Get("stand.stretchChance"))SetAction(RelaxedPose=="SR"?"expr-93":"expr-94",4,"起身伸展");else SetAction("idle",RestDelay,"起身后安静休息");return true;}
+        if(RelaxedPose is "SR" or "SL")
+        {
+            if(bodyResting){if(State.StillSeconds>=RestDelay){bodyResting=false;BeginRelaxedSleep();}return true;}
+            NewRest();if(random.NextDouble()*100<Settings.Get("stand.stretchChance"))SetAction(RelaxedPose=="SR"?"expr-93":"expr-94",4,"起身伸展");else SetAction("idle",RestDelay,"起身后安静休息");return true;
+        }
         if(clickWindow>=0&&Now-clickWindow<Settings.Get("click.window")-1e-8)return true;
         if(clickWindow>=0){clickWindow=-1;RelaxedClickCount=0;}
         if(Now<nextRelaxation)return true;
@@ -70,14 +75,17 @@ public sealed partial class PetEngine
         string next=RelaxedPose switch {"D"=>CompletionEnabled&&random.Next(2)==0?"C":"A","A"=>CompletionEnabled?Settings.Choose(random,"change.C","change.B","change.X","change.M")[7..]:Settings.Choose(random,"change.B","change.X","change.M")[7..],"B" or "X"=>"A",_=>"D"};
         RestInPose(next);return true;
     }
-    private bool InteractRelaxed()
+    private bool InteractRelaxed(CatBodyPart? part=null)
     {
         if(!ExpressionsEnabled||!IsRelaxing)return false;
         LastInteraction=Now;State.StillSeconds=0;
-        if(RelaxedPose=="M"){pendingReaction=0;RelaxedClickCount=0;clickWindow=-1;RestInPose("A",false);return true;}
+        if(RelaxedPose=="M"){pendingReaction=0;pendingBellyReaction=false;RelaxedClickCount=0;clickWindow=-1;RestInPose("A",false);return true;}
+        if(BodyInteractionsEnabled&&RelaxedPose=="D"){State.Sleeping=false;Dirty=true;return true;}
+        if(BodyInteractionsEnabled&&RelaxedPose=="C"){RestInPose("F",false);return true;}
         if(RelaxedPose is not ("A" or "B" or "X")){RestInPose(RelaxedPose=="HL"?"SL":"SR",false);return true;}
         if(clickWindow<0||Now-clickWindow>=Settings.Get("click.window")-1e-8){clickWindow=Now;RelaxedClickCount=0;}
         RelaxedClickCount=Math.Min(3,RelaxedClickCount+1);
+        pendingBellyReaction=RelaxedClickCount==2&&RelaxedPose=="B"&&part==CatBodyPart.Belly;
         pendingReaction=Math.Max(pendingReaction,RelaxedClickCount);
         return true;
     }

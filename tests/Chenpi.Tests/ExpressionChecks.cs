@@ -41,7 +41,7 @@ public static class ExpressionChecks
             Console.WriteLine("Wall preview "+left+": max root step "+maxStep.ToString("F4")+"; clips "+string.Join(",",seen));
         }
         {
-            var p=Player();var c=Cat(p);c.MoveObject("nest",new(70,c.GroundY));long revision=c.ActionRevision;
+            var p=Player();var c=Cat(p);c.Nest=new(70,c.GroundY);long revision=c.ActionRevision;
             check(c.ExecuteBehavior("wall-left").Contains("家具")&&c.ActionRevision==revision,"blocked wall is rejected before changing current action");
             check(!c.CompletionEnabled&&c.ExecuteBehavior("intro-run").Contains("尚未加载")&&c.ActionRevision==revision,"missing startup never uses walking substitute");
             c.State.Food=0;check(c.ExecuteBehavior("food").Contains("为空")&&c.State.Food==0&&c.ActionRevision==revision,"debug eating does not create stock");

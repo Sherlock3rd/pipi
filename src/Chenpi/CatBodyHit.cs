@@ -16,18 +16,18 @@ public static class CatBodyHit
             if(x<.27)return CatBodyPart.Tail;
             if(x>.68&&y<.53)return CatBodyPart.Head;
             if(y>.76)return CatBodyPart.Paw;
-            return y<.50?CatBodyPart.Back:CatBodyPart.Belly;
+            return CatBodyPart.Back;
         }
         if(pose is "B" or "A" or "D" or "X" or "M" or "C")
         {
             if(x>.70&&y>.35)return CatBodyPart.Head;
             if(x<.15)return CatBodyPart.Tail;
-            if(pose=="B")return y<.33?CatBodyPart.Paw:y>.82?CatBodyPart.Back:CatBodyPart.Belly;
-            return y>.75?CatBodyPart.Paw:y<.38?CatBodyPart.Back:CatBodyPart.Belly;
+            if(pose=="B")return x>=.30&&x<=.68&&y>=.40&&y<=.72?CatBodyPart.Belly:y<.40?CatBodyPart.Paw:CatBodyPart.Back;
+            return y>.75?CatBodyPart.Paw:CatBodyPart.Back;
         }
         if(y<.42)return CatBodyPart.Head;
         if(x<.22&&y>.63)return CatBodyPart.Tail;
         if(y>.86)return CatBodyPart.Paw;
-        return y<.57?CatBodyPart.Back:CatBodyPart.Belly;
+        return CatBodyPart.Back;
     }
 }

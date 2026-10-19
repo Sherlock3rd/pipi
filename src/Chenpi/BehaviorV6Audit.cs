@@ -13,7 +13,7 @@ internal static class BehaviorV6Audit
 {
     public static void Run(string directory,string? filter=null)
     {
-        foreach(string scenario in new[]{"Head","Back","Belly","Paw","Tail","Back-left","Tail-left","burial-left","burial-right","toy-low-right","toy-low-left","toy-high-right","toy-high-left"})
+        foreach(string scenario in new[]{"Head","Back","Belly","Paw","Tail","Back-left","Tail-left","burial-walk-left","burial-walk-right","burial-jump-left","burial-jump-right","toy-low-right","toy-low-left","toy-high-right","toy-high-left"})
         {
             if(filter is not null&&!filter.Split(',').Contains(scenario))continue;
             var s=new PetState{X=400,Scale=1,Food=100,Water=100,Litter=0,RestDuration=3600,NestPosition=new(2100,752),FoodPosition=new(1800,752),WaterPosition=new(1950,752),LitterPosition=new(900,752),FoodClock=new(){NextDue=99999},WaterClock=new(){NextDue=99999},LitterClock=new(){NextDue=99999}};
@@ -45,6 +45,7 @@ internal sealed partial class Scene
         }
         else if(burial)
         {
+            var settings=Engine.Settings.Copy();settings.Values["litter.exitJumpChance"]=scenario.Contains("jump")?100:0;Engine.ApplyBehaviorSettings(settings);
             if(left)Engine.MoveObject("food",new(1218,Engine.GroundY));
             else {Engine.MoveObject("litter",new(350,Engine.GroundY));Engine.MoveObject("water",new(100,Engine.GroundY));}
             Engine.Demo("toilet");
@@ -52,7 +53,8 @@ internal sealed partial class Scene
         else
         {
             var part=Enum.Parse<CatBodyPart>(scenario.Split('-')[0]);string pose=part==CatBodyPart.Belly?"B":part is CatBodyPart.Back or CatBodyPart.Tail?(left?"SL":"SR"):"F";
-            Engine.PreviewRest(pose=="B"?"B":"D");playback.RestorePose(pose);
+            if(pose=="B")Engine.PreviewRest("B");playback.RestorePose(pose);
+            if(pose=="B"){Engine.Interact(CatBodyPart.Belly);for(int i=0;i<24*5;i++){Engine.Update(1d/24,12);playback.Sample(Engine.Action,Engine.Now,Engine.FacingLeft);}}
             // Render exactly the pose under the pointer before dispatching input.
             using(var dc=visual.RenderOpen()){dc.PushTransform(new ScaleTransform(Scale,Scale));DrawCat(dc,Engine.State.X,Engine.GroundY,"rest-"+pose,0,left);dc.Pop();}
             var bounds=CatRect;Point? chosen=null;int transparent=0,opaque=0;
@@ -71,10 +73,10 @@ internal sealed partial class Scene
             Engine.Update(1d/24,12);Engine.Support.Update(Engine);
             var f=playback.Sample(Engine.AligningForCare?"care-ready":Engine.Action,Engine.Now,Engine.FacingLeft)!.Value;
             bool changed=f.Clip!=previous;previous=f.Clip;
-            samples.Add(new{Engine.Now,Engine.Action,Engine.BurialStage,Engine.State.X,Support=Engine.Support.Height,Clip=f.Clip,Frame=f.Index,Cover=Engine.State.LitterCover[0],Target=Engine.LitterTarget});
+            samples.Add(new{Engine.Now,Engine.Action,Engine.BurialStage,Engine.LastBurialExit,Engine.State.X,Support=Engine.Support.Height,Clip=f.Clip,Frame=f.Index,Cover=Engine.State.LitterCover[0],Target=Engine.LitterTarget});
             if(changed||tick%12==0){Render();Save($"{Engine.Now:000.00}-{f.Clip}-{f.Index:000}");}
             if(int.TryParse(f.Clip.Replace("video-",""),out int id)&&id>=140)seen=true;
-            if(toy?seen&&f.Index==96&&f.Clip is "video-151" or "video-152" or "video-153" or "video-154":burial?Engine.State.LitterCover[0]==1:seen&&!Engine.Action.StartsWith("expr-")&&!Engine.Action.StartsWith("rest-")){Render();Save("complete");break;}
+            if(toy?seen&&f.Index==96&&f.Clip is "video-151" or "video-152" or "video-153" or "video-154":burial?Engine.LastBurialExit.Length>0&&Engine.BurialStage.Length==0&&Engine.Action.StartsWith("rest-"):seen&&!Engine.Action.StartsWith("expr-")){Render();Save("complete");break;}
         }
         if(!seen)throw new InvalidOperationException("No new clip rendered: "+scenario);
         File.WriteAllText(Path.Combine(directory,"trace.json"),JsonSerializer.Serialize(new{scenario,Hits=hits,Samples=samples}));

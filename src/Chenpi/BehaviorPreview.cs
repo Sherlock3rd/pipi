@@ -9,12 +9,14 @@ public sealed partial class PetEngine
     private double debugReadyAt=-1;
     public bool DebugBehaviorActive=>debugPose is not null;
     private double WallGoal(bool left)=>left?-WallLeftOffset:Width-WallRightOffset;
+    // Wall-only clearance is 10% of the previous rest-footprint threshold.
+    private const double WallClearanceScale=.1;
     public string WallBlockReason(bool left)
     {
         if(!ExpressionsEnabled)return "扶墙素材尚未加载";
         double x=WallGoal(left);
         if(x<0||x>Width)return "当前屏幕宽度不足";
-        foreach(var item in RestObstacles())if(Math.Abs(x-item.X)<item.Radius)return "这一侧有家具占用，请先移开附近物品";
+        foreach(var item in RestObstacles())if(Math.Abs(x-item.X)<item.Radius*WallClearanceScale)return "这一侧有家具占用，请先移开附近物品";
         return "";
     }
     public string WallStatus
@@ -27,7 +29,7 @@ public sealed partial class PetEngine
     public string ExecuteBehavior(string id)
     {
         if(id.StartsWith("body-")&&Enum.TryParse<CatBodyPart>(id[5..],true,out var part))
-        {if(!BodyInteractionsEnabled)return "部位互动素材尚未加载";Interact(part);return "已执行对应部位互动；睡眠先醒来，再完成姿态过渡";}
+        {if(!BodyInteractionsEnabled)return "部位互动素材尚未加载";Interact(part);return "已按当前姿势处理点击；露肚第二档才护肚，窝内睡眠只醒来";}
         if(id=="startup"||id.StartsWith("intro-"))return BeginStartup(preview:true)?"已开始完整开场；点击或拖拽可取消":"开场正在执行或素材尚未加载";
         if(QueueStartupCommand(()=>ExecuteBehavior(id)))return "正在结束开场并衔接所选动作";
         if(id is "food" or "water" or "litter" or "nest")

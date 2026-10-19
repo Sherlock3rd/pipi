@@ -373,7 +373,7 @@ public sealed partial class PetEngine
         if(Action=="land")
         {NewRest();if(dropIntoNest){dropIntoNest=false;Sleep();}else if(VisualDropPose?.Invoke() is string dropped)RestInPose(dropped);else SetAction("sit",1,"这里也很舒服");return;}
         if(Action=="toilet") {State.Bladder=0; State.Litter=Math.Clamp(State.Litter+20,0,100);State.LitterCover[SupplyLayers(State.Litter)-1]=0;ScheduleNext("litter");RefreshAvailability();Dirty=true;if(!BeginBurialV6())Go(LitterSpot,"bury","走到便便旁边埋砂");return;}
-        if(Action=="bury") {Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
+        if(Action=="bury") {if(BeginPostBurialExit())return;Go(new Spot(Math.Clamp(LitterSpot.X-80,65,Width-65),Math.Clamp(LitterSpot.Y-65,140,Height-60)),"settle","收拾好啦");return;}
         if(manualSequence){FinishManualSequence();return;}
         // Commit to the next due visit before asking the renderer to leave in
         // the opposite direction for a rest spot. A one-tick detour still starts
@@ -435,6 +435,7 @@ public sealed partial class PetEngine
     }
     public void Interact()
     {
+        if(BodyInteractionsEnabled){Interact(CatBodyPart.Head);return;}
         if(QueueStartupCommand(Interact))return;
         CancelDebugBehavior();ResetMovementChoice();
         if(State.CareRequest is not null){BeginGuide();return;}
